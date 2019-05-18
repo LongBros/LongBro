@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="com.genuitec.runtime.library/com.genuitec.generic_6.0">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.web"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="com.genuitec.runtime.library/com.genuitec.jstl_1.2.1">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="WEB-INF/lib"/>
+			<attribute name="owner.project.facets" value="jst.web.jstl"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/aspectjrt-1.6.8.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/aspectjweaver-1.6.8.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-cli-1.2.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-fileupload-1.2.1.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-fileupload-1.3.1.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-io-1.3.2.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-lang3-3.1.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/core-2.3.0.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/cos.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/druid-1.0.11.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/ezmorph-1.0.4.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/jackson-core-asl-1.5.0.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/jackson-mapper-asl-1.5.0.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/jodconverter-2.2.2.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/jodconverter-cli-2.2.2.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/json.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/json-lib-2.4-jdk15.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/jstl.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/jta.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/juh-3.0.1.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/jurt-3.0.1.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/jxl.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/mybatis-3.2.7.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/mybatis-ehcache-1.0.2.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/mybatis-spring-1.2.4.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/mysql-connector-java-5.1.11-bin.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.aop-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.asm-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.aspects-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.beans-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.context.support-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.context-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.core-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.expression-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.jdbc-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.orm-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.test-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.transaction-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.web.servlet-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/org.springframework.web-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/poi-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/poi-examples-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/poi-excelant-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/poi-ooxml-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/poi-ooxml-schemas-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/poi-scratchpad-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/quartz-1.6.0.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/ridl-3.0.1.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/servlet-api.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/smartupload.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/spring-2.0.6.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/spring-aop-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/spring-beans-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/spring-context-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/spring-core-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/spring-expression-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/spring-web-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/spring-webmvc-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/standard.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/ueditor-1.1.2.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/unoil-3.0.1.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/xmlbeans-2.3.0.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/xstream-1.3.1.jar"/>
+	<classpathentry kind="lib" path="E:/jar/jsoup-1.8.1.jar"/>
+	<classpathentry kind="lib" path="E:/jar/flexjson-2.0.jar"/>
+	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
+</classpath>

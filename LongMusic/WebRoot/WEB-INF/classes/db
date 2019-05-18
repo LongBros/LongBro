@@ -1,0 +1,22 @@
+修改自增指针	alter table blogs auto_increment =66
+
+1.CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `account` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`,`account`,`password`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+2.CREATE TABLE `song` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sourceId` varchar(45) NOT NULL,
+  `songName` varchar(45) NOT NULL,
+  `singer` varchar(45),
+  `duration` varchar(45),
+  `album` varchar(45),
+  `imgPath` varchar(45),
+  `releaseTime` varchar(45),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

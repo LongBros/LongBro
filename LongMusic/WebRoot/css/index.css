@@ -1,0 +1,86 @@
+#cback{
+	float: right;
+	margin-right: 50px;
+	color: purple;
+	font: lighter;
+}
+#hot{
+	float: right;
+	margin-right: 5px;
+}
+.logo{
+	margin-left: 33px;
+}
+#page{
+	margin-left:111px;
+}
+.songs{
+	width:100%;
+	height:400px;
+	overflow: auto;
+}
+#music{
+	width:40%;
+	height:400px;	
+}
+.song{
+	
+}
+.song a:hover{
+	cursor:pointer;
+	padding-left: 20px;
+}
+#lyric{
+	width:40%;
+	padding-left: 444px;
+}
+#alyric{
+	width:40%;
+	height:400px;
+	padding-left: 666px;
+}
+#bottom{
+	margin-bottom: 100px;
+}
+audio{
+	margin-left: 400px;
+}
+p{
+	margin-left: 100px;
+}
+span{
+	color: green;
+}
+em{
+	width: 300px;
+}
+#pro{
+	margin-bottom: 17px;
+}
+/*播放情况-已播放时长/总时长*/
+.time{
+	margin-bottom: 20px;
+}
+.minus{
+	margin-bottom: 20px;
+}
+#voice{
+	margin-bottom: 17px;
+}
+.add{
+	margin-bottom: 20px;
+}
+.cd-top { 
+	display: inline-block; 
+	height: 40px; width: 40px; 
+	position: fixed; 
+	bottom: 40px;
+    right: 10px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); 
+    overflow: hidden; text-indent: 100%; 
+    white-space: nowrap; 
+    background: rgba(0, 0, 0, 0.8) url(../image/top.png) no-repeat center; 
+    visibility: hidden; opacity: 0; -webkit-transition: all 0.3s; 
+    -moz-transition: all 0.3s; transition: all 0.3s; 
+}
+.cd-top.cd-is-visible { visibility: visible; opacity: 1; }

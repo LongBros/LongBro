@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 1.添加歌曲 2.插入歌曲 3.根据歌名模糊搜索歌曲 4.按分页查询歌曲 5.根据id查询歌曲 6.根据资源id查询歌曲-->
+<!-- 7.根据歌名精确查询歌曲 8.查询歌星的歌曲 9.编辑歌曲信息 -->
+<mapper namespace="com.longbro.bean.song">
+	<!--将值放入一个map中，dao层接口参数传入一个map,xml中用#{key}取值。同时xml中parameterType声明为java.util.Map。 -->
+	<insert id="addSong" parameterType="java.util.HashMap">
+		insert into song(sourceId,songName,singer,duration,album,imgPath,releaseTime,website,descr)
+		values
+		(#{sourceId},#{songName},#{singer},#{duration},#{album},#{imgPath},#{releaseTime},#{website},#{desc})
+	</insert>
+	<insert id="insertSong" parameterType="java.util.HashMap">
+		insert into song(sourceId,songName)
+		values(#{sourceId},#{songName})
+	</insert>
+	<select id="querySongs" resultType="java.util.HashMap">
+		select 
+		*
+		from song
+		where songName like concat ('%',#{key},'%')
+	</select>
+	<select id="queryAllSongs"  resultType="com.longbro.bean.Song">
+		select 
+		*
+		from song limit #{start},50;
+	</select>
+	<select id="querySongById"  resultType="com.longbro.bean.Song">
+		select
+		* 
+		from song
+		where id=#{id}
+	</select>
+	<select id="querySongBySId"  resultType="com.longbro.bean.Song">
+		select
+		id, 
+		sourceId,
+		songName,
+		singer,
+		duration,
+		album,
+		imgPath,
+		releaseTime 
+		from song
+		where sourceId=#{sourceId}
+	</select>
+	<select id="querySongsBySName"  resultType="com.longbro.bean.Song">
+		select 
+		* 
+		from song
+		where songName=#{songName}
+	</select>
+	<select id="querySongsBySinger"  resultType="java.util.HashMap">
+		select 
+		*
+		from song
+		where singer like concat ('%',#{singer},'%')<!-- where singer=#{singer} -->
+	</select>
+	<update id="editSong" parameterType="com.longbro.bean.Song">
+		update song set 
+		sourceId=#{sourceId},
+		songName=#{songName},
+		singer=#{singer},
+		duration=#{duration},
+		album=#{album},
+		imgPath=#{imgPath},
+		releaseTime=#{releaseTime},
+		website=#{website},
+		descr=#{desc}
+		where id=#{id}
+	</update>
+</mapper>
