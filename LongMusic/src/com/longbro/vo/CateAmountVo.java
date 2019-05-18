@@ -3,6 +3,13 @@ package com.longbro.vo;
 public class CateAmountVo {
 	private String cate;
 	private String amount;
+	private String percent;
+	public String getPercent() {
+		return percent;
+	}
+	public void setPercent(String percent) {
+		this.percent = percent;
+	}
 	public String getCate() {
 		return cate;
 	}

@@ -56,9 +56,12 @@ public class SongController {
 		map.put("website", request.getParameter("website"));
 		map.put("desc", request.getParameter("desc"));
 		service.addSong(map);
-		
+//		下载歌曲
 		DownloadUtil.downloadMp3(request.getParameter("sourceId"), request.getParameter("songName"));
-		DownloadUtil.writeToFile(DownloadUtil.spideLyric(request.getParameter("sourceId")), request.getParameter("sourceId"));
+//		网易云音乐同时下载歌词
+		if(request.getParameter("website").equals("网易云音乐")){
+			DownloadUtil.writeToFile(DownloadUtil.spideLyric(request.getParameter("sourceId")), request.getParameter("sourceId"));
+		}
 		result.setData(null);
 		result.setMsg("添加歌曲成功");
 		result.setResult(true);

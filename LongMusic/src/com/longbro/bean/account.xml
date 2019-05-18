@@ -107,13 +107,13 @@
  	<select id="getCate" resultType="com.longbro.vo.CateAmountVo">
  		<if test="yom=='month'">
  			SELECT DISTINCT category cate,
-			(SELECT sum(amount) FROM account WHERE category=c and left(time,7)=#{d}) amount
-			FROM account WHERE in_out=#{ioo} and left(time,7)=#{d} ORDER BY s DESC;
+			(SELECT sum(amount) FROM account WHERE category=cate and left(time,7)=#{d}) amount
+			FROM account WHERE in_out=#{ioo} and left(time,7)=#{d} ORDER BY amount DESC;
  		</if>
  		<if test="yom=='year'">
  			SELECT DISTINCT category cate,
-			(SELECT sum(amount) FROM account WHERE category=c and left(time,4)=#{d}) amount
-			FROM account WHERE in_out=#{ioo} and left(time,4)=#{d} ORDER BY s DESC;
+			(SELECT sum(amount) FROM account WHERE category=cate and left(time,4)=#{d}) amount
+			FROM account WHERE in_out=#{ioo} and left(time,4)=#{d} ORDER BY amount DESC;
  		</if>
  	</select>
 </mapper>

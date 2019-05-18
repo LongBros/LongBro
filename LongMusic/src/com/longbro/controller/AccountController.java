@@ -272,9 +272,38 @@ public class AccountController {
 	@RequestMapping(value="getCateByYom",method=RequestMethod.GET)
 	@ResponseBody	//此注解不加报404
 	public List<CateAmountVo> getCateByYom(HttpServletRequest request){
-		String yom=request.getParameter("yom");//值为year或month
+		List<CateAmountVo> list=new ArrayList<CateAmountVo>();
 		String ioo=request.getParameter("ioo");//值为year或month
 		String d=request.getParameter("d");//值为year或month
-		return service.getCateByYom(yom, ioo, d);
+		String yom;
+		if(d.length()==4){
+			yom="year";
+		}else{
+			yom="month";
+		}
+		//list中只含有分类和总金额。需填充总金额所占百分比并将过长总金额短化
+		list=service.getCateByYom(yom, ioo, d);
+		String ino="";//某月/年总支出/收入
+		if(ioo.equals("收入")){
+			ino=service.getAmount(yom, "收入", d);
+		}else{
+			ino=service.getAmount(yom, "支出", d);
+		}
+		if(ino.contains(".")&&(ino.substring(ino.indexOf(".")+1).length()>2)){
+			ino=ino.substring(0,ino.indexOf(".")+3);
+		}
+		for(CateAmountVo l:list){
+			String amo=l.getAmount();
+			if(amo.contains(".")&&(amo.substring(amo.indexOf(".")+1).length()>2)){
+				amo=amo.substring(0,amo.indexOf(".")+3);
+			}
+			l.setAmount(amo);
+			String percent=(Double.parseDouble(amo)/Double.parseDouble(ino))*100+"";
+			if(percent.contains(".")&&(percent.substring(percent.indexOf(".")+1).length()>2)){
+				percent=percent.substring(0,percent.indexOf(".")+3);
+			}
+			l.setPercent(percent+"%");
+		}
+		return list;
 	}
 }

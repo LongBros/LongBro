@@ -130,10 +130,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								async:false,
 								dataType:"Json",
 								success:function(data){
-									for(var i=(data.length-1);i>0;i--){
+									for(var i=(data.length-1);i>=0;i--){
 										$('#account').append("<tr>");
-										$('#account').append("<td><a onclick=\"loadCate('"+data[i].yom+"')\">"+data[i].yom+"</a></td>");
+										$('#account').append("<td><a onclick=\"loadCate('"+data[i].yom+"','收入')\">"+data[i].yom+"</a>收入</td>");
 										$('#account').append("<td>"+data[i].in_+"</td>");
+										$('#account').append("<td><a onclick=\"loadCate('"+data[i].yom+"','支出')\">"+data[i].yom+"</a>支出</td>");
 										$('#account').append("<td>"+data[i].out+"</td>");
 										$('#account').append("<td>"+data[i].earn+"</td>");
 										$('#account').append("</tr>");
@@ -153,21 +154,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								}
 							});
 						}
-						function loadCate(yom){
+						function loadCate(yom,type){
 							$('#category').text('');
-							$('#category').append(yom);
+							$('#desc').text('');
+							$('#desc').append(yom+"------"+type);
 							$.ajax({
 								type:"GET",
-								url:"../getCateByYoM.do?yom="+yom,
+								url:"../getCateByYom.do?ioo="+type+"&d="+yom,
 								async:false,
 								dataType:"Json",
 								success:function(data){
-									for(var i=(data.length-1);i>0;i--){
+									for(var i=0;i<data.length;i++){
 										$('#category').append("<tr>");
-										$('#category').append("<td><a onclick=\"loadCate('"+data[i].yom+"')\">"+data[i].yom+"</a></td>");
-										$('#category').append("<td>"+data[i].in_+"</td>");
-										$('#category').append("<td>"+data[i].out+"</td>");
-										$('#category').append("<td>"+data[i].earn+"</td>");
+										$('#category').append("<td>"+data[i].cate+"</td>");
+										$('#category').append("<td>"+data[i].amount+"</td>");
+										$('#category').append("<td>"+data[i].percent+"</td>");
 										$('#category').append("</tr>");
 									}
 								}
@@ -179,8 +180,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<table border="1">
 						<thead>
 							<tr>
-								<th>月/年</th>
+								<th>月/年收入</th>
 								<th>收入</th>
+								<th>月/年支出</th>
 								<th>支出</th>
 								<th>净收</th>
 							</tr>
@@ -189,14 +191,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							
 						</tbody>
 					</table>
-					<input type="radio" name="yom" onclick="" checked="checked">支出
-					<input type="radio" name="yom" onclick="">收入
-					<table id="category">
+					
+					<table  border="1">
+						<div id="desc"></div>
 						<thead>
 							<tr>
 								<th>分类</th>
-								<th>类型</th>
 								<th>总金额</th>
+								<th>百分比</th>
 							</tr>
 						</thead>
 						<tbody id="category">
