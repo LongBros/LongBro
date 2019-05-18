@@ -233,14 +233,14 @@ function next(){
 	if(mode=="order"){
 		var now=parseInt(nowplay);
 		//判断当前播放是否为最后一曲，若是，则播放第一曲，反之，播放下一曲
-		if(now>296){
+		if(now>321){
 			now=0;
 		}else{
 			now=now+1;
 		}
 	}else if(mode=="random"){//随机播放
 		//产生一个歌曲数量以内的随机数，作为歌曲索引播放			
-		now=Math.round(Math.random()*(296-1-0)+0); 
+		now=Math.round(Math.random()*(321-1-0)+0); 
 	}else{//单曲循环
 		now=parseInt(nowplay);
 	}
@@ -257,13 +257,13 @@ function preview(){
 		var now=parseInt(nowplay);//当前播放序号转为整型
 		//若当前播放不为第一首，点击上一首将当前播放序号指向歌曲数量-1，反之将当前播放指向当前播放-1
 		if(now==0){
-			now=296;
+			now=321;
 		}else{
 			now=now-1;	
 		}
 	}else if(mode=="random"){//随机播放
 		//产生一个歌曲数量以内的随机数，作为歌曲索引播放			
-		now=Math.round(Math.random()*(296-1-0)+0); 
+		now=Math.round(Math.random()*(321-1-0)+0); 
 	}else{
 		now=parseInt(nowplay);
 	}
@@ -446,4 +446,49 @@ function setCount(min){
 //	alert(min);
 	var sec=60*parseInt(min);
 	document.getElementById("countDown").innerText=sec+"";
+}
+
+/**
+ * 点击新增后显示表单
+ */
+function showAdd(){
+	var what=document.getElementById("form").style.display;
+	if(what=="none"){
+		document.getElementById("form").style.display="inline-block";
+	}else{
+		document.getElementById("form").style.display="none";
+	}
+//	document.getElementById("form").style.display="inline-block";
+}
+/**
+ * 输入表单后异步添加歌曲
+ */
+function addSong(){
+//	alert("");
+	var form=document.getElementById("form");
+	var sourceId=form.sourceId.value+"";
+	var songName=form.songName.value+"";
+	var singer=form.singer.value+"";
+	var duration=form.duration.value+"";
+	
+	var album=form.album.value+"";
+	var imgPath=form.imgPath.value+"";
+	var website=form.website.value+"";
+	var desc=form.desc.value+"";
+	var releaseTime=form.releaseTime.value+"";
+	
+	if(sourceId.length==0||songName.length==0){
+		alert("部分信息未输入！！！")
+		return ;
+	}
+	var picture="";
+//	alert(util);
+	$.ajax({
+		type:"POST",
+		async:true,
+		url:"../addSong.do?sourceId="+sourceId+"&songName="+songName+"&singer="+singer+"&duration="+duration+"&album="+album+"&imgPath="+imgPath+"&website="+website+"&desc="+desc+"&releaseTime="+releaseTime,
+		dataType:"Json",
+	});
+	alert("添加成功");
+	querySongs('1');
 }

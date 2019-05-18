@@ -132,13 +132,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="am-btn-toolbar">
             <div class="am-btn-group am-btn-group-xs">
               <button type="button" class="am-btn am-btn-default" onclick="showAdd()"><span class="am-icon-plus"></span> 新增</button>
-              <button type="button" class="am-btn am-btn-default" onclick="addAcc()"><span class="am-icon-save"></span> 保存</button>
+              <button type="button" class="am-btn am-btn-default" onclick="addSong()"><span class="am-icon-save"></span> 保存</button>
               <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
-              <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>
+              <button type="button" class="am-btn am-btn-default" onclick="clearAcc()"><span class="am-icon-trash-o"></span> 清空</button>
             </div>
           </div>
         </div>
       </div>
+      <div>
+		  <form id="form" style="display: none">
+		  		&nbsp;&emsp;
+		  		<input type="text" name="sourceId" placeholder="资源id">
+		  		<input type="text" name="songName" placeholder="歌曲名">
+		  		<input type="text" name="singer" placeholder="歌手">
+		  		<input type="text" name="duration" placeholder="时长">
+		  		<input type="text" name="album" placeholder="专辑">
+		  		<input type="text" name="imgPath" placeholder="图片路径">
+		  		<input type="text" name="releaseTime" placeholder="发行时间">
+		  		<select name="website">
+		  			<option value="网易云音乐">网易云音乐</option>
+		  			<option value="QQ音乐">QQ音乐</option>
+		  		</select>
+		  		<input type="text" name="desc" placeholder="描述">
+		  		<input type="text" name="time" value="<%=TimeUtil.time()%>">
+		  </form>
+		  </div>
          <br>
         <div class="am-u-sm-12 am-u-md-3">
           <div class="am-input-group am-input-group-sm">
@@ -151,7 +169,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          </span>
           </div>
         </div>
-	  
+	  <div class="am-cf">
+              <div class="am-fr">
+              <select onchange="querySongs(options[selectedIndex].value)">
+              <option value='0'>页码</option>
+              	<%
+              	for(int i=1;i<8;i++){
+              		out.write("<option value='"+i+"'>&emsp;"+i+"</option>");
+              	}
+               %>
+              </select>
+                <ul class="am-pagination">
+                 
+                </ul>
+              </div>
+            </div>
       <div class="am-g">
         <div class="am-u-sm-12">
           <form class="am-form">
@@ -174,21 +206,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <audio id="audio" style="display:none;" controls="controls"
   			 		src="http://music.163.com/song/media/outer/url?id=486814412.mp3">
 			  </audio>
-            <div class="am-cf">
-              <div class="am-fr">
-              <select onchange="querySongs(options[selectedIndex].value)">
-              <option value='0'>页码</option>
-              	<%
-              	for(int i=1;i<8;i++){
-              		out.write("<option value='"+i+"'>&emsp;"+i+"</option>");
-              	}
-               %>
-              </select>
-                <ul class="am-pagination">
-                 
-                </ul>
-              </div>
-            </div>
+            
             <hr/>
             <center><span id="lyric" style="color: green"></span></center>
             <p id="bottom" style="background: gray">

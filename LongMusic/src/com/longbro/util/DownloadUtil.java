@@ -29,7 +29,7 @@ import org.jsoup.nodes.Document;
  */
 public class DownloadUtil {
 	public static void main(String[] args) {
-		writeToFile(spideLyric("84306"), "84306");
+		writeToFile(spideLyric("186385"), "186385");
 //		try {
 //			//听说你也回来过，想你的夜
 //			ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName from song where id>34");
