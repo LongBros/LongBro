@@ -143,20 +143,24 @@ function querySongsBySinger(){
 			
 			for(var k=0;k<data.length;k++){
 				
-				$('#song').append("<tr>");
-				$('#song').append("<td>"+data[k].id+"</td>");
-				//特殊显示搜索关键字
-				var sin=data[k].singer+"";
-				sin=sin.replace(key, "<font color='red'>"+key+"</font>")
-				$('#song').append("<td><a title='"+data[k].desc+"' onclick=\"play('"+data[k].id+"')\">"+data[k].songName+"</a></td>");
-				$('#song').append("<td>"+sin+"</td>");
-				$('#song').append("<td>"+data[k].duration+"</td>");
-				$('#song').append("<td>"+data[k].album+"</td>");
-				$('#song').append("<td>"+data[k].imgPath+"</td>");
-				$('#song').append("<td>"+data[k].releaseTime+"</td>");
-				$('#song').append("<td>"+data[k].website+"</td>");
-				$('#song').append("<td><a href='editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></td>");
-				$('#song').append("</tr>");
+				var na=data[k].songName+"";
+				if(na.length>9){
+					na=na.substring(0, 9)+"...";
+				}
+				na=na.replace(key, "<font color='red'>"+key+"</font>")
+				
+				$('#song').append("<tr>" +
+						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
+						"<td><a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
+						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
+						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
+						"<td title='"+data[k].website+"'>"+data[k].website+"</td>" +
+						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
+						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'>" +
+						"<span class=\"am-icon-pencil-square-o\"></span> 编辑</button>" +
+						"<button class=\"am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\" onclick='deleteAccById("+data[k].id+")'><span class=\"am-icon-trash-o\"></span> 删除</button></div></div>" +
+						"</td>" +
+						"</tr>");
 			}
 			$('#num').append("共搜索到"+data.length+"首歌曲");
 		}

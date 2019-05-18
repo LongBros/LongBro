@@ -25,6 +25,7 @@ import com.longbro.bean.User;
 import com.longbro.service.AccountService;
 import com.longbro.service.LoginService;
 import com.longbro.util.DateUtil;
+import com.longbro.vo.CateAmountVo;
 
 import flexjson.JSONDeserializer;
 
@@ -236,7 +237,7 @@ public class AccountController {
 		ArrayList<HashMap> arr=new ArrayList<HashMap>();
 		String yom=request.getParameter("yom");//值为year或month
 		ArrayList<HashMap<String, String>> list=service.getAllMonth(yom);
-		System.out.println(list);
+//		System.out.println(list);
 		for(HashMap<String, String> s:list){
 			HashMap<String, String> map=new HashMap<String, String>();
 			
@@ -254,18 +255,26 @@ public class AccountController {
 			if(out.contains(".")&&(out.substring(out.indexOf(".")+1).length()>2)){//小数点后大于两位
 				out=out.substring(0,out.indexOf(".")+3);
 			}
-			map.put("yom", s.get("time"));
-			map.put("out",out );
-			map.put("in_",in );
+			map.put("yom", s.get("time"));//（年份）月份
+			map.put("out",out );//总支出
+			map.put("in_",in );//总收入
 			String earn=(Double.parseDouble(in)-Double.parseDouble(out))+"";
 			if(earn.contains(".")&&earn.substring(earn.indexOf(".")+1).length()>2){
 				earn=earn.substring(0,earn.indexOf(".")+3);
 			}
-			map.put("earn", earn);
+			map.put("earn", earn);//净收入
 			
-			System.out.println(s.get("time")+"收入为"+in+"支出为"+out+"结余为"+earn);
+//			System.out.println(s.get("time")+"收入为"+in+"支出为"+out+"结余为"+earn);
 			arr.add(map);
 		}
 		return arr;
+	}
+	@RequestMapping(value="getCateByYom",method=RequestMethod.GET)
+	@ResponseBody	//此注解不加报404
+	public List<CateAmountVo> getCateByYom(HttpServletRequest request){
+		String yom=request.getParameter("yom");//值为year或month
+		String ioo=request.getParameter("ioo");//值为year或month
+		String d=request.getParameter("d");//值为year或month
+		return service.getCateByYom(yom, ioo, d);
 	}
 }

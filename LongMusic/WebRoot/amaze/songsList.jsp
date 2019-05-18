@@ -58,14 +58,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
     <div class="am-offcanvas-bar admin-offcanvas-bar">
       <ul class="am-list admin-sidebar-list">
-        <li><a href="admin-index.html"><span class="am-icon-home"></span> 首页</a></li>
+        <li><a href=""><span class="am-icon-home"></span> 首页</a></li>
         
         <li class="admin-parent">
           <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span>账单展示 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
           <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
             <li><a href="showAccount.jsp" class="am-cf"><span class="am-icon-check"></span> 列表展示<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
             <li><a href="" target="_blank"><span class="am-icon-puzzle-piece"></span> 条形图分析</a></li>
-            <li><a href="linecharts.jsp" target="_blank"><span class="am-icon-th"></span> 线形图分析<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>
+            <li><a href="analysis.jsp" target="_blank"><span class="am-icon-th"></span> 收支汇总<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>
             <li><a href=""><span class="am-icon-calendar"></span> 饼状图分析</a></li>
           </ul>
         </li>
@@ -142,10 +142,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <br>
         <div class="am-u-sm-12 am-u-md-3">
           <div class="am-input-group am-input-group-sm">
-            <input type="text" id="key" class="am-form-field">
-          <span class="am-input-group-btn">
-            <button class="am-btn am-btn-default" type="button" onclick="querySongsByKey()">搜索</button>
-          </span>
+              <input type="text" id="key" class="am-form-field">
+	          <span class="am-input-group-btn">
+	            	<button class="am-btn am-btn-default" type="button" onclick="querySongsByKey()">搜索歌曲</button>
+	          </span>
+	          <span class="am-input-group-btn">
+	               <button class="am-btn am-btn-default" type="button" onclick="querySongsBySinger()">搜索歌手</button>
+	          </span>
           </div>
         </div>
 	  

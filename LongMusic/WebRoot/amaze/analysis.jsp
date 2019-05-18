@@ -64,8 +64,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span>账单展示 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
           <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
             <li><a href="showAccount.jsp" class="am-cf"><span class="am-icon-check"></span> 列表展示<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+            <li><a href="analysis.jsp" target="_blank"><span class="am-icon-th"></span> 收支汇总<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>
+            
             <li><a href=""><span class="am-icon-puzzle-piece"></span> 条形图分析</a></li>
-            <li><a href="linecharts.jsp" target="_blank"><span class="am-icon-th"></span> 线形图分析<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>
             <li><a href=""><span class="am-icon-calendar"></span> 饼状图分析</a></li>
           </ul>
         </li>
@@ -105,7 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="admin-content">
     <div class="admin-content-body">
       <div class="am-cf am-padding am-padding-bottom-0">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">合计分析</strong> / <small>账单合计</small></div>
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">收支汇总</strong> / <small>账单合计</small></div>
       </div>
 
       <hr>
@@ -113,7 +114,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <div class="am-g">
         <div class="am-u-sm-12">            
               <script type="text/javascript" src="../js/highcharts.js"></script>
-					<script type="text/javascript" src="../js/jquery.js"></script>
 					<script type="text/javascript">
 						var time="";
 						var in_="";
@@ -123,7 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							load('year');
 						});
 						function load(yom){
-							$('#song').text('');
+							$('#account').text('');
 							$.ajax({
 								type:"GET",
 								url:"../getAmountByYoM.do?yom="+yom,
@@ -131,12 +131,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								dataType:"Json",
 								success:function(data){
 									for(var i=(data.length-1);i>0;i--){
-										$('#song').append("<tr>");
-										$('#song').append("<td>"+data[i].yom+"</td>");
-										$('#song').append("<td>"+data[i].in_+"</td>");
-										$('#song').append("<td>"+data[i].out+"</td>");
-										$('#song').append("<td>"+data[i].earn+"</td>");
-										$('#song').append("</tr>");
+										$('#account').append("<tr>");
+										$('#account').append("<td><a onclick=\"loadCate('"+data[i].yom+"')\">"+data[i].yom+"</a></td>");
+										$('#account').append("<td>"+data[i].in_+"</td>");
+										$('#account').append("<td>"+data[i].out+"</td>");
+										$('#account').append("<td>"+data[i].earn+"</td>");
+										$('#account').append("</tr>");
 										//alert(data[i].earn);
 										//in_=in_+",'"+data[i].in_+"'";
 										//time=time+",'"+data[i].yom+"'";
@@ -153,7 +153,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								}
 							});
 						}
-						
+						function loadCate(yom){
+							$('#category').text('');
+							$('#category').append(yom);
+							$.ajax({
+								type:"GET",
+								url:"../getCateByYoM.do?yom="+yom,
+								async:false,
+								dataType:"Json",
+								success:function(data){
+									for(var i=(data.length-1);i>0;i--){
+										$('#category').append("<tr>");
+										$('#category').append("<td><a onclick=\"loadCate('"+data[i].yom+"')\">"+data[i].yom+"</a></td>");
+										$('#category').append("<td>"+data[i].in_+"</td>");
+										$('#category').append("<td>"+data[i].out+"</td>");
+										$('#category').append("<td>"+data[i].earn+"</td>");
+										$('#category').append("</tr>");
+									}
+								}
+							});
+						}
 					</script>
 					<input type="radio" name="yom" onclick="load('year')" checked="checked">年
 					<input type="radio" name="yom" onclick="load('month')">月
@@ -166,12 +185,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<th>净收</th>
 							</tr>
 						</thead>
-						<tbody id="song">
+						<tbody id="account">
 							
 						</tbody>
 					</table>
-					
-					<div id="cont">
+					<input type="radio" name="yom" onclick="" checked="checked">支出
+					<input type="radio" name="yom" onclick="">收入
+					<table id="category">
+						<thead>
+							<tr>
+								<th>分类</th>
+								<th>类型</th>
+								<th>总金额</th>
+							</tr>
+						</thead>
+						<tbody id="category">
+							
+						</tbody>
+					</table>
+					<div id="containe">
 						
 						
 					</div>    
@@ -252,7 +284,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <![endif]-->
 
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="../assets/js/jquery.min.js"></script>
+<script src="../js/jquery.min.js"></script>
 <!--<![endif]-->
 <script src="../assets/js/amazeui.min.js"></script>
 <script src="../assets/js/app.js"></script>

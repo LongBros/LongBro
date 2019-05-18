@@ -1,6 +1,7 @@
 package com.longbro.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import com.longbro.dao.AccountDao;
 import com.longbro.dao.LoginDao;
 import com.longbro.service.AccountService;
 import com.longbro.service.LoginService;
+import com.longbro.vo.CateAmountVo;
 
 @Service
 public class AccountServiceImpl implements AccountService{
@@ -68,5 +70,18 @@ public class AccountServiceImpl implements AccountService{
 	public String getAmount(String yom, String ioo, String d) {
 		// TODO Auto-generated method stub
 		return dao.getAmount(yom, ioo, d);
+	}
+	/**
+	 * 根据年(月)分、支出（收入）得到其下对应的分类、金额
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年5月18日
+	 * @param yom
+	 * @param ioo
+	 * @param d
+	 */
+	@Override
+	public List<CateAmountVo> getCateByYom(String yom, String ioo, String d){
+		return dao.getCateByYom(yom, ioo, d);
 	}
 }

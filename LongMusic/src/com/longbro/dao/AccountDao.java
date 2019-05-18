@@ -7,6 +7,7 @@ import java.util.Map;
 import com.longbro.bean.Account;
 import com.longbro.bean.Song;
 import com.longbro.bean.User;
+import com.longbro.vo.CateAmountVo;
 
 public interface AccountDao {
 	public void addAccount(Map<Object, Object> map);
@@ -20,4 +21,5 @@ public interface AccountDao {
 	public int queryNum(String key);
 	public ArrayList getAllMonth(String yom);
 	public String getAmount(String yom,String ioo,String d);
+	public List<CateAmountVo> getCateByYom(String yom, String ioo, String d);
 }

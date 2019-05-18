@@ -83,6 +83,7 @@
 		</if>
 	
  	</select>
+ 	<!-- 查询所有有账单的年份（月份） -->
  	<select id="getAllMonth" resultType="java.util.HashMap">
  		select distinct 
  		<if test="_parameter=='month'">
@@ -93,6 +94,7 @@
  		</if> time
  		from account;
  	</select>
+ 	<!-- 查询某个年份（月份）的总支出（总收入） -->
  	<select id="getAmount" resultType="java.lang.String">
  		SELECT sum(amount) FROM account WHERE in_out=#{ioo} 
  		<if test="yom=='month'">
@@ -100,6 +102,18 @@
  		</if>
  		<if test="yom=='year'">
  			and left(time,4) =#{d} 
+ 		</if>
+ 	</select>
+ 	<select id="getCate" resultType="com.longbro.vo.CateAmountVo">
+ 		<if test="yom=='month'">
+ 			SELECT DISTINCT category cate,
+			(SELECT sum(amount) FROM account WHERE category=c and left(time,7)=#{d}) amount
+			FROM account WHERE in_out=#{ioo} and left(time,7)=#{d} ORDER BY s DESC;
+ 		</if>
+ 		<if test="yom=='year'">
+ 			SELECT DISTINCT category cate,
+			(SELECT sum(amount) FROM account WHERE category=c and left(time,4)=#{d}) amount
+			FROM account WHERE in_out=#{ioo} and left(time,4)=#{d} ORDER BY s DESC;
  		</if>
  	</select>
 </mapper>
