@@ -166,10 +166,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								success:function(data){
 									for(var i=0;i<data.length;i++){
 										$('#category').append("<tr>");
-										$('#category').append("<td>"+data[i].cate+"</td>");
+										$('#category').append("<td><a onclick=\"loadAcc('"+data[i].cate+"','"+yom+"')\">"+data[i].cate+"</a></td>");
 										$('#category').append("<td>"+data[i].amount+"</td>");
 										$('#category').append("<td>"+data[i].percent+"</td>");
 										$('#category').append("</tr>");
+									}
+								}
+							});
+						}
+						function loadAcc(cate,yom){
+							alert("将为你加载"+yom+cate+"的账单");
+							$('#acc').text('');
+							$.ajax({
+								type:"GET",
+								url:"../queryBillBy.do?payutil=&category="+cate+"&in_out=&key=&time="+yom,
+								async:false,
+								dataType:"Json",
+								success:function(data){
+									for(var i=0;i<data.length;i++){
+										$('#acc').append("<tr>");
+										$('#acc').append("<td><a>"+data[i].time+"</a></td>");
+										$('#acc').append("<td>"+data[i].payutil+"</td>");
+										$('#acc').append("<td>"+data[i].amount+"</td>");
+										$('#acc').append("<td>"+data[i].remark+"</td>");
+										$('#acc').append("</tr>");
 									}
 								}
 							});
@@ -202,6 +222,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</tr>
 						</thead>
 						<tbody id="category">
+							
+						</tbody>
+					</table>
+					<table  border="1">
+						<thead>
+							<tr>
+								<th>时间</th><th>方式</th><th>金额</th><th>备注</th>
+							</tr>
+						</thead>
+						<tbody id="acc">
 							
 						</tbody>
 					</table>

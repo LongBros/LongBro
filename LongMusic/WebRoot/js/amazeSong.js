@@ -36,15 +36,23 @@ function querySongs(page){
 				if(na.length>9){
 					na=na.substring(0, 9)+"...";
 				}
+				var url="";
+				var web=data[k].website+"";
+//				alert(web.subtring(0,1))
+//				if(web.subtring(0,1)=="QQ音乐"){
+					url="https://y.qq.com/";
+//				}else (web=="网易云音乐"){
+//					url="https://music.163.com/";
+//				}
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
 						"<td><a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
-						"<td title='"+data[k].website+"'>"+data[k].website+"</td>" +
+						"<td title='"+web+"'><a href=\""+url+"\">"+web+"</a></td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
-						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'>" +
-						"<span class=\"am-icon-pencil-square-o\"></span> 编辑</button>" +
+						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\">" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\" onclick='deleteAccById("+data[k].id+")'><span class=\"am-icon-trash-o\"></span> 删除</button></div></div>" +
 						"</td>" +
 						"</tr>");
@@ -100,7 +108,7 @@ function querySongsByKey(){
 						"<td title='"+data[k].website+"'>"+data[k].website+"</td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'>" +
-						"<span class=\"am-icon-pencil-square-o\"></span> 编辑</button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\" onclick='deleteAccById("+data[k].id+")'><span class=\"am-icon-trash-o\"></span> 删除</button></div></div>" +
 						"</td>" +
 						"</tr>");				
@@ -157,7 +165,7 @@ function querySongsBySinger(){
 						"<td title='"+data[k].website+"'>"+data[k].website+"</td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'>" +
-						"<span class=\"am-icon-pencil-square-o\"></span> 编辑</button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\" onclick='deleteAccById("+data[k].id+")'><span class=\"am-icon-trash-o\"></span> 删除</button></div></div>" +
 						"</td>" +
 						"</tr>");
