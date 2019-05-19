@@ -53,8 +53,7 @@ function querySongs(page){
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\">" +
 						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
-						"<button class=\"am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\" onclick='deleteAccById("+data[k].id+")'><span class=\"am-icon-trash-o\"></span> 删除</button></div></div>" +
-						"</td>" +
+						"</div></div></td>" +
 						"</tr>");
 //				var s="<tr>";
 //				var id="<td><input type='checkbox'/></td><td>"+data[k].id+"</td>";
@@ -109,8 +108,7 @@ function querySongsByKey(){
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'>" +
 						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
-						"<button class=\"am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\" onclick='deleteAccById("+data[k].id+")'><span class=\"am-icon-trash-o\"></span> 删除</button></div></div>" +
-						"</td>" +
+						"</div></div></td>" +
 						"</tr>");				
 			}
 			$('#num').append("共搜索到"+data.length+"首歌曲");
@@ -166,8 +164,7 @@ function querySongsBySinger(){
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'>" +
 						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
-						"<button class=\"am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\" onclick='deleteAccById("+data[k].id+")'><span class=\"am-icon-trash-o\"></span> 删除</button></div></div>" +
-						"</td>" +
+						"</div></div></td>" +
 						"</tr>");
 			}
 			$('#num').append("共搜索到"+data.length+"首歌曲");
@@ -241,14 +238,14 @@ function next(){
 	if(mode=="order"){
 		var now=parseInt(nowplay);
 		//判断当前播放是否为最后一曲，若是，则播放第一曲，反之，播放下一曲
-		if(now>321){
+		if(now>338){
 			now=0;
 		}else{
 			now=now+1;
 		}
 	}else if(mode=="random"){//随机播放
 		//产生一个歌曲数量以内的随机数，作为歌曲索引播放			
-		now=Math.round(Math.random()*(321-1-0)+0); 
+		now=Math.round(Math.random()*(338-1-0)+0); 
 	}else{//单曲循环
 		now=parseInt(nowplay);
 	}
@@ -265,13 +262,13 @@ function preview(){
 		var now=parseInt(nowplay);//当前播放序号转为整型
 		//若当前播放不为第一首，点击上一首将当前播放序号指向歌曲数量-1，反之将当前播放指向当前播放-1
 		if(now==0){
-			now=321;
+			now=338;
 		}else{
 			now=now-1;	
 		}
 	}else if(mode=="random"){//随机播放
 		//产生一个歌曲数量以内的随机数，作为歌曲索引播放			
-		now=Math.round(Math.random()*(321-1-0)+0); 
+		now=Math.round(Math.random()*(338-1-0)+0); 
 	}else{
 		now=parseInt(nowplay);
 	}
