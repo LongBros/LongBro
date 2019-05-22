@@ -29,10 +29,10 @@ import org.jsoup.nodes.Document;
  */
 public class DownloadUtil {
 	public static void main(String[] args) {
-//		writeToFile(spideLyric("553310243"), "553310243");
+//		writeToFile(spideLyric("29809536"), "29809536");
 		try {
 			//听说你也回来过，想你的夜
-			ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName from song where id=230");
+			ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName from song where id>=305");
 			while(rs.next()){
 				downloadMp3(rs.getString(1), rs.getString(2));
 				System.out.println("\""+rs.getString(2)+"\"下载成功");

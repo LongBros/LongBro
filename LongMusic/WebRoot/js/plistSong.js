@@ -11,10 +11,14 @@
  * 11.根据秒参数，将其转换为分和秒的组合00:00格式并返回 12.音量减、加，音量进度条随之变化
  * 13.键盘监听事件
  */
-var nowplay=0;//当前播放歌曲在数组中的序号
+var nowplay=0;//当前播放歌曲的序号
 var mode="order";//播放模式---默认为顺序播放模式
 var sid="";//资源id
 var url="";
+
+var pList=new Array();//播放列表数组
+var i=0;//在addList函数中执行加1来逐个存放歌曲至播放列表数组
+var t=0;//当前播放歌曲在播放列表数组中的序号
 /**
  * 1.按分页查询歌曲
  * @param page
@@ -46,7 +50,7 @@ function querySongs(page){
 //				}
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						"<td><a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
+						"<td><font size='+1' onclick='addList("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+web+"'><a href=\""+url+"\">"+web+"</a></td>" +
@@ -101,7 +105,7 @@ function querySongsByKey(){
 				
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						"<td><a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
+						"<td><font size='+1' onclick='addList("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+data[k].website+"'>"+data[k].website+"</td>" +
@@ -153,7 +157,7 @@ function querySongsBySinger(){
 				
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						"<td><a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
+						"<td><font size='+1' onclick='addList("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+data[k].website+"'>"+data[k].website+"</td>" +
@@ -171,14 +175,12 @@ function querySongsBySinger(){
  * 播放歌曲	
  * 1.正在播放的歌名颜色特殊（黑色）显示
  * 2.网页title改为正在播放歌曲名
- * @param name 歌曲名
- * @param sid  歌曲的资源链接
+ * @param k 歌曲在数字中的序号
  */
 function play(k) {
 //	k=parseInt(k)+1;
 	nowplay=k;
 //	alert(nowplay);
-
 	var name="";//歌名
 	$.ajax({
 		type:"Get",
@@ -231,21 +233,18 @@ function pause_play() {
  * 单曲循环模式时只播放当前歌曲
  */
 function next(){
-	if(mode=="order"){
-		var now=parseInt(nowplay);
-		//判断当前播放是否为最后一曲，若是，则播放第一曲，反之，播放下一曲
-		if(now>338){
-			now=0;
+	if(mode=="order"){//顺序播放
+		if(t<(pList.length-1)){
+			t=t+1;
 		}else{
-			now=now+1;
+			t=0;
 		}
 	}else if(mode=="random"){//随机播放
-		//产生一个歌曲数量以内的随机数，作为歌曲索引播放			
-		now=Math.round(Math.random()*(338-1-0)+0); 
-	}else{//单曲循环
-		now=parseInt(nowplay);
+		t=Math.round(Math.random()*(pList.length-1-0)+0); 
+	}else{
+		t=t;
 	}
-	play(now);
+	play(pList[t]);
 }
 /**
  * 7.实现上一曲按钮功能------
@@ -255,20 +254,17 @@ function next(){
  */
 function preview(){
 	if(mode=="order"){//顺序播放
-		var now=parseInt(nowplay);//当前播放序号转为整型
-		//若当前播放不为第一首，点击上一首将当前播放序号指向歌曲数量-1，反之将当前播放指向当前播放-1
-		if(now==0){
-			now=338;
+		if(t>0){
+			t=t-1;
 		}else{
-			now=now-1;	
+			t=pList.length-1;
 		}
 	}else if(mode=="random"){//随机播放
-		//产生一个歌曲数量以内的随机数，作为歌曲索引播放			
-		now=Math.round(Math.random()*(338-1-0)+0); 
-	}else{
-		now=parseInt(nowplay);
+		t=Math.round(Math.random()*(pList.length-1-0)+0); 
+	}else{//单曲循环
+		t=t;
 	}
-	play(now);
+	play(pList[t]);
 }
 /**
  * 8.切换播放模式
@@ -492,4 +488,19 @@ function addSong(){
 	});
 	alert("添加成功");
 	querySongs('1');
+}
+/**
+ * 将id为id的歌曲添加至播放列表
+ * @param id
+ */
+function addList(id){
+	for(var j=0;j<pList.length;j++){//如果播放列表已含已选歌曲，则再不添加
+		if(pList[j]==id)
+			return;
+	}
+	pList[i]=id;
+	i++;
+}
+function alertList(){
+	document.getElementById("plist").innerText="播放列表:"+pList;
 }
