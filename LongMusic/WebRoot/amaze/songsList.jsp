@@ -170,9 +170,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </div>
         </div>
 	  <div class="am-cf">
-              <div class="am-fr">
-              	          <span onclick="alertList()" id="plist">播放列表</span>
-              
+              <div class="am-fr">              	          
               <select onchange="querySongs(options[selectedIndex].value)">
               <option value='0'>页码</option>
               	<%
@@ -221,8 +219,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a onclick="minus()" class="minus" title="下键--音量减">一</a>
 				<progress style="width:100px;" draggable="false" id="voice" value="100" max="100"></progress>
 				<a onclick="add()" class="add" title="上键--音量加">✚</a>
+				<span onclick="showHide()">显示</span>
 			</p>
           </form>
+          <div id="plistAalrc" style="display:none">
+          	 <div style="width:500px;height:150px;overflow:scroll;float:left" onclick="alertList()" id="plist">播放列表</div>
+          	 <div style="width:500px;height:150px;overflow:scroll;float:right" id="alyric">
+          </div>
+           
+          </div>
         </div>
       </div>
     </div>

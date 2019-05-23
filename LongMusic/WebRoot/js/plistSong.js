@@ -17,6 +17,9 @@ var sid="";//资源id
 var url="";
 
 var pList=new Array();//播放列表数组
+for(var i=0;i<353;i++){
+	pList[i]=i;
+}
 var i=0;//在addList函数中执行加1来逐个存放歌曲至播放列表数组
 var t=0;//当前播放歌曲在播放列表数组中的序号
 /**
@@ -199,6 +202,18 @@ function play(k) {
 //				url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
 //			}
 			url="http://localhost/util/songs/"+data.songName+".mp3";
+			
+			var au="../loadLyric3.jsp?sid="+sid+"&type=2";
+			$.ajax({
+				type:"Get",
+				async:false,
+				url:au,
+				dataType:"text",
+				success:function(data){
+					document.getElementById("alyric").innerHTML=data;
+				}
+			});
+			
 			name=data.songName+"-"+data.singer;
 		}
 	});
@@ -494,6 +509,9 @@ function addSong(){
  * @param id
  */
 function addList(id){
+	if(pList.length>60){//歌曲播放列表中大于50首歌时将播放列表清空
+		pList=new Array();
+	}
 	for(var j=0;j<pList.length;j++){//如果播放列表已含已选歌曲，则再不添加
 		if(pList[j]==id)
 			return;
@@ -502,5 +520,17 @@ function addList(id){
 	i++;
 }
 function alertList(){
-	document.getElementById("plist").innerText="播放列表:"+pList;
+//	if(pList.length<60){
+		document.getElementById("plist").innerText="播放列表:"+pList;
+//	}else{
+//		document.getElementById("plist").innerText="播放列表中歌曲较多，暂不显示";
+//	}
+}
+function showHide(){
+	var status=document.getElementById("plistAalrc").style.display+"";
+	if(status=="none"){
+		document.getElementById("plistAalrc").style.display="inline-block";
+	}else{
+		document.getElementById("plistAalrc").style.display="none";
+	}
 }
