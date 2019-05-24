@@ -137,7 +137,7 @@ public class SongController {
 		return song;
 	}
 	/**
-	 * 5.根据id搜索歌曲
+	 * 6.编辑歌曲
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年5月4日
@@ -167,5 +167,27 @@ public class SongController {
 		
 		return;
 	}
-	
+	/**
+	 * 7.根据播放列表中的id批量查询歌曲
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年5月4日
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping (value="queryPListSong",method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Song> queryPListSong(HttpServletRequest request,HttpServletResponse response)
+	{	
+		List<Song> list=new ArrayList<Song>();
+		Song song;
+		String ids=request.getParameter("pList");
+		String idss[]=ids.split(",");
+		for(String id:idss){
+			song=service.querySongById(Integer.parseInt(id));
+			list.add(song);
+		}		
+		return list;
+	}
 }

@@ -520,11 +520,21 @@ function addList(id){
 	i++;
 }
 function alertList(){
-//	if(pList.length<60){
-		document.getElementById("plist").innerText="播放列表:"+pList;
-//	}else{
-//		document.getElementById("plist").innerText="播放列表中歌曲较多，暂不显示";
-//	}
+	$.ajax({
+		type:"POST",
+		async:true,
+		url:"../queryPListSong.do?pList="+pList,
+		dataType:"Json",
+		success:function(data){
+			for(var k=0;k<data.length;k++){
+				var na=data[k].songName+"";
+				if(na.length>9){
+					na=na.substring(0, 9)+"...";
+				}
+				$('#plist').append("<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a>");
+			}
+		}
+	});
 }
 function showHide(){
 	var status=document.getElementById("plistAalrc").style.display+"";
