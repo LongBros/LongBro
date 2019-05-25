@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.bean.songlist">
+	<insert id="addSongList" parameterType="java.util.HashMap">
+		insert into song_list(l_Name,l_Songs,l_Desc,l_Times,l_Time)
+		values
+		(#{l_Name},#{l_Songs},#{l_Desc},#{l_Times},#{l_Time})
+	</insert>
+	<select id="querySongList" resultType="com.longbro.bean.SongList">
+		select 
+		l_Name name,l_Songs songs,l_Desc descr,l_Times times,l_Time time
+		 from song_list;
+	</select>
+</mapper>

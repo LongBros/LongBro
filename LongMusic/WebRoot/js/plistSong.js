@@ -20,7 +20,7 @@ var pList=new Array();//播放列表数组
 for(var i=1;i<363;i++){
 	pList[i]=i;
 }
-alertList();
+alertList("");
 var i=0;//在addList函数中执行加1来逐个存放歌曲至播放列表数组
 var t=0;//当前播放歌曲在播放列表数组中的序号
 /**
@@ -519,9 +519,18 @@ function addList(id){
 	}
 	pList[i]=id;
 	i++;
-	alertList();//每添加一首刷新一次播放列表
+	alertList("");//每添加一首刷新一次播放列表
 }
-function alertList(){
+function alertList(list){
+	var l=list+"";
+	var title="";
+	if(l!=""){//若list不为空，则是歌单，歌单由】将歌曲与歌单名区分开
+		pList=l.substring(0, l.indexOf("】"));
+		title=l.substring(l.indexOf("】")+1);
+	}
+	if(title==""){
+		title="播放列表";
+	}
 	$('#plist').text('');
 	$.ajax({
 		type:"Get",
@@ -529,7 +538,7 @@ function alertList(){
 		url:"../queryPListSong.do?pList="+pList,
 		dataType:"Json",
 		success:function(data){
-			$('#plist').append("<center>播放列表("+data.length+")</center>");
+			$('#plist').append("<center>"+title+"("+data.length+")</center>");
 			for(var k=0;k<data.length;k++){
 				var na=data[k].songName+"";
 				if(na.length>9){

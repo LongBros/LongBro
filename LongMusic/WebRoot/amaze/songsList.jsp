@@ -170,7 +170,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </div>
         </div>
 	  <div class="am-cf">
-              <div class="am-fr">              	          
+	  	  <div class="am-fr"> 
+	  	  	  <select id="songList" onchange="alertList(options[selectedIndex].value)">
+	  	  	  		
+	  	  	  </select>
+	  	  </div>
+	  
+	  	  <div class="am-fr">              	          
               <select onchange="querySongs(options[selectedIndex].value)">
               <option value='0'>页码</option>
               	<%
@@ -179,11 +185,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               	}
                %>
               </select>
-                <ul class="am-pagination">
-                 
-                </ul>
-              </div>
-            </div>
+          </div>
+      </div>
       <div class="am-g">
         <div class="am-u-sm-12">
           <form class="am-form">
@@ -202,6 +205,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  		$(function(){
 			  			querySongs(1);
 				   });
+			  		//加载歌单
+			  		$.ajax({
+			  			type:"Get",
+			  			async:false,
+			  			url:"../querySongList.do",
+			  			dataType:"Json",
+			  			success:function(data){
+			  				for(var k=0;k<data.length;k++){
+			  					$('#songList').append("<option value='"+data[k].songs+"】"+data[k].name+"'>"+data[k].name+"</option>");
+			  				}
+			  			}
+			  		});
 			  </script>
 			  <audio id="audio" style="display:none;" controls="controls"
   			 		src="http://music.163.com/song/media/outer/url?id=486814412.mp3">
