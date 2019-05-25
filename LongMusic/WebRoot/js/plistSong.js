@@ -20,7 +20,7 @@ var pList=new Array();//播放列表数组
 for(var i=1;i<363;i++){
 	pList[i]=i;
 }
-alertList("");
+showList();
 var i=0;//在addList函数中执行加1来逐个存放歌曲至播放列表数组
 var t=0;//当前播放歌曲在播放列表数组中的序号
 /**
@@ -176,6 +176,62 @@ function querySongsBySinger(){
 	});
 }
 /**
+ * 歌单
+ * @param list
+ */
+function querySongList(list){
+	var l=list+"";
+	var title="";
+	if(l!="歌单"){//歌单由】将歌曲与歌单名区分开
+		list=l.substring(0, l.indexOf("】"));
+		title=l.substring(l.indexOf("】")+1);
+	}else{//第一个默认选项
+		querySongs(1);
+		return;
+	}
+	pList=list.split(",");//list中的190,191,192,193,194,197,202,203,204,214为字符串，执行split方法后返回数组
+	showList();
+	t=0;
+	//清空原有歌曲列表
+	$('#song').text('');
+	$('#num').text('');
+	//加载歌曲列表
+	$.ajax({
+		type:"Get",
+		async:false,
+		url:"../queryPListSong.do?pList="+list,
+		dataType:"Json",
+		success:function(data){
+			//alert(data.length);
+			for(var k=0;k<data.length;k++){
+				var na=data[k].songName+"";
+				if(na.length>9){
+					na=na.substring(0, 9)+"...";
+				}
+				var url="";
+				var web=data[k].website+"";
+//				alert(web.subtring(0,1))
+//				if(web.subtring(0,1)=="QQ音乐"){
+					url="https://y.qq.com/";
+//				}else (web=="网易云音乐"){
+//					url="https://music.163.com/";
+//				}
+				$('#song').append("<tr>" +
+						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
+						"<td><font size='+1' onclick='addList("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
+						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
+						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
+						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
+						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
+						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\">" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
+						"</div></div></td>" +
+						"</tr>");
+			}
+		}
+	});
+}
+/**
  * 播放歌曲	
  * 1.正在播放的歌名颜色特殊（黑色）显示
  * 2.网页title改为正在播放歌曲名
@@ -204,7 +260,11 @@ function play(k) {
 //			}
 			url="http://localhost/util/songs/"+data.songName+".mp3";
 			name=data.songName+"-"+data.singer;
-
+//			var back="https://y.gtimg.cn/music/photo_new/"+data.imgPath+".jpg?max_age=2592000";//https://y.gtimg.cn/music/photo_new/T002R300x300M000002iWU6B2ZvA8V.jpg?max_age=2592000
+//			alert(back);
+//			//$('plistAalrc').background=back;
+//			var b=document.getElementById("body");
+//			b.background=back;
 			var au="../loadLyric3.jsp?sid="+sid+"&type=2";
 			$.ajax({
 				type:"Get",
@@ -212,7 +272,7 @@ function play(k) {
 				url:au,
 				dataType:"text",
 				success:function(data){
-					document.getElementById("alyric").innerHTML="<center>"+name+"</center>"+data;
+					document.getElementById("alyric").innerHTML="<center><font color='yellow'>"+name+"</font></center>"+data;
 				}
 			});
 			
@@ -519,18 +579,9 @@ function addList(id){
 	}
 	pList[i]=id;
 	i++;
-	alertList("");//每添加一首刷新一次播放列表
+	showList();//每添加一首刷新一次播放列表
 }
-function alertList(list){
-	var l=list+"";
-	var title="";
-	if(l!=""){//若list不为空，则是歌单，歌单由】将歌曲与歌单名区分开
-		pList=l.substring(0, l.indexOf("】"));
-		title=l.substring(l.indexOf("】")+1);
-	}
-	if(title==""){
-		title="播放列表";
-	}
+function showList(){
 	$('#plist').text('');
 	$.ajax({
 		type:"Get",
@@ -538,22 +589,27 @@ function alertList(list){
 		url:"../queryPListSong.do?pList="+pList,
 		dataType:"Json",
 		success:function(data){
-			$('#plist').append("<center>"+title+"("+data.length+")</center>");
+			$('#plist').append("<center>播放列表("+data.length+")</center>");
 			for(var k=0;k<data.length;k++){
 				var na=data[k].songName+"";
 				if(na.length>9){
 					na=na.substring(0, 9)+"...";
 				}
-				$('#plist').append("<tr><td width='30%'><span title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</span></td><td width='20%'>"+data[k].singer+"</td><td  width='10%'>"+data[k].duration+"</td></tr>");
+				$('#plist').append("<tr><td width='30%'><span title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</span></td><td width='30%'>"+data[k].singer+"</td><td  width='10%'>"+data[k].duration+"</td></tr>");
 			}
 		}
 	});
 }
+/**
+ * 显示与隐藏播放列表和歌词
+ */
 function showHide(){
 	var status=document.getElementById("plistAalrc").style.display+"";
 	if(status=="none"){
 		document.getElementById("plistAalrc").style.display="inline-block";
+		document.getElementById("sah").innerHTML="隐藏";
 	}else{
 		document.getElementById("plistAalrc").style.display="none";
+		document.getElementById("sah").innerHTML="显示";
 	}
 }
