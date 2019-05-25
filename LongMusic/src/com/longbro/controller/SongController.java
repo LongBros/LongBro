@@ -1,6 +1,7 @@
 package com.longbro.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -180,9 +181,14 @@ public class SongController {
 	@ResponseBody
 	public ArrayList<Song> queryPListSong(HttpServletRequest request,HttpServletResponse response)
 	{	
-		List<Song> list=new ArrayList<Song>();
+		ArrayList<Song> list=new ArrayList<Song>();
 		Song song;
 		String ids=request.getParameter("pList");
+		System.out.println(ids);
+		if(ids.substring(0, 1).equals(",")){
+			ids=ids.substring(1);
+		}
+
 		String idss[]=ids.split(",");
 		for(String id:idss){
 			song=service.querySongById(Integer.parseInt(id));

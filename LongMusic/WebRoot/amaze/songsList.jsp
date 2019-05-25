@@ -222,11 +222,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<span onclick="showHide()">显示</span>
 			</p>
           </form>
-          <div id="plistAalrc" style="display:none">
-          	 <div style="width:500px;height:150px;overflow:scroll;float:left" onclick="alertList()" id="plist">播放列表</div>
+          <div id="plistAalrc" style="display:none;margin-left: 30px;">
+          	 <div style="width:500px;height:150px;overflow:scroll;float:left" id="plist">
+          	 	 <table>
+          	 	 	
+          	 	 </table>
+          	 </div>
           	 <div style="width:500px;height:150px;overflow:scroll;float:right" id="alyric">
           </div>
-           
+           		
           </div>
         </div>
       </div>

@@ -17,9 +17,10 @@ var sid="";//资源id
 var url="";
 
 var pList=new Array();//播放列表数组
-for(var i=0;i<353;i++){
+for(var i=1;i<363;i++){
 	pList[i]=i;
 }
+alertList();
 var i=0;//在addList函数中执行加1来逐个存放歌曲至播放列表数组
 var t=0;//当前播放歌曲在播放列表数组中的序号
 /**
@@ -56,7 +57,7 @@ function querySongs(page){
 						"<td><font size='+1' onclick='addList("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
-						"<td title='"+web+"'><a href=\""+url+"\">"+web+"</a></td>" +
+						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\">" +
 						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
@@ -202,7 +203,8 @@ function play(k) {
 //				url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
 //			}
 			url="http://localhost/util/songs/"+data.songName+".mp3";
-			
+			name=data.songName+"-"+data.singer;
+
 			var au="../loadLyric3.jsp?sid="+sid+"&type=2";
 			$.ajax({
 				type:"Get",
@@ -210,11 +212,10 @@ function play(k) {
 				url:au,
 				dataType:"text",
 				success:function(data){
-					document.getElementById("alyric").innerHTML=data;
+					document.getElementById("alyric").innerHTML="<center>"+name+"</center>"+data;
 				}
 			});
 			
-			name=data.songName+"-"+data.singer;
 		}
 	});
 //	alert(url);
@@ -518,20 +519,23 @@ function addList(id){
 	}
 	pList[i]=id;
 	i++;
+	alertList();//每添加一首刷新一次播放列表
 }
 function alertList(){
+	$('#plist').text('');
 	$.ajax({
-		type:"POST",
+		type:"Get",
 		async:true,
 		url:"../queryPListSong.do?pList="+pList,
 		dataType:"Json",
 		success:function(data){
+			$('#plist').append("<center>播放列表("+data.length+")</center>");
 			for(var k=0;k<data.length;k++){
 				var na=data[k].songName+"";
 				if(na.length>9){
 					na=na.substring(0, 9)+"...";
 				}
-				$('#plist').append("<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a>");
+				$('#plist').append("<tr><td width='30%'><span title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</span></td><td width='20%'>"+data[k].singer+"</td><td  width='10%'>"+data[k].duration+"</td></tr>");
 			}
 		}
 	});
