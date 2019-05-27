@@ -54,7 +54,7 @@ function querySongs(page){
 //				}
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						"<td><font size='+1' onclick='addList("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
+						"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
@@ -109,7 +109,7 @@ function querySongsByKey(){
 				
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						"<td><font size='+1' onclick='addList("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
+						"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+data[k].website+"'>"+data[k].website+"</td>" +
@@ -161,7 +161,7 @@ function querySongsBySinger(){
 				
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						"<td><font size='+1' onclick='addList("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
+						"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+data[k].website+"'>"+data[k].website+"</td>" +
@@ -218,7 +218,7 @@ function querySongList(list){
 //				}
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						"<td><font size='+1' onclick='addList("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
+						"<td><font size='+1' onclick='showList("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
@@ -589,7 +589,7 @@ function showList(){
 		url:"../queryPListSong.do?pList="+pList,
 		dataType:"Json",
 		success:function(data){
-			$('#plist').append("<center>播放列表("+data.length+")</center>");
+			$('#plist').append("<center><font color='yellow'>播放列表</font>("+data.length+")</center>");
 			for(var k=0;k<data.length;k++){
 				var na=data[k].songName+"";
 				if(na.length>9){
@@ -607,9 +607,42 @@ function showHide(){
 	var status=document.getElementById("plistAalrc").style.display+"";
 	if(status=="none"){
 		document.getElementById("plistAalrc").style.display="inline-block";
-		document.getElementById("sah").innerHTML="隐藏";
+		document.getElementById("sah").innerHTML="隐藏("+pList.length+")";
 	}else{
 		document.getElementById("plistAalrc").style.display="none";
-		document.getElementById("sah").innerHTML="显示";
+		document.getElementById("sah").innerHTML="显示("+pList.length+")";
 	}
+}
+/**
+ * 弹出歌单框
+ */
+function showListName(id){
+//	alert(id);
+	document.getElementById("addSong").style.display="inline-block";//打开添加至歌单或播放列表的弹框
+	document.getElementById("id").innerHTML=id;
+}
+/**
+ * 关闭添加至歌单或播放列表的弹框
+ */
+function closes(){
+	document.getElementById("addSong").style.display="none";
+}
+function addToList(l_id){
+	var id=document.getElementById("id").innerHTML;//歌曲id
+	if(l_id=="0"){//歌单id
+		addList(id);
+	}else{
+		var url="../addToList.do?sid="+id+"&lid="+l_id;
+		alert(url);
+		$.ajax({
+			type:"Get",
+			async:false,
+			url:url,
+			dataType:"Json",
+			success:function(data){
+				alert(data);
+			}
+		});
+	}
+	
 }

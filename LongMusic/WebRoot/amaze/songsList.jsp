@@ -201,6 +201,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                
               </tbody>
             </table>
+            
+			  <audio id="audio" style="display:none;" controls="controls"
+  			 		src="http://music.163.com/song/media/outer/url?id=486814412.mp3">
+			  </audio>
+            
+            <hr/>
+            <!-- 单句歌词 -->
+            <center><span id="lyric" style="color: green;font-size:35px;position:fixed;top:110px;right:466px;"></span></center>
+            <div id="addSong" style="position:fixed;background:gray;right:450px;top:310px;width:200px;height:200px;display: none">
+            	<span style="display: none" id="id"></span>
+            	<span onclick="closes()" style="color:white;margin-left: 180px;">X</span>
+            	添加至<br>
+            	<ul id="songLists">
+            		<li onclick="addToList('0')">播放列表</li>
+            	</ul>
+            </div>
+            
             <script type="text/javascript">
 			  		$(function(){
 			  			querySongs(1);
@@ -214,17 +231,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  			success:function(data){
 			  				for(var k=0;k<data.length;k++){
 			  					$('#songList').append("<option value='"+data[k].songs+"】"+data[k].name+"'>"+data[k].name+"</option>");
+			  					$('#songLists').append("<li onclick=\"addToList('"+(k+1)+"')\">"+data[k].name+"</li>");
 			  				}
 			  			}
 			  		});
 			  </script>
-			  <audio id="audio" style="display:none;" controls="controls"
-  			 		src="http://music.163.com/song/media/outer/url?id=486814412.mp3">
-			  </audio>
             
-            <hr/>
-            <!-- 单句歌词 -->
-            <center><span id="lyric" style="color: green;font-size:35px;position:fixed;top:110px;right:466px;"></span></center>
             <div style="height:300px;position:fixed;"><!-- 播放列表，全部歌词，及其他工具 -->
             	<!-- 播放列表，全部歌词 -->
             	<div id="plistAalrc" style="background:gray;position:fixed;bottom:40px;cursor: pointer;display:none;margin-left: 5px;">

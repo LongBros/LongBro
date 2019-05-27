@@ -10,6 +10,18 @@
 	<select id="querySongList" resultType="com.longbro.bean.SongList">
 		select 
 		l_Name name,l_Songs songs,l_Desc descr,l_Times times,l_Time time
-		 from song_list;
+		 from song_list
+		 where 1=1
+		 <if test="_parameter!=null and _parameter!=''">
+		 	and l_Id=#{_parameter}
+		 </if>
+		 ;
 	</select>
+	<update id="update" parameterType="java.util.HashMap">
+		update song_list set 
+		<if test="songs!=null and songs!=''">
+			l_Songs=#{songs}
+		</if>
+		where l_Id=#{id}
+	</update>
 </mapper>

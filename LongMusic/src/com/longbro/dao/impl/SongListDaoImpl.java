@@ -1,5 +1,6 @@
 package com.longbro.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +20,16 @@ public class SongListDaoImpl extends BaseDao implements SongListDao{
 		this.insert("com.longbro.bean.songlist.addSongList", map);
 	}
 	@Override
-	public List<SongList> querySongList() {
+	public List<SongList> querySongList(String id) {
 		// TODO Auto-generated method stub
-		return (List<SongList>)this.selectList("com.longbro.bean.songlist.querySongList");
+		return (List<SongList>)this.selectList("com.longbro.bean.songlist.querySongList",id);
+	}
+	@Override
+	public void updateSongList(String songs, String id) {
+		HashMap<String, String> map=new HashMap<String, String>();
+		map.put("songs", songs);
+		map.put("id", id);
+		// TODO Auto-generated method stub
+		this.update("com.longbro.bean.songlist.querySongList.updateSongList", map);
 	}
 }

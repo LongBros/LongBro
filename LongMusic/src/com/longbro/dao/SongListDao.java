@@ -10,6 +10,7 @@ import com.longbro.bean.SongList;
 public interface SongListDao {
 	public void addSongList(Map<Object, Object> map);
 	
-	public List<SongList> querySongList();
+	public List<SongList> querySongList(String id);
 
+	public void updateSongList(String songs,String id);
 }

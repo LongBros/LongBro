@@ -71,9 +71,9 @@ if(request.getParameter("type").equals("1")){//加载单句歌词
 		    if(lrc.contains(time)){//含有该时间点
 		    	lrc=lrc.replaceAll("\\[", "<");
 		    	lrc=lrc.replaceAll("]", ">");			
-		        String ss[]=lrc.split("<[.[^<]]*>");
+		        String ss[]=lrc.split("<[.[^<]]*>");//所有单句歌词
 		    	ArrayList<String> times=new ArrayList<String>();
-		    	times=Strings.getTime(lrc, times);
+		    	times=Strings.getTime(lrc, times);//歌词的时间点
 		    	for(int i=0;i<times.size();i++){
 		   	    	if(times.get(i).contains(time)){
 		   	    		l=ss[i+1];
