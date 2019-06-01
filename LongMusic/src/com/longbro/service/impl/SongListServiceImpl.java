@@ -17,9 +17,9 @@ import com.longbro.service.SongService;
 public class SongListServiceImpl implements SongListService{
 	@Autowired SongListDao dao;
 	@Override
-	public void addSongList(Map<Object, Object> map) {
+	public void addSongList(SongList list) {
 		// TODO Auto-generated method stub
-		dao.addSongList(map);
+		dao.addSongList(list);
 	}
 	@Override
 	public List<SongList> querySongList(String id) {

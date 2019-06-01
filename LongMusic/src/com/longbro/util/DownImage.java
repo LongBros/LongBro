@@ -1,7 +1,5 @@
-package test;
-/**
- * »ñÈ¡ÃÏÀ¤²©¿ÍËùÓĞĞ¡±íÇéµÄurlÂ·¾¶£¬ÒÔÓÃ³ÌĞòÅúÁ¿ÏÂÔØ
- */
+package com.longbro.util;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -15,30 +13,44 @@ import java.net.URL;
 
 public class DownImage {
 	public static void main(String[] args) throws IOException {
-		String path="C:/Users/pc/Desktop/longbro/work/Ğ¡±íÇé/image.txt";
+		String path="D:/aaaaaaa/LongBro/LongMusic/src/å°è¡¨æƒ…/image.txt";
 		
 		String url="https://mkblog.cn/wp-content/themes/mkBlog/images/emoji/aru/";
 		int j=1;
 		while(j<165){
-			System.out.println(url+j+".png");
+//			System.out.println(url+j+".png");
 //			downImage(url+j+".png", "aru/"+j+".png");
 			j++;
 		}
-		System.out.println("---------------------------------------------");
-		String lat="";//ºó×ºÃû
+//		System.out.println("---------------------------------------------");
+		String lat="";//
 		String folder="";
 		byte b[]=new byte[9192];
 		File file=new File(path);
 		FileInputStream fis=new FileInputStream(file);
 		fis.read(b);
 		String s=new String(b,"utf-8");
-		String t[]=s.split("¡·");
+		String t[]=s.split("ã€‹");
 		for(int i=0;i<4;i++){
 			if(i==0){
 				url="https://mkblog.cn/wp-content/themes/mkBlog/images/emoji/qq/";
 				lat=".gif";
 				folder="qq";
-			}else if(i==1){
+				String ss[]=t[i].split(",");
+				for(String st:ss){
+					if(st.equals("")){
+						return;
+					}else{
+						st=st.substring(st.indexOf(":")+1);
+						st=st.replace("\"", "");
+						String url1=url+st+lat;
+						System.out.println(st+lat+"ä¸‹è½½æˆåŠŸ");
+						if(folder.equals("qq")){
+							downImage(url1,folder+"/"+st+lat);
+						}
+					}
+				}
+			}/*else if(i==1){
 				url="https://mkblog.cn/wp-content/themes/mkBlog/images/emoji/weibo/";
 				folder="weibo";
 				lat=".png";
@@ -50,23 +62,9 @@ public class DownImage {
 				url="https://mkblog.cn/wp-content/themes/mkBlog/images/emoji/tieba/";
 				folder="tieba";
 				lat=".png";
-			}
-			String ss[]=t[i].split(",");
-			for(String st:ss){
-				if(st.equals("")){
-					return;
-				}else{
-					st=st.substring(st.indexOf(":")+1);
-					st=st.replace("\"", "");
-					String url1=url+st+lat;
-					System.out.println(url1);
-					if(folder.equals("qq")){
-						downImage(url1,folder+"/"+st+lat);
-
-					}
-				}
-			}
-			System.out.println("---------------------------------------------");
+			}*/
+			
+//			System.out.println("---------------------------------------------");
 		}
 		
 	}
@@ -87,7 +85,6 @@ public class DownImage {
 			while((count=dis.read(b))>0){
 				fos.write(b,0,count);
 			}
-			System.out.println("ÏÂÔØ³É¹¦");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

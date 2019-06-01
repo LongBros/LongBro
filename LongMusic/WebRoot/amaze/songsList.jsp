@@ -169,6 +169,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          </span>
           </div>
         </div>
+        <!-- 新建歌单 -->
+        <form id="newList" name="newList">
+            	<span onclick="closes()" style="color:white;margin-left: 180px;">X</span>
+            	歌单名:<input name="songlist">
+            	歌单描述:<input name="listdesc">
+            	<button onclick="create()">建单</button>
+        </form>
 	  <div class="am-cf">
 	  	  <div class="am-fr"> 
 	  	  	  <select id="songList" onchange="querySongList(options[selectedIndex].value)">
@@ -209,9 +216,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <hr/>
             <!-- 单句歌词 -->
             <center><span id="lyric" style="color: green;font-size:35px;position:fixed;top:110px;right:466px;"></span></center>
-            <div id="addSong" style="position:fixed;background:gray;right:450px;top:310px;width:200px;height:200px;display: none">
+            <div id="addSong" style="position:fixed;overflow:scroll;background:gray;right:450px;top:310px;width:200px;height:200px;display: none">
             	<span style="display: none" id="id"></span>
             	<span onclick="closes()" style="color:white;margin-left: 180px;">X</span>
+            	<span onclick="newList()">新建歌单</span><br>
             	添加至<br>
             	<ul id="songLists">
             		<li onclick="addToList('0')">播放列表</li>
@@ -230,7 +238,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  			dataType:"Json",
 			  			success:function(data){
 			  				for(var k=0;k<data.length;k++){
-			  					$('#songList').append("<option value='"+data[k].songs+"】"+data[k].name+"'>"+data[k].name+"</option>");
+			  					$('#songList').append("<option value='"+data[k].songs+"】"+data[k].name+"】"+data[k].id+"'>"+data[k].name+"</option>");
 			  					$('#songLists').append("<li onclick=\"addToList('"+(k+1)+"')\">"+data[k].name+"</li>");
 			  				}
 			  			}

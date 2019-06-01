@@ -184,11 +184,14 @@ public class SongController {
 		ArrayList<Song> list=new ArrayList<Song>();
 		Song song;
 		String ids=request.getParameter("pList");
-		System.out.println(ids);
-		if(ids.substring(0, 1).equals(",")){
+		System.out.println("歌单歌曲id字符串处理前："+ids);
+		if(ids.substring(0, 1).equals(",")){//如果歌单的歌曲id字符串第一个为,则截取之
 			ids=ids.substring(1);
 		}
-
+		if(ids.substring(ids.length()-1).equals(",")){//如果歌单的歌曲id字符串最后一个为,则截取之
+			ids=ids.substring(0,ids.length()-1);
+		}
+		System.out.println("歌单歌曲id字符串处理后："+ids);
 		String idss[]=ids.split(",");
 		for(String id:idss){
 			song=service.querySongById(Integer.parseInt(id));

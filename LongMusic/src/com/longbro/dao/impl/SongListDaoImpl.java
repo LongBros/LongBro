@@ -15,9 +15,9 @@ import com.longbro.util.LogUtil;
 @Repository
 public class SongListDaoImpl extends BaseDao implements SongListDao{
 	@Override
-	public void addSongList(Map<Object, Object> map) {
+	public void addSongList(SongList list) {
 		// TODO Auto-generated method stub
-		this.insert("com.longbro.bean.songlist.addSongList", map);
+		this.insert("com.longbro.bean.songlist.addSongList", list);
 	}
 	@Override
 	public List<SongList> querySongList(String id) {
@@ -30,6 +30,6 @@ public class SongListDaoImpl extends BaseDao implements SongListDao{
 		map.put("songs", songs);
 		map.put("id", id);
 		// TODO Auto-generated method stub
-		this.update("com.longbro.bean.songlist.querySongList.updateSongList", map);
+		this.update("com.longbro.bean.songlist.updateSongList", map);
 	}
 }

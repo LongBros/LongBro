@@ -8,7 +8,7 @@ import com.longbro.bean.Song;
 import com.longbro.bean.SongList;
 
 public interface SongListDao {
-	public void addSongList(Map<Object, Object> map);
+	public void addSongList(SongList list);
 	
 	public List<SongList> querySongList(String id);
 

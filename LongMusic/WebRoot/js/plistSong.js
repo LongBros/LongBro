@@ -1,4 +1,5 @@
 /**
+ * 使用Ajax时的返回值类型:xml、html、script、JSON、jsonp、text
  * 4-24实现搜索时将搜索到的歌曲中的搜索关键字特殊显示
  * 4-22貌似QQ音乐限客户端的歌也可以播放（不想说再见），而网易云音乐需会员的不可以（可不可以）
  * 2019-04-20
@@ -181,10 +182,14 @@ function querySongsBySinger(){
  */
 function querySongList(list){
 	var l=list+"";
-	var title="";
-	if(l!="歌单"){//歌单由】将歌曲与歌单名区分开
-		list=l.substring(0, l.indexOf("】"));
-		title=l.substring(l.indexOf("】")+1);
+	var title="";//歌单名
+	var lid="";//歌单id
+	if(l!="歌单"){//歌单由】将歌曲与歌单名及歌单id区分开
+//		list=l.substring(0, l.indexOf("】"));
+//		title=l.substring(l.indexOf("】")+1);
+		list=l.split("】")[0];//歌单
+		title=l.split("】")[1];//歌单名
+		lid=l.split("】")[2];//歌单id
 	}else{//第一个默认选项
 		querySongs(1);
 		return;
@@ -218,7 +223,7 @@ function querySongList(list){
 //				}
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						"<td><font size='+1' onclick='showList("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
+						"<td><font size='+1' title='从\""+title+"\"移除\""+data[k].songName+"\" ' onclick='remove("+data[k].id+","+lid+")'>-</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play('"+data[k].id+"')\">"+na+"</a></td><td>"+data[k].singer+"</td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
@@ -387,12 +392,10 @@ function monitor() {
 	var per=document.getElementById("time");//
 	var pro=document.getElementById("pro");//进度条
 	var time=document.getElementById("countDown").innerText+"";
-//	alert(p.paused)
 	if(time=="0"&&p.paused==false){
 		p.pause();
 	}else if(time!="0"&&p.paused==false){
 		var left=parseInt(time)-1;
-		//alert(left);
 		document.getElementById("countDown").innerText=left+"";
 	}else if(time!="0"&&p.paused==true){
 		
@@ -407,7 +410,6 @@ function monitor() {
     //设置音乐播放进度条，和音乐已播放时长和总时长
     per.innerText=getTime(ctime)+"/"+getTime(time);
 	pro.value=(p.currentTime/p.duration*100.00);
-	//alert(sid);
 	var url="../loadLyric3.jsp?sid="+sid+"&time="+getTime(ctime)+"&type=1";
 	$.ajax({
 		type:"Get",
@@ -415,7 +417,6 @@ function monitor() {
 		url:url,
 		dataType:"text",
 		success:function(data){
-			//alert(data);
 			document.getElementById("lyric").innerHTML=data;
 		}
 	});
@@ -474,6 +475,10 @@ function add() {
 /**
  * 13.键盘监听事件
  * P键--播放/暂停，左键--上一首，右键--下一首
+ * A~G	65-71
+ * H~N	72-78
+ * O~T	79-84
+ * U~Z	85-90
  * @param event
  */
 function keydown(event) {
@@ -510,11 +515,17 @@ function keydown(event) {
 		back(1);
 	}else if(event.keyCode=="69"){//E键--快进5秒
 		moveon(1);
+	}else if(event.keyCode=="83"){//Q键--快退5秒
+		showHide();
 	}
 }
 //检测当前播放是否结束，若是，则播放下一首
 window.setInterval("monitor()", 1000);
 document.addEventListener("keydown", keydown);
+/**
+ * 设置倒计时时间
+ * @param min
+ */
 function setCount(min){
 //	alert(min);
 	var sec=60*parseInt(min);
@@ -522,7 +533,7 @@ function setCount(min){
 }
 
 /**
- * 点击新增后显示表单
+ * 点击新增后显示歌曲信息输入表单
  */
 function showAdd(){
 	var what=document.getElementById("form").style.display;
@@ -534,10 +545,10 @@ function showAdd(){
 //	document.getElementById("form").style.display="inline-block";
 }
 /**
+ * 录歌曲
  * 输入表单后异步添加歌曲
  */
 function addSong(){
-//	alert("");
 	var form=document.getElementById("form");
 	var sourceId=form.sourceId.value+"";
 	var songName=form.songName.value+"";
@@ -581,6 +592,9 @@ function addList(id){
 	i++;
 	showList();//每添加一首刷新一次播放列表
 }
+/**
+ * 刷新播放列表
+ */
 function showList(){
 	$('#plist').text('');
 	$.ajax({
@@ -626,23 +640,78 @@ function showListName(id){
  */
 function closes(){
 	document.getElementById("addSong").style.display="none";
+	document.getElementById("newList").style.display="none";
 }
+/**
+ * 添加某首歌至id为l_id的歌单
+ * @param l_id
+ */
 function addToList(l_id){
 	var id=document.getElementById("id").innerHTML;//歌曲id
 	if(l_id=="0"){//歌单id
 		addList(id);
 	}else{
 		var url="../addToList.do?sid="+id+"&lid="+l_id;
-		alert(url);
+		alert("将添加"+id+"至"+l_id);
+		$.ajax({
+			type:"Get",
+			async:false,
+			url:url,
+			dataType:"text",
+			success:function(data){
+				alert("1");
+			}
+		});
+	}
+}
+/**
+ * 从歌单移除歌曲
+ * @param id
+ * @param lid
+ */
+function remove(id,lid){
+	var r=confirm("确定从歌单"+lid+"移除"+id+"?");
+	if(r==true){
+		var url="../removeFromList.do?sid="+id+"&lid="+lid;
 		$.ajax({
 			type:"Get",
 			async:false,
 			url:url,
 			dataType:"Json",
 			success:function(data){
-				alert(data);
+				alert("已移除");
 			}
 		});
 	}
-	
+	else
+		alert("已取消");
+}
+/**
+ * 新建歌单点击函数
+ */
+function newList(){
+	document.getElementById("addSong").style.display="none";//关闭添加至歌单或播放列表的弹框
+	document.getElementById("newList").style.display="inline-block";//打开新建歌单的弹框
+//	document.getElementById("id").innerHTML=id;
+}
+/**
+ * 创建歌单
+ */
+function create(){
+	var name=document.newList.songlist.value+"";
+	var desc=document.newList.listdesc.value+"";
+	if(name==""||desc==""){
+		alert("部分信息为空");
+		return;
+	}
+	var url="../newList.do?name="+name+"&desc="+desc;
+	$.ajax({
+		type:"Get",
+		async:false,
+		url:url,
+		dataType:"Json",
+		success:function(data){
+			
+		}
+	});
 }
