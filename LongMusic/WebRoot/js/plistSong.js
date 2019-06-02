@@ -659,7 +659,7 @@ function addToList(l_id){
 			url:url,
 			dataType:"text",
 			success:function(data){
-				alert("1");
+				alert("添加成功");
 			}
 		});
 	}
