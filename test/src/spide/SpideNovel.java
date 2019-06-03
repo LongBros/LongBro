@@ -80,6 +80,8 @@ public class SpideNovel {
 		String suse="";//使用的秒数
 		long use=0;
 		Class.forName("com.mysql.cj.jdbc.Driver");
+		//serverTimezone服务器时区，UTC是统一标准世界时间。
+		//useUnicode=true&characterEncoding=utf-8解决中文乱码
 		con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/music?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC", "root", "123456");
 		ArrayList<HashMap<String, String>> list=spideList();
 		//增强for循环
