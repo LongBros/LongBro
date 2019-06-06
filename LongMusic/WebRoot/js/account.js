@@ -216,6 +216,14 @@ function addAcc(){
 	queryBill('1');
 }
 /**
+ * 清空输入框
+ */
+function clearAcc(){
+	var form=document.getElementById("form");
+	form.amount.value="";
+	form.remark.value="";
+}
+/**
  * 根据账单id编辑账单
  * @param id
  */

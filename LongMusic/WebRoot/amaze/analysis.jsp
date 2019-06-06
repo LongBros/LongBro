@@ -166,7 +166,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								success:function(data){
 									for(var i=0;i<data.length;i++){
 										$('#category').append("<tr>");
-										$('#category').append("<td>"+data[i].cate+"</td>");
+										$('#category').append("<td><a onclick=\"loadAcc('"+data[i].cate+"','"+yom+"')\">"+data[i].cate+"</a></td>");
 										$('#category').append("<td>"+data[i].amount+"</td>");
 										$('#category').append("<td>"+data[i].percent+"</td>");
 										$('#category').append("</tr>");
@@ -174,37 +174,74 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								}
 							});
 						}
+						function loadAcc(cate,yom){
+							alert("将为你加载"+yom+cate+"的账单");
+							$('#acc').text('');
+							$.ajax({
+								type:"GET",
+								url:"../queryBillBy.do?payutil=&category="+cate+"&in_out=&key=&time="+yom,
+								async:false,
+								dataType:"Json",
+								success:function(data){
+									for(var i=0;i<data.length;i++){
+										$('#acc').append("<tr>");
+										$('#acc').append("<td><a>"+data[i].time+"</a></td>");
+										$('#acc').append("<td>"+data[i].payutil+"</td>");
+										$('#acc').append("<td>"+data[i].amount+"</td>");
+										$('#acc').append("<td>"+data[i].remark+"</td>");
+										$('#acc').append("</tr>");
+									}
+								}
+							});
+						}
 					</script>
-					<input type="radio" name="yom" onclick="load('year')" checked="checked">年
-					<input type="radio" name="yom" onclick="load('month')">月
-					<table border="1">
-						<thead>
-							<tr>
-								<th>月/年收入</th>
-								<th>收入</th>
-								<th>月/年支出</th>
-								<th>支出</th>
-								<th>净收</th>
-							</tr>
-						</thead>
-						<tbody id="account">
-							
-						</tbody>
-					</table>
+					<div style="width:440px;display:inline-block">
+						<input type="radio" name="yom" onclick="load('year')" checked="checked">年
+						<input type="radio" name="yom" onclick="load('month')">月
+						<table border="1">
+							<thead>
+								<tr>
+									<th>月/年收入</th>
+									<th>收入</th>
+									<th>月/年支出</th>
+									<th>支出</th>
+									<th>净收</th>
+								</tr>
+							</thead>
+							<tbody id="account">
+								
+							</tbody>
+						</table>
+					</div>
 					
-					<table  border="1">
-						<div id="desc"></div>
-						<thead>
-							<tr>
-								<th>分类</th>
-								<th>总金额</th>
-								<th>百分比</th>
-							</tr>
-						</thead>
-						<tbody id="category">
-							
-						</tbody>
-					</table>
+					<div style="width: 170px;display:inline-block">
+						<table  border="1">
+							<div id="desc"></div>
+							<thead>
+								<tr>
+									<th>分类</th>
+									<th>总金额</th>
+									<th>百分比</th>
+								</tr>
+							</thead>
+							<tbody id="category">
+								
+							</tbody>
+						</table>
+					</div>
+					<div style="width: 500px;white-space: nowrap">
+						<table  border="1">
+							<thead>
+								<tr>
+									<th>时间</th><th>方式</th><th>金额</th><th>备注</th>
+								</tr>
+							</thead>
+							<tbody id="acc">
+								
+							</tbody>
+						</table>
+					</div>
+					
 					<div id="containe">
 						
 						

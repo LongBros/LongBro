@@ -154,8 +154,7 @@ function querySongsBySinger(){
  * 播放歌曲	
  * 1.正在播放的歌名颜色特殊（黑色）显示
  * 2.网页title改为正在播放歌曲名
- * @param name 歌曲名
- * @param sid  歌曲的资源链接
+ * @param k 歌曲的序号
  */
 function play(k) {
 //	k=parseInt(k)+1;

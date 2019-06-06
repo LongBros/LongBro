@@ -29,14 +29,12 @@ import org.jsoup.nodes.Document;
  */
 public class DownloadUtil {
 	public static void main(String[] args) {
-		writeToFile(spideLyric("84306"), "84306");
+		writeToFile(spideLyric("134606"), "134606");
 //		try {
 //			//听说你也回来过，想你的夜
-//			ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName from song where id>34");
+//			ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName from song where id=367");
 //			while(rs.next()){
-//				downloadMp3(rs.getString(1), rs.getString(2));
-//				System.out.println("\""+rs.getString(2)+"\"下载成功");
-//
+//				downloadMp3(rs.getString(1),rs.getString(2));
 //			}
 //			
 //		} catch (Exception e) {
@@ -77,12 +75,18 @@ public class DownloadUtil {
 			FileOutputStream fos=new FileOutputStream(file);
 			DataOutputStream dos=new DataOutputStream(fos);
 			int count=0;
+			String po="";
 			while((count=dis.read(b))>0){
 				fos.write(b,0,count);
 				//歌曲文件总大小
-//				System.out.println(b.length+"b");
-//				System.out.println(len+"len");
+				po=po+".";
+				if(po.length()==100){
+					System.out.println(po);
+					po="";
+				}
 			}
+			System.out.println();
+			System.out.println("下载完成");
 			dos.close();
 		} catch (Exception e) {
 			e.printStackTrace();

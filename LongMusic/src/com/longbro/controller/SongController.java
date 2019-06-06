@@ -1,6 +1,7 @@
 package com.longbro.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,7 +138,7 @@ public class SongController {
 		return song;
 	}
 	/**
-	 * 5.根据id搜索歌曲
+	 * 6.编辑歌曲
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年5月4日
@@ -167,5 +168,35 @@ public class SongController {
 		
 		return;
 	}
-	
+	/**
+	 * 7.根据播放列表中的id批量查询歌曲
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年5月4日
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping (value="queryPListSong",method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<Song> queryPListSong(HttpServletRequest request,HttpServletResponse response)
+	{	
+		ArrayList<Song> list=new ArrayList<Song>();
+		Song song;
+		String ids=request.getParameter("pList");
+		System.out.println("歌单歌曲id字符串处理前："+ids);
+		if(ids.substring(0, 1).equals(",")){//如果歌单的歌曲id字符串第一个为,则截取之
+			ids=ids.substring(1);
+		}
+		if(ids.substring(ids.length()-1).equals(",")){//如果歌单的歌曲id字符串最后一个为,则截取之
+			ids=ids.substring(0,ids.length()-1);
+		}
+		System.out.println("歌单歌曲id字符串处理后："+ids);
+		String idss[]=ids.split(",");
+		for(String id:idss){
+			song=service.querySongById(Integer.parseInt(id));
+			list.add(song);
+		}		
+		return list;
+	}
 }
