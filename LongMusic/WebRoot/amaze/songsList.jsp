@@ -231,7 +231,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  			querySongs(1);
 				   });
 			  		//加载歌单
-			  		$.ajax({
+			  		/* $.ajax({
 			  			type:"Get",
 			  			async:false,
 			  			url:"../querySongList.do",
@@ -242,7 +242,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  					$('#songLists').append("<li onclick=\"addToList('"+(k+1)+"')\">"+data[k].name+"</li>");
 			  				}
 			  			}
-			  		});
+			  		}); */
 			  </script>
             
             <div style="height:300px;position:fixed;"><!-- 播放列表，全部歌词，及其他工具 -->
