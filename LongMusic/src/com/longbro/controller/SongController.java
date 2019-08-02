@@ -81,6 +81,7 @@ public class SongController {
 	@ResponseBody
 	public List<Song> queryAllSongs(HttpServletRequest request,HttpServletResponse response)
 	{		
+		System.out.println(request.getParameter("page"));
 		List<Song> list=service.queryAllSongs(Integer.parseInt(request.getParameter("page")));
 		
 		return list;

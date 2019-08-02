@@ -18,18 +18,18 @@
 		select 
 		*
 		from song
-		where songName like concat ('%',#{key},'%')
+		where songName like concat ('%',${key},'%')
 	</select>
-	<select id="queryAllSongs"  resultType="com.longbro.bean.Song">
+	<select id="queryAllSongs"  resultType="com.longbro.bean.Song" parameterType="java.lang.Integer">
 		select 
 		*
-		from song limit #{start},50;
+		from song limit #{_parameter},50;
 	</select>
 	<select id="querySongById"  resultType="com.longbro.bean.Song">
 		select
 		* 
 		from song
-		where id=#{id}
+		where id=${id}
 	</select>
 	<select id="querySongBySId"  resultType="com.longbro.bean.Song">
 		select
@@ -42,7 +42,7 @@
 		imgPath,
 		releaseTime 
 		from song
-		where sourceId=#{sourceId}
+		where sourceId=${sourceId}
 	</select>
 	<select id="querySongsBySName"  resultType="com.longbro.bean.Song">
 		select 
