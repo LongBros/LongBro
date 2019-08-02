@@ -40,7 +40,7 @@ public class SongController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping (value="addSong",method=RequestMethod.POST)
+	@RequestMapping ("addSong")
 	@ResponseBody
 	public Result addSong(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException
 	{
@@ -55,7 +55,16 @@ public class SongController {
 		map.put("imgPath", request.getParameter("imgPath"));
 		map.put("releaseTime", request.getParameter("releaseTime"));
 		map.put("website", request.getParameter("website"));
-		map.put("desc", request.getParameter("desc"));
+		map.put("descr", request.getParameter("descr"));
+		map.put("time", request.getParameter("time"));
+		System.out.print(request.getParameter("time"));
+		Song song=service.querySongBySId(request.getParameter("sourceId"));
+		if(song!=null){
+			result.setData(null);
+			result.setMsg("库中已有该歌曲，请勿重复添加！^-^");
+			result.setResult(false);
+			return result;
+		}
 		service.addSong(map);
 //		下载歌曲
 		DownloadUtil.downloadMp3(request.getParameter("sourceId"), request.getParameter("songName"));
@@ -82,7 +91,6 @@ public class SongController {
 	public List<Song> queryAllSongs(HttpServletRequest request,HttpServletResponse response)
 	{		
 		List<Song> list=service.queryAllSongs(Integer.parseInt(request.getParameter("page")));
-		
 		return list;
 	}
 	/**
@@ -100,7 +108,6 @@ public class SongController {
 	public List<Song> querySongs(HttpServletRequest request,HttpServletResponse response)
 	{		
 		List<Song> list=service.querySongs(request.getParameter("key"));
-		
 		return list;
 	}
 	/**
@@ -117,7 +124,6 @@ public class SongController {
 	public List<Song> querySongsBySinger(HttpServletRequest request,HttpServletResponse response)
 	{		
 		List<Song> list=service.querySongsBySinger(request.getParameter("singer"));
-		
 		return list;
 	}
 	/**
@@ -151,7 +157,6 @@ public class SongController {
 	@ResponseBody
 	public void editSong(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException
 	{	
-		
 		Song song=new Song();
 		request.setCharacterEncoding("utf-8");
 		song.setId(Integer.parseInt(request.getParameter("id")));
@@ -163,7 +168,7 @@ public class SongController {
 		song.setReleaseTime(request.getParameter("releaseTime"));
 		song.setImgPath(request.getParameter("imgPath"));
 		song.setWebsite(request.getParameter("website"));
-		song.setDesc(request.getParameter("desc"));
+		song.setDesc(request.getParameter("descr"));
 		service.editSong(song);
 		
 		return;

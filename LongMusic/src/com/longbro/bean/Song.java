@@ -18,7 +18,7 @@ public class Song {
 	private String imgPath;
 	private String releaseTime;
 	private String website;
-	private String desc;
+	private String descr;
 	public String getWebsite() {
 		return website;
 	}
@@ -26,10 +26,10 @@ public class Song {
 		this.website = website;
 	}
 	public String getDesc() {
-		return desc;
+		return descr;
 	}
 	public void setDesc(String desc) {
-		this.desc = desc;
+		this.descr = desc;
 	}
 	public int getId() {
 		return id;
@@ -92,7 +92,7 @@ public class Song {
 		this.imgPath = imgPath;
 		this.releaseTime = releaseTime;
 		this.website = website;
-		this.desc = desc;
+		this.descr = desc;
 	}
 	public Song() {
 		super();

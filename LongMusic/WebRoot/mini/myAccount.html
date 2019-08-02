@@ -10,7 +10,7 @@
 <body>
     <h1>我的账单</h1>      
 
-    <div style="width:800px;">
+    <div style="width:1200px;">
         <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
             <table style="width:100%;">
                 <tr>
@@ -22,13 +22,13 @@
                    
                 </tr>
                 <tr>
-                	 <td>
+                	 <td  style="white-space:nowrap;">
                 	 	<input name="payutil" id="payutil" class="mini-combobox" style="width:100px;" emptytext="请选择方式" 
                 	 	valuefield="value" textField="name" showNullItem="true"
                 	 	data="[{'name':'微信钱包','value':'微信钱包'},{'name':'支付宝','value':'支付宝'}]"
                 	 	/>
                 	 </td>
-                	 <td>
+                	 <td  style="white-space:nowrap;">
                 	 	<input name="in_out" id="in_out" class="mini-combobox" style="width:100px;" emptytext="请选择支/收"
                 	 	valuefield="value" textField="name" showNullItem="true"
                 	 	data="[{'name':'支出','value':'支出'},{'name':'收入','value':'收入'}]"
@@ -41,8 +41,13 @@
                 	 	data=""
                 	 	/>
                 	 </td>
-                	 <td>
-                	 	<input name="date" id="date" class="mini-datepicker" style="width:120px;" emptytext="请选择"/>
+                	 <td style="white-space:nowrap;">
+                        <input id="amountFrom" class="mini-textbox" emptyText="" style="width:50px;" onenter="onKeyEnter"/>   
+                        -<input id="amountTo" class="mini-textbox" emptyText="" style="width:50px;" onenter="onKeyEnter"/>   
+                    </td>
+                	 <td style="white-space:nowrap;">
+                	 	<input name="dateFrom" id="dateFrom" class="mini-datepicker" style="width:120px;" emptytext="请选择"/>
+                	 	-<input name="dateTo" id="dateTo" class="mini-datepicker" style="width:120px;" emptytext="请选择"/>
                 	 </td>
                 	 <!-- <td>
                 	 	<input name="year" class="mini-combobox" style="width:80px;" emptytext="请选择"
@@ -70,27 +75,26 @@
             </table>           
         </div>
     </div>
-    <div id="datagrid1" class="mini-datagrid" style="width:800px;height:280px;" allowResize="true"
-        url="../queryAllBill1.do"  idField="id" multiSelect="true" sizeList="[20,50,100,200]">
+    <div id="datagrid1" class="mini-datagrid" 
+    	style="width:1200px;height:440px;" allowResize="true"
+        url="../queryAllBill1.do"  
+        idField="id" pageSize="100" 
+        multiSelect="true" sizeList="[20,50,100,200]"
+    >
         <div property="columns">
             <!--<div type="indexcolumn"></div>        -->
             <div type="checkcolumn" ></div>        
             <div field="id" width="56" headerAlign="center" allowSort="true">id</div>    
             <div field="payutil" width="88" headerAlign="center">支付方式</div>    
-            
             <div field="in_out" width="66">支出</div>
             <div field="cate" width="88">分类</div>
             <div field="amount" dataType="currency" currencyUnit="￥" align="right" width="66" allowSort="true">金额</div>
              <div field="remark"  align="right" width="200">备注</div>
             <div field="time" width="100" headerAlign="center" dateFormat="yyyy-MM-dd" allowSort="true">时间</div>    
-           
         </div>
     </div>
-    
-
     <script type="text/javascript">
         mini.parse();
-
         var grid = mini.get("datagrid1");
         grid.load();
         grid.sortBy("id", "desc");
@@ -98,7 +102,7 @@
         function ajaxCate(){
 			var ino=mini.get("in_out").getValue()+"";
 			var cate=mini.get("cate");
-			var dataO="[{'name':'交通','value':'交通'},{'name':'早餐','value':'早餐'},{'name':'午餐','value':'午餐'},{'name':'晚餐','value':'晚餐'},{'name':'生活','value':'生活'},{'name':'话费','value':'话费'},{'name':'娱乐','value':'娱乐'},{'name':'日常','value':'日常'},{'name':'她们','value':'她们'},{'name':'零食','value':'零食'},{'name':'饮料','value':'饮料'},{'name':'服装','value':'服装'},{'name':'学习','value':'学习'}]";
+			var dataO="[{'name':'交通','value':'交通'},{'name':'早餐','value':'早餐'},{'name':'午餐','value':'午餐'},{'name':'晚餐','value':'晚餐'},{'name':'生活','value':'生活'},{'name':'话费','value':'话费'},{'name':'住','value':'住'},{'name':'娱乐','value':'娱乐'},{'name':'日常','value':'日常'},{'name':'她们','value':'她们'},{'name':'零食','value':'零食'},{'name':'饮料','value':'饮料'},{'name':'服装','value':'服装'},{'name':'学习','value':'学习'}]";
 			var dataI="[{'name':'刷单','value':'刷单'},{'name':'工资','value':'工资'},{'name':'兼职','value':'兼职'},{'name':'软件','value':'软件'},{'name':'代缴电费','value':'代缴电费'},{'name':'其他','value':'其他'}]";//"刷单","工资","兼职","软件","代缴电费","其他"
 			if(ino.match("支出")){
 				cate.setData(dataO);
@@ -173,10 +177,17 @@
         	var payutil=mini.get("payutil").getValue();
         	var in_out= mini.get("in_out").getValue();
         	var category= mini.get("cate").getValue();
-        	var date= mini.get("date").getValue();
+        	var amountFrom = mini.get("amountFrom").getValue();
+        	var amountTo = mini.get("amountTo").getValue();
+
+        	var dateFrom= mini.get("dateFrom").getValue();
+        	var dateTo= mini.get("dateTo").getValue();
             var key = mini.get("key").getValue();
-            //alert(date);
-            grid.load({payutil:payutil,in_out:in_out,category:category, key: key });
+            grid.load(
+            		{payutil:payutil,in_out:in_out,category:category,
+            			amountFrom:amountFrom,amountTo:amountTo, 
+            			dateFrom:dateFrom,dateTo:dateTo,key: key }
+            		);
         }
         function onKeyEnter(e) {
             search();

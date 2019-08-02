@@ -2,8 +2,8 @@
 
 mini_debugger = true;                                           //
 
-var skin = getCookie("miniuiSkin") || 'cupertino';             //skin cookie   cupertino
-var mode = getCookie("miniuiMode") || 'medium';                 //mode cookie     medium     
+var skin = getCookie("miniuiSkin") || 'metro-orange';             //skin cookie   cupertino
+var mode = getCookie("miniuiMode") || 'large';                 //mode cookie     medium     
 
 //miniui
 document.write('<script src="' + bootPATH + 'jquery.min.js" type="text/javascript"></sc' + 'ript>');

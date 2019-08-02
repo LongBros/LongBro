@@ -23,6 +23,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="stylesheet" href="../assets/css/admin.css">
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/plistSong.js"></script>
+  <script type="text/javascript" src="../js/timeDeal.js"></script>
+  <style type="text/css">
+  	Body { 
+		scrollbar-arrow-color: #f4ae21; 
+		scrollbar-face-color: #333; 
+		scrollbar-3dlight-color: #666; 
+		scrollbar-highlight-color: #666; 
+		scrollbar-shadow-color: #999; 
+		scrollbar-darkshadow-color: #666; 
+		scrollbar-track-color: #666; 
+	} 
+  </style>
+  
 </head>
 <body id="body" background="https://y.gtimg.cn/music/photo_new/T002R300x300M000001BA0x61Hh7AR.jpg?max_age=2592000">
 <!--[if lte IE 9]>
@@ -105,7 +118,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="admin-content">
     <div class="admin-content-body">
       <div class="am-cf am-padding am-padding-bottom-0">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">音乐列表</strong> / <small>553音乐</small>&emsp;<span style="color: red" id="countDown">1200</span>s后暂停音乐&emsp;&emsp;&emsp;</div>
+        <div class="am-fl am-cf">
+	        <strong class="am-text-primary am-text-lg">音乐列表</strong> / 
+	        <small>553音乐</small>&emsp;
+	        <span style="color: red" id="countDown">86400</span>s后暂停音乐&emsp;&emsp;&emsp;
+	        <span id="timer">24:00:00</span>
+	       	 当前时间：<span id="nowTime"></span>
+        </div>
 			 <div class="am-form-group">
 		                      定时关歌:<select data-am-selected="{btnSize: 'sm'}" id="searCate" onchange="setCount(options[selectedIndex].value)">
 		              <option value="5">5分钟</option>
@@ -139,9 +158,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </div>
         </div>
       </div>
-      <div>
-		  <form id="form" style="display: none">
-		  		&nbsp;&emsp;
+      <!-- <div id="insertSong" style="position:fixed;overflow:scroll;background:gray;right:450px;top:200px;width:220px;height:350px;display: none">
+		 <span onclick="closes()" style="color:white;margin-left: 180px;">X</span>
+		 新增歌曲 -->
+		  
+		  <form id="form" style="display:none">
 		  		<input type="text" name="sourceId" placeholder="资源id">
 		  		<input type="text" name="songName" placeholder="歌曲名">
 		  		<input type="text" name="singer" placeholder="歌手">
@@ -152,11 +173,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  		<select name="website">
 		  			<option value="网易云音乐">网易云音乐</option>
 		  			<option value="QQ音乐">QQ音乐</option>
+		  			<option value="酷我音乐">酷我音乐</option>
 		  		</select>
-		  		<input type="text" name="desc" placeholder="描述">
+		  		<input type="text" name="descr" placeholder="描述">
 		  		<input type="text" name="time" value="<%=TimeUtil.time()%>">
 		  </form>
-		  </div>
+		  <!-- </div> -->
          <br>
         <div class="am-u-sm-12 am-u-md-3">
           <div class="am-input-group am-input-group-sm">
@@ -187,7 +209,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <select onchange="querySongs(options[selectedIndex].value)">
               <option value='0'>页码</option>
               	<%
-              	for(int i=1;i<=8;i++){
+              	for(int i=1;i<=10;i++){
               		out.write("<option value='"+i+"'>&emsp;"+i+"</option>");
               	}
                %>
@@ -200,7 +222,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <table class="am-table am-table-striped am-table-hover table-main">
               <thead>
               <tr><!-- <th class="table-id">ID</th> -->
-                <th class="table-check"><input type="checkbox"/></th><th class="table-id">ID</th><th class="table-payutil">歌曲名</th><th class="table-inout">歌手</th><th class="table-cate am-hide-sm-only">时长</th><th class="table-amount am-hide-sm-only">专辑</th><th class="table-remark am-hide-sm-only">发行时间</th><th class="table-time am-hide-sm-only">网站</th><th class="table-set">操作</th>
+                <th class="table-check"><input type="checkbox"/></th><th class="table-id">ID</th><th class="table-payutil">歌曲名</th>
+                <th class="table-inout">歌手</th><th class="table-cate am-hide-sm-only">时长</th><th class="table-amount am-hide-sm-only">专辑</th>
+                <th class="table-remark am-hide-sm-only">发行时间</th><th class="table-time am-hide-sm-only">源网站</th><th class="table-set">操作</th>
               </tr>
               </thead>
               
@@ -215,17 +239,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             
             <hr/>
             <!-- 单句歌词 -->
-            <center><span id="lyric" style="color: green;font-size:35px;position:fixed;top:110px;right:466px;"></span></center>
-            <div id="addSong" style="position:fixed;overflow:scroll;background:gray;right:450px;top:310px;width:200px;height:200px;display: none">
+            <center>
+            	<img alt="" id="singer" src="../image/singer2.jpg" style="height:100px;position:fixed;top:90px;right:306px;">
+            	<span id="lyric" style="color: green;font-size:35px;position:fixed;top:110px;right:446px;"></span>
+            </center>
+            <!-- 点击歌添加歌曲至歌单 -->
+            <div id="addSong" style="position:fixed;overflow:scroll;background:gray;right:450px;top:200px;width:220px;height:350px;display: none">
             	<span style="display: none" id="id"></span>
             	<span onclick="closes()" style="color:white;margin-left: 180px;">X</span>
             	<span onclick="newList()">新建歌单</span><br>
-            	添加至<br>
+            	添加<span id="songName"></span>至<br>
             	<ul id="songLists">
             		<li onclick="addToList('0')">播放列表</li>
             	</ul>
             </div>
-            
+            <!-- 点击歌添加歌曲至歌单 -->
             <script type="text/javascript">
 			  		$(function(){
 			  			querySongs(1);
@@ -248,12 +276,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div style="height:300px;position:fixed;"><!-- 播放列表，全部歌词，及其他工具 -->
             	<!-- 播放列表，全部歌词 -->
             	<div id="plistAalrc" style="background:gray;position:fixed;bottom:40px;cursor: pointer;display:none;margin-left: 5px;">
-	          	 <div style="color:white;margin-left:20px;width:500px;height:250px;overflow:scroll;float:left" id="plist">
+	          	 <div style="color:white;margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:left" id="plist">
 	          	 	 <table>
 	          	 	 	
 	          	 	 </table>
 	          	 </div>
-	          	 <div style="color:white;margin-left:20px;width:500px;height:250px;overflow:scroll;float:right" id="alyric"></div>
+	          	 <div id="alyric" style="color:white;background-image:url(../image/artist/me.jpg);background-size:240px 250px; margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:right"></div>
        		  </div>
        		  <!-- 播放列表，全部歌词 -->
        		  <!-- 其他工具：上一曲，下一曲，播放暂停，进度条，音量加减，播放列表显示与隐藏按钮 -->

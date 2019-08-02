@@ -10,7 +10,6 @@
 <%@page import="java.io.FileOutputStream"%>
 <%@page import="java.io.File"%>
 <!-- 加载歌词 -->
-
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -96,7 +95,11 @@ if(request.getParameter("type").equals("1")){//加载单句歌词
 			
 		}
 	}
-    out.println(l);
+	if(l.length()>100){//较长时，使用流水灯
+	    out.println("<marquee>"+l+"</marquee>");
+	}else{
+	    out.println(l);
+	}
 }else{//加载所有歌词
 	if(sid.contains(".html")){//QQ音乐的歌词
 		sid=sid.substring(0, sid.indexOf(".html"));
@@ -134,6 +137,4 @@ if(request.getParameter("type").equals("1")){//加载单句歌词
 		}
 	}
 }
-
-
 %>
