@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +20,8 @@ import java.sql.Statement;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import com.sun.star.setup.CopyFileAction;
+
 /**
  * 下载mp3歌曲
  * @author 赵成龙
@@ -29,12 +32,12 @@ import org.jsoup.nodes.Document;
  */
 public class DownloadUtil {
 	public static void main(String[] args) {
-		writeToFile(spideLyric("134606"), "134606");
+		writeToFile(spideLyric("526464145"), "526464145");
 //		try {
 //			//听说你也回来过，想你的夜
-//			ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName from song where id=367");
+//			ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName from song where id=476");
 //			while(rs.next()){
-//				downloadMp3(rs.getString(1),rs.getString(2));
+//				downloadMp3(rs.getString("sourceId"),rs.getString("songName"));
 //			}
 //			
 //		} catch (Exception e) {
@@ -73,7 +76,7 @@ public class DownloadUtil {
 			File file=new File("D:/apache-tomcat-8.5.35/webapps/util/songs/"+songName+".mp3");
 			file.createNewFile();
 			FileOutputStream fos=new FileOutputStream(file);
-			DataOutputStream dos=new DataOutputStream(fos);
+//			DataOutputStream dos=new DataOutputStream(fos);
 			int count=0;
 			String po="";
 			while((count=dis.read(b))>0){
@@ -85,13 +88,36 @@ public class DownloadUtil {
 					po="";
 				}
 			}
-			System.out.println();
-			System.out.println("下载完成");
-			dos.close();
+			System.out.println("下载完成至"+file.getAbsolutePath());
+			copyFile(songName, file,len);
+			fos.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+	}
+	/**
+	 * 把路径为fPath的文件复制到
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年7月25日
+	 * @param 文件名-原文件-文件流长度
+	 */
+	public static void copyFile(String name,File file,int length){
+		try {
+			byte b[]=new byte[length];//缓冲数组
+			int len;
+			FileInputStream fis=new FileInputStream(file);
+			FileOutputStream fos=new FileOutputStream(new File("F:/Music/songs/"+name+".mp3"));
+			while((len=fis.read(b))!=-1){
+				fos.write(b,0,len);
+			}
+			System.out.println("文件已复制到"+"F:/Music/songs/"+name+".mp3");
+			fis.close();fos.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * 

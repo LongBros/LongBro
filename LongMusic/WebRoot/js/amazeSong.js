@@ -234,14 +234,14 @@ function next(){
 	if(mode=="order"){
 		var now=parseInt(nowplay);
 		//判断当前播放是否为最后一曲，若是，则播放第一曲，反之，播放下一曲
-		if(now>338){
+		if(now>416){
 			now=0;
 		}else{
 			now=now+1;
 		}
 	}else if(mode=="random"){//随机播放
 		//产生一个歌曲数量以内的随机数，作为歌曲索引播放			
-		now=Math.round(Math.random()*(338-1-0)+0); 
+		now=Math.round(Math.random()*(416-1-0)+0); 
 	}else{//单曲循环
 		now=parseInt(nowplay);
 	}
@@ -258,13 +258,13 @@ function preview(){
 		var now=parseInt(nowplay);//当前播放序号转为整型
 		//若当前播放不为第一首，点击上一首将当前播放序号指向歌曲数量-1，反之将当前播放指向当前播放-1
 		if(now==0){
-			now=338;
+			now=416;
 		}else{
 			now=now-1;	
 		}
 	}else if(mode=="random"){//随机播放
 		//产生一个歌曲数量以内的随机数，作为歌曲索引播放			
-		now=Math.round(Math.random()*(338-1-0)+0); 
+		now=Math.round(Math.random()*(416-1-0)+0); 
 	}else{
 		now=parseInt(nowplay);
 	}

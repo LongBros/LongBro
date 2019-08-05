@@ -37,7 +37,8 @@ public class DateUtil {
     	String year=ss[3];
 //    	System.out.println(year);
     	String time=ss[4];
-    	return year+"-"+mon+"-"+day+" "+time;
+//    	return year+"-"+mon+"-"+day+" "+time;
+    	return year+"-"+mon+"-"+day;
     }
   
     public static void main(String[] args) {

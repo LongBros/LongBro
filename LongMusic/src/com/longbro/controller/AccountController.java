@@ -2,8 +2,10 @@ package com.longbro.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,20 +88,32 @@ public class AccountController {
 	@RequestMapping(value="queryAllBill1",method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap queryAllBill1(HttpServletRequest request,HttpServletResponse response){
-		
+		HashMap<String, String> mapPara=new HashMap<String, String>();
 		String payutil=request.getParameter("payutil");
-		if(StringUtils.isEmpty(payutil))
-			payutil=null;
-		String category=request.getParameter("category");
-		if(StringUtils.isEmpty(category))
-			category=null;
+		mapPara.put("payutil", payutil);
 		String in_out=request.getParameter("in_out");
-		if(StringUtils.isEmpty(in_out))
-			in_out=null;
+		mapPara.put("in_out", in_out);
+		String category=request.getParameter("category");
+		mapPara.put("category", category);
+		String amountFrom=request.getParameter("amountFrom");
+		mapPara.put("amountFrom", amountFrom);
+		String amountTo=request.getParameter("amountTo");
+		mapPara.put("amountTo", amountTo);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String dateFrom=request.getParameter("dateFrom");//Sat Jun 29 2019 00:00:00 GMT 0800 (中国标准时间)
+		if(StringUtils.isEmpty(dateFrom))
+			dateFrom=null;
+		else
+			dateFrom=DateUtil.formatDate(dateFrom);
+		mapPara.put("dateFrom", dateFrom);
+		String dateTo=request.getParameter("dateTo");
+		if(StringUtils.isEmpty(dateTo))
+			dateTo=null;
+		else
+			dateTo=DateUtil.formatDate(dateTo);
+		mapPara.put("dateTo", dateTo);
 		String key=request.getParameter("key");
-		if(StringUtils.isEmpty(key)){
-			key="";
-		}
+		mapPara.put("key", key);
 		String pageIndex=request.getParameter("pageIndex");
 		if(StringUtils.isEmpty(pageIndex)){
 			pageIndex="0";
@@ -110,7 +124,7 @@ public class AccountController {
 		System.out.println("页码："+pageIndex);System.out.println("总页数："+pageSize);
 		System.out.println("排序:"+sortField);System.out.println("升/序:"+sortOrder);
 		HashMap map=new HashMap();
-		List<Account> list=service.queryAllBill1(pageIndex,pageSize,sortField,sortOrder,payutil,in_out,category,key);
+		List<Account> list=service.queryAllBill1(pageIndex,pageSize,sortField,sortOrder,mapPara);
 		map.put("data", list);
 		int num=service.queryNum(key);
 		map.put("total", num);

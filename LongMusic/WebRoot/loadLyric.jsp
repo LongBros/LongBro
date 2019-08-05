@@ -20,10 +20,11 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 String name=request.getParameter("name");
-System.out.println(name);
+//System.out.println(name);
 name=URLDecoder.decode(name,"utf-8");
 String time=request.getParameter("time");
 String type=request.getParameter("type");
+System.out.println(name);
 if(type.equals("1")){//monitor函数中调用，当前播放歌词
 	try{
 		File file=new File("E:/AAAA/lyric/Time_"+name+".txt");

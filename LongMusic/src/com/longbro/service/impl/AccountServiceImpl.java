@@ -31,9 +31,9 @@ public class AccountServiceImpl implements AccountService{
 	}
 	@Override
 	public List<Account> queryAllBill1(String pageIndex, String pageSize,
-			String sortField, String sortOrder,String payutil,String in_out,String category,String key) {
+			String sortField, String sortOrder,HashMap<String, String> map) {
 		// TODO Auto-generated method stub
-		return dao.queryAllBill1(pageIndex, pageSize, sortField, sortOrder,payutil,in_out,category,key);
+		return dao.queryAllBill1(pageIndex, pageSize, sortField, sortOrder,map);
 	}
 	@Override
 	public List<Account> queryBillBy(Account acc) {

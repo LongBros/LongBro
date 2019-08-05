@@ -134,7 +134,7 @@ function queryBillBy(){
  * @param type type="add"时是切换新增的，type="search"时是切换搜索的
  */
 function setCate(type){
-	var paycate=new Array("交通","早餐","午餐","晚餐","生活","话费","娱乐","日常","她们","零食","饮料","服装","学习");
+	var paycate=new Array("交通","早餐","午餐","晚餐","生活","话费","住","娱乐","日常","她们","零食","饮料","服装","学习");
 	var incate=new Array("刷单","工资","兼职","软件","代缴电费","其他");
 	if(type=="add"){
 		$("#category").text('');
