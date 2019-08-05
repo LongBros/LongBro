@@ -59,6 +59,7 @@
 <body style="background:pink;" id="body">    
      <center>
 		<div class="remark">打卡时间：<span style="color:red;">08:20</span>、<span style="color:red;">14:30</span>、<span style="color:red;">17:30</span></div>
+		<div class="remark">我的打卡时间：<span style="color:red;">09:00前</span>、<span style="color:red;">18:00后</span></div>
 		<img id="smilePic" src="picture/smile1.png"><div class="praise"><img id="heart" src="picture/heart.png">加油哟，你最棒啦!<img id="hug" src="picture/hug.png"></div>
 		<div id="time"></div>
 	 </center>
@@ -93,17 +94,19 @@
 			var num=random(senN.length-1);
 			song.src="https://link.hhtjim.com/163/"+songs[2]+".mp3";
 			alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senN[num]);
-		}else if(time1=="14:13:45"){//中午打卡时间
+		}else if(time1=="14:15:45"){//中午打卡时间
 			var num=random(senA.length-1);
 			song.src="https://link.hhtjim.com/163/"+songs[4]+".mp3";
 			alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senA[num]);
 		}else if(time1=="08:10:00"){//早上打卡时间
 			var num=random(senA.length-1);
 			alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senM[num]);
-		}else if(time1=="12:59:20"){
-			//到时间自动播放
-			
+		}else if(time1=="08:50:00"){//我的上班卡
 			song.src="https://link.hhtjim.com/163/"+songs[2]+".mp3";
+			alert("你该打上班卡啦！")
+		}else if(time1=="18:10:00"){//我的下班卡
+			song.src="https://link.hhtjim.com/163/"+songs[2]+".mp3";
+			alert("你该打下班卡啦！")
 		}
    		document.getElementById("time").innerText=time;
 		
