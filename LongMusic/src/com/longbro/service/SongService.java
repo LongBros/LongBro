@@ -14,6 +14,6 @@ public interface SongService {
 	public List<Song> queryAllSongs(int page);
 	public Song querySongBySName(String key);
 	public List<Song> querySongsBySinger(String singer);
-	
+	public List<Song> querySongsByLyric(String key);
 	public void editSong(Song song);
 }

@@ -54,7 +54,12 @@ public class SongDaoImpl extends BaseDao implements SongDao{
 		List<Song> list=(List<Song>)this.selectList("com.longbro.bean.song.querySongsBySinger",singer);
 		return list;
 	}
-	
+	@Override
+	public List<Song> querySongsByLyric(String key) {
+		List<Song> list=(List<Song>)this.selectList("com.longbro.bean.song.querySongsByLyric",key);
+		// TODO Auto-generated method stub
+		return list;
+	}
 	@Override
 	public void editSong(Song song) {
 		// TODO Auto-generated method stub

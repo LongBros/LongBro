@@ -19,17 +19,12 @@ public class Song {
 	private String releaseTime;
 	private String website;
 	private String descr;
+	private String lyric;
 	public String getWebsite() {
 		return website;
 	}
 	public void setWebsite(String website) {
 		this.website = website;
-	}
-	public String getDesc() {
-		return descr;
-	}
-	public void setDesc(String desc) {
-		this.descr = desc;
 	}
 	public int getId() {
 		return id;
@@ -78,6 +73,19 @@ public class Song {
 	}
 	public void setReleaseTime(String releaseTime) {
 		this.releaseTime = releaseTime;
+	}
+	
+	public String getDescr() {
+		return descr;
+	}
+	public void setDescr(String descr) {
+		this.descr = descr;
+	}
+	public String getLyric() {
+		return lyric;
+	}
+	public void setLyric(String lyric) {
+		this.lyric = lyric;
 	}
 	public Song(int id, String sourceId, String songName, String singer,
 			String duration, String album, String imgPath, String releaseTime,

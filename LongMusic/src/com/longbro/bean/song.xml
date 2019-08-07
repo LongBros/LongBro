@@ -56,6 +56,12 @@
 		from song
 		where singer like concat ('%',#{singer},'%')<!-- where singer=#{singer} -->
 	</select>
+	<select id="querySongsByLyric"  resultType="java.util.HashMap">
+		select 
+		*
+		from song
+		where lyric like concat ('%',#{key},'%')
+	</select>
 	<update id="editSong" parameterType="com.longbro.bean.Song">
 		update song set 
 		sourceId=#{sourceId},
@@ -66,7 +72,8 @@
 		imgPath=#{imgPath},
 		releaseTime=#{releaseTime},
 		website=#{website},
-		descr=#{descr}
+		descr=#{descr},
+		lyric=#{lyric}
 		where id=#{id}
 	</update>
 </mapper>

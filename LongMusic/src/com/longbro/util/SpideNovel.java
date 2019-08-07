@@ -17,13 +17,21 @@ import java.util.HashMap;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
+/**
+ * 1.爬取某本小说的所有章节2.爬取某一章节的内容
+ * 3.将小说保存至数据库4.将小说保存至文件
+ * @author 赵成龙
+ * @website www.longqcloud.cn & www.zy52113.com
+ * @date 2019年8月3日 下午2:08:32
+ * @description
+ * @version
+ */
 public class SpideNovel {
 	static Connection con=null;
 	static PreparedStatement ps=null;
 	static Statement st=null;
 	/**
-	 * 爬取某本小说的所有章节
+	 * 1.爬取某本小说的所有章节
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年6月3日
@@ -55,7 +63,7 @@ public class SpideNovel {
 		return list;
 	}
 	/**
-	 * 爬取某一章节的内容
+	 * 2.爬取某一章节的内容
 	 * @date 2019年6月3日
 	 * @time 上午11:45:49
 	 * @author zcl
@@ -74,7 +82,7 @@ public class SpideNovel {
 		return chapterCon;
 	}
 	/**
-	 * 将小说保存至数据库
+	 * 3.将小说保存至数据库
 	 * @date 2019年6月3日
 	 * @time 上午11:45:56
 	 * @author zcl
@@ -113,7 +121,7 @@ public class SpideNovel {
 		}*/
 	}
 	/**
-	 * 将小说保存至文件
+	 * 4.将小说保存至文件
 	 * @date 2019年6月3日
 	 * @time 上午11:45:08
 	 * @author zcl

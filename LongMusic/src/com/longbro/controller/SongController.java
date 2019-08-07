@@ -127,6 +127,44 @@ public class SongController {
 		return list;
 	}
 	/**
+	 * 根据歌词搜索歌曲
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年8月5日
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping (value="querySongsByLyric",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Song> querySongsByLyric(HttpServletRequest request,HttpServletResponse response)
+	{		
+		List<Song> list=service.querySongsBySinger(request.getParameter("key"));
+		return list;
+	}
+	/**
+	 * 强力搜索功能-根据关键词同时搜索歌曲名、歌手、歌词
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年8月5日
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping (value="strongQuerySongs",method=RequestMethod.GET)
+	@ResponseBody
+	public List<List<Song>> strongQuerySongs(HttpServletRequest request,HttpServletResponse response)
+	{		
+		List<Song> listSongs=service.querySongs(request.getParameter("key"));
+		List<Song> listSinger=service.querySongsBySinger(request.getParameter("key"));
+		List<Song> listLyric=service.querySongsByLyric(request.getParameter("key"));
+		List<List<Song>> ls=new ArrayList<List<Song>>();
+		ls.add(listSongs);
+		ls.add(listSinger);
+		ls.add(listLyric);
+		return ls;
+	}
+	/**
 	 * 5.根据id搜索歌曲
 	 * @desc 
 	 * @author zcl
@@ -139,6 +177,7 @@ public class SongController {
 	@ResponseBody
 	public Song querySongById(HttpServletRequest request,HttpServletResponse response)
 	{		
+		System.out.println(request.getParameter("id"));
 		Song song=service.querySongById(Integer.parseInt(request.getParameter("id")));
 		
 		return song;
@@ -168,7 +207,8 @@ public class SongController {
 		song.setReleaseTime(request.getParameter("releaseTime"));
 		song.setImgPath(request.getParameter("imgPath"));
 		song.setWebsite(request.getParameter("website"));
-		song.setDesc(request.getParameter("descr"));
+		song.setDescr(request.getParameter("descr"));
+		song.setLyric(request.getParameter("lyric"));
 		service.editSong(song);
 		
 		return;

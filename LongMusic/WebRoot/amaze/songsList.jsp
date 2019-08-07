@@ -184,11 +184,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="am-input-group am-input-group-sm">
               <input type="text" id="key" class="am-form-field">
 	          <span class="am-input-group-btn">
+	            	<button class="am-btn am-btn-default" type="button" onclick="strongQuerySongs()">强力搜索</button>
+	          </span>
+	          <!-- <span class="am-input-group-btn">
 	            	<button class="am-btn am-btn-default" type="button" onclick="querySongsByKey()">歌曲</button>
 	          </span>
 	          <span class="am-input-group-btn">
 	               <button class="am-btn am-btn-default" type="button" onclick="querySongsBySinger()">歌手</button>
-	          </span>
+	          </span> -->
           </div>
         </div>
         <!-- 新建歌单 -->
@@ -209,7 +212,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <select onchange="querySongs(options[selectedIndex].value)">
               <option value='0'>页码</option>
               	<%
-              	for(int i=1;i<=10;i++){
+              	for(int i=1;i<=11;i++){
               		out.write("<option value='"+i+"'>&emsp;"+i+"</option>");
               	}
                %>
@@ -232,7 +235,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                
               </tbody>
             </table>
-            
+           	 <div id="nums"></div>
 			  <audio id="audio" style="display:none;" controls="controls"
   			 		src="http://music.163.com/song/media/outer/url?id=486814412.mp3">
 			  </audio>
@@ -281,7 +284,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          	 	 	
 	          	 	 </table>
 	          	 </div>
-	          	 <div id="alyric" style="color:white;background-image:url(../image/artist/me.jpg);background-size:240px 250px; margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:right"></div>
+	          	 <div id="alyric" style="color:white;background-image:url(../image/artist/me080502.jpg);background-size:240px 250px; margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:right"></div>
        		  </div>
        		  <!-- 播放列表，全部歌词 -->
        		  <!-- 其他工具：上一曲，下一曲，播放暂停，进度条，音量加减，播放列表显示与隐藏按钮 -->

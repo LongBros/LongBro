@@ -44,6 +44,10 @@ public class SongServiceImpl implements SongService{
 		return dao.querySongBySName(key);
 	}
 	@Override
+	public List<Song> querySongsByLyric(String key){
+		return dao.querySongsByLyric(key);
+	}
+	@Override
 	public List<Song> querySongsBySinger(String singer) {
 		// TODO Auto-generated method stub
 		return dao.querySongsBySinger(singer);
