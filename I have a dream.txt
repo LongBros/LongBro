@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 file:///D:/my/longbro/index.html
 D:\apache-tomcat-8.5.35\webapps\util\songs
 8-03&8-04
 简单拜读了《深入理解java虚拟机》的第二章和第三章
 
+=======
+轻易不言爱，既然爱了，就会是一辈子，爱是一种责任。 
+>>>>>>> cf4da6446975b4966a570ffc30e525716934ab87
 
 做东西？or	学新东西底层东西？
 

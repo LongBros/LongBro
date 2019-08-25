@@ -32,10 +32,10 @@ import com.sun.star.setup.CopyFileAction;
  */
 public class DownloadUtil {
 	public static void main(String[] args) {
-		writeToFile(spideLyric("63650"), "63650");
+		writeToFile(spideLyric("26319456"), "26319456");
 //		try {
 //			//听说你也回来过，想你的夜
-//			ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName from song where id=485");
+//			ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName from song where id=543");
 //			while(rs.next()){
 //				downloadMp3(rs.getString("sourceId"),rs.getString("songName"));
 //			}
@@ -66,7 +66,7 @@ public class DownloadUtil {
 		}else if(sourceId.substring(sourceId.length()-4).equals(".mp3")){//我的服务器
 			url=sourceId;
 		}else{//网易云音乐
-			url="http://music.163.com/song/media/outer/url?id="+sourceId+".mp3";
+			url="http://link.hhtjim.com/163/"+sourceId+".mp3";
 			fName=sourceId;
 		}
 		try {

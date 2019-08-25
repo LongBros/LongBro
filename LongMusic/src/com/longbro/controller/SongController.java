@@ -244,4 +244,12 @@ public class SongController {
 		}		
 		return list;
 	}
+	
+	@RequestMapping (value="queryHotSongs",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Song> queryHotSongs(HttpServletRequest request,HttpServletResponse response)
+	{		
+		List<Song> list=service.queryHotSongs(Integer.parseInt(request.getParameter("num")));
+		return list;
+	}
 }

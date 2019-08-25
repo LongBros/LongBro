@@ -58,4 +58,9 @@ public class SongServiceImpl implements SongService{
 		// TODO Auto-generated method stub
 		dao.editSong(song);
 	}
+	@Override
+	public List<Song> queryHotSongs(int num) {
+		// TODO Auto-generated method stub
+		return dao.queryHotSongs(num);
+	}
 }

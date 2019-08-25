@@ -16,13 +16,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <link rel="icon" type="image/png" href="../assets/i/favicon.png">
+  <link rel="icon" type="image/png" href="../image/logo/dlam.jpg">
   <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
   <meta name="apple-mobile-web-app-title" content="Amaze UI" />
   <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
   <link rel="stylesheet" href="../assets/css/admin.css">
   <script type="text/javascript" src="../js/jquery.js"></script>
-  <script type="text/javascript" src="../js/amazeSong.js"></script>
 </head>
 <body>
 <!--[if lte IE 9]>
@@ -88,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <div class="am-panel am-panel-default admin-sidebar-panel">
         <div class="am-panel-bd">
           <p><span class="am-icon-bookmark"></span> 公告</p>
-          <p>时光静好，与君语；细水流年，与君同。—— LongBro</p>
+          <p>我是一条亟待翻身的咸鱼。—— LongBro</p>
         </div>
       </div>
 

@@ -16,14 +16,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <link rel="icon" type="image/png" href="../assets/i/favicon.png">
+  <link rel="icon" type="image/png" href="../image/logo/dlam.jpg">
   <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
   <meta name="apple-mobile-web-app-title" content="Amaze UI" />
   <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
   <link rel="stylesheet" href="../assets/css/admin.css">
   <script type="text/javascript" src="../js/jquery.js"></script>
-  <script type="text/javascript" src="../js/plistSong.js"></script>
-  <script type="text/javascript" src="../js/timeDeal.js"></script>
+  <script type="text/javascript" src="../js/myjs/player.js"></script>
+  <script type="text/javascript" src="../js/myjs/comment.js"></script>
+  <script type="text/javascript" src="../js/myjs/plist.js"></script>
+  <script type="text/javascript" src="../js/myjs/timeDeal.js"></script>
   <style type="text/css">
   	Body { 
 		scrollbar-arrow-color: #f4ae21; 
@@ -76,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <li class="admin-parent">
           <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span>账单展示 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
           <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
-            <li><a href="showAccount.jsp" class="am-cf"><span class="am-icon-check"></span> 列表展示<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+            <li><a href="showAccount.jsp" target="_blank" class="am-cf"><span class="am-icon-check"></span> 列表展示<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
             <li><a href="" target="_blank"><span class="am-icon-puzzle-piece"></span> 条形图分析</a></li>
             <li><a href="analysis.jsp" target="_blank"><span class="am-icon-th"></span> 收支汇总<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>
             <li><a href=""><span class="am-icon-calendar"></span> 饼状图分析</a></li>
@@ -126,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	       	 当前时间：<span id="nowTime"></span>
         </div>
 			 <div class="am-form-group">
-		                      定时关歌:<select data-am-selected="{btnSize: 'sm'}" id="searCate" onchange="setCount(options[selectedIndex].value)">
+                   	定时关歌:<select data-am-selected="{btnSize: 'sm'}" id="searCate" onchange="setCount(options[selectedIndex].value)">
 		              <option value="5">5分钟</option>
 		              <option value="10">10分钟</option>
 		              <option value="15">15分钟</option>
@@ -139,7 +141,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		              <option value="50">50分钟</option>
 		              <option value="55">55分钟</option>
 		              <option value="60">60分钟</option>
-		              
+		            </select>
+	             <br> 随机生成播放列表:<select data-am-selected="{btnSize: 'sm'}" onchange="randomPList(options[selectedIndex].value)">
+		              <option>选择歌曲数量</option>
+		              <option value="5">5首</option>
+		              <option value="10">10首</option>
+		              <option value="15">15首</option>
+		              <option value="20">20首</option>
+		              <option value="25">25首</option>
+		              <option value="30">30首</option>
+		              <option value="35">35首</option>
+		              <option value="40">40首</option>
+		              <option value="45">55首</option>
+		              <option value="50">50首</option>
+		            </select>
+          		</div>
+          		<br> 热歌榜:<select data-am-selected="{btnSize: 'sm'}" onchange="loadHotSongs(options[selectedIndex].value)">
+		              <option>选择热歌数量</option>
+		              <option value="5">榜5首</option>
+		              <option value="10">榜10首</option>
+		              <option value="15">榜15首</option>
+		              <option value="20">榜20首</option>
+		              <option value="25">榜25首</option>
+		              <option value="30">榜30首</option>
 		            </select>
           		</div>
           </div>
@@ -182,7 +206,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <br>
         <div class="am-u-sm-12 am-u-md-3">
           <div class="am-input-group am-input-group-sm">
-              <input type="text" id="key" class="am-form-field">
+              <input type="text" id="key" placeholder="搜一搜，听你想听" class="am-form-field">
 	          <span class="am-input-group-btn">
 	            	<button class="am-btn am-btn-default" type="button" onclick="strongQuerySongs()">强力搜索</button>
 	          </span>
@@ -207,8 +231,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	  	  		<option>歌单</option>
 	  	  	  </select>
 	  	  </div>
-	  
-	  	  <div class="am-fr">              	          
+	  		<center>
+	  	  	<%
+	  	  	for(int i=1;i<=12;i++){
+          		out.write("<a onclick='querySongs("+i+")'>&emsp;"+i+"</a>");
+          	}
+	  	  	  %> 
+	  	  	</center>  
+	  	  <%-- <div class="am-fr">
               <select onchange="querySongs(options[selectedIndex].value)">
               <option value='0'>页码</option>
               	<%
@@ -217,21 +247,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               	}
                %>
               </select>
-          </div>
+          </div> --%>
       </div>
       <div class="am-g">
         <div class="am-u-sm-12">
           <form class="am-form">
-            <table class="am-table am-table-striped am-table-hover table-main">
+            <table id="songsList" class="am-table am-table-striped am-table-hover table-main">
               <thead>
               <tr><!-- <th class="table-id">ID</th> -->
-                <th class="table-check"><input type="checkbox"/></th><th class="table-id">ID</th><th class="table-payutil">歌曲名</th>
+                <th class="table-check"><input type="checkbox" id="songscheck" onclick="changed()"/></th><th class="table-id">ID</th><th class="table-payutil">歌曲名</th>
                 <th class="table-inout">歌手</th><th class="table-cate am-hide-sm-only">时长</th><th class="table-amount am-hide-sm-only">专辑</th>
                 <th class="table-remark am-hide-sm-only">发行时间</th><th class="table-time am-hide-sm-only">源网站</th><th class="table-set">操作</th>
               </tr>
               </thead>
               
-              <tbody id="song">
+              <tbody id="song" style="cursor: pointer;">
                
               </tbody>
             </table>
@@ -247,7 +277,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             	<span id="lyric" style="color: green;font-size:35px;position:fixed;top:110px;right:446px;"></span>
             </center>
             <!-- 点击歌添加歌曲至歌单 -->
-            <div id="addSong" style="position:fixed;overflow:scroll;background:gray;right:450px;top:200px;width:220px;height:350px;display: none">
+            <div id="addSong" style="cursor:pointer;position:fixed;overflow:scroll;background:gray;right:450px;top:200px;width:220px;height:350px;display: none">
             	<span style="display: none" id="id"></span>
             	<span onclick="closes()" style="color:white;margin-left: 180px;">X</span>
             	<span onclick="newList()">新建歌单</span><br>
@@ -261,30 +291,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  		$(function(){
 			  			querySongs(1);
 				   });
-			  		//加载歌单
-			  		$.ajax({
-			  			type:"Get",
-			  			async:false,
-			  			url:"../querySongList.do",
-			  			dataType:"Json",
-			  			success:function(data){
-			  				for(var k=0;k<data.length;k++){
-			  					$('#songList').append("<option value='"+data[k].songs+"】"+data[k].name+"】"+data[k].id+"'>"+data[k].name+"</option>");
-			  					$('#songLists').append("<li onclick=\"addToList('"+(k+1)+"')\">"+data[k].name+"</li>");
-			  				}
-			  			}
-			  		});
+			  		loadSongList();
 			  </script>
             
             <div style="height:300px;position:fixed;"><!-- 播放列表，全部歌词，及其他工具 -->
             	<!-- 播放列表，全部歌词 -->
             	<div id="plistAalrc" style="background:gray;position:fixed;bottom:40px;cursor: pointer;display:none;margin-left: 5px;">
-	          	 <div style="color:white;margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:left" id="plist">
+	          	 <div id="plist" style="color:white;background-image:url(../image/artist/me080502.jpg);background-size:240px 250px; margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:left">
 	          	 	 <table>
 	          	 	 	
 	          	 	 </table>
 	          	 </div>
-	          	 <div id="alyric" style="color:white;background-image:url(../image/artist/me080502.jpg);background-size:240px 250px; margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:right"></div>
+	          	 <div id="alyric" style="color:white;margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:right"></div>
        		  </div>
        		  <!-- 播放列表，全部歌词 -->
        		  <!-- 其他工具：上一曲，下一曲，播放暂停，进度条，音量加减，播放列表显示与隐藏按钮 -->
@@ -292,13 +310,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<img style="width: 40px;height: 40px" title="左键--上一曲" onclick="preview()" alt="" src="../image/play_previous.png">&emsp;
 					<img style="width: 40px;height: 40px" title="P键--暂停/播放" id="pause" alt="" onclick="pause_play()" src="../image/play.png">&emsp;
 				    <img style="width: 40px;height: 40px" title="右键--下一曲" onclick="next()" alt="" src="../image/play_next.png">
-					<img id="mode" title="顺序播放--C键切换" style="width:50px;height:40px;" src="../image/play_order.png" onclick="change()">
+					<img id="mode" title="顺序播放--C键切换" style="width:50px;height:40px;" src="../image/play_random.png" onclick="change()">
 					<progress title="A键---快退10秒,D键---快进10秒;Q键---快退5秒,E键---快进5秒" style="width:566px;height:10px" draggable="false" id="pro" value="0" max="100"></progress>
 					<span id="time" class="time" title="已播放/总时长"></span>
 					<a onclick="minus()" class="minus" title="下键--音量减">一</a>
 					<progress style="width:100px;" draggable="false" id="voice" value="100" max="100"></progress>
 					<a onclick="add()" class="add" title="上键--音量加">✚</a>
-					<span onclick="showHide()" id="sah">显示</span>
+					<span onclick="showHide()" title="Ctrl+shift+S" id="sah">显示</span>
 				</div>
 			</div><!-- 播放列表，歌词，及其他工具 -->
           </form>          
