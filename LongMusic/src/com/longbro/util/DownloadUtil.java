@@ -32,7 +32,7 @@ import com.sun.star.setup.CopyFileAction;
  */
 public class DownloadUtil {
 	public static void main(String[] args) {
-		writeToFile(spideLyric("26319456"), "26319456");
+		writeToFile(spideLyric("36024806"), "36024806");
 //		try {
 //			//听说你也回来过，想你的夜
 //			ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName from song where id=543");

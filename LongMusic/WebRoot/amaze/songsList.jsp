@@ -152,7 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		              <option value="30">30首</option>
 		              <option value="35">35首</option>
 		              <option value="40">40首</option>
-		              <option value="45">55首</option>
+		              <option value="45">45首</option>
 		              <option value="50">50首</option>
 		            </select>
           		</div>
@@ -219,11 +219,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </div>
         </div>
         <!-- 新建歌单 -->
-        <form id="newList" name="newList">
-            	<span onclick="closes()" style="color:white;margin-left: 180px;">X</span>
-            	歌单名:<input name="songlist">
-            	歌单描述:<input name="listdesc">
-            	<button onclick="create()">建单</button>
+        <form id="newList" name="newList" style="display:none;background: gray;width:250px;margin-left: 400px;margin-top:120px;position:fixed;">
+            	<ul>
+            		<span onclick="closes()" style="color:white;margin-left: 180px;">X</span><br>
+	            	歌单名:<input name="songlist"><br>
+	            	歌单描述:<input name="listdesc"><br>
+	            	<span style="background: cyan" onclick="create()">建单</span>
+            	</ul>
+            	
         </form>
 	  <div class="am-cf">
 	  	  <div class="am-fr"> 
@@ -280,7 +283,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div id="addSong" style="cursor:pointer;position:fixed;overflow:scroll;background:gray;right:450px;top:200px;width:220px;height:350px;display: none">
             	<span style="display: none" id="id"></span>
             	<span onclick="closes()" style="color:white;margin-left: 180px;">X</span>
-            	<span onclick="newList()">新建歌单</span><br>
+            	<span onclick="createNewList()" style="color:white;">新建歌单</span><br>
             	添加<span id="songName"></span>至<br>
             	<ul id="songLists">
             		<li onclick="addToList('0')">播放列表</li>
@@ -306,17 +309,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        		  </div>
        		  <!-- 播放列表，全部歌词 -->
        		  <!-- 其他工具：上一曲，下一曲，播放暂停，进度条，音量加减，播放列表显示与隐藏按钮 -->
-				<div id="bottom" style="background: gray;position:fixed;bottom:0; left:260px;width:80%;height:40px;">
+				<div id="bottom" style="background: #3f4156;position:fixed;bottom:0; left:260px;width:80%;height:40px;">
 					<img style="width: 40px;height: 40px" title="左键--上一曲" onclick="preview()" alt="" src="../image/play_previous.png">&emsp;
 					<img style="width: 40px;height: 40px" title="P键--暂停/播放" id="pause" alt="" onclick="pause_play()" src="../image/play.png">&emsp;
 				    <img style="width: 40px;height: 40px" title="右键--下一曲" onclick="next()" alt="" src="../image/play_next.png">
 					<img id="mode" title="顺序播放--C键切换" style="width:50px;height:40px;" src="../image/play_random.png" onclick="change()">
 					<progress title="A键---快退10秒,D键---快进10秒;Q键---快退5秒,E键---快进5秒" style="width:566px;height:10px" draggable="false" id="pro" value="0" max="100"></progress>
-					<span id="time" class="time" title="已播放/总时长"></span>
+					<span id="time" class="time" title="已播放/总时长" style="color:white"></span>
 					<a onclick="minus()" class="minus" title="下键--音量减">一</a>
 					<progress style="width:100px;" draggable="false" id="voice" value="100" max="100"></progress>
 					<a onclick="add()" class="add" title="上键--音量加">✚</a>
-					<span onclick="showHide()" title="Ctrl+shift+S" id="sah">显示</span>
+					<span onclick="showHide()" title="Ctrl+shift+S"  style="color:white" id="sah">显示</span>
 				</div>
 			</div><!-- 播放列表，歌词，及其他工具 -->
           </form>          

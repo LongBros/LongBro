@@ -1,7 +1,8 @@
 /**
  * 使用Ajax时的返回值类型:xml、html、script、JSON、jsonp、text
  * 1.按分页查询歌曲 		2.根据关键词模糊搜索歌曲
- * 3.根据歌手搜索歌曲 		4.播放歌曲
+ * 3.根据歌手搜索歌曲 	4.强力搜索功能，可根据搜索关键词搜索歌曲名、歌手、歌词5.加载指定歌单6.播放歌曲	
+ * 
  * 5.暂停与播放的切换功能 	6.实现下一曲按钮功能
  * 7.实现上一曲按钮功能  	8.切换播放模式
  * 9.快进、快退 			10.monitor函数
@@ -64,11 +65,14 @@ function querySongs(page){
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox' id='songs"+k+"'/></td><td>"+data[k].id+"</td>" +
 						
-						"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
-						"&emsp;<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>" +
-						"&emsp;<font onclick='play(this,"+data[k].id+")'>▷</font></td>" +
+						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+")\" onmouseover=\"showPlayBtn(this,"+data[k].id+")\" >" +
+						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>" +
+						"&emsp;<span style='display:none;' id='playBtn"+data[k].id+"'>" +
+						"<font onclick='play(this,"+data[k].id+")'>▷</font>" +
+						"&emsp;<font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
+						"</span></span></td>" +
 						
-						"<td>"+data[k].singer+"</td>" +
+						"<td><a onclick=\"querySongsBySinger('"+data[k].singer+"')\">"+data[k].singer+"</a></td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
@@ -136,10 +140,18 @@ function querySongsByKey(){
 				}
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
+						/*"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
 						"&emsp;<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>" +
 						"&emsp;<font onclick='play(this,"+data[k].id+")'>▷</font></td>" +
+						*/
+						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+")\" onmouseover=\"showPlayBtn(this,"+data[k].id+")\" >" +
+						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>" +
+						"&emsp;<span style='display:none;' id='playBtn"+data[k].id+"'>" +
+						"<font onclick='play(this,"+data[k].id+")'>▷</font>" +
+						"&emsp;<font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
+						"</span></span></td>" +
 						
+						"<td><a onclick=\"querySongsBySinger('"+data[k].singer+"')\">"+data[k].singer+"</a></td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
@@ -157,21 +169,21 @@ function querySongsByKey(){
  * 3.根据歌手搜索歌曲
  * 如果参数为空，则根据输入框中内容作为歌手查询；反之根据参数查询--参数为点击歌手时所传
  */
-function querySongsBySinger(){
+function querySongsBySinger(singer){
 //	var key=$('#key').value;
 //	alert(singer);
 //	var sin=singer+"";
 //	var key;
 //	if(singer==""){
-		key=document.getElementById("key").value;
+//		key=document.getElementById("key").value;
 //	}else{
 //		key=sin;
 //		alert(sin);
 //	}
-	if(key==""){
-		alert("必须输入搜索内容");
-		return;
-	}
+//	if(key==""){
+//		alert("必须输入搜索内容");
+//		return;
+//	}
 	//清空原有歌曲列表
 	$('#song').text('');
 	$('#num').text('');
@@ -179,7 +191,7 @@ function querySongsBySinger(){
 	$.ajax({
 		type:"Get",
 		async:false,
-		url:"../querySongsBySinger.do?singer="+key,
+		url:"../querySongsBySinger.do?singer="+singer,
 		dataType:"json",
 		success:function(data){
 			for(var k=0;k<data.length;k++){
@@ -205,7 +217,16 @@ function querySongsBySinger(){
 				
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play(this,'"+data[k].id+"')\">"+data[k].songName+"</a></td><td>"+	singer+"</td>" +
+/*						"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play(this,'"+data[k].id+"')\">"+data[k].songName+"</a></td>" +
+*/						
+						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+")\" onmouseover=\"showPlayBtn(this,"+data[k].id+")\" >" +
+						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+data[k].songName+"</a>" +
+						"&emsp;<span style='display:none;' id='playBtn"+data[k].id+"'>" +
+						"<font onclick='play(this,"+data[k].id+")'>▷</font>" +
+						"&emsp;<font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
+						"</span></span></td>" +
+						
+						"<td>"+	singer+"</td>" +
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
@@ -220,7 +241,7 @@ function querySongsBySinger(){
 	});
 }
 /**
- * 强力搜索功能，可根据搜索关键词搜索歌曲名、歌手、歌词
+ * 4.强力搜索功能，可根据搜索关键词搜索歌曲名、歌手、歌词
  */
 function strongQuerySongs(){
 	var key=document.getElementById("key").value;
@@ -262,13 +283,19 @@ function strongQuerySongs(){
 				
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[0][k].id+"</td>" +
-						"<td><font size='+1' onclick='showListName("+data[0][k].id+")'>+</font>" +
+						/*"<td><font size='+1' onclick='showListName("+data[0][k].id+")'>+</font>" +
 //						"&emsp;<a title='"+data[0][k].songName+"' onclick=\"play(this,'"+data[0][k].id+"')\">"+na+"</a></td>" +
-								
 						"&emsp;<a title='"+data[0][k].songName+"' onclick=\"loadSong('"+data[0][k].id+"')\">"+na+"</a>" +
-						"&emsp;<font onclick='play(this,"+data[0][k].id+")'>▷</font></td>" +
+						"&emsp;<font onclick='play(this,"+data[0][k].id+")'>▷</font></td>" +*/
 						
-						"<td>"+data[0][k].singer+"</td>" +
+						"<td><span onmouseout=\"hidePlayBtn(this,"+data[0][k].id+")\" onmouseover=\"showPlayBtn(this,"+data[0][k].id+")\" >" +
+						"<a title='"+data[0][k].songName+"' onclick=\"loadSong('"+data[0][k].id+"')\">"+na+"</a>" +
+						"&emsp;<span style='display:none;' id='playBtn"+data[0][k].id+"'>" +
+						"<font onclick='play(this,"+data[0][k].id+")'>▷</font>" +
+						"&emsp;<font size='+1' onclick='showListName("+data[0][k].id+")'>+</font>" +
+						"</span></span></td>" +
+						
+						"<td><a onclick=\"querySongsBySinger('"+data[0][k].singer+"')\">"+data[0][k].singer+"</a></td>" +
 						"<td>"+data[0][k].duration+"</td><td>"+data[0][k].album+"</td>" +
 						"<td title='"+data[0][k].releaseTime+"'>"+data[0][k].releaseTime+"</td>" +
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
@@ -306,13 +333,20 @@ function strongQuerySongs(){
 				
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td><font  color='blue'>"+data[1][k].id+"</font></td>" +
-						"<td><font size='+1' onclick='showListName("+data[1][k].id+")'>+</font>" +
-//						"&emsp;<a title='"+na+"' onclick=\"play(this,'"+data[1][k].id+"')\">"+data[1][k].songName+"</a></td>" +
-								
-						"&emsp;<a title='"+data[1][k].songName+"' onclick=\"loadSong('"+data[1][k].id+"')\">"+na+"</a>" +
-						"&emsp;<font onclick='play(this,"+data[1][k].id+")'>▷</font></td>" +
 						
-						"<td>"+singer+"</td>" +
+						/*"<td><font size='+1' onclick='showListName("+data[1][k].id+")'>+</font>" +
+//						"&emsp;<a title='"+na+"' onclick=\"play(this,'"+data[1][k].id+"')\">"+data[1][k].songName+"</a></td>" +
+						"&emsp;<a title='"+data[1][k].songName+"' onclick=\"loadSong('"+data[1][k].id+"')\">"+na+"</a>" +
+						"&emsp;<font onclick='play(this,"+data[1][k].id+")'>▷</font></td>" +*/
+						
+						"<td><span onmouseout=\"hidePlayBtn(this,"+data[1][k].id+")\" onmouseover=\"showPlayBtn(this,"+data[1][k].id+")\" >" +
+						"<a title='"+data[1][k].songName+"' onclick=\"loadSong('"+data[1][k].id+"')\">"+na+"</a>" +
+						"&emsp;<span style='display:none;' id='playBtn"+data[1][k].id+"'>" +
+						"<font onclick='play(this,"+data[1][k].id+")'>▷</font>" +
+						"&emsp;<font size='+1' onclick='showListName("+data[1][k].id+")'>+</font>" +
+						"</span></span></td>" +
+						
+						"<td><a onclick=\"querySongsBySinger('"+data[1][k].singer+"')\">"+singer+"</a></td>" +
 						"<td>"+data[1][k].duration+"</td><td>"+data[1][k].album+"</td>" +
 						"<td title='"+data[1][k].releaseTime+"'>"+data[1][k].releaseTime+"</td>" +
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
@@ -347,12 +381,19 @@ function strongQuerySongs(){
 				lyric=lyric.substring(lyric.indexOf(key)-18, lyric.indexOf(key)+20);
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td><font  color='red'>"+data[2][k].id+"</font></td>" +
-						"<td><font size='+1' onclick='showListName("+data[2][k].id+")'>+</font>" +
-						//"&emsp;<a title='"+data[2][k].songName+"' onclick=\"play(this,'"+data[2][k].id+"')\">"+na+"</a>("+lyric+")</td>" +
-						"&emsp;<a title='"+data[2][k].songName+"' onclick=\"loadSong('"+data[2][k].id+"')\">"+na+"</a>("+lyric+")" +
-						"&emsp;<font onclick='play(this,"+data[2][k].id+")'>▷</font></td>" +
+//						"<td><font size='+1' onclick='showListName("+data[2][k].id+")'>+</font>" +
+//						//"&emsp;<a title='"+data[2][k].songName+"' onclick=\"play(this,'"+data[2][k].id+"')\">"+na+"</a>("+lyric+")</td>" +
+//						"&emsp;<a title='"+data[2][k].songName+"' onclick=\"loadSong('"+data[2][k].id+"')\">"+na+"</a>("+lyric+")" +
+//						"&emsp;<font onclick='play(this,"+data[2][k].id+")'>▷</font></td>" +
 						
-						"<td>"+data[2][k].singer+"</td>" +
+						"<td><span onmouseout=\"hidePlayBtn(this,"+data[2][k].id+")\" onmouseover=\"showPlayBtn(this,"+data[2][k].id+")\" >" +
+						"<a title='"+data[2][k].songName+"' onclick=\"loadSong('"+data[2][k].id+"')\">"+na+"</a>" +
+						"&emsp;<span style='display:none;' id='playBtn"+data[2][k].id+"'>" +
+						"<font onclick='play(this,"+data[2][k].id+")'>▷</font>" +
+						"&emsp;<font size='+1' onclick='showListName("+data[2][k].id+")'>+</font>" +
+						"</span></span></td>" +
+						
+						"<td><a onclick=\"querySongsBySinger('"+data[2][k].singer+"')\">"+data[2][k].singer+"</a></td>" +
 						"<td>"+data[2][k].duration+"</td><td>"+data[2][k].album+"</td>" +
 						"<td title='"+data[2][k].releaseTime+"'>"+data[2][k].releaseTime+"</td>" +
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
@@ -367,7 +408,7 @@ function strongQuerySongs(){
 	});
 }
 /**
- * 歌单
+ * 5.加载指定歌单
  * @param list
  */
 function querySongList(list){
@@ -386,6 +427,7 @@ function querySongList(list){
 	}
 	//list中的190,191,192,193,194,197,202,203,204,214为字符串，执行split方法后返回数组
 	pList=list.split(",");
+	xu=pList.length-1;//将歌单歌曲数量赋值给xu，以使可以正常的往歌单所形成的播放列表中添加歌曲
 	showList();//刷新播放列表
 	t=0;
 	//清空原有歌曲列表
@@ -420,10 +462,18 @@ function querySongList(list){
 				}
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>&emsp;<font size='+1' title='从\""+title+"\"移除\""+data[k].songName+"\" ' onclick='remove("+data[k].id+","+lid+")'>-</font>&emsp;" +
-						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>&emsp;<font onclick='play(this,"+data[k].id+")'>▷</font></td>" +
+						/*"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>&emsp;<font size='+1' title='从\""+title+"\"移除\""+data[k].songName+"\" ' onclick='remove("+data[k].id+","+lid+")'>-</font>&emsp;" +
+						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>&emsp;<font onclick='play(this,"+data[k].id+")'>▷</font></td>" +*/
 						
-						"<td>"+data[k].singer+"</td><td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
+						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+")\" onmouseover=\"showPlayBtn(this,"+data[k].id+")\" >" +
+						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>" +
+						"&emsp;<span style='display:none;' id='playBtn"+data[k].id+"'>" +
+						"<font onclick='play(this,"+data[k].id+")'>▷</font>" +
+						"&emsp;<font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
+						"&emsp;<font size='+1' title='从\""+title+"\"移除\""+data[k].songName+"\" ' onclick='remove("+data[k].id+","+lid+")'>-</font></span></span></td>" +
+						
+						"<td><a onclick=\"querySongsBySinger('"+data[k].singer+"')\">"+data[k].singer+"</a></td>" +
+						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>" +
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
@@ -431,12 +481,18 @@ function querySongList(list){
 						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");
+				
 			}
+			
 		}
 	});
+	$('#song').append("</tbody><br><textarea id='comment' column='12' rows='4' placeholder='说你想说'></textarea>");
+	$('#song').append("<span style='background:gray;color:white;' onclick='commentMusic(1,"+lid+")'>发表</span>");
+	$('#song').append("<div id='comments'></div>");
+	loadComment("1",lid);
 }
 /**
- * 播放歌曲	
+ * 6.播放歌曲	
  * 1.正在播放的歌名颜色特殊（黑色）显示
  * 2.网页title改为正在播放歌曲名
  * @param k 歌曲在数字中的序号
@@ -826,6 +882,7 @@ function addSong(){
 /**
  * 17.将id为id的歌曲添加至播放列表
  * @param id
+ * @returns 0表示添加失败，1表示添加成功
  */
 function addList(id){
 	if(pList.length>80){//歌曲播放列表中大于80首歌时将播放列表清空
@@ -833,12 +890,12 @@ function addList(id){
 	}
 	for(var j=0;j<pList.length;j++){//如果播放列表已含已选歌曲，则再不添加
 		if(pList[j]==id)
-			return;
+			return "0";//添加失败，已存在
 	}
-	
 	pList[xu]=id;
 	xu++;
 	showList();//每添加一首刷新一次播放列表
+	return "1";//添加成功
 }
 /**
  * 18.刷新播放列表
@@ -857,7 +914,18 @@ function showList(){
 				if(na.length>9){
 					na=na.substring(0, 9)+"...";
 				}
-				$('#plist').append("<tr><td width='30%'><span title='"+data[k].songName+"' onclick=\"play(this,'"+data[k].id+"')\">"+na+"</span></td><td width='30%'>"+data[k].singer+"</td><td  width='10%'>"+data[k].duration+"</td></tr>");
+				$('#plist').append("<tr>" +
+//						"<td width='30%'><span title='"+data[k].songName+"' onclick=\"play(this,'"+data[k].id+"')\">"+na+"</span></td>" +
+							
+						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+",'1')\" onmouseover=\"showPlayBtn(this,"+data[k].id+",'1')\" >" +
+						"<span style='color:purple' title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</span>" +
+						"&emsp;<span style='display:none;' id='playBtns"+data[k].id+"'>" +
+						"<font onclick='play(this,"+data[k].id+")'>▷</font>" +
+						"&emsp;<font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
+						"</span></span></td>" +
+						
+						"<td width='30%'>"+data[k].singer+"</td><td  width='10%'>"+data[k].duration+"</td>" +
+						"</tr>");
 			}
 		}
 	});
@@ -912,17 +980,19 @@ function addToList(l_id){
 		lName=getLNameByLId(l_id);
 	}
 	if(l_id=="0"){//为0时添加至播放列表
-		alert('将添加至播放列表');
-		addList(id);
+		var sof=addList(id)+"";
+		if(sof=="0"){
+			alert("添加失败，播放列表中已存在该首歌曲！");
+		}
 	}else{//不为0时添加至歌单
 		var r=confirm("添加'"+name+"'至歌单'"+lName+"'?");
 		if(r==true){
 			var url="../addToList.do?sid="+id+"&lid="+l_id;
 			$.ajax({
 				type:"Get",
-				async:false,
+				async:true,
 				url:url,
-				dataType:"text",
+				dataType:"json",
 				success:function(data){
 					alert("添加成功");
 				}
@@ -958,11 +1028,14 @@ function remove(id,lid){
 	else{
 //		alert("已取消");
 	}
+	showList();//刷新播放列表
 }
 /**
  * 24.新建歌单点击函数
+ * 08-25函数名由newList改为createNewList，原函数名无法使用，即无法被调用
+ * 估计原因和在映射文件xml文件中使用desc一样吧，和js内置函数重名了
  */
-function newList(){
+function createNewList(){
 	document.getElementById("addSong").style.display="none";//关闭添加至歌单或播放列表的弹框
 	document.getElementById("newList").style.display="inline-block";//打开新建歌单的弹框
 //	document.getElementById("id").innerHTML=id;
@@ -977,7 +1050,7 @@ function create(){
 		alert("部分信息为空");
 		return;
 	}
-	var url="../newList.do?name="+name+"&desc="+desc;
+	var url="../newList.do?name="+name+"&desc="+desc+"songIds=";
 	$.ajax({
 		type:"Get",
 		async:false,
@@ -1120,7 +1193,7 @@ function loadSong(id){
 					var plyric=alyric.substring(0, 222);
 					document.getElementById("alyric").innerHTML="<center><font color='yellow'>"+name+"</font></center>"+data1;
 					$('#song').append("歌曲本站ID:"+id+"<br>资源id:"+dsid+"<br>歌曲名:<a onclick='play(this,"+id+")'>"+name+"</a>&nbsp;<font size='+1' onclick='showListName("+id+")'>+</font>");
-					$('#song').append("<br>歌手:"+data.singer+"<br>专辑:"+data.album);
+					$('#song').append("<br>歌手:<a onclick=\"querySongsBySinger('"+data.singer+"')\">"+data.singer+"</a><br>专辑:"+data.album);
 					$('#song').append("<br>网站来源:"+data.website+"<br>1.源资源路径:<br>"+surl+"<br>"+url);
 					$('#song').append("<br>2.资源路径:<br>"+purl);
 					$('#song').append("<br>3.歌词路径:<br>E:\\AAAA\\alyric");
@@ -1131,7 +1204,7 @@ function loadSong(id){
 							"<center><a id='findAllBtn' style='' onclick=\"loadLyric('0','"+dsid+"')\">展开全部</a><a style='display:none' onclick=\"loadLyric('1')\">折叠全部</a></center>");
 					
 					$('#song').append("<br><textarea id='comment' column='12' rows='4' placeholder='说你想说'></textarea>");
-					$('#song').append("<span style='background:gray;color:white;' onclick='commentMusic("+id+")'>发表</span>");
+					$('#song').append("<span style='background:gray;color:white;' onclick='commentMusic(0,"+id+")'>发表</span>");
 					$('#song').append("<div id='comments'></div>");
 				}
 			});
@@ -1176,8 +1249,20 @@ function randomPList(num){
 		var n=random(1, 552);
 		pList[i]=n;
 	}
+	var songIds=","+pList+",";
+	var url="../newList.do?name="+formatW2(new Date()+"")+"&desc="+formatW2(new Date()+"")+"随机播放歌曲创建的歌单&songIds="+songIds;
+	$.ajax({
+		type:"Get",
+		async:false,
+		url:url,
+		dataType:"Json",
+		success:function(data){
+			
+		}
+	});
 	xu=num;//将i置为歌曲数量以供向播放列表中添加歌曲
 	showList();
+	loadSongList();
 }
 /**
  * 33.加载歌单
@@ -1194,6 +1279,8 @@ function loadSongList(){
 		url:"../querySongList.do",
 		dataType:"Json",
 		success:function(data){
+			$('#songList').append("<option>歌单</option>");
+			$('#songLists').append("<span style='color:white;' onclick=\"addToList('0')\">播放列表</span>");
 			for(var k=0;k<data.length;k++){
 				$('#songList').append("<option value='"+data[k].songs+"】"+data[k].name+"】"+data[k].id+"'>"+data[k].name+"</option>");
 				$('#songLists').append("<li onclick=\"addToList('"+(k+1)+"')\">"+data[k].name+"</li>");
@@ -1220,4 +1307,28 @@ function loadHotSongs(num){
 	});
 	xu=num;//将i置为歌曲数量以供向播放列表中添加歌曲
 	showList();
+}
+/**
+ * 35.显示播放按钮和添加按钮
+ * @param obj
+ * @param id
+ */
+function showPlayBtn(obj,id,type){
+	if((type+"")=="1"){//播放列表的
+		document.getElementById("playBtns"+id).style.display="inline-block";
+	}else{
+		document.getElementById("playBtn"+id).style.display="inline-block";
+	}
+}
+/**
+ * 36.隐藏播放按钮和添加按钮
+ * @param obj
+ * @param id
+ */
+function hidePlayBtn(obj,id,type){
+	if((type+"")=="1"){//播放列表的
+		document.getElementById("playBtns"+id).style.display="none";
+	}else{
+		document.getElementById("playBtn"+id).style.display="none";
+	}
 }

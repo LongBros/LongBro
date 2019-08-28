@@ -49,7 +49,7 @@ public class SongListController {
 		SongList list=new SongList();
 		list.setName(request.getParameter("name"));
 		list.setDesc(request.getParameter("desc"));
-		list.setSongs("");
+		list.setSongs(request.getParameter("songIds"));
 		list.setTimes(0);
 		list.setTime(TimeUtil.time());
 //		System.out.println(request.getParameter("name"));
@@ -78,7 +78,8 @@ public class SongListController {
 	 */
 	@RequestMapping(value="addToList",method=RequestMethod.GET)
 	@ResponseBody
-	public String addToList(HttpServletRequest request,HttpServletResponse response) throws IOException{
+	public HashMap<String,String> addToList(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		HashMap<String,String> map=new HashMap<String,String>();
 		String s_Id=request.getParameter("sid");//要加入的歌曲的id
 		String l_Id=request.getParameter("lid");//要加入的歌单		
 		String songs=service.querySongList(l_Id).get(0).getSongs();
@@ -87,7 +88,8 @@ public class SongListController {
 		PrintWriter out=response.getWriter();
 		for(String s:song){
 			if(s.equals(s_Id)){
-				return "歌单中已存在该歌曲，请勿重复添加";
+				map.put("status","歌单中已存在该歌曲，请勿重复添加");
+				return map;
 			}
 		}
 		if(songs.equals("")){//如果歌单中还无歌曲
@@ -96,7 +98,8 @@ public class SongListController {
 			songs=songs+s_Id+",";
 		}
 		service.updateSongList(songs, l_Id);
-		return "添加成功";
+		map.put("status","添加成功");
+		return map;
 	}
 	/**
 	 * @desc 从歌单中移除歌曲
