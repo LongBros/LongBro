@@ -43,9 +43,9 @@
 		<button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜歌曲</button>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> 
-		<span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
-		<i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> 
-		<a class="btn btn-primary radius" data-title="添加歌曲" data-href="article-add.html" onclick="Hui_admin_tab(this)" href="javascript:;">
+		<span class="l"><a href="javascript:;" onclick="delSong(this,'multi')" class="btn btn-danger radius">
+		<i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <!-- onclick="datadel()" -->
+		<a class="btn btn-primary radius" data-title="添加歌曲" data-href="song-add.html" onclick="Hui_admin_tab(this)" href="javascript:;">
 		<i class="Hui-iconfont">&#xe600;</i> 添加歌曲</a></span> 
 		<span class="r">共有数据：<strong>54</strong> 条</span> 
 	</div>
@@ -58,6 +58,12 @@
 			<a href="javascript:;" onclick="querySongs('4')">4</a>&nbsp;
 			<a href="javascript:;" onclick="querySongs('5')">5</a>&nbsp;
 			<a href="javascript:;" onclick="querySongs('6')">6</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('7')">7</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('8')">8</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('9')">9</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('10')">10</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('11')">11</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('12')">12</a>&nbsp;
 			<a>下一页</a>
 		</center>
 		<table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
@@ -92,6 +98,12 @@
 			<a href="javascript:;" onclick="querySongs('4')">4</a>&nbsp;
 			<a href="javascript:;" onclick="querySongs('5')">5</a>&nbsp;
 			<a href="javascript:;" onclick="querySongs('6')">6</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('7')">7</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('8')">8</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('9')">9</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('10')">10</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('11')">11</a>&nbsp;
+			<a href="javascript:;" onclick="querySongs('12')">12</a>&nbsp;
 			<a href="javascript:;" onclick="querySongs('next')">下一页</a>
 		</center>		
 	</div>
@@ -120,7 +132,7 @@ $('.table-sort').dataTable({
 	]
 });
 
-/*资讯-添加*/
+/*歌曲-添加*/
 function article_add(title,url,w,h){
 	var index = layer.open({
 		type: 2,
@@ -129,8 +141,8 @@ function article_add(title,url,w,h){
 	});
 	layer.full(index);
 }
-/*资讯-编辑*/
-function article_edit(title,url,id,w,h){
+/*歌曲-编辑*/
+function songEdit(title,url,id,w,h){
 	var index = layer.open({
 		type: 2,
 		title: title,
@@ -138,22 +150,30 @@ function article_edit(title,url,id,w,h){
 	});
 	layer.full(index);
 }
-/*资讯-删除*/
-function article_del(obj,id){
-	layer.confirm('确认要删除吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").remove();
-				layer.msg('已删除!',{icon:1,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});		
-	});
+/*歌曲-删除*/
+function delSong(obj,id){
+	layer.msg('删除歌曲操作', {icon:2,time:1000});
+	if(id=='multi'){//批量删除按钮
+		//layer.confirm('确认要删除吗？',function(index){
+			//得到选中的歌曲的id
+		//});
+	}else{//点击单个的删除按钮
+		layer.confirm('确认要删除'+id+'吗？',function(index){
+			$.ajax({
+				type: 'POST',
+				url: '',
+				dataType: 'json',
+				success: function(data){
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!',{icon:1,time:1000});
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});		
+		});
+	}
+	
 }
 
 /*资讯-审核*/

@@ -23,7 +23,7 @@ function queryBill(page){
 				"<td><input type=\"checkbox\" value=\"\" name=\"\"></td><td>"+data[k].id+"</td>" +
 				"<td>"+data[k].payutil+"</td><td>"+data[k].in_out+"</td><td>"+data[k].cate+"</td><td>"+data[k].amount+"</td><td>"+remark+"</td><td>"+time+"</td>" +
 				"<td class=\"f-14 td-manage\"><a style=\"text-decoration:none\" onClick=\"article_stop(this,'10001')\" href=\"javascript:;\" title=\"下架\"><i class=\"Hui-iconfont\">&#xe6de;</i></a> " +
-				"<a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"article_edit('资讯编辑','article-add.html','10001')\" href=\"javascript:;\" title=\"编辑\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> " +
+				"<a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"article_edit('账单编辑','article-add.html','10001')\" href=\"javascript:;\" title=\"编辑\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> " +
 				"<a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"article_del(this,'10001')\" href=\"javascript:;\" title=\"删除\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td></tr>");
 			}
 		}
@@ -65,13 +65,19 @@ function querySongs(page){
 				}else if(web=="酷我音乐"){
 					url="http://www.kuwo.cn/play_detail/"+id;
 				}
-				$('#song').append("<tr class=\"text-c\"><td><input type=\"checkbox\" value=\"\" name=\"\"></td><td>"+data[k].id+"</td><td>"+na+"</td><td>"+data[k].singer+"</td><td>"+data[k].duration+"</td><td>"+data[k].album+"</td><td>"+data[k].releaseTime+"</td><td>"+data[k].inputTime+"</td><td>"+web+"</td><td class=\"f-14 td-manage\"><a style=\"text-decoration:none\" onClick=\"article_stop(this,'10001')\" href=\"javascript:;\" title=\"下架\"><i class=\"Hui-iconfont\">&#xe6de;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"article_edit('资讯编辑','song-add.html','"+data[k].id+"')\" href=\"javascript:;\" title=\"编辑\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"article_del(this,'10001')\" href=\"javascript:;\" title=\"删除\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td></tr>");
+				$('#song').append("<tr class=\"text-c\">" +
+						"<td><input type=\"checkbox\" value=\"\" name=\"\"></td>" +
+						"<td>"+data[k].id+"</td><td>"+na+"</td><td>"+data[k].singer+"</td>" +
+						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
+						"<td>"+data[k].releaseTime+"</td><td>"+data[k].inputTime+"</td>" +
+						"<td>"+web+"</td>" +
+						"<td class=\"f-14 td-manage\"><a style=\"text-decoration:none\" onClick=\"article_stop(this,'10001')\" href=\"javascript:;\" title=\"下架\"><i class=\"Hui-iconfont\">&#xe6de;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"songEdit('歌曲编辑','song-add.html','"+data[k].id+"','"+data[k].id+"')\" href=\"javascript:;\" title=\"编辑\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"delSong(this,'"+data[k].id+"')\" href=\"javascript:;\" title=\"删除\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td></tr>");
 			}
 		}
 	});
 }
+//加载歌单
 function loadSongList(){
-	//加载歌单
 	$.ajax({
 		type:"Get",
 		async:false,
@@ -84,6 +90,7 @@ function loadSongList(){
 		}
 	});
 }
+//加载评论
 function loadCom(){
 	var ac="../queryComment.do";
 	$.ajax({

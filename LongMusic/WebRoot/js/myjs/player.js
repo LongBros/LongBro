@@ -67,7 +67,7 @@ function querySongs(page){
 						
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+")\" onmouseover=\"showPlayBtn(this,"+data[k].id+")\" >" +
 						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>" +
-						"&emsp;<span style='display:none;' id='playBtn"+data[k].id+"'>" +
+						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[k].id+"'>" +
 						"<font onclick='play(this,"+data[k].id+")'>▷</font>" +
 						"&emsp;<font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
 						"</span></span></td>" +
@@ -146,7 +146,7 @@ function querySongsByKey(){
 						*/
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+")\" onmouseover=\"showPlayBtn(this,"+data[k].id+")\" >" +
 						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>" +
-						"&emsp;<span style='display:none;' id='playBtn"+data[k].id+"'>" +
+						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[k].id+"'>" +
 						"<font onclick='play(this,"+data[k].id+")'>▷</font>" +
 						"&emsp;<font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
 						"</span></span></td>" +
@@ -221,7 +221,7 @@ function querySongsBySinger(singer){
 */						
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+")\" onmouseover=\"showPlayBtn(this,"+data[k].id+")\" >" +
 						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+data[k].songName+"</a>" +
-						"&emsp;<span style='display:none;' id='playBtn"+data[k].id+"'>" +
+						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[k].id+"'>" +
 						"<font onclick='play(this,"+data[k].id+")'>▷</font>" +
 						"&emsp;<font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
 						"</span></span></td>" +
@@ -290,7 +290,7 @@ function strongQuerySongs(){
 						
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[0][k].id+")\" onmouseover=\"showPlayBtn(this,"+data[0][k].id+")\" >" +
 						"<a title='"+data[0][k].songName+"' onclick=\"loadSong('"+data[0][k].id+"')\">"+na+"</a>" +
-						"&emsp;<span style='display:none;' id='playBtn"+data[0][k].id+"'>" +
+						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[0][k].id+"'>" +
 						"<font onclick='play(this,"+data[0][k].id+")'>▷</font>" +
 						"&emsp;<font size='+1' onclick='showListName("+data[0][k].id+")'>+</font>" +
 						"</span></span></td>" +
@@ -341,7 +341,7 @@ function strongQuerySongs(){
 						
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[1][k].id+")\" onmouseover=\"showPlayBtn(this,"+data[1][k].id+")\" >" +
 						"<a title='"+data[1][k].songName+"' onclick=\"loadSong('"+data[1][k].id+"')\">"+na+"</a>" +
-						"&emsp;<span style='display:none;' id='playBtn"+data[1][k].id+"'>" +
+						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[1][k].id+"'>" +
 						"<font onclick='play(this,"+data[1][k].id+")'>▷</font>" +
 						"&emsp;<font size='+1' onclick='showListName("+data[1][k].id+")'>+</font>" +
 						"</span></span></td>" +
@@ -388,7 +388,7 @@ function strongQuerySongs(){
 						
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[2][k].id+")\" onmouseover=\"showPlayBtn(this,"+data[2][k].id+")\" >" +
 						"<a title='"+data[2][k].songName+"' onclick=\"loadSong('"+data[2][k].id+"')\">"+na+"</a>" +
-						"&emsp;<span style='display:none;' id='playBtn"+data[2][k].id+"'>" +
+						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[2][k].id+"'>" +
 						"<font onclick='play(this,"+data[2][k].id+")'>▷</font>" +
 						"&emsp;<font size='+1' onclick='showListName("+data[2][k].id+")'>+</font>" +
 						"</span></span></td>" +
@@ -467,7 +467,7 @@ function querySongList(list){
 						
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+")\" onmouseover=\"showPlayBtn(this,"+data[k].id+")\" >" +
 						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>" +
-						"&emsp;<span style='display:none;' id='playBtn"+data[k].id+"'>" +
+						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[k].id+"'>" +
 						"<font onclick='play(this,"+data[k].id+")'>▷</font>" +
 						"&emsp;<font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
 						"&emsp;<font size='+1' title='从\""+title+"\"移除\""+data[k].songName+"\" ' onclick='remove("+data[k].id+","+lid+")'>-</font></span></span></td>" +
@@ -919,7 +919,7 @@ function showList(){
 							
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+",'1')\" onmouseover=\"showPlayBtn(this,"+data[k].id+",'1')\" >" +
 						"<span style='color:purple' title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</span>" +
-						"&emsp;<span style='display:none;' id='playBtns"+data[k].id+"'>" +
+						"&emsp;<span style='visibility:hidden;' id='playBtns"+data[k].id+"'>" +
 						"<font onclick='play(this,"+data[k].id+")'>▷</font>" +
 						"&emsp;<font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
 						"</span></span></td>" +
@@ -1246,7 +1246,7 @@ function loadLyric(type,dsid){
 function randomPList(num){
 	pList=new Array();//清空原播放列表数组
 	for(var i=0;i<num;i++){
-		var n=random(1, 552);
+		var n=random(1, 565);
 		pList[i]=n;
 	}
 	var songIds=","+pList+",";
@@ -1315,9 +1315,9 @@ function loadHotSongs(num){
  */
 function showPlayBtn(obj,id,type){
 	if((type+"")=="1"){//播放列表的
-		document.getElementById("playBtns"+id).style.display="inline-block";
+		document.getElementById("playBtns"+id).style.visibility="visible";
 	}else{
-		document.getElementById("playBtn"+id).style.display="inline-block";
+		document.getElementById("playBtn"+id).style.visibility="visible";
 	}
 }
 /**
@@ -1327,8 +1327,29 @@ function showPlayBtn(obj,id,type){
  */
 function hidePlayBtn(obj,id,type){
 	if((type+"")=="1"){//播放列表的
-		document.getElementById("playBtns"+id).style.display="none";
+		document.getElementById("playBtns"+id).style.visibility="hidden";
 	}else{
-		document.getElementById("playBtn"+id).style.display="none";
+		document.getElementById("playBtn"+id).style.visibility="hidden";
 	}
 }
+//该函数暂无法实现移动单句歌词的效果，
+function moveLyric(){
+	var e = event || window.event;
+	//alert(e.clientX + ',' + e.clientY);
+	document.getElementById("lyric").style.top=e.clientX;
+	document.getElementById("lyric").style.right=e.clientY;
+}
+/**
+ * 37.实现单句歌词可随鼠标移动
+ */
+//$(document).mousedown(function(){
+//    $(this).mousemove(function(e){
+//		$("#lyric").css({ "left": e.pageX+"px", "top": e.pageY+"px" }); 
+//        $(document).mouseup(function(){
+//            $(this).unbind('mousemove');
+//        })
+//    })
+//})
+//document.oncontextmenu=new Function("event.returnValue=false");
+//document.onselectstart=new Function("event.returnValue=false");
+//document.oncopy=new Function("event.returnValue=false");

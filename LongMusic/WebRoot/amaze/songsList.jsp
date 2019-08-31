@@ -156,7 +156,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		              <option value="50">50首</option>
 		            </select>
           		</div>
-          		<br> 热歌榜:<select data-am-selected="{btnSize: 'sm'}" onchange="loadHotSongs(options[selectedIndex].value)">
+          		热歌榜:<select data-am-selected="{btnSize: 'sm'}" onchange="loadHotSongs(options[selectedIndex].value)">
 		              <option>选择热歌数量</option>
 		              <option value="5">榜5首</option>
 		              <option value="10">榜10首</option>
@@ -274,10 +274,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  </audio>
             
             <hr/>
+            <script type="text/javascript">
+	            
+            </script>
             <!-- 单句歌词 -->
             <center>
             	<img alt="" id="singer" src="../image/singer2.jpg" style="height:100px;position:fixed;top:90px;right:306px;">
-            	<span id="lyric" style="color: green;font-size:35px;position:fixed;top:110px;right:446px;"></span>
+            	<span id="lyric" style="color: green;cursor:all-scroll;font-size:35px;position:fixed;top:110px;right:446px;"></span>
             </center>
             <!-- 点击歌添加歌曲至歌单 -->
             <div id="addSong" style="cursor:pointer;position:fixed;overflow:scroll;background:gray;right:450px;top:200px;width:220px;height:350px;display: none">
