@@ -10,20 +10,19 @@ public class GenerateSql {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String sql="UPDATE song SET sortNum=1 WHERE id=1;";
-		int i=1;
+//		String sql="UPDATE song SET sortNum=553 WHERE id=553;";
+		int i=553;
 //		do-while
 		do{
 			String sql1="UPDATE song SET sortNum="+i+" WHERE id="+i+";";
 			System.out.println(sql1);
 			i++;
-		}while(i<553);
-//		while
-		i=1;
-		while(i<553){
-			System.out.println(i);
-			i++;
-		}
+		}while(i<591);
+//		i=1;
+//		while(i<553){
+//			System.out.println(i);
+//			i++;
+//		}
 	}
 
 }

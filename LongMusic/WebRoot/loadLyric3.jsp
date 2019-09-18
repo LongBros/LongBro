@@ -1,3 +1,4 @@
+<%@page import="com.longbro.util.TimeUtil"%>
 <%@page import="com.longbro.util.JdbcUtil"%>
 <%@page import="com.longbro.util.Strings"%>
 <%@page import="java.io.IOException"%>
@@ -105,7 +106,13 @@ if(request.getParameter("type").equals("1")){//加载单句歌词
 }else{//加载所有歌词
 	//从js文件的play函数中进入时将当前歌曲播放次数加1
 	if(from.equals("1")){
-		JdbcUtil.getCon().executeUpdate("update song set playNum=playNum+1 where sourceId='"+sid+"'");
+		String update="update song set playNum=playNum+1 where sourceId='"+sid+"'";
+		JdbcUtil.getCon().executeUpdate(update);
+		System.out.println(update);
+		String insert="insert into play_record(songId,playTime) values('"+sid+"','"+TimeUtil.time()+"');";
+		JdbcUtil.getCon().execute(insert);
+		System.out.println(insert);
+
 	}
 	//加载QQ音乐或网易云音乐的所有歌词
 	if(sid.contains(".html")){//QQ音乐的歌词

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,10 +49,12 @@ public class SongListController {
 	public void newList(HttpServletRequest request){
 		SongList list=new SongList();
 		list.setName(request.getParameter("name"));
-		list.setDesc(request.getParameter("desc"));
+		list.setDescr(request.getParameter("desc"));
 		list.setSongs(request.getParameter("songIds"));
 		list.setTimes(0);
 		list.setTime(TimeUtil.time());
+		if(StringUtils.isNotEmpty(request.getParameter("creator")))
+			list.setCreator(request.getParameter("creator"));
 //		System.out.println(request.getParameter("name"));
 		service.addSongList(list);
 	}
@@ -66,10 +69,14 @@ public class SongListController {
 	@ResponseBody
 	public List<SongList> querySongList(HttpServletRequest request){
 		String id=request.getParameter("id");
+		String creator=request.getParameter("creator");
 		if(StringUtils.isEmpty(id)){
 			id="";
 		}
-		List<SongList> list=service.querySongList(id);
+		if(StringUtils.isEmpty(creator)){
+			creator="";
+		}
+		List<SongList> list=service.querySongList(id,creator);
 		return list;
 	}
 	/**
@@ -82,7 +89,7 @@ public class SongListController {
 		HashMap<String,String> map=new HashMap<String,String>();
 		String s_Id=request.getParameter("sid");//要加入的歌曲的id
 		String l_Id=request.getParameter("lid");//要加入的歌单		
-		String songs=service.querySongList(l_Id).get(0).getSongs();
+		String songs=service.querySongList(l_Id,"").get(0).getSongs();
 		//判断歌单中是否含有该首歌曲，若已含，则不再添加
 		String song[]=songs.split(",");
 		PrintWriter out=response.getWriter();
@@ -99,6 +106,7 @@ public class SongListController {
 		}
 		service.updateSongList(songs, l_Id);
 		map.put("status","添加成功");
+		System.out.println("添加成功");
 		return map;
 	}
 	/**
@@ -112,7 +120,7 @@ public class SongListController {
 		String l_Id=request.getParameter("lid");//歌曲所在的歌单
 		
 		//判断歌单中是否含有该首歌曲，若含有，则移除
-		String songs=service.querySongList(l_Id).get(0).getSongs();
+		String songs=service.querySongList(l_Id,null).get(0).getSongs();
 		if(songs.contains(","+s_Id+",")){
 			songs=songs.replace(","+s_Id+",", ",");
 		}

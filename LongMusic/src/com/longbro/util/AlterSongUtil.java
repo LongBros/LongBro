@@ -17,8 +17,8 @@ public class AlterSongUtil {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		alterSonName();
-		saveLyricToDb();
+		alterSonName();
+//		saveLyricToDb();
 	}
 
 	private static void saveLyricToDb() {
@@ -61,28 +61,33 @@ public class AlterSongUtil {
 			while(rs.next()){
 				String sourceId=rs.getString("sourceId");
 				String songName=rs.getString("songName");
-				File file=new File("D:/apache-tomcat-8.5.35/webapps/util/songs/"+
+				File file=new File("F:/Music/songs/"+
 						songName+".mp3");
 				if(sourceId.contains(".html")){//QQ音乐
-					System.out.println(sourceId.substring(0, sourceId.indexOf(".html"))+".mp3");
+//					System.out.println(sourceId.substring(0, sourceId.indexOf(".html"))+".mp3");
 					if(file.exists()){//有该音乐，重命名为资源id的
 						file.renameTo(new File(
-								"D:/apache-tomcat-8.5.35/webapps/util/songs/"+
+								"F:/Music/songs/"+
 						sourceId.substring(0, sourceId.indexOf(".html"))+".mp3"));
+						System.out.println("已重命名"+file.getName()+"为"+sourceId);
+
 					}
 				}else if(sourceId.contains(".kw")){//酷我音乐
 					if(file.exists()){//有该音乐，重命名为资源id的
 						file.renameTo(new File(
-								"D:/apache-tomcat-8.5.35/webapps/util/songs/"+sourceId+".mp3"));
+								"F:/Music/songs/"+sourceId+".mp3"));
+						System.out.println("已重命名"+file.getName()+"为"+sourceId);
+
 					}
 				}else if(sourceId.contains("http:")){//其他音乐
 				}else{//网易云音乐
 					if(file.exists()){//有该音乐，重命名为资源id的
 						file.renameTo(new File(
-								"D:/apache-tomcat-8.5.35/webapps/util/songs/"+sourceId+".mp3"));
+								"F:/Music/songs/"+sourceId+".mp3"));
+						System.out.println("已重命名"+file.getName()+"为"+sourceId);
+
 					}
 				}
-				System.out.println("已重命名"+file.getName()+"为"+sourceId);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

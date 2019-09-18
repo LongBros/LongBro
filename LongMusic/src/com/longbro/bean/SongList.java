@@ -6,6 +6,8 @@ public class SongList {
 	private String songs;
 	private String descr;
 	private int times;
+	private String time;
+	private String creator;//2019-08-31
 	public int getId() {
 		return id;
 	}
@@ -24,12 +26,6 @@ public class SongList {
 	public void setSongs(String songs) {
 		this.songs = songs;
 	}
-	public String getDesc() {
-		return descr;
-	}
-	public void setDesc(String desc) {
-		this.descr = desc;
-	}
 	public int getTimes() {
 		return times;
 	}
@@ -42,5 +38,17 @@ public class SongList {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	private String time;
+	public String getDescr() {
+		return descr;
+	}
+	public void setDescr(String descr) {
+		this.descr = descr;
+	}
+	public String getCreator() {
+		return creator;
+	}
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+	
 }

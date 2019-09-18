@@ -1,4 +1,5 @@
 /**
+ * songList.jsp中的id的解释：songListCom-歌单下的评论或某歌曲的所有信息
  * 使用Ajax时的返回值类型:xml、html、script、JSON、jsonp、text
  * 1.按分页查询歌曲 		2.根据关键词模糊搜索歌曲
  * 3.根据歌手搜索歌曲 	4.强力搜索功能，可根据搜索关键词搜索歌曲名、歌手、歌词5.加载指定歌单6.播放歌曲	
@@ -6,22 +7,24 @@
  * 5.暂停与播放的切换功能 	6.实现下一曲按钮功能
  * 7.实现上一曲按钮功能  	8.切换播放模式
  * 9.快进、快退 			10.monitor函数
- * 11.根据秒参数，将其转换为分和秒的组合00:00格式并返回 12.音量减、加，音量进度条随之变化
- * 13.键盘监听事件14.设置倒计时时间15.点击新增后显示歌曲信息输入表单
+ * 11.根据秒参数，将其转换为分和秒的组合00:00格式并返回-已转移至TimeDeal.js
+ * 12.音量减、加，音量进度条随之变化13.键盘监听事件14.设置倒计时时间15.点击新增后显示歌曲信息输入表单
  * 16.录歌曲17.将id为id的歌曲添加至播放列表18.刷新播放列表19.显示与隐藏播放列表和歌词
  * 20.弹出歌单框21.关闭添加至歌单或播放列表的弹框22.添加某首歌至id为l_id的歌单23.从歌单移除歌曲
  * 24.新建歌单点击函数25.创建歌单26.根据歌曲id得到歌曲名27.根据歌单id得到歌单的信息28.生成min-max的随机整数29.全选 or 全不选
  * 30.加载歌曲详细信息，及歌曲下的评论31.加载全部歌词32.随机生成一个包含num首歌曲的播放列表33.加载歌单
+ * 34.加载热歌榜35.显示播放按钮和添加按钮36.隐藏播放按钮和添加按钮37.实现单句歌词可随鼠标移动
+ * 38.使用迷你UI的弹出提示功能39.随机弹出一首歌曲以供直达播放40.底部栏的显示与隐藏41.回车键搜索歌曲
  */
 var nowplay=0;//当前播放歌曲的序号
-var mode="random";//播放模式---默认为顺序播放模式
+var mode="order";//播放模式---默认为顺序播放模式
 var sid="";//资源id，QQ音乐含.html以区分QQ音乐与网易云音乐加载歌词
 var ssid="";//8-8不使用sid是因为会影响单句歌词的加载，歌曲资源名为QQ音乐不含.html
 var url="";
 
 var pList=new Array();//播放列表数组
-for(var i=1;i<552;i++){
-	pList[i]=i;
+for(var i=1;i<565;i++){
+	pList.push(i);
 }
 showList();
 //在addList函数中执行加1来逐个存放歌曲至播放列表数组
@@ -35,6 +38,7 @@ function querySongs(page){
 	//清空原有歌曲列表
 	$('#song').text('');
 	$('#num').text('');
+	$('#songListCom').text('');
 	//加载歌曲列表
 	$.ajax({
 		type:"Get",
@@ -81,16 +85,6 @@ function querySongs(page){
 						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");
-//				var s="<tr>";
-//				var id="<td><input type='checkbox'/></td><td>"+data[k].id+"</td>";
-//				var songName="<td>"+data[k].songName+"</a></td>";
-//				var singerName="<td>"+data[k].singer+"</td>";
-//				var dur="<td>"+data[k].duration+"</td>";
-//				var al="<td>"+data[k].album+"</td>";
-//				var retime="<td title='"+data[k].releaseTime+"'>"+data[k].releaseTime+"</td>";
-//				var web="<td title='"+website+"'>"+website+"</td>";
-//				var e="</tr>";
-//				alert(s+web);
 			}
 		}
 	});
@@ -104,10 +98,10 @@ function querySongsByKey(){
 		alert("必须输入搜索内容");
 		return;
 	}
-//	alert(key);
 	//清空原有歌曲列表
 	$('#song').text('');
 	$('#num').text('');
+	$('#songListCom').text('');
 	//加载搜索到的歌曲列表
 	$.ajax({
 		type:"Get",
@@ -115,8 +109,6 @@ function querySongsByKey(){
 		url:"../querySongs.do?key="+key,
 		dataType:"json",
 		success:function(data){
-//			alert(data.length);
-//			alert(data);
 			for(var k=0;k<data.length;k++){
 				//特殊显示搜索关键字
 				var na=data[k].songName+"";
@@ -140,10 +132,6 @@ function querySongsByKey(){
 				}
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						/*"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>" +
-						"&emsp;<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>" +
-						"&emsp;<font onclick='play(this,"+data[k].id+")'>▷</font></td>" +
-						*/
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+")\" onmouseover=\"showPlayBtn(this,"+data[k].id+")\" >" +
 						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>" +
 						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[k].id+"'>" +
@@ -187,6 +175,7 @@ function querySongsBySinger(singer){
 	//清空原有歌曲列表
 	$('#song').text('');
 	$('#num').text('');
+	$('#songListCom').text('');
 	//加载搜索到的歌曲列表
 	$.ajax({
 		type:"Get",
@@ -217,8 +206,6 @@ function querySongsBySinger(singer){
 				
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-/*						"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>&emsp;<a title='"+data[k].songName+"' onclick=\"play(this,'"+data[k].id+"')\">"+data[k].songName+"</a></td>" +
-*/						
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+")\" onmouseover=\"showPlayBtn(this,"+data[k].id+")\" >" +
 						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+data[k].songName+"</a>" +
 						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[k].id+"'>" +
@@ -252,6 +239,7 @@ function strongQuerySongs(){
 	//清空原有歌曲列表
 	$('#song').text('');
 	$('#num').text('');
+	$('#songListCom').text('');
 	//加载搜索到的数据
 	$.ajax({
 		type:"Get",
@@ -259,7 +247,6 @@ function strongQuerySongs(){
 		url:"../strongQuerySongs.do?key="+key,
 		dataType:"json",
 		success:function(data){
-			//alert(data[2].length);查询的歌词
 			for(var k=0;k<data[0].length;k++){//歌曲
 				var na=data[0][k].songName+"";
 				if(na.length>9){
@@ -283,11 +270,6 @@ function strongQuerySongs(){
 				
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[0][k].id+"</td>" +
-						/*"<td><font size='+1' onclick='showListName("+data[0][k].id+")'>+</font>" +
-//						"&emsp;<a title='"+data[0][k].songName+"' onclick=\"play(this,'"+data[0][k].id+"')\">"+na+"</a></td>" +
-						"&emsp;<a title='"+data[0][k].songName+"' onclick=\"loadSong('"+data[0][k].id+"')\">"+na+"</a>" +
-						"&emsp;<font onclick='play(this,"+data[0][k].id+")'>▷</font></td>" +*/
-						
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[0][k].id+")\" onmouseover=\"showPlayBtn(this,"+data[0][k].id+")\" >" +
 						"<a title='"+data[0][k].songName+"' onclick=\"loadSong('"+data[0][k].id+"')\">"+na+"</a>" +
 						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[0][k].id+"'>" +
@@ -333,12 +315,6 @@ function strongQuerySongs(){
 				
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td><font  color='blue'>"+data[1][k].id+"</font></td>" +
-						
-						/*"<td><font size='+1' onclick='showListName("+data[1][k].id+")'>+</font>" +
-//						"&emsp;<a title='"+na+"' onclick=\"play(this,'"+data[1][k].id+"')\">"+data[1][k].songName+"</a></td>" +
-						"&emsp;<a title='"+data[1][k].songName+"' onclick=\"loadSong('"+data[1][k].id+"')\">"+na+"</a>" +
-						"&emsp;<font onclick='play(this,"+data[1][k].id+")'>▷</font></td>" +*/
-						
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[1][k].id+")\" onmouseover=\"showPlayBtn(this,"+data[1][k].id+")\" >" +
 						"<a title='"+data[1][k].songName+"' onclick=\"loadSong('"+data[1][k].id+"')\">"+na+"</a>" +
 						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[1][k].id+"'>" +
@@ -381,11 +357,6 @@ function strongQuerySongs(){
 				lyric=lyric.substring(lyric.indexOf(key)-18, lyric.indexOf(key)+20);
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td><font  color='red'>"+data[2][k].id+"</font></td>" +
-//						"<td><font size='+1' onclick='showListName("+data[2][k].id+")'>+</font>" +
-//						//"&emsp;<a title='"+data[2][k].songName+"' onclick=\"play(this,'"+data[2][k].id+"')\">"+na+"</a>("+lyric+")</td>" +
-//						"&emsp;<a title='"+data[2][k].songName+"' onclick=\"loadSong('"+data[2][k].id+"')\">"+na+"</a>("+lyric+")" +
-//						"&emsp;<font onclick='play(this,"+data[2][k].id+")'>▷</font></td>" +
-						
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[2][k].id+")\" onmouseover=\"showPlayBtn(this,"+data[2][k].id+")\" >" +
 						"<a title='"+data[2][k].songName+"' onclick=\"loadSong('"+data[2][k].id+"')\">"+na+"</a>" +
 						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[2][k].id+"'>" +
@@ -433,6 +404,7 @@ function querySongList(list){
 	//清空原有歌曲列表
 	$('#song').text('');
 	$('#num').text('');
+	$('#songListCom').text('');
 	//加载歌曲列表
 	$.ajax({
 		type:"Get",
@@ -462,9 +434,6 @@ function querySongList(list){
 				}
 				$('#song').append("<tr>" +
 						"<td><input type='checkbox'/></td><td>"+data[k].id+"</td>" +
-						/*"<td><font size='+1' onclick='showListName("+data[k].id+")'>+</font>&emsp;<font size='+1' title='从\""+title+"\"移除\""+data[k].songName+"\" ' onclick='remove("+data[k].id+","+lid+")'>-</font>&emsp;" +
-						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>&emsp;<font onclick='play(this,"+data[k].id+")'>▷</font></td>" +*/
-						
 						"<td><span onmouseout=\"hidePlayBtn(this,"+data[k].id+")\" onmouseover=\"showPlayBtn(this,"+data[k].id+")\" >" +
 						"<a title='"+data[k].songName+"' onclick=\"loadSong('"+data[k].id+"')\">"+na+"</a>" +
 						"&emsp;<span style='visibility:hidden;' id='playBtn"+data[k].id+"'>" +
@@ -486,9 +455,9 @@ function querySongList(list){
 			
 		}
 	});
-	$('#song').append("</tbody><br><textarea id='comment' column='12' rows='4' placeholder='说你想说'></textarea>");
-	$('#song').append("<span style='background:gray;color:white;' onclick='commentMusic(1,"+lid+")'>发表</span>");
-	$('#song').append("<div id='comments'></div>");
+	$('#songListCom').append("<br><textarea id='comment' column='12' rows='4' placeholder='说你想说'></textarea>");
+	$('#songListCom').append("<span style='background:gray;color:white;' onclick='commentMusic(1,"+lid+")'>发表</span>");
+	$('#songListCom').append("<div id='comments'></div>");
 	loadComment("1",lid);
 }
 /**
@@ -511,7 +480,7 @@ function play(obj,k) {
 //	}
 //	k=parseInt(k)+1;
 	nowplay=k;
-	loadSong(nowplay);//播放歌曲默认打开歌曲详细信息
+//	loadSong(nowplay);//播放歌曲默认打开歌曲详细信息
 	var name="";//歌名
 	$.ajax({
 		type:"Get",
@@ -536,6 +505,7 @@ function play(obj,k) {
 				ssid=sid;
 			}
 			url="http://localhost/util/songs/"+ssid+".mp3";
+//			url="file:///F:/Music/songs/"+ssid+".mp3";
 			name=data.songName+"-"+data.singer;
 			//设置图片
 			var img=data.imgPath+"";
@@ -564,13 +534,13 @@ function play(obj,k) {
 				url:au,
 				dataType:"text",
 				success:function(data){
-					document.getElementById("alyric").innerHTML="<center><font color='yellow'>"+name+"</font></center>"+data;
+					document.getElementById("alyric").innerHTML="<center><font color='yellow' onclick='loadSong("+nowplay+")'>"+name+"</font></center>"+data;
 				}
 			});
 			
 		}
 	});
-//	alert(url);
+//	mini.alert(url);
 	var p=document.getElementById("audio");
 	p.setAttribute("src", url);
 	singerImg.src="../image/sing.gif";
@@ -614,11 +584,12 @@ function next(){
 		}else{
 			t=0;
 		}
-	}else if(mode=="random"){//随机播放
-		t=Math.round(Math.random()*(pList.length-1-0)+0); 
-	}else{
+	}else if(mode=="single"){//单曲循环播放
 		t=t;
+	}else{
+		t=Math.round(Math.random()*(pList.length-1-0)+0); 
 	}
+	mini.showTips(myAlert(t))
 	play(this,pList[t]);
 }
 /**
@@ -634,10 +605,10 @@ function preview(){
 		}else{
 			t=pList.length-1;
 		}
-	}else if(mode=="random"){//随机播放
-		t=Math.round(Math.random()*(pList.length-1-0)+0); 
-	}else{//单曲循环
+	}else if(mode=="single"){//单曲循环
 		t=t;
+	}else{//随机播放
+		t=Math.round(Math.random()*(pList.length-1-0)+0); 
 	}
 	play(this,pList[t]);
 }
@@ -687,8 +658,8 @@ function monitor() {
 	var pro=document.getElementById("pro");//进度条
 	var time=document.getElementById("countDown").innerText+"";
 	if(time=="0"&&p.paused==false){//倒计时为0执行
-		//p.pause();
-		alert('已到时间');
+		p.pause();
+		mini.showTips(myAlert('已到时间'));
 	}else if(time!="0"&&p.paused==false){
 		var left=parseInt(time)-1;
 		document.getElementById("countDown").innerText=left+"";
@@ -720,27 +691,7 @@ function monitor() {
 		next();
 	}
 }
-/**
- * 11.根据秒参数，将其转换为分和秒的组合00:00格式并返回
- * 例若time=195，返回03:15
- * @param time
- * @returns {String}
- */
-function getTime(time) {//根据秒换算为分和秒
-	time=time.substring(0, time.indexOf(".", 0));
-    //var min=Math.round(time/60)+"";//分钟---此方法在秒为31时会直接将分得为1，不可靠
-	//整型分钟数加空字符变为字符型方可执行下方的.length方法
-	var min=parseInt(time/60)+"";
-    var sec=time%60+"";//秒
-    //保持格式为00:00
-    if(min.length==1){
-    	min="0"+min;
-    }
-    if(sec.length==1){
-    	sec="0"+sec;
-    }
-    return min+":"+sec;
-}
+
 /**
  * 12.音量减，音量进度条随之变化
  */
@@ -748,7 +699,7 @@ function minus() {
 	var p=document.getElementById("audio");
 	var vo=document.getElementById("voice");
 	if(vo.value==0){
-		alert("使出了洪荒之力，音量已经到静音了，不能再减了");
+		mini.showTips(myAlert("使出了洪荒之力，音量已经到静音了，不能再减了"));
 	}else{
 		vo.value=vo.value-10;
 		p.volume=p.volume-0.1;
@@ -761,7 +712,7 @@ function add() {
 	var p=document.getElementById("audio");
 	var vo=document.getElementById("voice");//声音从0-1
 	if(vo.value==100){
-		alert("哎呀，音量已经到最大了，不能再加了");
+		mini.showTips(myAlert("哎呀，音量已经到最大了，不能再加了"));
 	}else{
 		vo.value=vo.value+10;
 		p.volume=p.volume+0.1;
@@ -787,36 +738,41 @@ function keydown(event) {
 	//	p.pause();
 	//}
 //	alert(e.ctrlKey)
-	if(event.keyCode=="80"&&e.ctrlKey&&e.shiftKey&&p.paused==false){//80=p   32空格键
+	/*if(event.keyCode=="80"&&e.altKey&&p.paused==false){//80=p   32空格键
 		p.pause();
 		btn.src="../image/pause.png";
-	}else if(event.keyCode=="80"&&e.ctrlKey&&e.shiftKey&&p.paused==true){
+	}else if(event.keyCode=="80"&&e.altKey&&p.paused==true){
 		p.play();
 		btn.src="../image/play.png";
-	}else if(event.keyCode=="37"&&e.ctrlKey&&e.shiftKey){//左键
+	}*/
+	if(event.keyCode=="80"&&e.altKey){//9-06用此代替上面，解决了bug
+		pause_play();
+	}
+	else if(event.keyCode=="37"&&e.altKey){//左键
 		preview();
-	}else if(event.keyCode=="39"&&e.ctrlKey&&e.shiftKey){//右键
+	}else if(event.keyCode=="39"&&e.altKey){//右键
 		next();
-	}else if(event.keyCode=="38"&&e.ctrlKey&&e.shiftKey){//上键
+	}else if(event.keyCode=="38"&&e.altKey){//上键
 		add();
-	}else if(event.keyCode=="40"&&e.ctrlKey&&e.shiftKey){//下键
+	}else if(event.keyCode=="40"&&e.altKey){//下键
 		minus();
-	}else if(event.keyCode=="67"&&e.ctrlKey&&e.shiftKey){//C键--切换播放模式
+	}else if(event.keyCode=="67"&&e.altKey){//C键--切换播放模式
 		change();
-	}else if(event.keyCode=="66"&&e.ctrlKey&&e.shiftKey){//B键--改变页面背景
+	}else if(event.keyCode=="66"&&e.altKey){//B键--改变页面背景
 		changeBack();
-	}else if(event.keyCode=="65"&&e.ctrlKey&&e.shiftKey){//A键--快退十秒
+	}else if(event.keyCode=="65"&&e.altKey){//A键--快退十秒
 		back(2);
-	}else if(event.keyCode=="68"&&e.ctrlKey&&e.shiftKey){//D键--快进十秒
+	}else if(event.keyCode=="68"&&e.altKey){//D键--快进十秒
 		moveon(2);
-	}else if(event.keyCode=="81"&&e.ctrlKey&&e.shiftKey){//Q键--快退5秒
+	}else if(event.keyCode=="81"&&e.altKey){//Q键--快退5秒
 		back(1);
-	}else if(event.keyCode=="69"&&e.ctrlKey&&e.shiftKey){//E键--快进5秒
+	}else if(event.keyCode=="69"&&e.altKey){//E键--快进5秒
 		moveon(1);
-	}else if(event.keyCode=="83"&&e.ctrlKey&&e.shiftKey){//Q键--快退5秒
+	}else if(event.keyCode=="83"&&e.altKey){//S键--
 		showHide();
 	}
 }
+
 //检测当前播放是否结束，若是，则播放下一首
 window.setInterval("monitor()", 1000);
 document.addEventListener("keydown", keydown);
@@ -872,7 +828,7 @@ function addSong(){
 		dataType:"Json",
 		success:function(res){
 			if(res){
-				alert(res.msg);
+				mini.alert(res.msg);
 			}
 		}
 	});
@@ -982,7 +938,9 @@ function addToList(l_id){
 	if(l_id=="0"){//为0时添加至播放列表
 		var sof=addList(id)+"";
 		if(sof=="0"){
-			alert("添加失败，播放列表中已存在该首歌曲！");
+			mini.showTips(myAlert("添加失败，播放列表中已存在该首歌曲！"));
+		}else{
+			mini.showTips(myAlert("添加至播放列表成功！"));
 		}
 	}else{//不为0时添加至歌单
 		var r=confirm("添加'"+name+"'至歌单'"+lName+"'?");
@@ -992,13 +950,16 @@ function addToList(l_id){
 				type:"Get",
 				async:true,
 				url:url,
-				dataType:"json",
+				dataType:"text",
 				success:function(data){
-					alert("添加成功");
+					mini.showTips(myAlert("添加成功"));
+				},
+				error:function(){
+					mini.showTips(myAlert("添加成功，但出现错误"));
 				}
 			});
 		}else{
-			
+			mini.showTips(myAlert("已取消"));
 		}
 		loadSongList();
 	}
@@ -1020,13 +981,16 @@ function remove(id,lid){
 			url:url,
 			dataType:"Json",
 			success:function(data){
-				alert("已移除");
+				mini.showTips(myAlert("已移除"));
+			},
+			error:function(){
+				mini.showTips(myAlert("移除成功，但出现错误"));
 			}
 		});
 		loadSongList();
 	}
 	else{
-//		alert("已取消");
+		mini.showTips(myAlert("已取消"));
 	}
 	showList();//刷新播放列表
 }
@@ -1050,7 +1014,7 @@ function create(){
 		alert("部分信息为空");
 		return;
 	}
-	var url="../newList.do?name="+name+"&desc="+desc+"songIds=";
+	var url="../newList.do?name="+name+"&desc="+desc+"&songIds=&creator=LongBro";
 	$.ajax({
 		type:"Get",
 		async:false,
@@ -1060,6 +1024,9 @@ function create(){
 			
 		}
 	});
+	mini.showTips(myAlert("歌单创建成功"));
+	document.getElementById("addSong").style.display="none";//关闭添加至歌单或播放列表的弹框
+	document.getElementById("newList").style.display="none";//打开新建歌单的弹框
 }
 /**
  * 26.根据歌曲id得到歌曲名
@@ -1131,9 +1098,10 @@ function changed(){
  * @param id
  */
 function loadSong(id){
-//	$('#songsList').text('');
+//	$('#songsList').text('');//不能轻易情况
 	$('#song').text('');
 	$('#num').text('');
+	$('#songListCom').text('');
 	$.ajax({
 		type:"Get",
 		async:false,
@@ -1192,20 +1160,23 @@ function loadSong(id){
 					var alyric=data1+"";//所有歌词
 					var plyric=alyric.substring(0, 222);
 					document.getElementById("alyric").innerHTML="<center><font color='yellow'>"+name+"</font></center>"+data1;
-					$('#song').append("歌曲本站ID:"+id+"<br>资源id:"+dsid+"<br>歌曲名:<a onclick='play(this,"+id+")'>"+name+"</a>&nbsp;<font size='+1' onclick='showListName("+id+")'>+</font>");
-					$('#song').append("<br>歌手:<a onclick=\"querySongsBySinger('"+data.singer+"')\">"+data.singer+"</a><br>专辑:"+data.album);
-					$('#song').append("<br>网站来源:"+data.website+"<br>1.源资源路径:<br>"+surl+"<br>"+url);
-					$('#song').append("<br>2.资源路径:<br>"+purl);
-					$('#song').append("<br>3.歌词路径:<br>E:\\AAAA\\alyric");
-					$('#song').append("<br>4.存储路径:<br>D:\\apache-tomcat-8.5.35\\webapps\\util\\songs<br>F:\\Music\\songs");
-					$('#song').append("<br><img src='"+artist+"' style='width:140px;height:150px'><br>");
-					$('#song').append("<center><font color='red'>"+name+"</font></center>" +
+					$('#songListCom').append("歌曲本站ID:"+id+"<br>资源id:"+dsid+"<br>歌曲名:<a onclick='play(this,"+id+")'>"+name+"</a>&nbsp;<font size='+1' onclick='showListName("+id+")'>+</font>");
+					$('#songListCom').append("<br>歌手:<a onclick=\"querySongsBySinger('"+data.singer+"')\">"+data.singer+"</a><br>专辑:"+data.album);
+					$('#songListCom').append("<br>网站来源:"+data.website+"<br>1.源资源路径:<br>"+surl+"<br>"+url);
+					$('#songListCom').append("<br>2.资源路径:<br>"+purl);
+					$('#songListCom').append("<br>3.歌词路径:<br>E:\\AAAA\\alyric");
+					if(web=="网易云音乐"){
+						$('#songListCom').append("<br>"+"<a href='http://music.163.com/api/song/lyric?id="+dsid+"&lv=1&kv=1&tv=-1' target='_blank'>网易歌词路径</a>");
+					}
+					$('#songListCom').append("<br>4.存储路径:<br>D:\\apache-tomcat-8.5.35\\webapps\\util\\songs<br>F:\\Music\\songs");
+					$('#songListCom').append("<br><img src='"+artist+"' style='width:140px;height:150px'><br>");
+					$('#songListCom').append("<center><font color='red'>"+name+"</font></center>" +
 							"<div id='lyrics'>"+plyric+"</div>" +
 							"<center><a id='findAllBtn' style='' onclick=\"loadLyric('0','"+dsid+"')\">展开全部</a><a style='display:none' onclick=\"loadLyric('1')\">折叠全部</a></center>");
 					
-					$('#song').append("<br><textarea id='comment' column='12' rows='4' placeholder='说你想说'></textarea>");
-					$('#song').append("<span style='background:gray;color:white;' onclick='commentMusic(0,"+id+")'>发表</span>");
-					$('#song').append("<div id='comments'></div>");
+					$('#songListCom').append("<br><textarea id='comment' column='12' rows='4' placeholder='说你想说'></textarea>");
+					$('#songListCom').append("<span style='background:gray;color:white;' onclick='commentMusic(0,"+id+")'>发表</span>");
+					$('#songListCom').append("<div id='comments'></div>");
 				}
 			});
 			loadComment("0",id);
@@ -1250,7 +1221,7 @@ function randomPList(num){
 		pList[i]=n;
 	}
 	var songIds=","+pList+",";
-	var url="../newList.do?name="+formatW2(new Date()+"")+"&desc="+formatW2(new Date()+"")+"随机播放歌曲创建的歌单&songIds="+songIds;
+	var url="../newList.do?name="+formatW2(new Date()+"")+"&desc="+formatW2(new Date()+"")+"随机播放歌曲创建的歌单&songIds="+songIds+"&creator=0";
 	$.ajax({
 		type:"Get",
 		async:false,
@@ -1260,7 +1231,7 @@ function randomPList(num){
 			
 		}
 	});
-	xu=num;//将i置为歌曲数量以供向播放列表中添加歌曲
+	xu=num;//将xu置为歌曲数量以供向播放列表中添加歌曲
 	showList();
 	loadSongList();
 }
@@ -1276,14 +1247,14 @@ function loadSongList(){
 	$.ajax({
 		type:"Get",
 		async:false,
-		url:"../querySongList.do",
+		url:"../querySongList.do?creator=LongBro",
 		dataType:"Json",
 		success:function(data){
 			$('#songList').append("<option>歌单</option>");
 			$('#songLists').append("<span style='color:white;' onclick=\"addToList('0')\">播放列表</span>");
 			for(var k=0;k<data.length;k++){
 				$('#songList').append("<option value='"+data[k].songs+"】"+data[k].name+"】"+data[k].id+"'>"+data[k].name+"</option>");
-				$('#songLists').append("<li onclick=\"addToList('"+(k+1)+"')\">"+data[k].name+"</li>");
+				$('#songLists').append("<li onclick=\"addToList('"+data[k].id+"')\">"+data[k].name+"</li>");
 			}
 		}
 	});
@@ -1332,13 +1303,7 @@ function hidePlayBtn(obj,id,type){
 		document.getElementById("playBtn"+id).style.visibility="hidden";
 	}
 }
-//该函数暂无法实现移动单句歌词的效果，
-function moveLyric(){
-	var e = event || window.event;
-	//alert(e.clientX + ',' + e.clientY);
-	document.getElementById("lyric").style.top=e.clientX;
-	document.getElementById("lyric").style.right=e.clientY;
-}
+
 /**
  * 37.实现单句歌词可随鼠标移动
  */
@@ -1353,3 +1318,130 @@ function moveLyric(){
 //document.oncontextmenu=new Function("event.returnValue=false");
 //document.onselectstart=new Function("event.returnValue=false");
 //document.oncopy=new Function("event.returnValue=false");
+/**
+ * 38.使用迷你UI的弹出提示功能
+ * 参数：弹出的内容
+ * 返回：mini.showTips的参数
+ */
+function myAlert(content){
+	var options={//value必须加引号，不然无法生效
+    		content:content,
+    		state:"danger",//default|success|info|warning|danger
+    		x:"center",//left|center|right
+    		y:"center",//top|center|bottom
+    		timeout:5000//自动消失间隔时间。默认2000（2秒）
+    }; 
+	return options;
+}
+function myAlert1(content,x,y){
+	var options={//value必须加引号，不然无法生效
+    		content:content,
+    		state:"danger",//default|success|info|warning|danger
+    		x:x,//left|center|right
+    		y:y,//top|center|bottom
+    		timeout:5000//自动消失间隔时间。默认2000（2秒）
+    }; 
+	return options;
+}
+//39.随机弹出一首歌曲以供直达播放
+var sens=new Array();
+//var pa=1;//初始随机推荐第一页歌曲
+////根据页码加载并设置歌曲数组，下方控制每十分钟切换一次歌曲页码
+//function changePage(){
+//	sens=new Array();
+//	pa=random(1,12);
+//	$.ajax({
+//		type:"Get",
+//		async:false,
+//		url:"../queryAllSongs.do?page="+pa,
+//		dataType:"Json",
+//		success:function(data){
+//			//alert(data.length);
+//			for(var k=0;k<data.length;k++){
+//				var na=data[k].songName+"";
+//				if(na.length>9){
+//					na=na.substring(0, 9)+"...";
+//				}
+//				na=na+"("+data[k].playNum+")";
+//				if((data[k].lyric+"")!="null")
+//					//sens.push(na+"<br>"+data[k].lyric);
+//					sens.push("<font onclick='play(this,"+data[k].id+")'>"+na+"</font>");
+//			}
+//		}
+//	});
+//}
+//十分钟切换一页歌曲
+//window.setInterval("changePage()", 6000);
+//取消以上逻辑，切换为此逻辑，一次性加载所有页码歌曲至数组
+for(var ii=1;ii<13;ii++){
+	$.ajax({
+		type:"Get",
+		async:false,
+		url:"../queryAllSongs.do?page="+ii,
+		dataType:"Json",
+		success:function(data){
+			//alert(data.length);
+			for(var k=0;k<data.length;k++){
+				var na=data[k].songName+"";
+				na=na+"("+data[k].playNum+")";
+				//if((data[k].lyric+"")!="null")
+					//sens.push(na+"<br>"+data[k].lyric);
+					sens.push("<font onclick='play(this,"+data[k].id+")'>"+na+"</font>");
+			}
+		}
+	});
+}
+
+function randomSen(){
+	mini.showTips(myAlert1("点歌曲名播放哦^-^<br>"+sens[random(0, sens.length)],"center","center"))
+}
+//每隔10秒钟弹出一首直达歌曲
+window.setInterval("randomSen()", 10000);
+/**
+ * 40.底部栏的显示与隐藏
+ */
+function showBottom(){
+	var status=document.getElementById("bottom").style.visibility;
+	if(status=="hidden"){
+		document.getElementById("bottom").style.visibility="visible";
+	}else{
+		document.getElementById("bottom").style.visibility="hidden";
+	}
+}
+/**
+ * 41.回车键搜索歌曲
+ */
+function search(){
+	document.addEventListener("keydown", function onenterdown(event){
+		if(event.keyCode=="13"){
+			strongQuerySongs();
+		}
+	});
+	
+}
+window.addEventListener("mousemove",hideBottom);
+//260-536	1350-540
+//260-574	1350-578
+function hideBottom(){
+	var e = event || window.event;
+	//mini.showTips(myAlert(e.clientX + ',' + e.clientY));
+	if(e.clientX>260&&e.clientX<1350&&e.clientY>540&&e.clientY<578){
+		document.getElementById("bottom").style.visibility="visible";
+	}else{
+		document.getElementById("bottom").style.visibility="hidden";
+	}
+}
+//该函数实现固定底部栏
+function fixBottom(){
+	window.removeEventListener("mousemove",hideBottom);
+	var html=document.getElementById("lock").style.display="none";
+	var html=document.getElementById("unlock").style.display="inline-block";
+	mini.showTips(myAlert("已固定底部栏"))
+}
+//该函数实现固定底部栏
+function unfixBottom(){
+	window.addEventListener("mousemove",hideBottom);
+	var html=document.getElementById("lock").style.display="inline-block";
+	var html=document.getElementById("unlock").style.display="none";
+	mini.showTips(myAlert("已取消固定底部栏"))
+}

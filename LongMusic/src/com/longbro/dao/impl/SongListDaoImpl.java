@@ -20,9 +20,11 @@ public class SongListDaoImpl extends BaseDao implements SongListDao{
 		this.insert("com.longbro.bean.songlist.addSongList", list);
 	}
 	@Override
-	public List<SongList> querySongList(String id) {
+	public List<SongList> querySongList(String id,String creator) {
+		HashMap<String, String> map=new HashMap<String, String>();
+		map.put("id", id);map.put("creator", creator);
 		// TODO Auto-generated method stub
-		return (List<SongList>)this.selectList("com.longbro.bean.songlist.querySongList",id);
+		return (List<SongList>)this.selectList("com.longbro.bean.songlist.querySongList",map);
 	}
 	@Override
 	public void updateSongList(String songs, String id) {

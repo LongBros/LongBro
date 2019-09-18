@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>折线图</title>
+  <title>账单汇总</title>
   <meta name="description" content="这是一个 table 页面">
   <meta name="keywords" content="table">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -121,6 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						$(function(){
 							load('year');
 						});
+						//加载年/月下的汇总
 						function load(yom){
 							$('#account').text('');
 							$.ajax({
@@ -156,6 +157,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							//因times会重新被置为空，故添加一div保存times
 							loadPic(time,in_,out,earn);
 						}
+						//加载某年/月分类下的总计
 						function loadCate(yom,type){
 							var datas="";
 							$('#category').text('');
@@ -183,6 +185,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							alert(datas)
 							loadCatePic(datas);//加载出分类的饼状图
 						}
+						//加载分类下的账单
 						function loadAcc(cate,yom){
 							alert("将为你加载"+yom+cate+"的账单");
 							$('#acc').text('');
@@ -405,7 +408,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 		</script>   
             <hr/>
-           
         </div>
       </div>
     </div>

@@ -21,11 +21,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <meta name="apple-mobile-web-app-title" content="Amaze UI" />
   <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
   <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="stylesheet" type="text/css" href="../hui/lib/Hui-iconfont/1.0.8/iconfont.css" />
+  <link href="http://static.h-ui.net/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+  
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/myjs/player.js"></script>
   <script type="text/javascript" src="../js/myjs/comment.js"></script>
   <script type="text/javascript" src="../js/myjs/plist.js"></script>
   <script type="text/javascript" src="../js/myjs/timeDeal.js"></script>
+  <script src="../scripts/boot.js" type="text/javascript"></script><!-- 使用miniUI的消息框 -->
   <style type="text/css">
   	Body { 
 		scrollbar-arrow-color: #f4ae21; 
@@ -73,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
     <div class="am-offcanvas-bar admin-offcanvas-bar">
       <ul class="am-list admin-sidebar-list">
-        <li><a href=""><span class="am-icon-home"></span> 首页</a></li>
+        <li><a href=""><span class="am-icon-home"></span>首页</a></li>
         
         <li class="admin-parent">
           <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span>账单展示 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
@@ -84,7 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <li><a href=""><span class="am-icon-calendar"></span> 饼状图分析</a></li>
           </ul>
         </li>
-        <li><a href="showCate.jsp"><span class="am-icon-table"></span> 分类管理</a></li>
+        <li><a href="showCate.jsp"><span class="am-icon-table"></span> 日记本</a></li>
         <li class="admin-parent">
           <a class="am-cf" data-am-collapse="{target: '#collapse-nav1'}"><span class="am-icon-file"></span>其他 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
           <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav1">
@@ -206,7 +210,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <br>
         <div class="am-u-sm-12 am-u-md-3">
           <div class="am-input-group am-input-group-sm">
-              <input type="text" id="key" placeholder="搜一搜，听你想听" class="am-form-field">
+              <input type="text" id="key" placeholder="搜一搜，听你想听" onchange="search()" class="am-form-field">
 	          <span class="am-input-group-btn">
 	            	<button class="am-btn am-btn-default" type="button" onclick="strongQuerySongs()">强力搜索</button>
 	          </span>
@@ -269,6 +273,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </tbody>
             </table>
            	 <div id="nums"></div>
+           	 <div id="songListCom"></div>
 			  <audio id="audio" style="display:none;" controls="controls"
   			 		src="http://music.163.com/song/media/outer/url?id=486814412.mp3">
 			  </audio>
@@ -300,7 +305,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  		loadSongList();
 			  </script>
             
-            <div style="height:300px;position:fixed;"><!-- 播放列表，全部歌词，及其他工具 -->
+            <div id="bottom"style="width:80%;height:300px;position:fixed;visibility:hidden;"><!-- 播放列表，全部歌词，及其他工具 -->
             	<!-- 播放列表，全部歌词 -->
             	<div id="plistAalrc" style="background:gray;position:fixed;bottom:40px;cursor: pointer;display:none;margin-left: 5px;">
 	          	 <div id="plist" style="color:white;background-image:url(../image/artist/me080502.jpg);background-size:240px 250px; margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:left">
@@ -311,8 +316,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          	 <div id="alyric" style="color:white;margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:right"></div>
        		  </div>
        		  <!-- 播放列表，全部歌词 -->
-       		  <!-- 其他工具：上一曲，下一曲，播放暂停，进度条，音量加减，播放列表显示与隐藏按钮 -->
-				<div id="bottom" style="background: #3f4156;position:fixed;bottom:0; left:260px;width:80%;height:40px;">
+       		  <!-- 其他工具#3f4156：上一曲，下一曲，播放暂停，进度条，音量加减，播放列表显示与隐藏按钮 -->
+				<div id="bottom" style="background: green;position:fixed;bottom:0; left:260px;width:80%;height:40px;">
 					<img style="width: 40px;height: 40px" title="左键--上一曲" onclick="preview()" alt="" src="../image/play_previous.png">&emsp;
 					<img style="width: 40px;height: 40px" title="P键--暂停/播放" id="pause" alt="" onclick="pause_play()" src="../image/play.png">&emsp;
 				    <img style="width: 40px;height: 40px" title="右键--下一曲" onclick="next()" alt="" src="../image/play_next.png">
@@ -320,9 +325,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<progress title="A键---快退10秒,D键---快进10秒;Q键---快退5秒,E键---快进5秒" style="width:566px;height:10px" draggable="false" id="pro" value="0" max="100"></progress>
 					<span id="time" class="time" title="已播放/总时长" style="color:white"></span>
 					<a onclick="minus()" class="minus" title="下键--音量减">一</a>
-					<progress style="width:100px;" draggable="false" id="voice" value="100" max="100"></progress>
+					<progress style="width:90px;" draggable="false" id="voice" value="100" max="100"></progress>
 					<a onclick="add()" class="add" title="上键--音量加">✚</a>
 					<span onclick="showHide()" title="Ctrl+shift+S"  style="color:white" id="sah">显示</span>
+					&emsp;
+					<span id="lock" onclick="fixBottom()" style="display: inline-block;"><i class="Hui-iconfont" style="font-size: 15px">&#xe605;</i></span><!-- 锁定：&#xe60e; 解锁：&#xe605;-->
+					<span id="unlock" onclick="unfixBottom()" style="display:none;"><i class="Hui-iconfont" style="font-size: 15px">&#xe60e;</i></span>
 				</div>
 			</div><!-- 播放列表，歌词，及其他工具 -->
           </form>          

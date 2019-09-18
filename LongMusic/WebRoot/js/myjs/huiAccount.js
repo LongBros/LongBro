@@ -85,7 +85,7 @@ function loadSongList(){
 		dataType:"Json",
 		success:function(data){
 			for(var k=0;k<data.length;k++){
-				$('#songList').append("<tr class=\"text-c\"><td><input name=\"\" type=\"checkbox\" value=\"\"></td><td>"+data[k].id+"</td><td>"+data[k].name+"</td><td>"+data[k].name+"</td><td>"+data[k].songs+"</td><td>"+data[k].time+"</td><td>"+data[k].desc+"</td><td class=\"f-14 td-manage\"><a style=\"text-decoration:none\" onClick=\"article_stop(this,'10001')\" href=\"javascript:;\" title=\"下架\"><i class=\"Hui-iconfont\">&#xe6de;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"article_edit('资讯编辑','song-add.html','10001')\" href=\"javascript:;\" title=\"编辑\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"article_del(this,'10001')\" href=\"javascript:;\" title=\"删除\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td></tr>");
+				$('#songList').append("<tr class=\"text-c\"><td><input name=\"\" type=\"checkbox\" value=\"\"></td><td>"+data[k].id+"</td><td>"+data[k].name+"</td><td>"+data[k].name+"</td><td>"+data[k].songs+"</td><td>"+data[k].time+"</td><td>"+data[k].descr+"</td><td class=\"f-14 td-manage\"><a style=\"text-decoration:none\" onClick=\"article_stop(this,'10001')\" href=\"javascript:;\" title=\"下架\"><i class=\"Hui-iconfont\">&#xe6de;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"article_edit('资讯编辑','song-add.html','10001')\" href=\"javascript:;\" title=\"编辑\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"article_del(this,'10001')\" href=\"javascript:;\" title=\"删除\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td></tr>");
 			}
 		}
 	});

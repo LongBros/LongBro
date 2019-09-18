@@ -28,6 +28,13 @@ public class TimeUtil {
 	public static String url="jdbc:mysql://localhost:3306/longvideos?useUnicode=true&characterEncoding=utf-8";
 	public static String user="root";
 	public static String pass="ZCLZY";
+	/**
+	 * 返回yyyy-MM-dd HH:mm:ss格式的时间
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年9月14日
+	 * @return
+	 */
 	public static String time(){
 		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		long l=System.currentTimeMillis();
