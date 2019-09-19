@@ -54,12 +54,19 @@
 		color: #FFF;
 		padding: 1em 0;
 	}
+	input{
+		width:200px;
+		height:30px;
+		
+	}
     </style>
 </head>
-<body style="background:pink;" id="body">    
+<body style="background:pink;" id="body"> 
+	 <span>时间:</span>&emsp;<input name="timeSetting" style="font-size:10px;color:red;" onenter="alert('1')" id="timeSetting">
      <center>
-		<div class="remark">打卡时间：<span style="color:red;">08:20</span>、<span style="color:red;">14:30</span>、<span style="color:red;">17:30</span></div>
-		<img id="smilePic" src="picture/smile1.png"><div class="praise"><img id="heart" src="picture/heart.png">加油哟，盈盈最棒啦!<img id="hug" src="picture/hug.png"></div>
+		<!--<div class="remark">打卡时间：<span style="color:red;">08:20</span>、<span style="color:red;">14:30</span>、<span style="color:red;">17:30</span></div>-->
+		<div class="remark">打卡时间：<span style="color:red;">09:00</span>、<span style="color:red;">18:00</span></div>
+		<img id="smilePic" src="picture/smile1.png"><div class="praise"><img id="heart" src="picture/heart.png">加油哟，你最棒啦!<img id="hug" src="picture/hug.png"></div>
 		<div id="time"></div>
 	 </center>
     <audio id="song" src="" autoplay></audio>
@@ -89,27 +96,23 @@
 		var time=year+"-"+mon+"-"+day+" "+hour+":"+min+":"+sec;
 		var time1=hour+":"+min+":"+sec;
 		var song=document.getElementById("song");
-		if(time1=="17:28:00"){//下午打卡时间
-			var num=random(senN.length-1);
-			song.src="https://link.hhtjim.com/163/"+songs[2]+".mp3";
-			alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senN[num]);
-		}else if(time1=="14:28:45"){//中午打卡时间
+
+		if(time1=="08:50:00"||time1=="09:00:30"){//早上打卡时间
 			var num=random(senA.length-1);
-			song.src="https://link.hhtjim.com/163/"+songs[4]+".mp3";
-			alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senA[num]);
-		}else if(time1=="09:23:00"){//早上打卡时间
-			var num=random(senA.length-1);
+			alert("记着带工牌");
 			song.src="https://link.hhtjim.com/163/"+songs[3]+".mp3";
 			//alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senM[num]);
-		}else if(time1=="12:00:00"){//11:00~13:00
-			alert("众人帮打卡");
-			song.src="https://link.hhtjim.com/163/"+songs[1]+".mp3";
-		}else if(time1=="14:37:00"){//19:00~21:00
-			alert("众人帮领红包");
+		}else if(time1=="09:58:00"){//19:00~21:00
+			alert("支付宝兑换");
 			song.src="https://link.hhtjim.com/163/"+songs[0]+".mp3";
+		}else if(time1=="18:03:00"){//19:00~21:00
+			alert("打卡，去工牌，拿公交卡");
+			song.src="https://link.hhtjim.com/163/"+songs[0]+".mp3";
+		}else if(time1=="19:03:00"||time1=="20:03:00"||time1=="21:03:00"||time1=="22:03:00"){//19:00~21:00
+			alert("刷新打卡，拿公交卡");
+			song.src="https://link.hhtjim.com/163/"+songs[1]+".mp3";
 		}
    		document.getElementById("time").innerText=time;
-		
    	}
 	function addZero(param){
 		var param=param+"";

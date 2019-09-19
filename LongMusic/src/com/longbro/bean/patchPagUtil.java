@@ -18,18 +18,17 @@ import java.util.List;
  */
 public class patchPagUtil {
 
-    public static String patchFile="C:/Users/pc/Desktop/packet/20190823上线.txt";//补丁文件
+    public static String patchFile="C:/Users/pc/Desktop/packet/2019-09-18验收.txt";//补丁文件
       
 //    public static String classPath="D:/workspace_git/lcfex-loan/target/lcfex-loan/";//class所在路径  
     public static String classPath="D:/apache-tomcat-8.5.38/webapps/lcfex-mortgageBusiness/";//class所在路径  
       
     public static String outputPath="C:/Users/pc/Desktop/packet/";//生成的增量输出放路径 
       
-    public static String version="20190823上线/";//增量包版本  
+    public static String version="2019-09-18上65/";//增量包版本  
     
 //    public static String proName="loan/";//项目名称
     public static String proName="/";//项目名称
-      
       
     public static void main(String[] args) throws Exception {  
         copyFiles(getPatchFileList());  
