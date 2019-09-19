@@ -10,7 +10,12 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
+/**
+ * 批量下载孟坤博客收录的各大表情包
+ * @author LongBro
+ * @date 2019年9月19日
+ * @time 下午2:02:50
+ */
 public class DownImage {
 	public static void main(String[] args) throws IOException {
 		String path="D:/aaaaaaa/LongBro/LongMusic/src/小表情/image.txt";
@@ -23,20 +28,20 @@ public class DownImage {
 			j++;
 		}
 //		System.out.println("---------------------------------------------");
-		String lat="";//
-		String folder="";
+		String lat="";//后缀
+		String folder="";//文件夹
 		byte b[]=new byte[9192];
 		File file=new File(path);
 		FileInputStream fis=new FileInputStream(file);
 		fis.read(b);
 		String s=new String(b,"utf-8");
-		String t[]=s.split("》");
+		String t[]=s.split("》");//分离表情类型，比如QQ表情、微博表情、贴吧表情
 		for(int i=0;i<4;i++){
 			if(i==0){
 				url="https://mkblog.cn/wp-content/themes/mkBlog/images/emoji/qq/";
 				lat=".gif";
 				folder="qq";
-				String ss[]=t[i].split(",");
+				String ss[]=t[i].split(",");//分离某个类型的所有单个表情
 				for(String st:ss){
 					if(st.equals("")){
 						return;
@@ -50,7 +55,7 @@ public class DownImage {
 						}
 					}
 				}
-			}/*else if(i==1){
+			}else if(i==1){
 				url="https://mkblog.cn/wp-content/themes/mkBlog/images/emoji/weibo/";
 				folder="weibo";
 				lat=".png";
@@ -62,7 +67,7 @@ public class DownImage {
 				url="https://mkblog.cn/wp-content/themes/mkBlog/images/emoji/tieba/";
 				folder="tieba";
 				lat=".png";
-			}*/
+			}
 			
 //			System.out.println("---------------------------------------------");
 		}

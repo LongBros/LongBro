@@ -13,7 +13,12 @@ import java.util.HashMap;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
+/**
+ * 爬取https://www.biqudao.com的小说
+ * @author LongBro
+ * @date 2019年9月19日
+ * @time 下午2:03:44
+ */
 public class SpideNovel {
 	public static ArrayList<HashMap<String, String>> spideList() throws IOException{
 		ArrayList<HashMap<String, String>> list=new ArrayList<HashMap<String, String>>();
