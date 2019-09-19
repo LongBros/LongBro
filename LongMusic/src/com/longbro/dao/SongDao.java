@@ -16,6 +16,8 @@ public interface SongDao {
 	public Song querySongBySId(String sourceId);
 	public Song querySongBySName(String key);
 	public List<Song> querySongsBySinger(String singer);
-
+	public List<Song> querySongsByLyric(String key);
 	public void editSong(Song song);
+	
+	public List<Song> queryHotSongs(int num);//2019-08-25
 }

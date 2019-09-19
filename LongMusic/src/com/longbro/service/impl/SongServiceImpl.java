@@ -44,6 +44,10 @@ public class SongServiceImpl implements SongService{
 		return dao.querySongBySName(key);
 	}
 	@Override
+	public List<Song> querySongsByLyric(String key){
+		return dao.querySongsByLyric(key);
+	}
+	@Override
 	public List<Song> querySongsBySinger(String singer) {
 		// TODO Auto-generated method stub
 		return dao.querySongsBySinger(singer);
@@ -53,5 +57,10 @@ public class SongServiceImpl implements SongService{
 	public void editSong(Song song) {
 		// TODO Auto-generated method stub
 		dao.editSong(song);
+	}
+	@Override
+	public List<Song> queryHotSongs(int num) {
+		// TODO Auto-generated method stub
+		return dao.queryHotSongs(num);
 	}
 }

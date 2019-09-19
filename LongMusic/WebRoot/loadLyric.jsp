@@ -25,6 +25,7 @@ System.out.println(name);
 
 String time=request.getParameter("time");
 String type=request.getParameter("type");
+System.out.println(name);
 if(type.equals("1")){//monitor函数中调用，当前播放歌词
 	try{
 		File file=new File("E:/AAAA/alyric/Time_"+name+".txt");

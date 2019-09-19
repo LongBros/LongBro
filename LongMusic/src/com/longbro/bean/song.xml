@@ -6,9 +6,9 @@
 <mapper namespace="com.longbro.bean.song">
 	<!--将值放入一个map中，dao层接口参数传入一个map,xml中用#{key}取值。同时xml中parameterType声明为java.util.Map。 -->
 	<insert id="addSong" parameterType="java.util.HashMap">
-		insert into song(sourceId,songName,singer,duration,album,imgPath,releaseTime,website,descr)
+		insert into song(sourceId,songName,singer,duration,album,imgPath,releaseTime,website,descr,inputTime)
 		values
-		(#{sourceId},#{songName},#{singer},#{duration},#{album},#{imgPath},#{releaseTime},#{website},#{desc})
+		(#{sourceId},#{songName},#{singer},#{duration},#{album},#{imgPath},#{releaseTime},#{website},#{descr},#{time})
 	</insert>
 	<insert id="insertSong" parameterType="java.util.HashMap">
 		insert into song(sourceId,songName)
@@ -24,6 +24,21 @@
 		select 
 		*
 		from song limit #{_parameter},50;
+   </select>
+	<!-- 实现比如“热歌榜”的功能 -->
+	<select id="querySongsBy" resultType="java.util.HashMap">
+		select * from song order by playNum desc limit 0,#{num};
+		<!-- <if test="orderBySql!=null and orderBySql!=''">
+			order by playNum desc
+		</if>
+		<if test="limitSql!=null and limitSql!=''">
+			 limit 0,#{num};
+		</if> -->
+	</select>
+	<select id="queryAllSongs"  resultType="com.longbro.bean.Song">
+		select 
+		*
+		from song order by sortNum desc limit #{start},50;
 	</select>
 	<select id="querySongById"  resultType="com.longbro.bean.Song">
 		select
@@ -56,6 +71,12 @@
 		from song
 		where singer like concat ('%',#{singer},'%')<!-- where singer=#{singer} -->
 	</select>
+	<select id="querySongsByLyric"  resultType="java.util.HashMap">
+		select 
+		*
+		from song
+		where lyric like concat ('%',#{key},'%')
+	</select>
 	<update id="editSong" parameterType="com.longbro.bean.Song">
 		update song set 
 		sourceId=#{sourceId},
@@ -66,7 +87,8 @@
 		imgPath=#{imgPath},
 		releaseTime=#{releaseTime},
 		website=#{website},
-		descr=#{desc}
+		descr=#{descr},
+		lyric=#{lyric}
 		where id=#{id}
 	</update>
 </mapper>

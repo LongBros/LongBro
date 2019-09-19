@@ -22,9 +22,9 @@ public class SongListServiceImpl implements SongListService{
 		dao.addSongList(list);
 	}
 	@Override
-	public List<SongList> querySongList(String id) {
+	public List<SongList> querySongList(String id,String creator) {
 		// TODO Auto-generated method stub
-		return dao.querySongList(id);
+		return dao.querySongList(id,creator);
 	}
 	
 	@Override

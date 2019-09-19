@@ -10,19 +10,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>折线图</title>
+  <title>账单汇总</title>
   <meta name="description" content="这是一个 table 页面">
   <meta name="keywords" content="table">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <link rel="icon" type="image/png" href="../assets/i/favicon.png">
+  <link rel="icon" type="image/png" href="../image/logo/dlam.jpg">
   <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
   <meta name="apple-mobile-web-app-title" content="Amaze UI" />
   <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
   <link rel="stylesheet" href="../assets/css/admin.css">
   <script type="text/javascript" src="../js/jquery.js"></script>
-  <script type="text/javascript" src="../js/amazeSong.js"></script>
 </head>
 <body>
 <!--[if lte IE 9]>
@@ -88,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <div class="am-panel am-panel-default admin-sidebar-panel">
         <div class="am-panel-bd">
           <p><span class="am-icon-bookmark"></span> 公告</p>
-          <p>时光静好，与君语；细水流年，与君同。—— LongBro</p>
+          <p>我是一条亟待翻身的咸鱼。—— LongBro</p>
         </div>
       </div>
 
@@ -122,6 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						$(function(){
 							load('year');
 						});
+						//加载年/月下的汇总
 						function load(yom){
 							$('#account').text('');
 							$.ajax({
@@ -139,22 +139,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										$('#account').append("<td>"+data[i].earn+"</td>");
 										$('#account').append("</tr>");
 										//alert(data[i].earn);
-										//in_=in_+",'"+data[i].in_+"'";
-										//time=time+",'"+data[i].yom+"'";
-										//out=out+",'"+data[i].out+"'";
-										//earn=earn+",'"+data[i].earn+"'";
+										in_=in_+","+data[i].in_;
+										time=time+","+data[i].yom+"";
+										out=out+","+data[i].out+"";
+										earn=earn+","+data[i].earn;
 									}
-									//time="["+time.substring(1)+"]";
-									//in_="["+in_.substring(1)+"]";//去除第一个,并在前后添加[和]
-									//out="["+out.substring(1)+"]";//去除第一个,
-									//earn="["+earn.substring(1)+"]";
-									//alert(time);//3200,3200,7400,6200,9800,14257,15117.01,18579.00,5264.58
-									//alert(out);
-									//alert(earn);//-2900.0,3800.0,-7400.0,-6200.0,-9800.0,-13755.5,-12338.51,-9588.34,-1556.19
+									time="["+time.substring(1)+"]";
+									in_="["+in_.substring(1)+"]";//去除第一个,并在前后添加[和]
+									out="["+out.substring(1)+"]";//去除第一个,
+									earn="["+earn.substring(1)+"]";
+									times=time;
 								}
 							});
+							//alert(in_);//[5852.12,8990.66,2778.5,501.5,0,0,0,7000,300]
+							//alert(out);//[9837.37,18579.00,15117.01,14257,9800,6200,7400,3200,3200]
+							//alert(earn);//[-3985.25,-9588.34,-12338.51,-13755.5,-9800.0,-6200.0,-7400.0,3800.0,-2900.0]
+							//因times会重新被置为空，故添加一div保存times
+							loadPic(time,in_,out,earn);
 						}
+						//加载某年/月分类下的总计
 						function loadCate(yom,type){
+							var datas="";
 							$('#category').text('');
 							$('#desc').text('');
 							$('#desc').append(yom+"------"+type);
@@ -170,10 +175,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										$('#category').append("<td>"+data[i].amount+"</td>");
 										$('#category').append("<td>"+data[i].percent+"</td>");
 										$('#category').append("</tr>");
+										var percent=data[i].percent+"";
+										datas=datas+"{name:'"+data[i].cate+"-"+data[i].amount+"',y:"+percent.replace("%", "")+"},";
 									}
 								}
+								
 							});
+							datas=datas.substring(0,datas.length-1);
+							alert(datas)
+							loadCatePic(datas);//加载出分类的饼状图
 						}
+						//加载分类下的账单
 						function loadAcc(cate,yom){
 							alert("将为你加载"+yom+cate+"的账单");
 							$('#acc').text('');
@@ -195,6 +207,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							});
 						}
 					</script>
+					<div id="container"></div>
+					<div id="container1"></div>    
 					<div style="width:440px;display:inline-block">
 						<input type="radio" name="yom" onclick="load('year')" checked="checked">年
 						<input type="radio" name="yom" onclick="load('month')">月
@@ -241,68 +255,159 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</tbody>
 						</table>
 					</div>
-					
-					<div id="containe">
-						
-						
-					</div>    
-					<script type="text/javascript">
-						Highcharts.chart('container', {
-						    title: {
-						        text: '账单统计'
-						    },
-						
-						    subtitle: {
-						        text: '数据来源: www.zy52113.com'
-						    },
-						    xAxis: {
-					            categories: time
-					        },
+					<div id="container3"></div>
+		<script type="text/javascript">
+			function convertToArr(time){
+				var arr=new Array();
+				time=time+"";
+				time=time.replace("[","").replace("]","");
+				var ss=time.split(",");
+				for(var i=0;i<ss.length;i++){
+					arr.push(ss[i]);
+				}
+				return arr;
+			}
+			function loadPic(time,in_,out,earn){
+				Highcharts.chart('container', {
+				    title: {
+				        text: '账单统计-线性图'
+				    },
+				
+				    subtitle: {
+				        text: '数据来源: www.zy52113.com'
+				    },
+				    xAxis: {
+			            categories: convertToArr(time)//转化为数组
+			        },
+
+				    yAxis: {
+				        title: {
+				            text: '总金额'
+				        }
+				    },
+				    legend: {
+				        layout: 'vertical',
+				        align: 'right',
+				        verticalAlign: 'middle'
+				    },
+				
+				    /* plotOptions: {
+				        series: {
+				            label: {
+				                connectorAllowed: false
+				            },
+				            pointStart: 1
+				        }
+				    },
+				 */
+				    series: [{
+				        name: '总收入金额',
+				        data: [5852.12,8990.66,2778.5,501.5,0,0,0,7000,300]
+				    },{
+				        name: '总支出金额',
+				        data: [9837.37,18579.00,15117.01,14257,9800,6200,7400,3200,3200]
+				    },{
+				        name: '净收金额',
+				        data: [-3985.25,-9588.34,-12338.51,-13755.5,-9800.0,-6200.0,-7400.0,3800.0,-2900.0]
+				    }],
+				
+				    responsive: {
+				        rules: [{
+				            condition: {
+				                maxWidth: 500
+				            },
+				            chartOptions: {
+				                legend: {
+				                    layout: 'horizontal',
+				                    align: 'center',
+				                    verticalAlign: 'bottom'
+				                }
+				            }
+				        }]
+				    }
+				
+				});
+			}
 			
-						    yAxis: {
-						        title: {
-						            text: out
-						        }
-						    },
-						    legend: {
-						        layout: 'vertical',
-						        align: 'right',
-						        verticalAlign: 'middle'
-						    },
-						
-						    /* plotOptions: {
-						        series: {
-						            label: {
-						                connectorAllowed: false
-						            },
-						            pointStart: 1
-						        }
-						    },
-						 */
-						    series: [{
-						        name: '访问IP数量',
-						        data: out
-						    }],
-						
-						    responsive: {
-						        rules: [{
-						            condition: {
-						                maxWidth: 500
-						            },
-						            chartOptions: {
-						                legend: {
-						                    layout: 'horizontal',
-						                    align: 'center',
-						                    verticalAlign: 'bottom'
-						                }
-						            }
-						        }]
-						    }
-						
-						});
-					</script>        
+		</script> 
+		<script type="text/javascript">
+			var chart = Highcharts.chart('container1', {
+			    title: {
+			        text: '账单统计-条形图/柱状图'
+			    },
+			    subtitle: {
+			        text: '数据来源：www.zy52113.com'
+			    },
+			    xAxis: {
+			        categories: ['2019','2018','2017','2016','2015','2014','2013','2012','2011']
+			    },
+			    yAxis: {
+			        title: {
+			            text: '金额'
+			        }
+			    },
+			    series: [{
+			    	name:'总收入金额',
+			        type: 'column',
+			        colorByPoint: true,
+			        data: [5852.12,8990.66,2778.5,501.5,0,0,0,7000,300],
+			        showInLegend: false
+			    },{
+			    	name:'总支出金额',
+			        type: 'column',
+			        colorByPoint: true,
+			        data: [9837.37,18579.00,15117.01,14257,9800,6200,7400,3200,3200],
+			        showInLegend: false
+			    },{
+			    	name:'净收金额',
+			        type: 'column',
+			        colorByPoint: true,
+			        data: [-3985.25,-9588.34,-12338.51,-13755.5,-9800.0,-6200.0,-7400.0,3800.0,-2900.0],
+			        showInLegend: false
+			    }]
+			
+			});
+			
+		</script>    
+		
+		<script type="text/javascript">
+			function loadCatePic(datas){
+				Highcharts.chart('container3', {
+				    chart: {
+				        plotBackgroundColor: null,
+				        plotBorderWidth: null,
+				        plotShadow: false,
+				        type: 'pie'
+				    },
+				    title: {
+				        text: '2017年支出分类所占比例(Categories Out shares in 2017)'
+				    },
+				    tooltip: {
+				        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+				    },
+				    plotOptions: {
+				        pie: {
+				            allowPointSelect: true,
+				            cursor: 'pointer',
+				            dataLabels: {
+				                enabled: true,
+				                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+				                style: {
+				                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+				                }
+				            }
+				        }
+				    },
+				    series: [{
+				        name: '百分比',
+				        colorByPoint: true,
+				        data: [{name:'学习-6153',y:40.70},{name:'以往-3600',y:23.81},{name:'交通-1149',y:7.60},{name:'晚餐-794.5',y:5.25},{name:'日常-794.3',y:5.25},{name:'话费-668.01',y:4.41},{name:'午餐-645.2',y:4.26},{name:'她们-615',y:4.06},{name:'娱乐-462.5',y:3.05},{name:'水电-105',y:0.69},{name:'早餐-67',y:0.44},{name:'餐饮-63.5',y:0.42}]
+				    }]
+				});
+			}
+			
+		</script>   
             <hr/>
-           
         </div>
       </div>
     </div>

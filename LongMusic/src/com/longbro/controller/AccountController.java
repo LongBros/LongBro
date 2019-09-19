@@ -2,8 +2,10 @@ package com.longbro.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,14 @@ import com.longbro.util.DateUtil;
 import com.longbro.vo.CateAmountVo;
 
 import flexjson.JSONDeserializer;
-
+/**
+ * 
+ * @author 赵成龙
+ * @website www.longqcloud.cn & www.zy52113.com
+ * @date 2019年8月3日 下午2:11:36
+ * @description
+ * @version
+ */
 @Controller
 public class AccountController {
 	@Autowired AccountService service;
@@ -86,20 +95,32 @@ public class AccountController {
 	@RequestMapping(value="queryAllBill1",method=RequestMethod.POST)
 	@ResponseBody
 	public HashMap queryAllBill1(HttpServletRequest request,HttpServletResponse response){
-		
+		HashMap<String, String> mapPara=new HashMap<String, String>();
 		String payutil=request.getParameter("payutil");
-		if(StringUtils.isEmpty(payutil))
-			payutil=null;
-		String category=request.getParameter("category");
-		if(StringUtils.isEmpty(category))
-			category=null;
+		mapPara.put("payutil", payutil);
 		String in_out=request.getParameter("in_out");
-		if(StringUtils.isEmpty(in_out))
-			in_out=null;
+		mapPara.put("in_out", in_out);
+		String category=request.getParameter("category");
+		mapPara.put("category", category);
+		String amountFrom=request.getParameter("amountFrom");
+		mapPara.put("amountFrom", amountFrom);
+		String amountTo=request.getParameter("amountTo");
+		mapPara.put("amountTo", amountTo);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String dateFrom=request.getParameter("dateFrom");//Sat Jun 29 2019 00:00:00 GMT 0800 (中国标准时间)
+		if(StringUtils.isEmpty(dateFrom))
+			dateFrom=null;
+		else
+			dateFrom=DateUtil.formatDate(dateFrom);
+		mapPara.put("dateFrom", dateFrom);
+		String dateTo=request.getParameter("dateTo");
+		if(StringUtils.isEmpty(dateTo))
+			dateTo=null;
+		else
+			dateTo=DateUtil.formatDate(dateTo);
+		mapPara.put("dateTo", dateTo);
 		String key=request.getParameter("key");
-		if(StringUtils.isEmpty(key)){
-			key="";
-		}
+		mapPara.put("key", key);
 		String pageIndex=request.getParameter("pageIndex");
 		if(StringUtils.isEmpty(pageIndex)){
 			pageIndex="0";
@@ -107,10 +128,10 @@ public class AccountController {
 		String pageSize=request.getParameter("pageSize");
 		String sortField=request.getParameter("sortField");
 		String sortOrder=request.getParameter("sortOrder");
-		System.out.println("页码："+pageIndex);System.out.println("总页数："+pageSize);
-		System.out.println("排序:"+sortField);System.out.println("升/序:"+sortOrder);
+//		System.out.println("页码："+pageIndex);System.out.println("总页数："+pageSize);
+//		System.out.println("排序:"+sortField);System.out.println("升/序:"+sortOrder);
 		HashMap map=new HashMap();
-		List<Account> list=service.queryAllBill1(pageIndex,pageSize,sortField,sortOrder,payutil,in_out,category,key);
+		List<Account> list=service.queryAllBill1(pageIndex,pageSize,sortField,sortOrder,mapPara);
 		map.put("data", list);
 		int num=service.queryNum(key);
 		map.put("total", num);
@@ -230,7 +251,15 @@ public class AccountController {
 		
 		return "删除成功";
 	}
-	//月分析和年分析
+	/**
+	 * 月分析和年分析
+	 * 返回月份、收入、支出、净收所组成的Map链表
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年8月3日
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="getAmountByYoM",method=RequestMethod.GET)
 	@ResponseBody	//此注解不加报404
 	public ArrayList<HashMap> getAmountByYoM(HttpServletRequest request){
@@ -263,18 +292,25 @@ public class AccountController {
 				earn=earn.substring(0,earn.indexOf(".")+3);
 			}
 			map.put("earn", earn);//净收入
-			
 //			System.out.println(s.get("time")+"收入为"+in+"支出为"+out+"结余为"+earn);
 			arr.add(map);
 		}
 		return arr;
 	}
+	/**
+	 * 根据年/月和支/出得到相应的分类、金额、百分比组成的对象列表
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年8月3日
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="getCateByYom",method=RequestMethod.GET)
 	@ResponseBody	//此注解不加报404
 	public List<CateAmountVo> getCateByYom(HttpServletRequest request){
 		List<CateAmountVo> list=new ArrayList<CateAmountVo>();
-		String ioo=request.getParameter("ioo");//值为year或month
-		String d=request.getParameter("d");//值为year或month
+		String ioo=request.getParameter("ioo");//值为“收入”或“支出”
+		String d=request.getParameter("d");//值为year（例2019）或month（例2019-08）
 		String yom;
 		if(d.length()==4){
 			yom="year";
@@ -289,7 +325,8 @@ public class AccountController {
 		}else{
 			ino=service.getAmount(yom, "支出", d);
 		}
-		if(ino.contains(".")&&(ino.substring(ino.indexOf(".")+1).length()>2)){
+		//08-03添加StringUtils.isNotEmpty(ino)解决抛空指针异常问题
+		if(StringUtils.isNotEmpty(ino)&&ino.contains(".")&&(ino.substring(ino.indexOf(".")+1).length()>2)){
 			ino=ino.substring(0,ino.indexOf(".")+3);
 		}
 		for(CateAmountVo l:list){

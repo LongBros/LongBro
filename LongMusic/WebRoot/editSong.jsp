@@ -31,7 +31,8 @@ int id=Integer.parseInt(request.getParameter("id"));
   	  				
   	  				$('#form').append("网站:<input type='text' name='website' value='"+data.website+"'><br>");
   	  				
-  	  				$('#form').append("描述:<input type='text' name='desc' value='"+data.desc+"'><br>");
+  	  				$('#form').append("描述:<input type='text' name='descr' value='"+data.desc+"'><br>");
+  	  				$('#form').append("歌词:<br><textarea rows='8' cols='170' name='lyric'>"+data.lyric+"</textarea><br>");
   	  				$('#form').append("<input type='submit' value='更新'>");
   	  				document.title="编辑歌曲-"+data.songName;
   	  			}

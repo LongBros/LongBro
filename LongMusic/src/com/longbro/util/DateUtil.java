@@ -5,9 +5,17 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
 //Tue May 14 2019 00:00:00 GMT+0800 (中国标准时间)
+/**
+ * 中国标准时间的处理
+ * @author 赵成龙
+ * @website www.longqcloud.cn & www.zy52113.com
+ * @date 2019年8月3日 下午1:49:01
+ * @description
+ * @version
+ */
 public class DateUtil {
     /**
-     * 根据月份的英文简称获得对应月份
+     * 1.根据月份的英文简称获得对应月份
      * @desc 
      * @author zcl
      * @date 2019年5月12日
@@ -37,7 +45,8 @@ public class DateUtil {
     	String year=ss[3];
 //    	System.out.println(year);
     	String time=ss[4];
-    	return year+"-"+mon+"-"+day+" "+time;
+//    	return year+"-"+mon+"-"+day+" "+time;
+    	return year+"-"+mon+"-"+day;
     }
   
     public static void main(String[] args) {

@@ -16,13 +16,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <link rel="icon" type="image/png" href="../assets/i/favicon.png">
+  <link rel="icon" type="image/png" href="../image/logo/dlam.jpg">
   <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
   <meta name="apple-mobile-web-app-title" content="Amaze UI" />
   <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
   <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="stylesheet" type="text/css" href="../hui/lib/Hui-iconfont/1.0.8/iconfont.css" />
+  <link href="http://static.h-ui.net/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+  
   <script type="text/javascript" src="../js/jquery.js"></script>
-  <script type="text/javascript" src="../js/plistSong.js"></script>
+  <script type="text/javascript" src="../js/myjs/player.js"></script>
+  <script type="text/javascript" src="../js/myjs/comment.js"></script>
+  <script type="text/javascript" src="../js/myjs/plist.js"></script>
+  <script type="text/javascript" src="../js/myjs/timeDeal.js"></script>
+  <script src="../scripts/boot.js" type="text/javascript"></script><!-- 使用miniUI的消息框 -->
+  <style type="text/css">
+  	Body { 
+		scrollbar-arrow-color: #f4ae21; 
+		scrollbar-face-color: #333; 
+		scrollbar-3dlight-color: #666; 
+		scrollbar-highlight-color: #666; 
+		scrollbar-shadow-color: #999; 
+		scrollbar-darkshadow-color: #666; 
+		scrollbar-track-color: #666; 
+	} 
+  </style>
+  
 </head>
 <body id="body" background="https://y.gtimg.cn/music/photo_new/T002R300x300M000001BA0x61Hh7AR.jpg?max_age=2592000">
 <!--[if lte IE 9]>
@@ -58,18 +77,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
     <div class="am-offcanvas-bar admin-offcanvas-bar">
       <ul class="am-list admin-sidebar-list">
-        <li><a href=""><span class="am-icon-home"></span> 首页</a></li>
+        <li><a href=""><span class="am-icon-home"></span>首页</a></li>
         
         <li class="admin-parent">
           <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span>账单展示 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
           <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
-            <li><a href="showAccount.jsp" class="am-cf"><span class="am-icon-check"></span> 列表展示<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+            <li><a href="showAccount.jsp" target="_blank" class="am-cf"><span class="am-icon-check"></span> 列表展示<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
             <li><a href="" target="_blank"><span class="am-icon-puzzle-piece"></span> 条形图分析</a></li>
             <li><a href="analysis.jsp" target="_blank"><span class="am-icon-th"></span> 收支汇总<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>
             <li><a href=""><span class="am-icon-calendar"></span> 饼状图分析</a></li>
           </ul>
         </li>
-        <li><a href="showCate.jsp"><span class="am-icon-table"></span> 分类管理</a></li>
+        <li><a href="showCate.jsp"><span class="am-icon-table"></span> 日记本</a></li>
         <li class="admin-parent">
           <a class="am-cf" data-am-collapse="{target: '#collapse-nav1'}"><span class="am-icon-file"></span>其他 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
           <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav1">
@@ -105,9 +124,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="admin-content">
     <div class="admin-content-body">
       <div class="am-cf am-padding am-padding-bottom-0">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">音乐列表</strong> / <small>553音乐</small>&emsp;<span style="color: red" id="countDown">1200</span>s后暂停音乐&emsp;&emsp;&emsp;</div>
+        <div class="am-fl am-cf">
+	        <strong class="am-text-primary am-text-lg">音乐列表</strong> / 
+	        <small>553音乐</small>&emsp;
+	        <span style="color: red" id="countDown">86400</span>s后暂停音乐&emsp;&emsp;&emsp;
+	        <span id="timer">24:00:00</span>
+	       	 当前时间：<span id="nowTime"></span>
+        </div>
 			 <div class="am-form-group">
-		                      定时关歌:<select data-am-selected="{btnSize: 'sm'}" id="searCate" onchange="setCount(options[selectedIndex].value)">
+                   	定时关歌:<select data-am-selected="{btnSize: 'sm'}" id="searCate" onchange="setCount(options[selectedIndex].value)">
 		              <option value="5">5分钟</option>
 		              <option value="10">10分钟</option>
 		              <option value="15">15分钟</option>
@@ -120,7 +145,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		              <option value="50">50分钟</option>
 		              <option value="55">55分钟</option>
 		              <option value="60">60分钟</option>
-		              
+		            </select>
+	             <br> 随机生成播放列表:<select data-am-selected="{btnSize: 'sm'}" onchange="randomPList(options[selectedIndex].value)">
+		              <option>选择歌曲数量</option>
+		              <option value="5">5首</option>
+		              <option value="10">10首</option>
+		              <option value="15">15首</option>
+		              <option value="20">20首</option>
+		              <option value="25">25首</option>
+		              <option value="30">30首</option>
+		              <option value="35">35首</option>
+		              <option value="40">40首</option>
+		              <option value="45">45首</option>
+		              <option value="50">50首</option>
+		            </select>
+          		</div>
+          		热歌榜:<select data-am-selected="{btnSize: 'sm'}" onchange="loadHotSongs(options[selectedIndex].value)">
+		              <option>选择热歌数量</option>
+		              <option value="5">榜5首</option>
+		              <option value="10">榜10首</option>
+		              <option value="15">榜15首</option>
+		              <option value="20">榜20首</option>
+		              <option value="25">榜25首</option>
+		              <option value="30">榜30首</option>
 		            </select>
           		</div>
           </div>
@@ -139,9 +186,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </div>
         </div>
       </div>
-      <div>
-		  <form id="form" style="display: none">
-		  		&nbsp;&emsp;
+      <!-- <div id="insertSong" style="position:fixed;overflow:scroll;background:gray;right:450px;top:200px;width:220px;height:350px;display: none">
+		 <span onclick="closes()" style="color:white;margin-left: 180px;">X</span>
+		 新增歌曲 -->
+		  
+		  <form id="form" style="display:none">
 		  		<input type="text" name="sourceId" placeholder="资源id">
 		  		<input type="text" name="songName" placeholder="歌曲名">
 		  		<input type="text" name="singer" placeholder="歌手">
@@ -152,29 +201,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  		<select name="website">
 		  			<option value="网易云音乐">网易云音乐</option>
 		  			<option value="QQ音乐">QQ音乐</option>
+		  			<option value="酷我音乐">酷我音乐</option>
 		  		</select>
-		  		<input type="text" name="desc" placeholder="描述">
+		  		<input type="text" name="descr" placeholder="描述">
 		  		<input type="text" name="time" value="<%=TimeUtil.time()%>">
 		  </form>
-		  </div>
+		  <!-- </div> -->
          <br>
         <div class="am-u-sm-12 am-u-md-3">
           <div class="am-input-group am-input-group-sm">
-              <input type="text" id="key" class="am-form-field">
+              <input type="text" id="key" placeholder="搜一搜，听你想听" onchange="search()" class="am-form-field">
 	          <span class="am-input-group-btn">
+	            	<button class="am-btn am-btn-default" type="button" onclick="strongQuerySongs()">强力搜索</button>
+	          </span>
+	          <!-- <span class="am-input-group-btn">
 	            	<button class="am-btn am-btn-default" type="button" onclick="querySongsByKey()">歌曲</button>
 	          </span>
 	          <span class="am-input-group-btn">
 	               <button class="am-btn am-btn-default" type="button" onclick="querySongsBySinger()">歌手</button>
-	          </span>
+	          </span> -->
           </div>
         </div>
         <!-- 新建歌单 -->
-        <form id="newList" name="newList">
-            	<span onclick="closes()" style="color:white;margin-left: 180px;">X</span>
-            	歌单名:<input name="songlist">
-            	歌单描述:<input name="listdesc">
-            	<button onclick="create()">建单</button>
+        <form id="newList" name="newList" style="display:none;background: gray;width:250px;margin-left: 400px;margin-top:120px;position:fixed;">
+            	<ul>
+            		<span onclick="closes()" style="color:white;margin-left: 180px;">X</span><br>
+	            	歌单名:<input name="songlist"><br>
+	            	歌单描述:<input name="listdesc"><br>
+	            	<span style="background: cyan" onclick="create()">建单</span>
+            	</ul>
+            	
         </form>
 	  <div class="am-cf">
 	  	  <div class="am-fr"> 
@@ -182,50 +238,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	  	  		<option>歌单</option>
 	  	  	  </select>
 	  	  </div>
-	  
-	  	  <div class="am-fr">              	          
+	  		<center>
+	  	  	<%
+	  	  	for(int i=1;i<=12;i++){
+          		out.write("<a onclick='querySongs("+i+")'>&emsp;"+i+"</a>");
+          	}
+	  	  	  %> 
+	  	  	</center>  
+	  	  <%-- <div class="am-fr">
               <select onchange="querySongs(options[selectedIndex].value)">
               <option value='0'>页码</option>
               	<%
-              	for(int i=1;i<=8;i++){
+              	for(int i=1;i<=11;i++){
               		out.write("<option value='"+i+"'>&emsp;"+i+"</option>");
               	}
                %>
               </select>
-          </div>
+          </div> --%>
       </div>
       <div class="am-g">
         <div class="am-u-sm-12">
           <form class="am-form">
-            <table class="am-table am-table-striped am-table-hover table-main">
+            <table id="songsList" class="am-table am-table-striped am-table-hover table-main">
               <thead>
               <tr><!-- <th class="table-id">ID</th> -->
-                <th class="table-check"><input type="checkbox"/></th><th class="table-id">ID</th><th class="table-payutil">歌曲名</th><th class="table-inout">歌手</th><th class="table-cate am-hide-sm-only">时长</th><th class="table-amount am-hide-sm-only">专辑</th><th class="table-remark am-hide-sm-only">发行时间</th><th class="table-time am-hide-sm-only">网站</th><th class="table-set">操作</th>
+                <th class="table-check"><input type="checkbox" id="songscheck" onclick="changed()"/></th><th class="table-id">ID</th><th class="table-payutil">歌曲名</th>
+                <th class="table-inout">歌手</th><th class="table-cate am-hide-sm-only">时长</th><th class="table-amount am-hide-sm-only">专辑</th>
+                <th class="table-remark am-hide-sm-only">发行时间</th><th class="table-time am-hide-sm-only">源网站</th><th class="table-set">操作</th>
               </tr>
               </thead>
               
-              <tbody id="song">
+              <tbody id="song" style="cursor: pointer;">
                
               </tbody>
             </table>
-            
+           	 <div id="nums"></div>
+           	 <div id="songListCom"></div>
 			  <audio id="audio" style="display:none;" controls="controls"
   			 		src="http://music.163.com/song/media/outer/url?id=486814412.mp3">
 			  </audio>
             
             <hr/>
+            <script type="text/javascript">
+	            
+            </script>
             <!-- 单句歌词 -->
-            <center><span id="lyric" style="color: green;font-size:35px;position:fixed;top:110px;right:466px;"></span></center>
-            <div id="addSong" style="position:fixed;overflow:scroll;background:gray;right:450px;top:310px;width:200px;height:200px;display: none">
+            <center>
+            	<img alt="" id="singer" src="../image/singer2.jpg" style="height:100px;position:fixed;top:90px;right:306px;">
+            	<span id="lyric" style="color: green;cursor:all-scroll;font-size:35px;position:fixed;top:110px;right:446px;"></span>
+            </center>
+            <!-- 点击歌添加歌曲至歌单 -->
+            <div id="addSong" style="cursor:pointer;position:fixed;overflow:scroll;background:gray;right:450px;top:200px;width:220px;height:350px;display: none">
             	<span style="display: none" id="id"></span>
             	<span onclick="closes()" style="color:white;margin-left: 180px;">X</span>
-            	<span onclick="newList()">新建歌单</span><br>
-            	添加至<br>
+            	<span onclick="createNewList()" style="color:white;">新建歌单</span><br>
+            	添加<span id="songName"></span>至<br>
             	<ul id="songLists">
             		<li onclick="addToList('0')">播放列表</li>
             	</ul>
             </div>
-            
+            <!-- 点击歌添加歌曲至歌单 -->
             <script type="text/javascript">
 			  		$(function(){
 			  			querySongs(1);
@@ -243,31 +315,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  				}
 			  			}
 			  		}); */
+			  		loadSongList();
 			  </script>
             
-            <div style="height:300px;position:fixed;"><!-- 播放列表，全部歌词，及其他工具 -->
+            <div id="bottom"style="width:80%;height:300px;position:fixed;visibility:hidden;"><!-- 播放列表，全部歌词，及其他工具 -->
             	<!-- 播放列表，全部歌词 -->
             	<div id="plistAalrc" style="background:gray;position:fixed;bottom:40px;cursor: pointer;display:none;margin-left: 5px;">
-	          	 <div style="color:white;margin-left:20px;width:500px;height:250px;overflow:scroll;float:left" id="plist">
+	          	 <div id="plist" style="color:white;background-image:url(../image/artist/me080502.jpg);background-size:240px 250px; margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:left">
 	          	 	 <table>
 	          	 	 	
 	          	 	 </table>
 	          	 </div>
-	          	 <div style="color:white;margin-left:20px;width:500px;height:250px;overflow:scroll;float:right" id="alyric"></div>
+	          	 <div id="alyric" style="color:white;margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:right"></div>
        		  </div>
        		  <!-- 播放列表，全部歌词 -->
-       		  <!-- 其他工具：上一曲，下一曲，播放暂停，进度条，音量加减，播放列表显示与隐藏按钮 -->
-				<div id="bottom" style="background: gray;position:fixed;bottom:0; left:260px;width:80%;height:40px;">
+       		  <!-- 其他工具#3f4156：上一曲，下一曲，播放暂停，进度条，音量加减，播放列表显示与隐藏按钮 -->
+				<div id="bottom" style="background: green;position:fixed;bottom:0; left:260px;width:80%;height:40px;">
 					<img style="width: 40px;height: 40px" title="左键--上一曲" onclick="preview()" alt="" src="../image/play_previous.png">&emsp;
 					<img style="width: 40px;height: 40px" title="P键--暂停/播放" id="pause" alt="" onclick="pause_play()" src="../image/play.png">&emsp;
 				    <img style="width: 40px;height: 40px" title="右键--下一曲" onclick="next()" alt="" src="../image/play_next.png">
-					<img id="mode" title="顺序播放--C键切换" style="width:50px;height:40px;" src="../image/play_order.png" onclick="change()">
+					<img id="mode" title="顺序播放--C键切换" style="width:50px;height:40px;" src="../image/play_random.png" onclick="change()">
 					<progress title="A键---快退10秒,D键---快进10秒;Q键---快退5秒,E键---快进5秒" style="width:566px;height:10px" draggable="false" id="pro" value="0" max="100"></progress>
-					<span id="time" class="time" title="已播放/总时长"></span>
+					<span id="time" class="time" title="已播放/总时长" style="color:white"></span>
 					<a onclick="minus()" class="minus" title="下键--音量减">一</a>
-					<progress style="width:100px;" draggable="false" id="voice" value="100" max="100"></progress>
+					<progress style="width:90px;" draggable="false" id="voice" value="100" max="100"></progress>
 					<a onclick="add()" class="add" title="上键--音量加">✚</a>
-					<span onclick="showHide()" id="sah">显示</span>
+					<span onclick="showHide()" title="Ctrl+shift+S"  style="color:white" id="sah">显示</span>
+					&emsp;
+					<span id="lock" onclick="fixBottom()" style="display: inline-block;"><i class="Hui-iconfont" style="font-size: 15px">&#xe605;</i></span><!-- 锁定：&#xe60e; 解锁：&#xe605;-->
+					<span id="unlock" onclick="unfixBottom()" style="display:none;"><i class="Hui-iconfont" style="font-size: 15px">&#xe60e;</i></span>
 				</div>
 			</div><!-- 播放列表，歌词，及其他工具 -->
           </form>          

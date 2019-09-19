@@ -1,3 +1,5 @@
+<%@page import="com.longbro.util.TimeUtil"%>
+<%@page import="com.longbro.util.JdbcUtil"%>
 <%@page import="com.longbro.util.Strings"%>
 <%@page import="java.io.IOException"%>
 <%@page import="java.io.FileNotFoundException"%>
@@ -10,12 +12,12 @@
 <%@page import="java.io.FileOutputStream"%>
 <%@page import="java.io.File"%>
 <!-- 加载歌词 -->
-
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-String sid=request.getParameter("sid");
-String time=request.getParameter("time");
+String sid=request.getParameter("sid");//歌曲id
+String time=request.getParameter("time");//时间点，仅加载单句歌词时有
+String from=request.getParameter("from");//决定是否对播放次数加1
 String l="";//最终为当前播放歌词
 if(request.getParameter("type").equals("1")){//加载单句歌词
 	if(sid.contains(".html")){//QQ音乐的歌词
@@ -96,8 +98,23 @@ if(request.getParameter("type").equals("1")){//加载单句歌词
 			
 		}
 	}
-    out.println(l);
+	if(l.length()>100){//较长时，使用流水灯
+	    out.println("<marquee>"+l+"</marquee>");
+	}else{
+	    out.println(l);
+	}
 }else{//加载所有歌词
+	//从js文件的play函数中进入时将当前歌曲播放次数加1
+	if(from.equals("1")){
+		String update="update song set playNum=playNum+1 where sourceId='"+sid+"'";
+		JdbcUtil.getCon().executeUpdate(update);
+		System.out.println(update);
+		String insert="insert into play_record(songId,playTime) values('"+sid+"','"+TimeUtil.time()+"');";
+		JdbcUtil.getCon().execute(insert);
+		System.out.println(insert);
+
+	}
+	//加载QQ音乐或网易云音乐的所有歌词
 	if(sid.contains(".html")){//QQ音乐的歌词
 		sid=sid.substring(0, sid.indexOf(".html"));
 		try{
@@ -128,12 +145,11 @@ if(request.getParameter("type").equals("1")){//加载单句歌词
 			lrc=lrc.replaceAll("\\[", "<");
 	    	lrc=lrc.replaceAll("]", ">");	
 			lrc=lrc.replaceAll("<[.[^<]]*>", "</center><center>");
-			out.write(lrc);
+			System.out.println("<center>"+lrc+"</center>");
+			out.write("<center>"+lrc+"</center>");
 		}catch(Exception e){
 			
 		}
 	}
 }
-
-
 %>

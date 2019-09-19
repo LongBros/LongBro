@@ -5,6 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,12 +18,27 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 /**
- * 爬取https://www.biqudao.com的小说
- * @author LongBro
- * @date 2019年9月19日
- * @time 下午2:03:44
+ *爬取https://www.biqudao.com的小说
+ * 1.爬取某本小说的所有章节2.爬取某一章节的内容
+ * 3.将小说保存至数据库4.将小说保存至文件
+ * @author 赵成龙
+ * @website www.longqcloud.cn & www.zy52113.com
+ * @date 2019年8月3日 下午2:08:32
+ * @description
+ * @version
  */
 public class SpideNovel {
+	static Connection con=null;
+	static PreparedStatement ps=null;
+	static Statement st=null;
+	/**
+	 * 1.爬取某本小说的所有章节
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年6月3日
+	 * @return
+	 * @throws IOException
+	 */
 	public static ArrayList<HashMap<String, String>> spideList() throws IOException{
 		ArrayList<HashMap<String, String>> list=new ArrayList<HashMap<String, String>>();
 		
@@ -45,11 +64,11 @@ public class SpideNovel {
 		return list;
 	}
 	/**
-	 * 
-	 * @desc 
+	 * 2.爬取某一章节的内容
+	 * @date 2019年6月3日
+	 * @time 上午11:45:49
 	 * @author zcl
-	 * @date 2019年6月2日
-	 * @param page	页码
+	 * @param page	章节码
 	 * @param name	章节名
 	 * @return
 	 * @throws IOException
@@ -63,13 +82,58 @@ public class SpideNovel {
 		chapterCon=chapterCon.substring(0, chapterCon.indexOf("<script>"));
 		return chapterCon;
 	}
+	/**
+	 * 3.将小说保存至数据库
+	 * @date 2019年6月3日
+	 * @time 上午11:45:56
+	 * @author zcl
+	 * @throws IOException 
+	 */
+	public static void saveToDb() throws Exception{
+		String book=
+				"162771";
+		String bookName="狂婿";
+		long begin=System.currentTimeMillis();//开始下载时的时间
+		String content=new String();
+		String suse="";//使用的秒数
+		long use=0;
+		Class.forName("com.mysql.jdbc.Driver");
+		//serverTimezone服务器时区，UTC是统一标准世界时间。
+		//useUnicode=true&characterEncoding=utf-8解决中文乱码
+		con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/longnovel?useUnicode=true"
+				+ "&characterEncoding=utf-8&serverTimezone=UTC", "root", "ZCLZY");
+		ArrayList<HashMap<String, String>> list=spideList();
+		//增强for循环
+		for(HashMap<String, String> map:list){
+			String chapterCon=spideContent(map.get("link"),map.get("title"));
+			String sql="INSERT INTO `chapter` (`bookId`,`bookName`, `page`, `name`, `content`) VALUES "
+					+ "('"+book+"','"+bookName+"','"+map.get("link")+"','"+map.get("title")+"','"+chapterCon+"');";
+			st=con.createStatement();
+			st.execute(sql);
+			System.out.println("\""+map.get("title")+"\"下载成功");
+		}
+		/*for(int i=229;i<list.size();i++){
+			String chapterCon=spideContent(list.get(i).get("link"),list.get(i).get("title"));
+			String sql="INSERT INTO `chapter` (`bookId`,`bookName`, `page`, `name`, `content`) VALUES "
+					+ "('"+book+"','"+bookName+"','"+list.get(i).get("link")+"','"+list.get(i).get("title")+"','"+chapterCon+"');";
+			st=con.createStatement();
+			st.execute(sql);
+			System.out.println("INSERT INTO `novel` (`bookId`, `page`, `name`, `content`) VALUES ('"+book+"','"+list.get(i).get("link")+"','"+list.get(i).get("title")+"')");
+		}*/
+	}
+	/**
+	 * 4.将小说保存至文件
+	 * @date 2019年6月3日
+	 * @time 上午11:45:08
+	 * @author zcl
+	 * @throws IOException
+	 */
 	public static void saveNovel() throws IOException{
 		long begin=System.currentTimeMillis();//开始下载时的时间
 		String content=new String();
 		String suse="";//使用的秒数
 		long use=0;
-		File file=new File("D:/long/novel2.txt");
-		file.createNewFile();
+		
 		ArrayList<HashMap<String, String>> list=spideList();
 		for(HashMap<String, String> map:list){
 			String chapterCon=spideContent(map.get("link"),map.get("title"));
@@ -84,6 +148,8 @@ public class SpideNovel {
 		//使用字节流
 //		FileOutputStream fos=new FileOutputStream(file);
 //		fos.write(content.getBytes());
+		File file=new File("D:/long/狂婿.txt");
+		file.createNewFile();
 		//使用字符流
 		FileWriter out=new FileWriter(file);
 		out.write(content);
@@ -91,7 +157,7 @@ public class SpideNovel {
 
 		out.close();
 	}
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		saveNovel();
 	}

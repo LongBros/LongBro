@@ -40,7 +40,7 @@ public class SongController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping (value="addSong",method=RequestMethod.POST)
+	@RequestMapping ("addSong")
 	@ResponseBody
 	public Result addSong(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException
 	{
@@ -55,7 +55,16 @@ public class SongController {
 		map.put("imgPath", request.getParameter("imgPath"));
 		map.put("releaseTime", request.getParameter("releaseTime"));
 		map.put("website", request.getParameter("website"));
-		map.put("desc", request.getParameter("desc"));
+		map.put("descr", request.getParameter("descr"));
+		map.put("time", request.getParameter("time"));
+		System.out.print(request.getParameter("time"));
+		Song song=service.querySongBySId(request.getParameter("sourceId"));
+		if(song!=null){
+			result.setData(null);
+			result.setMsg("库中已有该歌曲，请勿重复添加！^-^");
+			result.setResult(false);
+			return result;
+		}
 		service.addSong(map);
 //		下载歌曲
 		DownloadUtil.downloadMp3(request.getParameter("sourceId"), request.getParameter("songName"));
@@ -83,7 +92,6 @@ public class SongController {
 	{		
 		System.out.println(request.getParameter("page"));
 		List<Song> list=service.queryAllSongs(Integer.parseInt(request.getParameter("page")));
-		
 		return list;
 	}
 	/**
@@ -101,7 +109,6 @@ public class SongController {
 	public List<Song> querySongs(HttpServletRequest request,HttpServletResponse response)
 	{		
 		List<Song> list=service.querySongs(request.getParameter("key"));
-		
 		return list;
 	}
 	/**
@@ -118,8 +125,45 @@ public class SongController {
 	public List<Song> querySongsBySinger(HttpServletRequest request,HttpServletResponse response)
 	{		
 		List<Song> list=service.querySongsBySinger(request.getParameter("singer"));
-		
 		return list;
+	}
+	/**
+	 * 根据歌词搜索歌曲
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年8月5日
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping (value="querySongsByLyric",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Song> querySongsByLyric(HttpServletRequest request,HttpServletResponse response)
+	{		
+		List<Song> list=service.querySongsBySinger(request.getParameter("key"));
+		return list;
+	}
+	/**
+	 * 强力搜索功能-根据关键词同时搜索歌曲名、歌手、歌词
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年8月5日
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping (value="strongQuerySongs",method=RequestMethod.GET)
+	@ResponseBody
+	public List<List<Song>> strongQuerySongs(HttpServletRequest request,HttpServletResponse response)
+	{		
+		List<Song> listSongs=service.querySongs(request.getParameter("key"));
+		List<Song> listSinger=service.querySongsBySinger(request.getParameter("key"));
+		List<Song> listLyric=service.querySongsByLyric(request.getParameter("key"));
+		List<List<Song>> ls=new ArrayList<List<Song>>();
+		ls.add(listSongs);
+		ls.add(listSinger);
+		ls.add(listLyric);
+		return ls;
 	}
 	/**
 	 * 5.根据id搜索歌曲
@@ -134,6 +178,7 @@ public class SongController {
 	@ResponseBody
 	public Song querySongById(HttpServletRequest request,HttpServletResponse response)
 	{		
+		System.out.println(request.getParameter("id"));
 		Song song=service.querySongById(Integer.parseInt(request.getParameter("id")));
 		
 		return song;
@@ -152,7 +197,6 @@ public class SongController {
 	@ResponseBody
 	public void editSong(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException
 	{	
-		
 		Song song=new Song();
 		request.setCharacterEncoding("utf-8");
 		song.setId(Integer.parseInt(request.getParameter("id")));
@@ -164,7 +208,8 @@ public class SongController {
 		song.setReleaseTime(request.getParameter("releaseTime"));
 		song.setImgPath(request.getParameter("imgPath"));
 		song.setWebsite(request.getParameter("website"));
-		song.setDesc(request.getParameter("desc"));
+		song.setDescr(request.getParameter("descr"));
+		song.setLyric(request.getParameter("lyric"));
 		service.editSong(song);
 		
 		return;
@@ -198,6 +243,14 @@ public class SongController {
 			song=service.querySongById(Integer.parseInt(id));
 			list.add(song);
 		}		
+		return list;
+	}
+	
+	@RequestMapping (value="queryHotSongs",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Song> queryHotSongs(HttpServletRequest request,HttpServletResponse response)
+	{		
+		List<Song> list=service.queryHotSongs(Integer.parseInt(request.getParameter("num")));
 		return list;
 	}
 }

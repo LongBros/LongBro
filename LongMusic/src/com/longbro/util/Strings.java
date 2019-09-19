@@ -1,7 +1,14 @@
 package com.longbro.util;
 
 import java.util.ArrayList;
-
+/**
+ * 账单分类、歌曲名及id数组
+ * @author 赵成龙
+ * @website www.longqcloud.cn & www.zy52113.com
+ * @date 2019年8月3日 下午2:07:45
+ * @description
+ * @version
+ */
 public class Strings {
 	public static String category[]={"交通","早餐","午餐","晚餐","生活","话费","娱乐","日常","零食","饮料","服装","学习"};
 	public static String Incate[]={"刷单","工资","兼职","软件","代缴电费","其他"};
