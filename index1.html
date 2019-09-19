@@ -17,7 +17,7 @@
 		
     }
 	.remark{
-		margin-top:180px;
+		margin-top:80px;
 	}
 	#smilePic{
 		margin-top:20px;
@@ -54,18 +54,12 @@
 		color: #FFF;
 		padding: 1em 0;
 	}
-	input{
-		width:200px;
-		height:30px;
-		
-	}
     </style>
 </head>
-<body style="background:pink;" id="body"> 
-	 <span>时间:</span>&emsp;<input name="timeSetting" style="font-size:10px;color:red;" onenter="alert('1')" id="timeSetting">
+<body style="background:pink;" id="body">    
      <center>
-		<!--<div class="remark">打卡时间：<span style="color:red;">08:20</span>、<span style="color:red;">14:30</span>、<span style="color:red;">17:30</span></div>-->
-		<div class="remark">打卡时间：<span style="color:red;">09:00</span>、<span style="color:red;">18:00</span></div>
+		<div class="remark">打卡时间：<span style="color:red;">08:20</span>、<span style="color:red;">14:30</span>、<span style="color:red;">17:30</span></div>
+		<div class="remark">我的打卡时间：<span style="color:red;">09:00前</span>、<span style="color:red;">18:00后</span></div>
 		<img id="smilePic" src="picture/smile1.png"><div class="praise"><img id="heart" src="picture/heart.png">加油哟，你最棒啦!<img id="hug" src="picture/hug.png"></div>
 		<div id="time"></div>
 	 </center>
@@ -85,7 +79,7 @@
 						   "快到打卡时间啦，别忘记打卡哦~因为努力，今天的你比昨天更强大^-^","快到打卡时间啦，别忘记打卡哦~生活是忙忙碌碌，重要的是开开心心^-^",
 		); 																																																			//"小可爱辛苦啦，快歇歇","小祖宗别太累了，我永远是你坚强的后盾","你是我的小呀小苹果，怎么爱你都不嫌多，记着打卡哈"
    		var songs=new Array("440241232","5146554","29759733","1315718569","28111646");
-		var songsName=new Array("二胡","Right Now","可乐","有一种悲伤","只是太爱你");
+		var songsName=new Array("Right Now","Right Now","可乐","有一种悲伤","只是太爱你");
 		var all=new Date();
 		var year=all.getFullYear();
 		var mon=addZero(all.getMonth()+1);
@@ -96,23 +90,26 @@
 		var time=year+"-"+mon+"-"+day+" "+hour+":"+min+":"+sec;
 		var time1=hour+":"+min+":"+sec;
 		var song=document.getElementById("song");
-
-		if(time1=="08:50:00"||time1=="09:00:30"){//早上打卡时间
+		if(time1=="17:28:00"){//下午打卡时间
+			var num=random(senN.length-1);
+			song.src="https://link.hhtjim.com/163/"+songs[2]+".mp3";
+			alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senN[num]);
+		}else if(time1=="14:15:45"){//中午打卡时间
 			var num=random(senA.length-1);
-			alert("记着带工牌");
-			song.src="https://link.hhtjim.com/163/"+songs[3]+".mp3";
-			//alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senM[num]);
-		}else if(time1=="09:58:00"){//19:00~21:00
-			alert("支付宝兑换");
-			song.src="https://link.hhtjim.com/163/"+songs[0]+".mp3";
-		}else if(time1=="18:03:00"){//19:00~21:00
-			alert("打卡，去工牌，拿公交卡");
-			song.src="https://link.hhtjim.com/163/"+songs[0]+".mp3";
-		}else if(time1=="19:03:00"||time1=="20:03:00"||time1=="21:03:00"||time1=="22:03:00"){//19:00~21:00
-			alert("刷新打卡，拿公交卡");
-			song.src="https://link.hhtjim.com/163/"+songs[1]+".mp3";
+			song.src="https://link.hhtjim.com/163/"+songs[4]+".mp3";
+			alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senA[num]);
+		}else if(time1=="08:10:00"){//早上打卡时间
+			var num=random(senA.length-1);
+			alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senM[num]);
+		}else if(time1=="08:50:00"){//我的上班卡
+			song.src="https://link.hhtjim.com/163/"+songs[2]+".mp3";
+			alert("你该打上班卡啦！")
+		}else if(time1=="18:10:00"){//我的下班卡
+			song.src="https://link.hhtjim.com/163/"+songs[2]+".mp3";
+			alert("你该打下班卡啦！")
 		}
    		document.getElementById("time").innerText=time;
+		
    	}
 	function addZero(param){
 		var param=param+"";
