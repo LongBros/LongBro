@@ -48,7 +48,7 @@ public class SpideNovel {
 	public static ArrayList<HashMap<String, String>> spideList(String bookId) throws IOException{
 		ArrayList<HashMap<String, String>> list=new ArrayList<HashMap<String, String>>();
 		
-		Document doc=Jsoup.connect("https://www.biqudao.com/bqge2271/").get();
+		Document doc=Jsoup.connect("https://www.biqudao.com/bqge"+bookId+"/").get();
 		Element e=doc.getElementById("list");
 		System.out.println("----------------");
 		System.out.println(e);
@@ -97,10 +97,7 @@ public class SpideNovel {
 	 * @author zcl
 	 * @throws IOException 
 	 */
-	public static void saveToDb() throws Exception{
-		String bookId=
-				"162771";
-		String bookName="狂婿";
+	public static void saveToDb(String bookId,String bookName) throws Exception{
 		long begin=System.currentTimeMillis();//开始下载时的时间
 		String content=new String();
 		String suse="";//使用的秒数
