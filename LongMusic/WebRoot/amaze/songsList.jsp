@@ -302,6 +302,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  		$(function(){
 			  			querySongs(1);
 				   });
+			  		//加载歌单
+			  		/* $.ajax({
+			  			type:"Get",
+			  			async:false,
+			  			url:"../querySongList.do",
+			  			dataType:"Json",
+			  			success:function(data){
+			  				for(var k=0;k<data.length;k++){
+			  					$('#songList').append("<option value='"+data[k].songs+"】"+data[k].name+"】"+data[k].id+"'>"+data[k].name+"</option>");
+			  					$('#songLists').append("<li onclick=\"addToList('"+(k+1)+"')\">"+data[k].name+"</li>");
+			  				}
+			  			}
+			  		}); */
 			  		loadSongList();
 			  </script>
             

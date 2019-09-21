@@ -18,8 +18,13 @@
 		select 
 		*
 		from song
-		where songName like concat ('%',#{key},'%')
+		where songName like concat ('%',${key},'%')
 	</select>
+	<select id="queryAllSongs"  resultType="com.longbro.bean.Song" parameterType="java.lang.Integer">
+		select 
+		*
+		from song limit #{_parameter},50;
+   </select>
 	<!-- 实现比如“热歌榜”的功能 -->
 	<select id="querySongsBy" resultType="java.util.HashMap">
 		select * from song order by playNum desc limit 0,#{num};
@@ -39,7 +44,7 @@
 		select
 		* 
 		from song
-		where id=#{id}
+		where id=${id}
 	</select>
 	<select id="querySongBySId"  resultType="com.longbro.bean.Song">
 		select
@@ -52,7 +57,7 @@
 		imgPath,
 		releaseTime 
 		from song
-		where sourceId=#{sourceId}
+		where sourceId=${sourceId}
 	</select>
 	<select id="querySongsBySName"  resultType="com.longbro.bean.Song">
 		select 

@@ -18,6 +18,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 /**
+ * 爬取https://www.biqudao.com的小说
  * 1.爬取某本小说的所有章节2.爬取某一章节的内容
  * 3.将小说保存至数据库4.将小说保存至文件
  * @author 赵成龙
@@ -30,6 +31,12 @@ public class SpideNovel {
 	static Connection con=null;
 	static PreparedStatement ps=null;
 	static Statement st=null;
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+		String bookId="2271";
+		String bookName="校花的贴身高手";
+		saveNovel(bookId,bookName);
+	}
 	/**
 	 * 1.爬取某本小说的所有章节
 	 * @desc 
@@ -38,11 +45,13 @@ public class SpideNovel {
 	 * @return
 	 * @throws IOException
 	 */
-	public static ArrayList<HashMap<String, String>> spideList() throws IOException{
+	public static ArrayList<HashMap<String, String>> spideList(String bookId) throws IOException{
 		ArrayList<HashMap<String, String>> list=new ArrayList<HashMap<String, String>>();
 		
-		Document doc=Jsoup.connect("https://www.biqudao.com/bqge162771/").get();
+		Document doc=Jsoup.connect("https://www.biqudao.com/bqge"+bookId+"/").get();
 		Element e=doc.getElementById("list");
+		System.out.println("----------------");
+		System.out.println(e);
 		String chapterList=e.toString();
 		String d[]=chapterList.split("<dt>");
 		String titles[]=d[2].split("href");
@@ -72,8 +81,8 @@ public class SpideNovel {
 	 * @return
 	 * @throws IOException
 	 */
-	public static String spideContent(String page,String name) throws IOException{
-		Document doc=Jsoup.connect("https://www.biqudao.com/bqge162771/"+page+".html").get();
+	public static String spideContent(String bookId,String page,String name) throws IOException{
+		Document doc=Jsoup.connect("https://www.biqudao.com/bqge"+bookId+"/"+page+".html").get();
 		Element e=doc.getElementById("content");
 		String chapterCon=e.toString().replaceAll("<div id=\"content\">", "")
 				.replaceAll("<br>", "")
@@ -88,10 +97,7 @@ public class SpideNovel {
 	 * @author zcl
 	 * @throws IOException 
 	 */
-	public static void saveToDb() throws Exception{
-		String book=
-				"162771";
-		String bookName="狂婿";
+	public static void saveToDb(String bookId,String bookName) throws Exception{
 		long begin=System.currentTimeMillis();//开始下载时的时间
 		String content=new String();
 		String suse="";//使用的秒数
@@ -101,12 +107,12 @@ public class SpideNovel {
 		//useUnicode=true&characterEncoding=utf-8解决中文乱码
 		con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/longnovel?useUnicode=true"
 				+ "&characterEncoding=utf-8&serverTimezone=UTC", "root", "ZCLZY");
-		ArrayList<HashMap<String, String>> list=spideList();
+		ArrayList<HashMap<String, String>> list=spideList(bookId);
 		//增强for循环
 		for(HashMap<String, String> map:list){
-			String chapterCon=spideContent(map.get("link"),map.get("title"));
+			String chapterCon=spideContent(bookId,map.get("link"),map.get("title"));
 			String sql="INSERT INTO `chapter` (`bookId`,`bookName`, `page`, `name`, `content`) VALUES "
-					+ "('"+book+"','"+bookName+"','"+map.get("link")+"','"+map.get("title")+"','"+chapterCon+"');";
+					+ "('"+bookId+"','"+bookName+"','"+map.get("link")+"','"+map.get("title")+"','"+chapterCon+"');";
 			st=con.createStatement();
 			st.execute(sql);
 			System.out.println("\""+map.get("title")+"\"下载成功");
@@ -127,15 +133,15 @@ public class SpideNovel {
 	 * @author zcl
 	 * @throws IOException
 	 */
-	public static void saveNovel() throws IOException{
+	public static void saveNovel(String bookId,String bookName) throws IOException{
 		long begin=System.currentTimeMillis();//开始下载时的时间
 		String content=new String();
 		String suse="";//使用的秒数
 		long use=0;
 		
-		ArrayList<HashMap<String, String>> list=spideList();
+		ArrayList<HashMap<String, String>> list=spideList(bookId);//爬取小说的所有章节
 		for(HashMap<String, String> map:list){
-			String chapterCon=spideContent(map.get("link"),map.get("title"));
+			String chapterCon=spideContent(bookId,map.get("link"),map.get("title"));
 			content=content+map.get("title")+chapterCon;
 			//new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date())
 			long now=System.currentTimeMillis();//拼接本章时的时间
@@ -147,7 +153,7 @@ public class SpideNovel {
 		//使用字节流
 //		FileOutputStream fos=new FileOutputStream(file);
 //		fos.write(content.getBytes());
-		File file=new File("D:/long/狂婿.txt");
+		File file=new File("D:/long/"+bookName+".txt");
 		file.createNewFile();
 		//使用字符流
 		FileWriter out=new FileWriter(file);
@@ -156,9 +162,6 @@ public class SpideNovel {
 
 		out.close();
 	}
-	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-		saveNovel();
-	}
+	
 
 }

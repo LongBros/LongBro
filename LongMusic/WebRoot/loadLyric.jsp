@@ -20,14 +20,15 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 String name=request.getParameter("name");
-//System.out.println(name);
 name=URLDecoder.decode(name,"utf-8");
+System.out.println(name);
+
 String time=request.getParameter("time");
 String type=request.getParameter("type");
 System.out.println(name);
 if(type.equals("1")){//monitor函数中调用，当前播放歌词
 	try{
-		File file=new File("E:/AAAA/lyric/Time_"+name+".txt");
+		File file=new File("E:/AAAA/alyric/Time_"+name+".txt");
 		if(!file.exists()){//说明是在云服务器上
 			file=new File("/home/ubuntu/tomcat/webapps/Minimusic/lyric/Time_"+name+".txt");
 		}
@@ -67,7 +68,7 @@ if(type.equals("1")){//monitor函数中调用，当前播放歌词
 }else{//type=2，play函数中调用，所有歌词
 	//同时添加播放记录
 	try{
-		File file=new File("E:/AAAA/lyric/"+name+".txt");
+		File file=new File("E:/AAAA/alyric/"+name+".txt");
 		if(!file.exists()){
 			file=new File("/home/ubuntu/tomcat/webapps/Minimusic/lyric/"+name+".txt");
 		}

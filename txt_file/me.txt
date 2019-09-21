@@ -1,0 +1,38 @@
+我们的一生可能会有许许多多个使命，有的使命一旦达到了，也便该潇洒地离开了。
+正如陈奕迅的那句：没有句点已经很完美了，何必误会故事没说完。
+在以后没有我陪你聊天的日子里，愿你也能多一些快乐，少一些烦恼。
+
+1.转团组织关系
+2.报到证处理
+3.写年中总结
+
+剑东是产品部的主管
+管理App的叫诺华
+
+
+123.207.233.112
+
+
+ZCLZY19952018
+
+
+cd /home/ubuntu/tomcat/bin
+
+
+
+查询某数据库中有多少张表
+select count(*) as '表数量',table_schema as '数据库名称' FROM information_schema.TABLES WHERE table_schema = 'liangce_loan_bpm' GROUP BY table_schema;
+
+
+
+select count(*) tables,table_schema FROM information_schema.TABLES WHERE table_schema = 'liangce_loan_bpm' GROUP BY table_schema;
+
+
+
+查询所有数据库各有多少张表，并按表数量由多到少排序
+
+select count(*) as '表数量',table_schema as '数据库名称' FROM information_schema.TABLES GROUP BY table_schema order by count(*) desc;
+
+select table_schema as '数据库名称',count(*) as '表数量' FROM information_schema.TABLES GROUP BY table_schema order by count(*) desc;
+
+358个表		w_case_info中有285个字段
