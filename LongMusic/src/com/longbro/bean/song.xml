@@ -20,11 +20,11 @@
 		from song
 		where songName like concat ('%',${key},'%')
 	</select>
-	<select id="queryAllSongs"  resultType="com.longbro.bean.Song" parameterType="java.lang.Integer">
+	<!-- <select id="queryAllSongs"  resultType="com.longbro.bean.Song" parameterType="java.lang.Integer">
 		select 
 		*
 		from song limit #{_parameter},50;
-   </select>
+   </select> -->
 	<!-- 实现比如“热歌榜”的功能 -->
 	<select id="querySongsBy" resultType="java.util.HashMap">
 		select * from song order by playNum desc limit 0,#{num};

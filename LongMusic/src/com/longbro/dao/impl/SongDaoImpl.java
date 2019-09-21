@@ -14,13 +14,13 @@ public class SongDaoImpl extends BaseDao implements SongDao{
 	final String pre="com.longbro.bean.song.";
 	@Override
 	public void addSong(Map<Object, Object> map) {
-		this.insert(pre+"addSong", map);
+		this.insert("com.longbro.bean.song.addSong", map);
 	}
 	//根据关键字查询歌曲
 	@Override
 	public List<Song> querySongs(String key) {
 		// TODO Auto-generated method stub
-		List<Song> list=(List<Song>)this.selectList(pre+"querySongs",key);
+		List<Song> list=(List<Song>)this.selectList("com.longbro.bean.song.querySongs",key);
 		return list;
 	}
 	/**
@@ -30,50 +30,50 @@ public class SongDaoImpl extends BaseDao implements SongDao{
 	public List<Song> queryAllSongs(int start) {
 		// TODO Auto-generated method stub
 		LogUtil.print(start+"");
-		return (List<Song>)this.selectList(pre+"queryAllSongs",start);
+		return (List<Song>)this.selectList("com.longbro.bean.song.queryAllSongs",start);
 	}
 	@Override
 	public Song querySongById(int id) {
 		// TODO Auto-generated method stub
-		return (Song)this.selectOne(pre+"querySongById", id);
+		return (Song)this.selectOne("com.longbro.bean.song.querySongById", id);
 	}
 	@Override
 	public Song querySongBySId(String sourceId) {
 		// TODO Auto-generated method stub
-		return (Song)this.selectOne(pre+"querySongBySId", sourceId);
+		return (Song)this.selectOne("com.longbro.bean.song.querySongBySId", sourceId);
 	}
 	@Override
 	public Song querySongBySName(String sname) {
 		// TODO Auto-generated method stub
-		Song song=(Song)this.selectOne(pre+"querySongsBySName", sname);
+		Song song=(Song)this.selectOne("com.longbro.bean.song.querySongsBySName", sname);
 		return song;
 	}
 	@Override
 	public List<Song> querySongsBySinger(String singer) {
 		// TODO Auto-generated method stub
-		List<Song> list=(List<Song>)this.selectList(pre+"querySongsBySinger",singer);
+		List<Song> list=(List<Song>)this.selectList("com.longbro.bean.song.querySongsBySinger",singer);
 		return list;
 	}
 	@Override
 	public List<Song> querySongsByLyric(String key) {
-		List<Song> list=(List<Song>)this.selectList(pre+"querySongsByLyric",key);
+		List<Song> list=(List<Song>)this.selectList("com.longbro.bean.song.querySongsByLyric",key);
 		// TODO Auto-generated method stub
 		return list;
 	}
 	@Override
 	public void editSong(Song song) {
 		// TODO Auto-generated method stub
-		this.update(pre+"editSong", song);
+		this.update("com.longbro.bean.song.editSong", song);
 	}
 	@Override
 	public List<Song> queryHotSongs(int num) {
 		// TODO Auto-generated method stub
-		List<Song> list=(List<Song>)this.selectList(pre+"querySongsBy",num);
+		List<Song> list=(List<Song>)this.selectList("com.longbro.bean.song.querySongsBy",num);
 		return list;
 	}
 	@Override
 	public Integer findSongNumBy(String inputTime) {
 		// TODO Auto-generated method stub
-		return (Integer)this.selectOne(pre+"findSongNumBy", inputTime);
+		return (Integer)this.selectOne("com.longbro.bean.song.findSongNumBy", inputTime);
 	}
 }

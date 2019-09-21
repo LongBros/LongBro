@@ -1,3 +1,7 @@
+09-22
+解决了Mapped Statements collection already contains value for的问题
+困扰了很久，百度后解决：字面意思是说mapper中存在id重复的值，比如说同一个xml文件中有两个id为xxx的方法
+
 09-20
 为Song添加统计歌曲数量的各层，可统计今日、一日内、本周、一周内……录入的歌曲数量
 被hui的welcome.html调用并显示
