@@ -44,7 +44,7 @@
 		select
 		* 
 		from song
-		where id=${id}
+		where id=${_parameter}
 	</select>
 	<select id="querySongBySId"  resultType="com.longbro.bean.Song">
 		select
