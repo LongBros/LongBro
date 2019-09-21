@@ -2,6 +2,8 @@ package com.longbro.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.longbro.bean.Result;
 import com.longbro.bean.Song;
 import com.longbro.service.SongService;
+import com.longbro.util.DateUtil;
 import com.longbro.util.DownloadUtil;
+import com.longbro.util.Strings;
+import com.longbro.util.TimeUtil;
 /**
  * 1.添加歌曲2.分页查询歌曲3.关键词搜索歌曲4.根据歌手搜索歌曲5.根据id搜索歌曲
  * @author 赵成龙
@@ -244,12 +249,62 @@ public class SongController {
 		}		
 		return list;
 	}
-	
+	/**
+	 * 8.查询热播榜
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年9月20日
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping (value="queryHotSongs",method=RequestMethod.GET)
 	@ResponseBody
 	public List<Song> queryHotSongs(HttpServletRequest request,HttpServletResponse response)
 	{		
 		List<Song> list=service.queryHotSongs(Integer.parseInt(request.getParameter("num")));
 		return list;
+	}
+	/**
+	 * 9.查询今日、昨日、本周、本月、一日内、一周内、一月内……录入歌曲的数量
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年9月20日
+	 * @param type
+	 * @return
+	 */
+	@RequestMapping (value="findSongNumBy",method=RequestMethod.GET)
+	@ResponseBody
+	public Integer findSongNumBy(Integer type){
+		String time="";//type=0时time=0，查询所有的
+		if(type==1){//今日-可用like %time%，也可用>2019-09-20 00:00:00
+			time=TimeUtil.getToday()+" 00:00:00";
+		}else if(type==2){//昨日----只传一个time解决不了昨天。要么1.传昨天00:00~23:59:00要么用like
+//			time=TimeUtil.getYesterday()+" 00:00:00";
+		}else if(type==3){//本周
+			//需得到本周第一天即周一的年月日
+			Calendar calendar=Calendar.getInstance();
+			String cweekNum="";//中文，如：星期一
+			calendar.setTime(new Date());
+			switch(calendar.get(Calendar.DAY_OF_WEEK)){
+				case 1:time=TimeUtil.getAgo(6);break;//周日	
+				case 2:time=TimeUtil.getAgo(6);break;
+				case 3:time=TimeUtil.getAgo(6);break;
+				case 4:time=TimeUtil.getAgo(6);break;
+				case 5:time=TimeUtil.getAgo(6);break;
+				case 6:time=TimeUtil.getAgo(6);break;
+				case 7:time=TimeUtil.getAgo(6);break;
+			}
+		}else if(type==4){//本月
+			time=TimeUtil.getToday().substring(0, 7)+"-00 00:00:00";
+		}else if(type==5){//一日内
+			time=TimeUtil.getAgo(1);
+		}else if(type==6){//一周内
+			time=TimeUtil.getAgo(7);
+		}else if(type==7){//一月内
+			time=TimeUtil.getAgo(31);
+		}
+		System.out.println(time);
+		return service.findSongNumBy(time);
 	}
 }

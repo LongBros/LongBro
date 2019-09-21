@@ -1,3 +1,4 @@
+ 使用Ajax时的返回值类型:xml、html、script、JSON、jsonp、text
 2019-08-31
 一些相关的参数：
 str.toLowerCase()   转换成小写  

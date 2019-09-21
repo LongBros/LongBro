@@ -86,4 +86,13 @@
 		lyric=#{lyric}
 		where id=#{id}
 	</update>
+	<!-- 根据录入时间查询歌曲数量 -->
+	<select id="findSongNumBy" resultType="java.lang.Integer">
+		select count(1) from song 
+		where 1=1 
+		<if test="_parameter!=null and _parameter!=''">
+			and inputTime &gt;= #{_parameter}
+		</if>
+	
+	</select>
 </mapper>

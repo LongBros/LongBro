@@ -18,4 +18,6 @@ public interface SongService {
 	public void editSong(Song song);
 	
 	public List<Song> queryHotSongs(int num);
+	public Integer findSongNumBy(String inputTime);//2019-09-20
+
 }

@@ -63,4 +63,9 @@ public class SongServiceImpl implements SongService{
 		// TODO Auto-generated method stub
 		return dao.queryHotSongs(num);
 	}
+	@Override
+	public Integer findSongNumBy(String inputTime) {
+		// TODO Auto-generated method stub
+		return dao.findSongNumBy(inputTime);
+	}
 }

@@ -40,12 +40,13 @@
 				<th>管理员</th>
 			</tr>
 		</thead>
+		
 		<tbody>
 			<tr class="text-c">
 				<td>总数</td>
 				<td>92</td>
 				<td>9</td>
-				<td>0</td>
+				<td id="songNum0"></td>
 				<td>8</td>
 				<td>20</td>
 			</tr>
@@ -53,7 +54,7 @@
 				<td>今日</td>
 				<td>0</td>
 				<td>0</td>
-				<td>0</td>
+				<td id="songNum1"></td>
 				<td>0</td>
 				<td>0</td>
 			</tr>
@@ -61,7 +62,7 @@
 				<td>昨日</td>
 				<td>0</td>
 				<td>0</td>
-				<td>0</td>
+				<td id="songNum2"></td>
 				<td>0</td>
 				<td>0</td>
 			</tr>
@@ -69,7 +70,7 @@
 				<td>本周</td>
 				<td>2</td>
 				<td>0</td>
-				<td>0</td>
+				<td id="songNum3"></td>
 				<td>0</td>
 				<td>0</td>
 			</tr>
@@ -77,7 +78,31 @@
 				<td>本月</td>
 				<td>2</td>
 				<td>0</td>
+				<td id="songNum4"></td>
 				<td>0</td>
+				<td>0</td>
+			</tr>
+			<tr class="text-c">
+				<td>一日内</td>
+				<td>2</td>
+				<td>0</td>
+				<td id="songNum5"></td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			<tr class="text-c">
+				<td>一周内</td>
+				<td>2</td>
+				<td>0</td>
+				<td id="songNum6"></td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			<tr class="text-c">
+				<td>一月内</td>
+				<td>2</td>
+				<td>0</td>
+				<td id="songNum7"></td>
 				<td>0</td>
 				<td>0</td>
 			</tr>
@@ -194,6 +219,24 @@
 </footer>
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script>
+	//利用循环计算出
+	for(var i=0;i<8;i++){
+		var innerOM=document.getElementById("songNum"+i);
+		$.ajax({
+			type:"get",
+			async:false,
+			url:"../findSongNumBy.do?type="+i,
+			dataType:"text",
+			success:function(text){
+				innerOM.innerText=text;
+			}
+		});
+		if(i==2){
+			innerOM.innerText="算法出错";
+		}
+	}
+</script>
 <!--此乃百度统计代码，请自行删除-->
 <script>
 var _hmt = _hmt || [];

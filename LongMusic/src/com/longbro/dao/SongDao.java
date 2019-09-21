@@ -20,4 +20,5 @@ public interface SongDao {
 	public void editSong(Song song);
 	
 	public List<Song> queryHotSongs(int num);//2019-08-25
+	public Integer findSongNumBy(String inputTime);//2019-09-20
 }

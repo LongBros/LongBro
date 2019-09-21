@@ -14,11 +14,13 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 public class TimeUtil {
+	static long current=System.currentTimeMillis();//当前的毫秒数
+	static long oneday=1*24*60*60*1000;//一天的毫秒数
+	static SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	public static void main(String[] args) {
 //		System.out.print(getCWeek());
 		long c=System.currentTimeMillis();
 		long oneday=1*24*60*60*1000;//一天的毫秒数
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		System.out.println(sdf.format(new Date(c-oneday)));//一天前
 		System.out.println(sdf.format(new Date(c-oneday*7)));//一周前
 		System.out.println(sdf.format(new Date(c-oneday*30)));//一月前
@@ -36,11 +38,40 @@ public class TimeUtil {
 	 * @return
 	 */
 	public static String time(){
-		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		long l=System.currentTimeMillis();
-		Date date=new Date(l);
-		String time=sf.format(date);//记录发表时间
+		Date date=new Date(current);
+		String time=sdf.format(date);
 		return time;
+	}
+	/**
+	 * 得到今天的年-月-日
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年9月20日
+	 * @return
+	 */
+	public static String getToday(){
+		return time().substring(0, 10);
+	}
+	/**
+	 * 得到昨天的年月日
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年9月20日
+	 * @return
+	 */
+	public static String getYesterday(){
+		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
+		return sf.format(new Date(current-oneday));
+	}
+	/**
+	 * 得到n天前的时间点
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年9月20日
+	 * @return
+	 */
+	public static String getAgo(int n){
+		return sdf.format(new Date(current-n*oneday));
 	}
 	/**
 	 * 得到汉语星期几
