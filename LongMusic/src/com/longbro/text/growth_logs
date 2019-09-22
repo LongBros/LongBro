@@ -1,4 +1,14 @@
+09-23
+		07:25	添加oacRecommend函数，结合window.clearInterval实现随心打开与关闭歌曲随机推荐功能
 09-22
+1.解决问题后项目出现了以前没有的情况：
+1）.原本单个参数有的可以用变量的，现在必须用 _Parameter
+2).原本不用指定编码方式，现在不指定会乱码。
+	--乱码并不是因为编码方式，而是……select    *   from song   where songName like concat ('%',放羊,'%')
+	参数改为_Parameter后周围需用银行拼接起来再与%相连接
+	select * from song   where songName like concat ('%','_Parameter',''%')
+2.在play函数中添加代码，解决了有时播放歌曲播放按钮仍为暂停的bug
+09-21
 解决了Mapped Statements collection already contains value for的问题
 困扰了很久，百度后解决：字面意思是说mapper中存在id重复的值，比如说同一个xml文件中有两个id为xxx的方法
 

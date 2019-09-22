@@ -4,7 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+/**
+ * 数据库连接工具
+ * @author 赵成龙
+ * @website www.longqcloud.cn & www.zy52113.com
+ * @description
+ * @version
+ */
 public class JdbcUtil {
 	static Connection con=null;
 	static Statement st=null;

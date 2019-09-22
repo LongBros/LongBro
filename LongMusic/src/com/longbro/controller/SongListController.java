@@ -38,7 +38,7 @@ import com.longbro.util.TimeUtil;
 public class SongListController {
 	@Autowired SongListService service;
 	/**
-	 * 新建歌单
+	 * 1.新建歌单
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年5月27日
@@ -59,7 +59,7 @@ public class SongListController {
 		service.addSongList(list);
 	}
 	/**
-	 * 查询所有歌单
+	 * 2.查询所有歌单
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年5月27日
@@ -80,7 +80,7 @@ public class SongListController {
 		return list;
 	}
 	/**
-	 * 将某首歌加入歌单
+	 * 3.将某首歌加入歌单
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="addToList",method=RequestMethod.GET)
@@ -110,7 +110,7 @@ public class SongListController {
 		return map;
 	}
 	/**
-	 * @desc 从歌单中移除歌曲
+	 * @desc 4.从歌单中移除歌曲
 	 * @author zcl
 	 * @date 2019年6月1日
 	 */

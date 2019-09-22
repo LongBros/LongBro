@@ -35,6 +35,9 @@ import com.longbro.util.TimeUtil;
 @Controller
 public class SongController {
 	@Autowired SongService service;
+	public String getClassName(){
+		return getClass().getName();
+	}
 	/**
 	 * 1添加歌曲
 	 * @desc 
@@ -62,7 +65,7 @@ public class SongController {
 		map.put("website", request.getParameter("website"));
 		map.put("descr", request.getParameter("descr"));
 		map.put("time", request.getParameter("time"));
-		System.out.print(request.getParameter("time"));
+		System.out.print(getClassName()+".addSong:"+request.getParameter("time"));
 		Song song=service.querySongBySId(request.getParameter("sourceId"));
 		if(song!=null){
 			result.setData(null);
@@ -95,7 +98,7 @@ public class SongController {
 	@ResponseBody
 	public List<Song> queryAllSongs(HttpServletRequest request,HttpServletResponse response)
 	{		
-		System.out.println(request.getParameter("page"));
+		System.out.println(getClassName()+".queryAllSongs:"+request.getParameter("page"));
 		List<Song> list=service.queryAllSongs(Integer.parseInt(request.getParameter("page")));
 		return list;
 	}
@@ -156,11 +159,12 @@ public class SongController {
 	 * @param request
 	 * @param response
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping (value="strongQuerySongs",method=RequestMethod.GET)
 	@ResponseBody
-	public List<List<Song>> strongQuerySongs(HttpServletRequest request,HttpServletResponse response)
-	{		
+	public List<List<Song>> strongQuerySongs(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException
+	{	
 		List<Song> listSongs=service.querySongs(request.getParameter("key"));
 		List<Song> listSinger=service.querySongsBySinger(request.getParameter("key"));
 		List<Song> listLyric=service.querySongsByLyric(request.getParameter("key"));
@@ -183,7 +187,7 @@ public class SongController {
 	@ResponseBody
 	public Song querySongById(HttpServletRequest request,HttpServletResponse response)
 	{		
-		System.out.println(request.getParameter("id"));
+		System.out.println(getClassName()+".querySongById:"+request.getParameter("id"));
 		Song song=service.querySongById(Integer.parseInt(request.getParameter("id")));
 		return song;
 	}
@@ -234,14 +238,14 @@ public class SongController {
 		ArrayList<Song> list=new ArrayList<Song>();
 		Song song;
 		String ids=request.getParameter("pList");
-		System.out.println("歌单歌曲id字符串处理前："+ids);
+		System.out.println(getClassName()+".queryPListSong:歌单歌曲id字符串处理前："+ids);
 		if(ids.substring(0, 1).equals(",")){//如果歌单的歌曲id字符串第一个为,则截取之
 			ids=ids.substring(1);
 		}
 		if(ids.substring(ids.length()-1).equals(",")){//如果歌单的歌曲id字符串最后一个为,则截取之
 			ids=ids.substring(0,ids.length()-1);
 		}
-		System.out.println("歌单歌曲id字符串处理后："+ids);
+		System.out.println(getClassName()+".queryPListSong:歌单歌曲id字符串处理后："+ids);
 		String idss[]=ids.split(",");
 		for(String id:idss){
 			song=service.querySongById(Integer.parseInt(id));
@@ -253,7 +257,7 @@ public class SongController {
 	 * 8.查询热播榜
 	 * @desc 
 	 * @author zcl
-	 * @date 2019年9月20日
+	 * @date 2019年8月25日
 	 * @param request
 	 * @param response
 	 * @return
@@ -287,13 +291,13 @@ public class SongController {
 			String cweekNum="";//中文，如：星期一
 			calendar.setTime(new Date());
 			switch(calendar.get(Calendar.DAY_OF_WEEK)){
-				case 1:time=TimeUtil.getAgo(6);break;//周日	
-				case 2:time=TimeUtil.getAgo(6);break;
-				case 3:time=TimeUtil.getAgo(6);break;
-				case 4:time=TimeUtil.getAgo(6);break;
-				case 5:time=TimeUtil.getAgo(6);break;
-				case 6:time=TimeUtil.getAgo(6);break;
-				case 7:time=TimeUtil.getAgo(6);break;
+				case 1:time=TimeUtil.getAgo(6).substring(0, 10)+" 00:00:00";break;//周日	
+				case 2:time=TimeUtil.getAgo(5).substring(0, 10)+" 00:00:00";break;
+				case 3:time=TimeUtil.getAgo(4).substring(0, 10)+" 00:00:00";break;
+				case 4:time=TimeUtil.getAgo(3).substring(0, 10)+" 00:00:00";break;
+				case 5:time=TimeUtil.getAgo(2).substring(0, 10)+" 00:00:00";break;
+				case 6:time=TimeUtil.getAgo(1).substring(0, 10)+" 00:00:00";break;
+				case 7:time=TimeUtil.getAgo(0).substring(0, 10)+" 00:00:00";break;
 			}
 		}else if(type==4){//本月
 			time=TimeUtil.getToday().substring(0, 7)+"-00 00:00:00";
@@ -304,7 +308,8 @@ public class SongController {
 		}else if(type==7){//一月内
 			time=TimeUtil.getAgo(31);
 		}
-		System.out.println(time);
+		
+		System.out.println(getClassName()+".findSongNumBy(Integer type)"+":"+type+"》》》》》》》》》》》》"+time);
 		return service.findSongNumBy(time);
 	}
 }

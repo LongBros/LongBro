@@ -17,6 +17,7 @@ public class TimeUtil {
 	static long current=System.currentTimeMillis();//当前的毫秒数
 	static long oneday=1*24*60*60*1000;//一天的毫秒数
 	static SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	static SimpleDateFormat sdfD=new SimpleDateFormat("yyyy-MM-dd");
 	public static void main(String[] args) {
 //		System.out.print(getCWeek());
 		long c=System.currentTimeMillis();
@@ -53,6 +54,16 @@ public class TimeUtil {
 		return time().substring(0, 10);
 	}
 	/**
+	 * 得到当前月
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年9月22日
+	 * @return
+	 */
+	public static String getMonth(){
+		return time().substring(0, 7);
+	}
+	/**
 	 * 得到昨天的年月日
 	 * @desc 
 	 * @author zcl
@@ -71,7 +82,7 @@ public class TimeUtil {
 	 * @return
 	 */
 	public static String getAgo(int n){
-		return sdf.format(new Date(current-n*oneday));
+		return sdfD.format(new Date(current-n*oneday));
 	}
 	/**
 	 * 得到汉语星期几

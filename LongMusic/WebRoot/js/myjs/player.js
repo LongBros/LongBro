@@ -14,6 +14,7 @@
  * 30.加载歌曲详细信息，及歌曲下的评论31.加载全部歌词32.随机生成一个包含num首歌曲的播放列表33.加载歌单
  * 34.加载热歌榜35.显示播放按钮和添加按钮36.隐藏播放按钮和添加按钮37.实现单句歌词可随鼠标移动
  * 38.使用迷你UI的弹出提示功能39.随机弹出一首歌曲以供直达播放40.底部栏的显示与隐藏41.回车键搜索歌曲
+ * 42.隐藏底部栏43.该函数实现固定底部栏44.该函数实现取消固定底部栏
  */
 var nowplay=0;//当前播放歌曲的序号
 var mode="order";//播放模式---默认为顺序播放模式
@@ -543,8 +544,10 @@ function play(obj,k) {
 	var p=document.getElementById("audio");
 	p.setAttribute("src", url);
 	singerImg.src="../image/sing.gif";
-
-	p.play();
+	//设置播放按钮为播放状态
+	var btn=document.getElementById("pause");
+	btn.src="../image/play.png";
+	p.play();//播放
 	document.title=name+"-正在播放|LongBro音乐";
 }
 /**
@@ -1342,7 +1345,7 @@ function myAlert1(content,x,y){
     }; 
 	return options;
 }
-//39.随机弹出一首歌曲以供直达播放
+//39.存放句子的数组
 var sens=new Array();
 //var pa=1;//初始随机推荐第一页歌曲
 ////根据页码加载并设置歌曲数组，下方控制每十分钟切换一次歌曲页码
@@ -1372,30 +1375,8 @@ var sens=new Array();
 //十分钟切换一页歌曲
 //window.setInterval("changePage()", 6000);
 //取消以上逻辑，切换为此逻辑，一次性加载所有页码歌曲至数组
-for(var ii=1;ii<13;ii++){
-	$.ajax({
-		type:"Get",
-		async:false,
-		url:"../queryAllSongs.do?page="+ii,
-		dataType:"Json",
-		success:function(data){
-			//alert(data.length);
-			for(var k=0;k<data.length;k++){
-				var na=data[k].songName+"";
-				na=na+"("+data[k].playNum+")";
-				//if((data[k].lyric+"")!="null")
-					//sens.push(na+"<br>"+data[k].lyric);
-					sens.push("<font onclick='play(this,"+data[k].id+")'>"+na+"</font>");
-			}
-		}
-	});
-}
 
-function randomSen(){
-	mini.showTips(myAlert1("点歌曲名播放哦^-^<br>"+sens[random(0, sens.length)],"center","center"))
-}
-//每隔10秒钟弹出一首直达歌曲
-window.setInterval("randomSen()", 10000);
+
 /**
  * 40.底部栏的显示与隐藏
  */
@@ -1421,6 +1402,7 @@ function search(){
 window.addEventListener("mousemove",hideBottom);
 //260-536	1350-540
 //260-574	1350-578
+//42.隐藏底部栏
 function hideBottom(){
 	var e = event || window.event;
 	//mini.showTips(myAlert(e.clientX + ',' + e.clientY));
@@ -1430,17 +1412,60 @@ function hideBottom(){
 		document.getElementById("bottom").style.visibility="hidden";
 	}
 }
-//该函数实现固定底部栏
+//43.该函数实现固定底部栏
 function fixBottom(){
 	window.removeEventListener("mousemove",hideBottom);
+//	window.releaseEvents(Event.MOUSEOVER);
 	var html=document.getElementById("lock").style.display="none";
 	var html=document.getElementById("unlock").style.display="inline-block";
 	mini.showTips(myAlert("已固定底部栏"))
 }
-//该函数实现固定底部栏
+//44.该函数实现取消固定底部栏
 function unfixBottom(){
 	window.addEventListener("mousemove",hideBottom);
 	var html=document.getElementById("lock").style.display="inline-block";
 	var html=document.getElementById("unlock").style.display="none";
-	mini.showTips(myAlert("已取消固定底部栏"))
+	mini.showTips(myAlert("已取消固定底部栏"));
+}
+//存放所有歌曲的数组
+var songs=new Array();
+for(var ii=1;ii<13;ii++){
+	$.ajax({
+		type:"Get",
+		async:false,
+		url:"../queryAllSongs.do?page="+ii,
+		dataType:"Json",
+		success:function(data){
+			//alert(data.length);
+			for(var k=0;k<data.length;k++){
+				var na=data[k].songName+"";
+				na=na+"("+data[k].playNum+")";
+				//if((data[k].lyric+"")!="null")
+					//songs.push(na+"<br>"+data[k].lyric);
+				songs.push("<font onclick='play(this,"+data[k].id+")'>"+na+"</font>");
+			}
+		}
+	});
+}
+//45.随机推荐一首歌曲，并弹出以供直达播放
+function randomSong(){
+	mini.showTips(myAlert1("点歌曲名播放哦^-^<br>"+songs[random(0, sens.length)],"center","center"))
+}
+//每隔10秒钟弹出一首直达歌曲
+var thread=window.setInterval("randomSong()", 10000);
+/**
+ * 46.开启与关闭歌曲随机推荐 open and close Recommend
+ */
+function oacRecommend(opera){
+	if(opera=='open'){
+		thread=window.setInterval("randomSong()", 10000);
+		mini.showTips(myAlert("已开启歌曲随机推荐"));
+		document.getElementById("openBtn").style.display="none";
+		document.getElementById("closeBtn").style.display="inline-block";
+	}else{
+		window.clearInterval(thread);
+		mini.showTips(myAlert("已关闭歌曲随机推荐"));
+		document.getElementById("openBtn").style.display="inline-block";
+		document.getElementById("closeBtn").style.display="none";
+	}
 }

@@ -23,13 +23,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <link rel="stylesheet" href="../assets/css/admin.css">
   <link rel="stylesheet" type="text/css" href="../hui/lib/Hui-iconfont/1.0.8/iconfont.css" />
   <link href="http://static.h-ui.net/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-  
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/myjs/player.js"></script>
   <script type="text/javascript" src="../js/myjs/comment.js"></script>
   <script type="text/javascript" src="../js/myjs/plist.js"></script>
   <script type="text/javascript" src="../js/myjs/timeDeal.js"></script>
-  <script src="../scripts/boot.js" type="text/javascript"></script><!-- 使用miniUI的消息框 -->
+   <script src="../scripts/boot.js" type="text/javascript"></script>使用miniUI的消息框
   <style type="text/css">
   	Body { 
 		scrollbar-arrow-color: #f4ae21; 
@@ -43,11 +42,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </style>
   
 </head>
-<body id="body" background="https://y.gtimg.cn/music/photo_new/T002R300x300M000001BA0x61Hh7AR.jpg?max_age=2592000">
+<body>
 <!--[if lte IE 9]>
 <p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
   以获得更好的体验！</p>
 <![endif]-->
+          
 
 <header class="am-topbar am-topbar-inverse admin-header">
   <div class="am-topbar-brand">
@@ -65,6 +65,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
           <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
           <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+          <li style="display:inline-block" id="closeBtn"><a onclick="oacRecommend('close')"><span class="am-icon-power-off"></span> 关闭随机推荐</a></li>
+          <li style="display:none" id="openBtn"><a onclick="oacRecommend('open')"><span class="am-icon-power-off"></span> 开启随机推荐</a></li>
         </ul>
       </li>
       <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
@@ -302,24 +304,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  		$(function(){
 			  			querySongs(1);
 				   });
-			  		//加载歌单
-			  		/* $.ajax({
-			  			type:"Get",
-			  			async:false,
-			  			url:"../querySongList.do",
-			  			dataType:"Json",
-			  			success:function(data){
-			  				for(var k=0;k<data.length;k++){
-			  					$('#songList').append("<option value='"+data[k].songs+"】"+data[k].name+"】"+data[k].id+"'>"+data[k].name+"</option>");
-			  					$('#songLists').append("<li onclick=\"addToList('"+(k+1)+"')\">"+data[k].name+"</li>");
-			  				}
-			  			}
-			  		}); */
 			  		loadSongList();
 			  </script>
-            
-            <div id="bottom"style="width:80%;height:300px;position:fixed;visibility:hidden;"><!-- 播放列表，全部歌词，及其他工具 -->
-            	<!-- 播放列表，全部歌词 -->
+            <!--start 播放列表，全部歌词，及其他工具 -->
+            <div id="bottom"style="width:80%;height:300px;position:fixed;visibility:hidden;">
+            	<!--start 播放列表，全部歌词 -->
             	<div id="plistAalrc" style="background:gray;position:fixed;bottom:40px;cursor: pointer;display:none;margin-left: 5px;">
 	          	 <div id="plist" style="color:white;background-image:url(../image/artist/me080502.jpg);background-size:240px 250px; margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:left">
 	          	 	 <table>
@@ -328,9 +317,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          	 </div>
 	          	 <div id="alyric" style="color:white;margin-left:20px;width:500px;height:250px;overflow:scroll;overflow-x:hidden;float:right"></div>
        		  </div>
-       		  <!-- 播放列表，全部歌词 -->
+       		  <!--end 播放列表，全部歌词 -->
        		  <!-- 其他工具#3f4156：上一曲，下一曲，播放暂停，进度条，音量加减，播放列表显示与隐藏按钮 -->
-				<div id="bottom" style="background: green;position:fixed;bottom:0; left:260px;width:80%;height:40px;">
+				<div id="bottom" style="background: #009688;position:fixed;bottom:0; left:260px;width:80%;height:40px;">
 					<img style="width: 40px;height: 40px" title="左键--上一曲" onclick="preview()" alt="" src="../image/play_previous.png">&emsp;
 					<img style="width: 40px;height: 40px" title="P键--暂停/播放" id="pause" alt="" onclick="pause_play()" src="../image/play.png">&emsp;
 				    <img style="width: 40px;height: 40px" title="右键--下一曲" onclick="next()" alt="" src="../image/play_next.png">
@@ -345,9 +334,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<span id="lock" onclick="fixBottom()" style="display: inline-block;"><i class="Hui-iconfont" style="font-size: 15px">&#xe605;</i></span><!-- 锁定：&#xe60e; 解锁：&#xe605;-->
 					<span id="unlock" onclick="unfixBottom()" style="display:none;"><i class="Hui-iconfont" style="font-size: 15px">&#xe60e;</i></span>
 				</div>
-			</div><!-- 播放列表，歌词，及其他工具 -->
+			</div>
+			<!--end 播放列表，歌词，及其他工具 -->
           </form>          
-        
       </div>
     </div>
     <footer class="admin-content-footer">
