@@ -1449,7 +1449,7 @@ for(var ii=1;ii<13;ii++){
 }
 //45.随机推荐一首歌曲，并弹出以供直达播放
 function randomSong(){
-	mini.showTips(myAlert1("点歌曲名播放哦^-^<br>"+songs[random(0, sens.length)],"center","center"))
+	mini.showTips(myAlert1("点歌曲名播放哦^-^<br>"+songs[random(0, songs.length)],"center","center"))
 }
 //每隔10秒钟弹出一首直达歌曲
 var thread=window.setInterval("randomSong()", 10000);

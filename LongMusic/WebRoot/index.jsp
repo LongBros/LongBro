@@ -11,13 +11,13 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="经典歌曲,LongBro音乐,553音乐">
 	<meta http-equiv="description" content="个人收录的比较好听的Music，有新出的翘楚，也有古老的经典，欢迎大家来听，LongBro喜欢听的味道。">
-	<link rel="shortcut icon" href="image/logo.png" type="image/x-icon">
-	<link rel="stylesheet" type="text/css" href="css/index.css">
-	<script type="text/javascript" src="js/common.js"></script>
+	<link rel="shortcut icon" href="/image/logo.png" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="/css/index.css">
+	<script type="text/javascript" src="/js/common.js"></script>
   </head>
-  <body id="body" onload="" background="http://www.zy52113.com/Minimusic/image/back/back24.jpg">
-  		<script type="text/javascript" src="js/index.js" charset="utf-8"></script>
-  		<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+  <body id="body" onload="" background="/image/back/back24.jpg">
+  		<script type="text/javascript" src="/js/index.js" charset="utf-8"></script>
+  		<script type="text/javascript" src="/js/jquery.js" charset="utf-8"></script>
   		<span id="cback" title="B键--换肤--总有一个你喜欢" onclick="changeBack()">切换背景</span>
   		<img alt="" id="hot" src="image/hot1.gif">
   		
