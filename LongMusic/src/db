@@ -1,3 +1,7 @@
+
+	
+	
+	
 修改自增指针	alter table blogs auto_increment =66
 
 1.CREATE TABLE `user` (
