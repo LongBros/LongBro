@@ -464,7 +464,7 @@ function querySongList(list){
  * 6.播放歌曲	
  * 1.正在播放的歌名颜色特殊（黑色）显示
  * 2.网页title改为正在播放歌曲名
- * @param k 歌曲在数字中的序号
+ * @param k 歌曲在数据库表中的序号
  */
 function play(obj,k) {
 	var singerImg=document.getElementById("singer");//动态搞笑图
