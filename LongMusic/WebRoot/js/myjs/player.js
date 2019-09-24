@@ -515,14 +515,17 @@ function play(obj,k) {
 			}else if(img.substring(0,4)=="T002"&&navigator.onLine){//QQ音乐的img
 				artist="https://y.gtimg.cn/music/photo_new/"+img+".jpg?max_age=2592000";//https://y.gtimg.cn/music/photo_new/T002R300x300M000002iWU6B2ZvA8V.jpg?max_age=2592000
 			}else{
-				var as=new Array("me","me080501","me080502","me1","me2","me3",
+				var as1=new Array("me","me080501","me080502","me1","me2","me3",
 						"zhaoying","zhaoying1","zhaoying2","zhaoying3","zhaoying4","zhaoying5",
 						"zhaoying6","zhaoying7","zhaoying8","zhaoying9","zhaoying10",
 						"xiehaole","xiehaole1","xiehaole2","xiehaole3","xiehaole4","xiehaole5",
 						"tangxinying","tangxinying1","tangxinying2",
 						"shiying","yingying1","shiying2");
+				var as=new Array("beauty1","beauty2","beauty3","beauty4","beauty5","beauty6","beauty7",
+						"beauty8","beauty9","beauty10","beauty11","beauty12","beauty13","beauty14",
+						"beauty15","beauty16","beauty17","beauty18","beauty19","beauty20");
 				var n=random(0, as.length-1);
-				artist="../image/artist/"+as[n]+".jpg";
+				artist="../image/beauty/"+as[n]+".jpg";
 			}
 			artist="url("+artist+")";
 			document.getElementById('plist').style.backgroundImage=artist;
