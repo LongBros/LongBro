@@ -25,3 +25,24 @@
 在tomcat所在目录下使用命令：sudo chmod -R 777 apache-tomcat-8.0.53
 
  source /etc/profile
+ 
+ 
+ 双龙注册的号未领取转转卡红包
+ 
+ tar.xz解压为tar
+ xz -d mysql-8.0.17-linux-glibc2.12-i686.tar.xz
+ 解压tar
+ tar xvf mysql-8.0.17-linux-glibc2.12-i686.tar
+ 
+ df	占用
+ du -sh *	列出文件占用空间
+ 
+ rpm -qa | grep -i mysql
+ 
+ 使用软链接指向到：	ln -s /usr/local/mysql/mysql.sock /tmp/mysql.sock
+ 
+ )Pm.)oHmV0Hh
+ 
+ 2019-09-23T04:59:55.668181Z 0 [System] [MY-013169] [Server] /usr/local/mysql/bin/mysqld (mysqld 8.0.17) initializing of server in progress as process 6961
+2019-09-23T05:00:00.033573Z 5 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: )Pm.)oHmV0Hh
+2019-09-23T05:00:01.518837Z 0 [System] [MY-013170] [Server] /usr/local/mysql/bin/mysqld (mysqld 8.0.17) initializing of server has completed
