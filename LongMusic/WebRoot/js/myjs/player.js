@@ -1407,9 +1407,12 @@ window.addEventListener("mousemove",hideBottom);
 //260-574	1350-578
 //42.隐藏底部栏
 function hideBottom(){
+	var width=document.body.clientWidth;//1366
+	var height=document.body.clientHeight;//579
+	mini.showTips(myAlert(height))//579+1366=1945
 	var e = event || window.event;
 	//mini.showTips(myAlert(e.clientX + ',' + e.clientY));
-	if(e.clientX>260&&e.clientX<1350&&e.clientY>540&&e.clientY<578){
+	if(e.clientX>260&&e.clientX<width&&e.clientY>(height-40)&&e.clientY<height){
 		document.getElementById("bottom").style.visibility="visible";
 	}else{
 		document.getElementById("bottom").style.visibility="hidden";

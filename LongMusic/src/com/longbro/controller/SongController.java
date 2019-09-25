@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.longbro.bean.Result;
 import com.longbro.bean.Song;
 import com.longbro.service.SongService;
-import com.longbro.util.DateUtil;
 import com.longbro.util.DownloadUtil;
-import com.longbro.util.Strings;
 import com.longbro.util.TimeUtil;
 /**
  * 1.添加歌曲2.分页查询歌曲3.关键词搜索歌曲4.根据歌手搜索歌曲5.根据id搜索歌曲
