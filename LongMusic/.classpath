@@ -4,5 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="E:/jar/flexjson-2.0.jar"/>
+	<classpathentry kind="lib" path="E:/jar/ajavaweb/spring-core-5.0.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/aaaaaaa/LongBro/LongMusic/WebRoot/WEB-INF/lib2/spring-core-4.0.2.RELEASE.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
