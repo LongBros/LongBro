@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>作曲家-哆啦音乐网</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    <link rel="icon" type="image/png" href="image/logo/dlam.jpg">
+    <link rel="stylesheet" type="text/css" href="css/singer.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">	
+  	<script type="text/javascript" src="js/jquery.js"></script>
+
+  </head>
+  <body>
+       <div id="top">
+  			<table>
+  				<tbody>
+  					<tr>
+  						<td class="logo">duola.vip<nobr></td>
+  						<td class="nav">
+	  						<a href="index0.jsp">发现音乐</a>
+			  				<a style="color: blue">歌星singer</a>
+			  				<a href="songList.html">歌单广场</a>
+			  				<a>排行榜</a>
+			  				<a>吐槽墙</a>
+			  				<a href="friendsLink.html">友情链接</a>
+			  			</td>
+		  				<td class="register">
+			  				<a class="login">登录</a>
+			  				<a>注册</a>
+		  				</td>
+  					</tr>
+  				</tbody>
+  			</table>
+  		</div>
+  		<div class="center">
+  			<div class="main-box">
+		   	   <ul id="singers" class="index-lead clearfix" style="margin-top: 60px;">
+		   	   </ul>
+		   </div>
+		   <div class="songsList">
+		   		<ul id="songs">
+		   		</ul>
+		   </div>
+  		</div>
+  		
+	   <script type="text/javascript">
+	   		$.ajax({
+	   			type:"get",
+	   			async:true,
+	   			url:"queryAllSinger.do",
+	   			dataType:"json",
+	   			success:function(data){
+	   				for(var i=0;i<data.length;i++){
+	   					$("#singers").append("<li class=\"index-lead\"><a target=\"_blank\" onclick=loadSongs(\""+data[i].singer+"\") >"+data[i].singer+"</a></li>");
+	   				}
+	   			}
+	   		});
+	   		
+	   		function loadSongs(singer){
+	   			$.ajax({
+		   			type:"get",
+		   			async:true,
+		   			url:"querySongsBySinger.do?singer="+singer,
+		   			dataType:"json",
+		   			success:function(data){
+		   				$("#songs").html("");
+		   				$("#songs").append("<li class='song'><span class=\"t1\">标题</span><span class=\"t1\">歌手</span><span class=\"t1\">时长</span><span class='t1'>播放量</span></li>");
+		   				$("#songs").append("<span class='num'>"+singer+"--共<font color='white'>"+data.length+"</font>首歌曲</span>");
+		   				for(var i=0;i<data.length;i++){
+		   					$("#songs").append("<li class='song'><a href='' class='t1'>"+data[i].songName+"</a><span class='t1'>"+data[i].singer+"</span><span class='t1'>"+data[i].duration+"</li>");
+		   				}
+		   				
+		   			}
+	   			});
+	   		}
+	   </script>
+  </body>
+</html>

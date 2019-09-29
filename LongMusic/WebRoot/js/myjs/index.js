@@ -292,10 +292,10 @@ function pause() {
 	var btn=document.getElementById("pause");
 	if(p.paused==false){//原本是播放状态，则置为暂停状态
 		p.pause();
-		btn.src="/image/pause.png";
+		btn.src="image/pause.png";
 	}else{
 		p.play();
-		btn.src="/image/play.png";
+		btn.src="image/play.png";
 		p.paused=false;
 	}
 }
@@ -324,15 +324,15 @@ function change(){
 	var m=document.getElementById("mode");
 	if(mode=="order"){//当前模式为顺序，则切换为随机
 		mode="random";
-		m.src="/image/play_random.png";//http://longqcloud/Minimusic/
+		m.src="image/play_random.png";//http://longqcloud/Minimusic/
 		m.title="随机播放--C键切换";
 	}else if(mode=="random"){//当前播放为随机，则切换为单曲
 		mode="single";
-		m.src="/image/play_single.png";
+		m.src="image/play_single.png";
 		m.title="单曲循环--C键切换";
 	}else{//当前播放为单曲，则切换为顺序循环
 		mode="order";
-		m.src="/image/play_order.png";
+		m.src="image/play_order.png";
 		m.title="顺序循环--C键切换";
 	}
 }
@@ -368,7 +368,7 @@ function monitor() {
 	pro.value=(p.currentTime/p.duration*100.00);
 	
 	var mname=encodeURI(encodeURI(cname));//编码中文歌词名
-	var url="/loadLyric.jsp?name="+mname+"&time="+getTime(ctime)+"&type=1";
+	var url="loadLyric.jsp?name="+mname+"&time="+getTime(ctime)+"&type=1";
 	xmlHttp.open("post", url, true);
 	xmlHttp.onreadystatechange=function() {
 		//if(xmlHttp.readyState==4){

@@ -1,3 +1,7 @@
+text-align:center;
+vertical-align: middle;
+	style="background-image:url(image/back/back28.jpg)"
+
  使用Ajax时的返回值类型:xml、html、script、JSON、jsonp、text
 2019-08-31
 一些相关的参数：

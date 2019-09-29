@@ -1,5 +1,6 @@
 package com.longbro.service.impl;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -67,5 +68,10 @@ public class SongServiceImpl implements SongService{
 	public Integer findSongNumBy(String inputTime) {
 		// TODO Auto-generated method stub
 		return dao.findSongNumBy(inputTime);
+	}
+	@Override
+	public ArrayList<String> queryAllSinger() {
+		// TODO Auto-generated method stub
+		return dao.queryAllSinger();
 	}
 }

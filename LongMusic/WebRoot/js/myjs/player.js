@@ -1409,10 +1409,10 @@ window.addEventListener("mousemove",hideBottom);
 function hideBottom(){
 	var width=document.body.clientWidth;//1366
 	var height=document.body.clientHeight;//579
-	mini.showTips(myAlert(height))//579+1366=1945
+	//mini.showTips(myAlert(height))//579+1366=1945
 	var e = event || window.event;
 	//mini.showTips(myAlert(e.clientX + ',' + e.clientY));
-	if(e.clientX>260&&e.clientX<width&&e.clientY>(height-40)&&e.clientY<height){
+	if(e.clientX>260&&e.clientX<width&&e.clientY>(height-60)&&e.clientY<height){
 		document.getElementById("bottom").style.visibility="visible";
 	}else{
 		document.getElementById("bottom").style.visibility="hidden";
@@ -1458,7 +1458,7 @@ function randomSong(){
 	mini.showTips(myAlert1("点歌曲名播放哦^-^<br>"+songs[random(0, songs.length)],"center","center"))
 }
 //每隔10秒钟弹出一首直达歌曲
-var thread=window.setInterval("randomSong()", 10000);
+//var thread=window.setInterval("randomSong()", 10000);
 /**
  * 46.开启与关闭歌曲随机推荐 open and close Recommend
  */

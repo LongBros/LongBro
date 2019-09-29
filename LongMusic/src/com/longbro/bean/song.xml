@@ -57,7 +57,7 @@
 		imgPath,
 		releaseTime 
 		from song
-		where sourceId=${_parameter}
+		where sourceId='${_parameter}'
 	</select>
 	<select id="querySongsBySName"  resultType="com.longbro.bean.Song">
 		select 
@@ -98,6 +98,8 @@
 		<if test="_parameter!=null and _parameter!=''">
 			and inputTime &gt;= #{_parameter}
 		</if>
-	
+	</select>
+	<select id="queryAllSinger" resultType="java.util.HashMap">
+		SELECT DISTINCT singer FROM song;
 	</select>
 </mapper>

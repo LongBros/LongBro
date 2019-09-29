@@ -1,5 +1,6 @@
 package com.longbro.service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19,5 +20,7 @@ public interface SongService {
 	
 	public List<Song> queryHotSongs(int num);
 	public Integer findSongNumBy(String inputTime);//2019-09-20
+	public ArrayList<String> queryAllSinger();//2019-09-28
+
 
 }

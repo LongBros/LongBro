@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="shortcut icon" href="image/logo.png" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/index3.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/myjs/index3.js" charset="utf-8"></script>
 	
   </head>
   <style>
@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   querySongs(1);
 	   });
   </script>
-  <body background="image/back/back25.jpg" style="height: 48px;">
+  <body background="image/back/back28.jpg" style="height: 48px;">
   		<audio id="audio" style="display:none;" controls="controls"
   			 src="http://music.163.com/song/media/outer/url?id=486814412.mp3">
 		</audio>

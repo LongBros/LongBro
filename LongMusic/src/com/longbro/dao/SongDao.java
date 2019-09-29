@@ -1,5 +1,6 @@
 package com.longbro.dao;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -21,4 +22,5 @@ public interface SongDao {
 	
 	public List<Song> queryHotSongs(int num);//2019-08-25
 	public Integer findSongNumBy(String inputTime);//2019-09-20
+	public ArrayList<String> queryAllSinger();//2019-09-28
 }

@@ -24,6 +24,7 @@ import com.longbro.util.DownloadUtil;
 import com.longbro.util.TimeUtil;
 /**
  * 1.添加歌曲2.分页查询歌曲3.关键词搜索歌曲4.根据歌手搜索歌曲5.根据id搜索歌曲
+ * 9.查询今日、昨日、本周、本月、一日内、一周内、一月内……录入歌曲的数量
  * @author 赵成龙
  * @website www.longqcloud.cn & www.zy52113.com
  * @date 2019年5月4日 上午3:24:57
@@ -309,5 +310,11 @@ public class SongController {
 		
 		System.out.println(getClassName()+".findSongNumBy(Integer type)"+":"+type+"》》》》》》》》》》》》"+time);
 		return service.findSongNumBy(time);
+	}
+	@RequestMapping (value="queryAllSinger",method=RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<String> queryAllSinger(){
+		ArrayList<String> ss=service.queryAllSinger();
+		return ss; 
 	}
 }

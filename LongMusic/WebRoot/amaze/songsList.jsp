@@ -65,8 +65,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
           <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
           <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
-          <li style="display:inline-block" id="closeBtn"><a onclick="oacRecommend('close')"><span class="am-icon-power-off"></span> 关闭随机推荐</a></li>
-          <li style="display:none" id="openBtn"><a onclick="oacRecommend('open')"><span class="am-icon-power-off"></span> 开启随机推荐</a></li>
+          <li style="display:none" id="closeBtn"><a onclick="oacRecommend('close')"><span class="am-icon-power-off"></span> 关闭随机推荐</a></li>
+          <li style="display:inline-block" id="openBtn"><a onclick="oacRecommend('open')"><span class="am-icon-power-off"></span> 开启随机推荐</a></li>
         </ul>
       </li>
       <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
@@ -319,11 +319,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        		  </div>
        		  <!--end 播放列表，全部歌词 -->
        		  <!-- 其他工具#3f4156：上一曲，下一曲，播放暂停，进度条，音量加减，播放列表显示与隐藏按钮 -->
-				<div id="bottom" style="background: #009688;position:fixed;bottom:0; left:260px;width:80%;height:40px;">
+				<div id="bottom" style="background: #009688;position:fixed;bottom:0; left:260px;width:80%;height:60px;">
 					<img style="width: 40px;height: 40px" title="左键--上一曲" onclick="preview()" alt="" src="../image/play_previous.png">&emsp;
 					<img style="width: 40px;height: 40px" title="P键--暂停/播放" id="pause" alt="" onclick="pause_play()" src="../image/play.png">&emsp;
 				    <img style="width: 40px;height: 40px" title="右键--下一曲" onclick="next()" alt="" src="../image/play_next.png">
-					<img id="mode" title="顺序播放--C键切换" style="width:50px;height:40px;" src="../image/play_random.png" onclick="change()">
+					<img id="mode" title="顺序播放--C键切换" style="width:50px;height:60px;" src="../image/play_random.png" onclick="change()">
 					<progress title="A键---快退10秒,D键---快进10秒;Q键---快退5秒,E键---快进5秒" style="width:566px;height:10px" draggable="false" id="pro" value="0" max="100"></progress>
 					<span id="time" class="time" title="已播放/总时长" style="color:white"></span>
 					<a onclick="minus()" class="minus" title="下键--音量减">一</a>

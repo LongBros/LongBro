@@ -1,5 +1,6 @@
 package com.longbro.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -75,5 +76,10 @@ public class SongDaoImpl extends BaseDao implements SongDao{
 	public Integer findSongNumBy(String inputTime) {
 		// TODO Auto-generated method stub
 		return (Integer)this.selectOne(pre+"findSongNumBy", inputTime);
+	}
+	@Override
+	public ArrayList<String> queryAllSinger() {
+		// TODO Auto-generated method stub
+		return (ArrayList<String>)this.selectList(pre+"queryAllSinger");
 	}
 }
