@@ -1,3 +1,23 @@
+09-30
+TOMCAT控制台中文乱码解决办法  
+1.　打开文件/tomcat/bin/catalina.bat
+2.　set JAVA_OPTS=　的内容中添加选项-Dfile.encoding=GBK
+3.　重启tomcat即可
+
+09-29
+1.调节具体文件类型的编码：
+windows->preference->content types
+2.<!--[if !IE]><!--> 除IE外都可识别 <!--<![endif]-->
+<!--[if IE]> 所有的IE可识别 <![endif]-->
+<!--[if IE 6]> 仅IE6可识别 <![endif]-->
+<!--[if lt IE 6]> IE6以及IE6以下版本可识别 <![endif]-->
+<!--[if gte IE 6]> IE6以及IE6以上版本可识别 <![endif]-->
+<!--[if IE 7]> 仅IE7可识别 <![endif]-->
+<!--[if lt IE 7]> IE7以及IE7以下版本可识别 <![endif]-->
+<!--[if gte IE 7]> IE7以及IE7以上版本可识别 <![endif]-->
+<!--[if IE 8]> 仅IE8可识别 <![endif]-->
+<!--[if IE 9]> 仅IE9可识别 <![endif]-->
+
 09-28
 多啦日记本------建立机器账号：1.每天自动写一篇歌曲歌词作为日记，名字起为歌词网；2.每天自动写一首唐诗宋词作为日记，名字起为诗词网；3.
 多啦歌词网
@@ -37,6 +57,7 @@ document.oncontextmenu = function () { return false; };
 		  设置方法：360浏览器->设置->基本设置->修改主页->输入网址并确定
 					Google Chrome->设置->高级->隐私设置和安全性->在启动时一栏选择“打开特定网页或一组网页”并输入网址保存
 					FireFox
+					360浏览器有一个不好的地方就是，启动时只能默认打开一个网页。这一点Google Chrome浏览器就比较好了
 
 08-26周一
 我觉得时间真的是过得好快，无论是工作日上班还是周末双休
