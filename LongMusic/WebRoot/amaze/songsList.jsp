@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript" src="../js/myjs/comment.js"></script>
   <script type="text/javascript" src="../js/myjs/plist.js"></script>
   <script type="text/javascript" src="../js/myjs/timeDeal.js"></script>
-   <script src="../scripts/boot.js" type="text/javascript"></script>使用miniUI的消息框
+   <script src="../scripts/boot.js" type="text/javascript"></script>
   <style type="text/css">
   	Body { 
 		scrollbar-arrow-color: #f4ae21; 

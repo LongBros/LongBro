@@ -14,7 +14,7 @@
 <#assign colList=model.columnList>
 <#assign commonList=model.commonList>
 
-package ${domain}.${system}.${package}.controller;
+package ${system}.${domain}.${package}.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -38,11 +38,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ${system}.${class}Service;
+import ${system}.${domain}.${class}Service;
 /**
  * ${comment}控制器
  * @author ${vars.developer}
  * @date ${date?string("yyyy-MM-dd HH:mm:ss")}
+ * @copyright ${vars.company}
  */
 @Controller
 public class ${class}Controller{

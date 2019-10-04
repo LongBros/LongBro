@@ -21,16 +21,18 @@
  * 版权：${vars.company}
  * </pre>
  */
-package ${domain}.${system}.${package}.daoImpl;
+package ${system}.${domain}.${package}.daoImpl;
 
 import java.util.List;
-import ${domain}.${system}.${package}.bean.${class};
+import ${system}.${domain}.${package}.bean.${class};
+import ${system}.${domain}.${package}.${class}Dao;
+import ${system}.${domain}.common.BaseDao;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ${class}DaoImpl extends BaseDao implements ${class}Dao {
 
-	@Override
 	public String getNamespace() {
 		return ${class}.class.getName();
 	}

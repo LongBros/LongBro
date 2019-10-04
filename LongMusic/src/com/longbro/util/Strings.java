@@ -1,6 +1,7 @@
 package com.longbro.util;
 
 import java.util.ArrayList;
+import java.util.Random;
 /**
  * 账单分类、歌曲名及id数组
  * @author 赵成龙
@@ -147,4 +148,63 @@ public class Strings {
 			
 			"40926193.kw"
 	};
+	/**
+	 * 随机生成一个含有wei个数字的数
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年10月1日
+	 * @param wei
+	 * @return
+	 */
+	public static int allotNum(int wei){
+		Random ran=new Random();
+		String num="";
+		for(int i=0;i<wei;i++){
+			int seven=ran.nextInt(10);
+			num=num+seven;
+		}
+		int number=Integer.parseInt(num);
+		if(number>pow(10, wei)){//如果不是0开头，则返回
+			return number;
+		}else{//否则重新生成
+			return allotNum(wei);
+		}
+	}
+	public static int allotEight1(){
+		int id;
+		Random ran=new Random();
+		int eig=ran.nextInt(99999999);
+		if(eig>10000000){
+			 id=eig;
+			 return id;
+		}
+		else{
+			return allotEight1();
+		}
+	}
+	public static void main(String[] args) {
+		for(int i=0;i<10;i++){
+			System.out.println(allotNum(8));
+		}
+//		System.out.println(Math.pow(10, 8));
+		
+		//计算10的八次方
+		
+	}
+	/**
+	 * 计算who的wei次幂
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年10月1日
+	 * @param who
+	 * @param wei
+	 * @return
+	 */
+	public static int pow(int who,int wei){
+		int c=1;
+		for(int i=1;i<8;i++){
+			c=c*who;
+		}
+		return c;
+	}
 }

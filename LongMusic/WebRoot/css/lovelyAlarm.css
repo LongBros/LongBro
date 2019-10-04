@@ -1,0 +1,113 @@
+html, body
+{        
+    padding:0;
+    margin:0;
+    border:0;
+    height:100%;
+    overflow:hidden;
+	background-image:url("../image/back/back28.jpg")
+		
+}
+.topmenu{
+	float:right;
+	margin-top: 11px;
+	font-size:20px;
+	padding-right: 20px;
+	cursor: pointer;
+}
+#tips{
+	float:right;
+	padding-top:50px; 
+	width:20%;
+	color:white;
+}
+.remark{
+	margin-top:180px;
+}
+.add, .minus{
+	cursor: pointer;
+}
+.newAlarm{
+	display:none;background: pink;
+	width:200px;margin-left: 50px;
+	position:fixed;
+}
+.allAlarm{
+	overflow:auto;display: none;
+	background: pink;width:180px;
+	margin-left:100px;position:fixed;
+}
+.allAlarm::-webkit-scrollbar {
+    display: none;
+}
+.close{
+	color:white;margin-left: 130px;cursor:pointer;
+}
+#smilePic{
+	margin-top:20px;
+	width:53px;
+	height:53px;
+}
+.praise{
+	
+	font-size:20px;
+	font-family:monospace;
+	letter-spacing: 3px;
+	font-variant:small-caps;
+	text-shadow:#f00fff0
+}
+#time{
+	margin-top:20px;
+	font-size:60px;
+	color:blue;
+}
+.long-shadow, .medium-shadow {
+	border: none;
+	-o-text-overflow: clip;
+	text-overflow: clip;
+}
+.long-shadow {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	text-shadow: 3px 3px 0 #4C6A92, 4px 4px 0 #4C6A92, 5px 5px 0 #4C6A92, 6px 6px 0 #4C6A92, 7px 7px 0 #4C6A92, 8px 8px 0 #4C6A92, 9px 9px 0 #4C6A92, 10px 10px 0 #4C6A92, 11px 11px 0 #4C6A92, 12px 12px 0 #4C6A92, 13px 13px 0 #4C6A92, 14px 14px 0 #4C6A92, 15px 15px 0 #4C6A92, 16px 16px 0 #4C6A92, 17px 17px 0 #4C6A92, 18px 18px 0 #4C6A92, 19px 19px 0 #4C6A92, 20px 20px 0 #4C6A92;
+}
+h1 .animateTitle1 {
+	font-size: 10vh;
+	letter-spacing: 2.7vh;
+	color: #FFF;
+	padding: 1em 0;
+}
+input{
+	width:200px;
+	height:30px;
+	
+}
+
+
+li{
+	list-style-type:none;
+}
+.sitemap{
+	float:left;
+}
+.sitemap dl{
+	float: left;
+    padding: 0 30px 0 10px;
+    line-height: 22px;
+    margin-left: 20px;
+}
+.sitemap dt{
+	position: relative;
+    margin: 0 0 5px;
+    font-weight: bold;
+    color: #666;
+}
+.sitemap dd{
+	display: block;
+    -webkit-margin-start: 40px;
+}
+.sitemap a{
+	color:white;
+	text-decoration: none;
+}

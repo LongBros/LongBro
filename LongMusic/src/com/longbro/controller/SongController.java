@@ -317,4 +317,18 @@ public class SongController {
 		ArrayList<String> ss=service.queryAllSinger();
 		return ss; 
 	}
+	/**
+	 * 根据资源id得到资源信息
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年10月4日
+	 * @param sourceId
+	 * @return
+	 */
+	@RequestMapping (value="querySongBySId",method=RequestMethod.GET)
+	@ResponseBody
+	public Song querySongBySId(String sourceId){
+		Song song=service.querySongBySId(sourceId);
+		return song;
+	}
 }

@@ -3,7 +3,7 @@
 <#assign class=model.variables.class>
 <#assign system=vars.system>
 <#assign domain=vars.domain>
-<#assign type="${domain}."+system+"."+ package +".entity." +class>
+<#assign type=system+"."+"${domain}"+ ".bean." +class>
 <#assign tableName=model.tableName>
 <#assign foreignKey=model.foreignKey>
 <#assign sub=model.sub>

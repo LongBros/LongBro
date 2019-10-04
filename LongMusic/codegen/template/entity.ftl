@@ -19,38 +19,8 @@
 	<#assign foreignField=model.foreignKey?lower_case>
 </#if>
 
-
-
-
-package ${domain}.${system}.${package}.entity;
-
-import ${domain}.core.entity.BaseTenantEntity;
-import java.io.Serializable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotEmpty;
-import ${domain}.core.constants.MBoolean;
-import ${domain}.core.annotion.table.FieldDefine;
-import ${domain}.core.annotion.table.TableDefine;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import java.util.ArrayList;
-import java.util.List;
-
+package ${system}.${domain}.${package}.bean;
 /**
- * <pre>
  *  
  * 描述：${comment}实体类定义
  * 作者：${vars.developer}
@@ -59,12 +29,8 @@ import java.util.List;
  * 版权：${vars.company}
  * </pre>
  */
-@TableDefine(title = "${comment}")
-public class ${class} extends BaseTenantEntity {
+public class ${class}{
 
-	@FieldDefine(title = "${pkModel.comment}")
-	@Id
-	@Column(name = "${pkModel.columnName}")
 	protected ${pkModel.colType} ${func.convertUnderLine(pkModel.columnName)};
 
 	<#list commonList as col>
@@ -86,33 +52,6 @@ public class ${class} extends BaseTenantEntity {
 	</#list>
 	</#if>
 	
-	
-	
-	
-	public ${class}() {
-	}
-
-	/**
-	 * Default Key Fields Constructor for class Orders
-	 */
-	public ${class}(${pkModel.colType} in_id) {
-		this.setPkId(in_id);
-	}
-	
-	@Override
-	public String getIdentifyLabel() {
-		return this.${func.convertUnderLine(pkModel.columnName)};
-	}
-
-	@Override
-	public Serializable getPkId() {
-		return this.${func.convertUnderLine(pkModel.columnName)};
-	}
-
-	@Override
-	public void setPkId(Serializable pkId) {
-		this.${func.convertUnderLine(pkModel.columnName)} = (String) pkId;
-	}
 	
 	public ${pkModel.colType} get${func.convertUnderLine(pkModel.columnName)?cap_first}() {
 		return this.${func.convertUnderLine(pkModel.columnName)};
@@ -153,62 +92,6 @@ public class ${class} extends BaseTenantEntity {
 	}
 	</#list>
 	</#if>
-	
-	
-	
-		
-
-	/**
-	 * @see java.lang.Object#equals(Object)
-	 */
-	public boolean equals(Object object) {
-		if (!(object instanceof ${class})) {
-			return false;
-		}
-		${class} rhs = (${class}) object;
-		return new EqualsBuilder()
-		<#list model.columnList as col>
-		<#assign colName=func.convertUnderLine(col.columnName)>
-		<#if func.isExcludeField( colName) >
-		<#if foreignField!=col.columnName?lower_case>
-		.append(this.${colName}, rhs.${colName}) 
-		</#if>
-		</#if>
-		</#list>
-		.isEquals();
-	}
-
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode() {
-		return new HashCodeBuilder(-82280557, -700257973)
-		<#list model.columnList as col>
-		<#if foreignField!=col.columnName?lower_case>
-		<#assign colName=func.convertUnderLine(col.columnName)>
-		<#if func.isExcludeField( colName) >
-		.append(this.${colName}) 
-		</#if>
-		</#if>
-		</#list>
-		.toHashCode();
-	}
-
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return new ToStringBuilder(this)
-		<#list model.columnList as col>
-		<#if foreignField!=col.columnName?lower_case>
-		<#assign colName=func.convertUnderLine(col.columnName)>
-		<#if func.isExcludeField( colName) >
-		.append("${colName}", this.${colName}) 
-		</#if>
-		</#if>
-		</#list>.toString();
-	}
-
 }
 
 

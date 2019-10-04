@@ -11,12 +11,12 @@
 <#assign fkType=func.getFkType(model)>
 
 
-package ${domain}.${system}.${package}.dao;
+package ${system}.${domain}.${package}.dao;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import ${domain}.${system}.${package}.bean.${class};
+import ${system}.${domain}.${package}.bean.${class};
 /**
  * 
  * <pre> 

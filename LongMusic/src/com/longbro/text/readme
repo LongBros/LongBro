@@ -1,3 +1,23 @@
+2019-10-03
+三种方法判断输入是否为数字
+1.NaN 即 Not a Number 
+  isNaN(numValue)
+2.var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/ 
+　　if (!re.test(nubmer)) { 
+　　　　alert(“请输入数字”); 
+　　} 
+3.function isNotANumber(inputData) { 
+　　//isNaN(inputData)不能判断空串或一个空格 
+　　//如果是一个空串或是一个空格，而isNaN是做为数字0进行处理的，而parseInt与parseFloat是返回一个错误消息，这个isNaN检查不严密而导致的。 
+　　if (parseFloat(inputData).toString() == “NaN”) { 
+　　　　//alert(“请输入数字……”); 
+　　　　return false; 
+　　} else { 
+　　　　return true; 
+　　} 
+}
+ 
+
 text-align:center;
 vertical-align: middle;
 	style="background-image:url(image/back/back28.jpg)"

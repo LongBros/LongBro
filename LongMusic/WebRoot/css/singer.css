@@ -57,8 +57,8 @@ li a:HOVER {
 	margin-left: 60px;
 }
 .main-box::-webkit-scrollbar {
-       display: none;
-   }
+    display: none;
+}
 .index-lead li{
 	font-size:16px; color:#fff;  
 	 margin:0 10px 15px 0; width:258px;height:32px; 

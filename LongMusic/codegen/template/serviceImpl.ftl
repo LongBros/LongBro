@@ -10,6 +10,15 @@
 <#assign pkType=func.getPkType(model)>
 <#assign fkType=func.getFkType(model)>
 
+
+package ${system}.${domain}.${package}.daoImpl;
+
+import java.util.List;
+import ${system}.${domain}.${package}.bean.${class};
+import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 /**
  * 
  * <pre> 
@@ -21,12 +30,6 @@
  * 版权：${vars.company}
  * </pre>
  */
-package ${domain}.${system}.${package}.daoImpl;
-
-import java.util.List;
-import ${domain}.${system}.${package}.bean.${class};
-import org.springframework.stereotype.Repository;
-
 @Service
 public class ${class}ServiceImpl implements ${class}Service {
 	@Autowired ${class}Dao dao;

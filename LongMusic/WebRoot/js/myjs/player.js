@@ -23,7 +23,7 @@ var ssid="";//8-8不使用sid是因为会影响单句歌词的加载，歌曲资
 var url="";
 
 var pList=new Array();//播放列表数组
-for(var i=1;i<565;i++){
+for(var i=1;i<60;i++){
 	pList.push(i);
 }
 showList();
@@ -525,7 +525,7 @@ function play(obj,k) {
 						"beauty8","beauty9","beauty10","beauty11","beauty12","beauty13","beauty14",
 						"beauty15","beauty16","beauty17","beauty18","beauty19","beauty20");
 				var n=random(0, as.length-1);
-				artist="../image/beauty/"+as[n]+".jpg";
+				artist="../image/beauty/me080501.jpg";
 			}
 			artist="url("+artist+")";
 			document.getElementById('plist').style.backgroundImage=artist;
@@ -846,7 +846,7 @@ function addSong(){
  * @returns 0表示添加失败，1表示添加成功
  */
 function addList(id){
-	if(pList.length>80){//歌曲播放列表中大于80首歌时将播放列表清空
+	if(pList.length>101){//歌曲播放列表中大于80首歌时将播放列表清空
 		pList=new Array();
 	}
 	for(var j=0;j<pList.length;j++){//如果播放列表已含已选歌曲，则再不添加
@@ -1052,6 +1052,24 @@ function getNameById(id){
 	return name;
 }
 /**
+ * 26.根据歌曲id得到歌曲名
+ * @param id
+ * @returns {String}
+ */
+function getNameBySId(sourceId){
+	var name="";
+	$.ajax({
+		type:"Get",
+		async:false,
+		url:"../querySongBySId.do?sourceId="+sourceId,
+		dataType:"Json",
+		success:function(data){
+			name=data.songName+"-"+data.singer;
+		}
+	});
+	return name;
+}
+/**
  * 27.根据歌单id得到歌单的信息
  * @param id
  * @returns
@@ -1131,7 +1149,7 @@ function loadSong(id){
 						"tangxinying","tangxinying1","tangxinying2",
 						"shiying","shiying1","shiying2");
 				var n=random(0, as.length-1);
-				artist="../image/artist/"+as[n]+".jpg";
+				artist="../image/artist/me080501.jpg";
 			}
 			if(dsid.substring(dsid.length-5)==".html"){
 				url="http://link.hhtjim.com/qq/"+dsid.substring(0, dsid.length-5)+".mp3";
@@ -1435,7 +1453,9 @@ function unfixBottom(){
 }
 //存放所有歌曲的数组
 var songs=new Array();
-for(var ii=1;ii<13;ii++){
+var ii=random(1, 12);
+//更快的加载网页，只随机加载一页
+//for(var ii=1;ii<2;ii++){
 	$.ajax({
 		type:"Get",
 		async:false,
@@ -1452,7 +1472,7 @@ for(var ii=1;ii<13;ii++){
 			}
 		}
 	});
-}
+//}
 //45.随机推荐一首歌曲，并弹出以供直达播放
 function randomSong(){
 	mini.showTips(myAlert1("点歌曲名播放哦^-^<br>"+songs[random(0, songs.length)],"center","center"))

@@ -12,9 +12,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
-
+/**
+ * Date date=new Date();后面的参数若为全局变量会有问题--时间不会变
+ * @author 赵成龙
+ * @website www.longqcloud.cn & www.zy52113.com
+ * @date 2019年10月1日 下午6:52:37
+ * @description
+ * @version
+ */
 public class TimeUtil {
-	static long current=System.currentTimeMillis();//当前的毫秒数
 	static long oneday=1*24*60*60*1000;//一天的毫秒数
 	static SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	static SimpleDateFormat sdfD=new SimpleDateFormat("yyyy-MM-dd");
@@ -39,7 +45,7 @@ public class TimeUtil {
 	 * @return
 	 */
 	public static String time(){
-		Date date=new Date(current);
+		Date date=new Date(System.currentTimeMillis());
 		String time=sdf.format(date);
 		return time;
 	}
@@ -72,7 +78,7 @@ public class TimeUtil {
 	 */
 	public static String getYesterday(){
 		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
-		return sf.format(new Date(current-oneday));
+		return sf.format(new Date(System.currentTimeMillis()-oneday));
 	}
 	/**
 	 * 得到n天前的时间点
@@ -82,7 +88,7 @@ public class TimeUtil {
 	 * @return
 	 */
 	public static String getAgo(int n){
-		return sdfD.format(new Date(current-n*oneday));
+		return sdfD.format(new Date(System.currentTimeMillis()-n*oneday));
 	}
 	/**
 	 * 得到汉语星期几

@@ -5,38 +5,113 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>多啦音乐(music.duola.vip)</title><!-- LongBro音乐-Music-2018.11.5开做 -->
+    <title>多啦音乐(music.duola.vip)-听你想听</title><!-- LongBro音乐-Music-2018.11.5开做 -->
 	<meta http-equiv="pragma" content="no-cache">
+	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+	<meta name="applicable-device" content="pc,mobile">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="经典歌曲,LongBro音乐,553音乐">
 	<meta http-equiv="description" content="个人收录的比较好听的Music，有新出的翘楚，也有古老的经典，欢迎大家来听，LongBro喜欢听的味道。">
 	<link rel="shortcut icon" href="image/logo.png" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/index1.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">	
 	<script type="text/javascript" src="js/common.js"></script>
   </head>
-  <body id="body" onload="" background="image/back/back28.jpg">
+  <style>
+    table{
+    	white-space: normal;
+	    line-height: normal;
+	    font-weight: normal;
+	    font-size: medium;
+	    font-style: normal;
+    }
+  	.logo{
+  		width: 200px;
+  		font-size: 30px;
+  	}
+  	.nav{
+  		width: 880px;
+    	padding-left: 15px;
+  	}
+  	
+  	a {
+  		text-decoration:none;
+  		color:white;
+  		padding-left:20px;
+	}
+	a:HOVER {
+		text-decoration:underline;
+		color: blue;
+		cursor: pointer;
+	}
+  </style>
+  <body id="body" onload=""	style="background-image:url(image/back/back28.jpg)">
   		<script type="text/javascript" src="js/myjs/index.js" charset="utf-8"></script>
-  		<script type="text/javascript" src="/js/jquery.js" charset="utf-8"></script>
+  		<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+  		<div id="top" style="background: #FA8723;position:fixed;top:0; left:0px;width:100%;height:60px;">
+  			<table style="margin-top: 8px;color: white">
+  				<tbody>
+  					<tr>
+  						<td class="logo">duola.vip<nobr></td>
+  						<td class="nav">
+	  						<a href="" style="color: blue">发现音乐</a>
+			  				<a href="singers.html">歌星singer</a>
+			  				<a href="songList.html">歌单广场</a>
+			  				<a>排行榜</a>
+			  				<a>吐槽墙</a>
+			  				<a href="friendsLink.html">友情链接</a>
+			  			</td>
+		  				<td class="register">
+			  				<a class="login">登录</a>
+			  				<a>注册</a>
+		  				</td>
+  					</tr>
+  				</tbody>
+  			</table>
+  		</div>
+  		<div class="modal fade" id="loginModal" style="display:none;">
+			<div class="modal-dialog modal-sm" style="width:540px;">
+				<div class="modal-content" style="border:none;">
+					<div class="col-left"></div>
+					<div class="col-right">
+						<div class="modal-header">
+							<button type="button" id="login_close" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="loginModalLabel" style="font-size: 18px;">登录</h4>
+						</div>
+						<div class="modal-body">
+							<section class="box-login v5-input-txt" id="box-login">
+								<form id="login_form" action="" method="post" autocomplete="off">
+									
+									<ul>
+										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入邮箱账号/手机号" type="text"></li>
+										<li class="form-group"><input class="form-control" id="id_password_l" name="password_l" placeholder="请输入密码" type="password"></li>
+									</ul>
+								</form>
+								<p class="good-tips marginB10"><a id="btnForgetpsw" class="fr">忘记密码？</a>还没有账号？<a href="javascript:;" target="_blank" id="btnRegister">立即注册</a></p>
+								<div class="login-box marginB10">
+									<button id="login_btn" type="button" class="btn btn-micv5 btn-block globalLogin">登录</button>
+									<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+								</div>
+								<div class="threeLogin"><span>其他方式登录</span><a class="nqq" href="javascript:;"></a><a class="nwx" href="javascript:;"></a><!--<a class="nwb"></a>--></div>
+							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>		
+		<script type="text/javascript" src="js/jquery2.2.2.min.js"></script>
+		<script type="text/javascript" src="js/modal.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
   		<span id="cback" title="B键--换肤--总有一个你喜欢" onclick="changeBack()">切换背景</span>
   		<img alt="" id="hot" src="image/hot1.gif">
-  		
-  		<div class="logo">
-  			<font size="66px">♬</font> 
-  			<a style="text-decoration: none;"><font color="green" size="66px">553 Music</font></a> 
-  			<font size="66px">♬</font>
-  		</div>
-		<!-- <div id="page">
-			<button onclick="tabPage(1)">1</button>&emsp;
-			<button onclick="tabPage(2)">2</button>&emsp;
-			<button onclick="tabPage(3)">3</button>
-		</div> -->
-		
 		
 		<div class="songs">
 			<div id="music">
   		<%
-  			String name[]={"余生都是你-原版","余生都是你-男声",
+  			String name[]={"余生都是你",
   					
   					//网易云音乐的歌
 					"余香-张小九",
@@ -122,33 +197,36 @@
 				暂无播放歌曲
 			</div>
   		</div>
-		<!-- <video autoplay="autoplay" src="video/3D.mp4" controls="controls">
-		your browser does not support the video tag
-		</video><br> -->
-		<!-- <canvas id="can" width="800px" height="600px"></canvas> -->
-  		<!--  loop="loop" autoplay="autoplay" -->
+		
   		<audio id="audio" style="display:none;" controls="controls"
   		 src="http://music.163.com/song/media/outer/url?id=486814412.mp3">
 		</audio>
 		<p>
 		<span id="lyric"></span>
+		<div style="margin-bottom: 70px;">
+			<center>
+				All Rights Reserved版权所有
+				<a href="http://www.zy52113.com/" target="_blank">553影院</a>
+				&nbsp;And<a href="http://www.longqcloud.cn/" target="_blank">LongBro博客</a>
+				<br>备案号：豫ICP备16023798号-2
+			</center>		
+		</div>
 		
-		<p id="bottom">
+		<div id="bottom" style="background: #009688;position:fixed;bottom:0; left:0px;width:100%;height:60px;">
 			<img style="width: 40px;height: 40px" title="左键--上一曲" onclick="preview()" alt="" src="image/play_previous.png">&emsp;
 			<img style="width: 40px;height: 40px" title="P键--暂停/播放" id="pause" alt="" onclick="pause()" src="image/play.png">&emsp;
 		    <img style="width: 40px;height: 40px" title="右键--下一曲" onclick="next()" alt="" src="image/play_next.png">
-			<img id="mode" title="顺序播放--C键切换" style="width:50px;height:40px;" src="image/play_order.png" onclick="change()">
+			<img id="mode" title="顺序播放--C键切换" style="width:50px;height:60px;" src="image/play_random.png" onclick="change()">
 			<progress title="A键---快退10秒,D键---快进10秒;Q键---快退5秒,E键---快进5秒" style="width:566px;height:10px" draggable="false" id="pro" value="0" max="100"></progress>
-			<span id="time" class="time" title="已播放/总时长"></span>
+			<span id="time" class="time" title="已播放/总时长" style="color:white"></span>
 			<a onclick="minus()" class="minus" title="下键--音量减">一</a>
-			<progress style="width:100px;" draggable="false" id="voice" value="100" max="100"></progress>
+			<progress style="width:90px;" draggable="false" id="voice" value="100" max="100"></progress>
 			<a onclick="add()" class="add" title="上键--音量加">✚</a>
-		</p>
-		<center>
-			All Rights Reserved版权所有
-			&nbsp;<a href="http://www.zy52113.com/" target="_blank">553影院</a>
-			&nbsp;And&nbsp;<a href="http://www.longqcloud.cn/" target="_blank">LongBro博客</a>
-			<br>备案号：豫ICP备16023798号-2
-		</center>
+			<span onclick="showHide()" title="Ctrl+shift+S"  style="color:white" id="sah">显示</span>
+			&emsp;
+			<span id="lock" onclick="fixBottom()" style="display: inline-block;"><i class="Hui-iconfont" style="font-size: 15px">&#xe605;</i></span><!-- 锁定：&#xe60e; 解锁：&#xe605;-->
+			<span id="unlock" onclick="unfixBottom()" style="display:none;"><i class="Hui-iconfont" style="font-size: 15px">&#xe60e;</i></span>
+		</div>
+		
   </body>
 </html>

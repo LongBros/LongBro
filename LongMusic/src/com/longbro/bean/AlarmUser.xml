@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.bean.AlarmUser">
+	<resultMap id="AlarmUser" type="com.longbro.bean.AlarmUser">
+		<id property="AUserid" column="a_UserId" jdbcType="NUMERIC"/>
+		<result property="AUsername" column="a_UserName" jdbcType="VARCHAR"/>
+		<result property="AUsersign" column="a_UserSign" jdbcType="VARCHAR"/>
+		<result property="AMusics" column="a_Musics" jdbcType="VARCHAR"/>
+		<result property="ATips" column="a_Tips" jdbcType="VARCHAR"/>
+		<result property="AUserback" column="a_UserBack" jdbcType="VARCHAR"/>
+		<result property="ACreatetime" column="a_CreateTime" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.bean.AlarmUser">
+		INSERT INTO alarm_user
+		(a_UserId,a_UserName,a_UserSign,a_UserBack,a_CreateTime)
+		VALUES 
+		(#{AUserid,jdbcType=NUMERIC}, #{AUsername,jdbcType=VARCHAR}, #{AUsersign,jdbcType=VARCHAR}, #{AUserback,jdbcType=VARCHAR}, #{ACreatetime,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="AlarmUser">
+		SELECT * FROM alarm_user 
+		WHERE 
+		a_UserId=#{AUserid}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="AlarmUser">
+		SELECT * FROM alarm_user
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY a_UserId DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.bean.AlarmUser">
+		UPDATE alarm_user
+        <set>
+			<if test="AUsername != null">
+				a_UserName=#{AUsername,jdbcType=VARCHAR},
+			</if>
+			<if test="AUsersign != null">
+				a_UserSign=#{AUsersign,jdbcType=VARCHAR},
+			</if>
+			<if test="AMusics != null">
+				a_Musics=#{AMusics,jdbcType=VARCHAR},
+			</if>
+			<if test="ATips != null">
+				a_Tips=#{ATips,jdbcType=VARCHAR},
+			</if>
+			<if test="AUserback != null">
+				a_UserBack=#{AUserback,jdbcType=VARCHAR},
+			</if>
+			<if test="ACreatetime != null">
+				a_CreateTime=#{ACreatetime,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE
+		a_UserId=#{AUserid}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM alarm_user 
+		WHERE
+		a_UserId=#{AUserid}
+	</delete>
+	
+</mapper>
