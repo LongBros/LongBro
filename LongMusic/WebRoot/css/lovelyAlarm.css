@@ -21,8 +21,18 @@ html, body
 	width:20%;
 	color:white;
 }
+.randomSen{
+	float: right;
+	margin-right:100px;
+	cursor:pointer;
+	font-size:30px;
+	font-family: 'Arizonia', cursive;
+	text-shadow:#fff 1px 1px 1px;;
+	color:pink;
+	margin-top:80px;
+}
 .remark{
-	margin-top:180px;
+	margin-top:130px;
 }
 .add, .minus{
 	cursor: pointer;

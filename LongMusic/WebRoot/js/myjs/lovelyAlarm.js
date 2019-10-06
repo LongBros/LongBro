@@ -3,16 +3,6 @@ window.setInterval(clock, 1000);
 function clock(){
 	var ar=document.getElementById("array").innerText;//因在Ajax中赋完值出来又被清空，故加个“array”作为中间值赋值
 	//Courier New,serif			font-style:italic;													<h1 class="long-shadow"><span class="animateTitle1"></span></h1>
-	var senM=new Array("不是花中偏爱菊，此花开尽更无花","兰有秀兮菊有芳，怀佳人兮不能忘",
-					   "秋菊有佳色，裛露掇其英","耐寒唯有东篱菊，金粟初开晓更清 —— 唐 白居易《咏菊》",
-					   "问篱边黄菊，知为谁开 —— 宋 · 秦观《满庭芳·碧水惊秋》");
-	var senN=new Array("下班啦，别忘记打卡哦~一天的工作快结束了，让忙碌的自己歇歇^-^",
-						"下班啦，别忘记打卡哦~放下工作的压力，用笑容面对身边的人^-^",
-					   "下班啦，别忘记打卡哦~因为努力，今天的你比昨天更强大^-^",
-					   "下班啦，别忘记打卡哦~生活是忙忙碌碌，重要的是开开心心^-^"
-	);
-	var songs=new Array("1369798757","4875075","287035","566442496","165375","165379");
-	var songsName=new Array("芒种","遇到","遇见","浪人琵琶","专属味道","小星星");
 	var all=new Date();
 	var year=all.getFullYear();
 	var mon=addZero(all.getMonth()+1);
@@ -33,21 +23,10 @@ function clock(){
 		if(time1==t){
 			var sName=getNameBySId(m);//
 			alert(tip);
-		    mini.showTips(myAlert("即将为你播放铃声^-^  "+sName))
+		    mini.showTips(myAlert("即将为你播放铃声^-^  ‘"+sName+"’,如不方便听请关闭此网页或关掉声音，谢谢"))
 			song.src="https://link.hhtjim.com/163/"+m+".mp3";
 		}
 	}
-//	if(time1=="08:35:00"||time1=="08:45:30"||time1=="09:00:30"){//早上打卡时间
-//		var w=random(0,senM.length-1);
-//		var s=random(0,songs.length-1);
-//		alert(time1+"来自LongBro的话~\n上班的时间到了，努力的你真棒，加油么么哒\n"+senM[w]+"\n\n将为你播放随机歌曲《"+songsName[s]+"》，如不方便听请关闭此网页或关掉声音，谢谢");
-//		song.src="https://link.hhtjim.com/163/"+songs[s]+".mp3";
-//	}else if(time1=="18:00:00"){
-//		var w=random(0,senN.length-1);
-//		var s=random(0,songs.length-1);
-//		alert(senN[w]+"\n\n将为你播放随机歌曲《"+songsName[s]+"》，如不方便听请关闭此网页或关掉声音，谢谢");
-//		song.src="https://link.hhtjim.com/163/"+songs[s]+".mp3";
-//	}   		
 	document.getElementById("time").innerText=time;
 }
 //2.补零格式化
@@ -71,11 +50,17 @@ function random(min, max){
 }
 //4.随机设置背景色和开心图片
 function randBack(){
-	var colors=new Array("pink","orange","cyan","purple");//"white",
+	var colors=new Array("pink","orange","cyan","purple");//背景色
+	var backImgs=new Array("alarmBack.jpg","alarmBack1.png","back0.jpg","back1.jpg","back2.jpg","back4.jpg","back6.jpg","back28.jpg");//背景图
 	var m=random(colors.length-1);
+	var n=random(backImgs.length-1);
 	//随机设置背景色
 	var body=document.getElementById("body");
-	body.style.background=colors[m];
+	if(m>n){
+		body.style.background=colors[m];
+	}else{
+		body.style.backgroundImage="url(\"image/back/"+backImgs[n]+"\")";
+	}
 
 	//随机设置图片
 	var pics=new Array("smile1.png","smile2.png","smile3.png","smile4.png","smile5.png","smile6.gif","smile7.jpg");
@@ -119,7 +104,7 @@ function minusAlarm(){
 		dataType:"Json",
 		success:function(data){
 			for(var i=0;i<data.length;i++){
-				$("#allAlarm").append("<span style='color:red;'>"+data[i].atime+"</span>&emsp;<a onclick='delAlarm("+data[i].aid+")'>删除</a><br>");
+				$("#allAlarm").append("<span style='color:red;' title='提示语:"+data[i].atips+",铃声:"+getNameBySId(data[i].amusic)+"'>"+data[i].atime+"</span>&emsp;<i class='Hui-iconfont' style='font-size:18px' onclick='delAlarm("+data[i].aid+")'>&#xe6e2;</i><br>");
 			}
 		}
 	});
@@ -168,6 +153,7 @@ function getAlarmTime(){
 			url:"genUserId.do",
 			async:true,
 			type:"GET",
+			dataType:"text",
 			success:function(data){
 				//将生成的userId赋给user，并存至cookie
 				user=data;
@@ -198,22 +184,22 @@ function setAlarmText(user){
 					if(i!=0){
 						$("#alarm").append("、");
 					}
-					$("#alarm").append("<span style='color:red;'>"+data[i].atime+"</span>");
+					$("#alarm").append("<span style='color:red;' title='提示语:"+data[i].atips+",铃声:"+getNameBySId(data[i].amusic)+"'>"+data[i].atime+"</span>");
 				}
 				$("#array").text(as);
 			}else{
 				$("#alarm").text("点击右侧添加闹铃喔     ->");
 			}
-			$("#alarm").append("&emsp;<span class='add' onclick='addAlarm()' title='添加闹铃'><i class='Hui-iconfont' style='font-size:18px'>&#xe604;</i></span>&emsp;");
+			$("#alarm").append("&emsp;<span class='add' onclick='addAlarm()' title='添加闹铃'><i class='Hui-iconfont' style='font-size:18px'>&#xe604;</i></span>");
+			$("#alarm").append("<img alt='' style='width: 18px;height: 18px;' src='image/picture/hot1.gif'>");
 			$("#alarm").append("<span class='minus' onclick='minusAlarm()' title='删除闹铃'><i class='Hui-iconfont' style='font-size:18px'>&#xe609;</i></span>");
-			
 		}
 	});
 }
 //12.切换背景
 function changeMode(){
-	var body=document.getElementById("body");
-	body.style.background="pink";
+//	var body=document.getElementById("body");
+//	body.style.background="pink";
 	//改变背景
 	randBack();
 }
@@ -229,6 +215,8 @@ function delAlarm(id){
 			alert(data);
 		}
 	});
+	mini.showTips(myAlert("删除成功"));
+
 	setAlarmText(user);
 	minusAlarm();
 	closeAll();
@@ -243,7 +231,7 @@ function copyLink(){
 		window.location = "http://www.duola.vip";
 	} 
 }
-//打开、关闭个人信息框
+//15.打开、关闭个人信息框
 function myInfo(){
 	var person=document.getElementById("person");
 	person.style.display="inline-block";
@@ -282,13 +270,14 @@ function editInfo(){
     	
     })
 }
+//16
 function setting(){
 	var user=getCookie("user")+"";
 //	window.location.href="setting.html";
 //	window.location="setting.html";
 	window.open("setting.html","_blank");
 }
-//填充我的铃声库和提示语库
+//17.填充我的铃声库和提示语库
 function fillMyGit(){
 	var userId=getCookie("user")+"";
 	$.ajax({
@@ -321,6 +310,59 @@ function fillMyGit(){
     	
     })
 }
+//18.底部栏功能切换
+function tabOnItem(which){
+	if(which=="0"){//每日一句
+		window.open("http://112.74.173.44/LongBlog/msgboard.jsp", "_blank");
+	}else if(which=="1"){//用户使用指南
+		window.open("setting.html","_blank");
+	}else if(which=="2"){//赞赏支持
+		var si=document.getElementById("sponsorImage").style.display;
+		if(si=="none"){
+			document.getElementById("sponsorImage").style.display="inline-block";
+			document.getElementById("sponsor").style.color="red";
+		}else{
+			document.getElementById("sponsorImage").style.display="none";
+			document.getElementById("sponsor").style.color="black";
+		}
+	}else if(which=="3"){//联系作者
+		window.open("http://112.74.173.44/LongVideos/toast.jsp","_blank");
+	}else if(which=="4"){//赞助记录
+		window.open("http://112.74.173.44/LongBlog/sponsor/showSponsor.jsp","_blank");
+	}
+}
+//19.支付宝、微信、QQ收款码切换
+function switchImg(which) {
+	if(which=="pay"){
+		document.getElementById("paypal").style.display="inline-block";
+		document.getElementById("wechat").style.display="none";
+		document.getElementById("qq").style.display="none";
+		document.getElementById("payBtn").style.color="red";
+		document.getElementById("weBtn").style.color="black";
+		document.getElementById("qqBtn").style.color="black";
+	}else if(which=="we"){
+		document.getElementById("wechat").style.display="inline-block";
+		document.getElementById("paypal").style.display="none";
+		document.getElementById("qq").style.display="none";
+		document.getElementById("payBtn").style.color="black";
+		document.getElementById("weBtn").style.color="red";
+		document.getElementById("qqBtn").style.color="black";
+	}else{
+		document.getElementById("paypal").style.display="none";
+		document.getElementById("wechat").style.display="none";
+		document.getElementById("qq").style.display="inline-block";
+		document.getElementById("payBtn").style.color="black";
+		document.getElementById("weBtn").style.color="black";
+		document.getElementById("qqBtn").style.color="red";
+	}
+}
+//20.
+//window.setInterval("randomSen()", 2000);
+function randomSen(){
+//	var t=new Array("Welcome to Doralarm Website","我们不能帮助每一个人，但每个人都可以帮助别人。",
+//			"没有人可以回到过去从头再来，但是每个人都可以从今天开始，创造一个全新的结局。","老天总是捉弄人，安排了相遇，却又策划了分离。");;
+//	document.getElementById("randomSen").innerText="\""+t[random(0, t.length-1)]+"\"";
+}
 //设置添加cookie
 function setCookie(name,value)  
 {  
@@ -347,6 +389,24 @@ function getCookie(name){
 		}
 	}
 	return "";
+}
+/**
+ * 26.根据歌曲id得到歌曲名
+ * @param id
+ * @returns {String}
+ */
+function getNameBySId(sourceId){
+	var name="";
+	$.ajax({
+		type:"Get",
+		async:false,
+		url:"querySongBySId.do?sourceId="+sourceId,
+		dataType:"Json",
+		success:function(data){
+			name=data.songName+"-"+data.singer;
+		}
+	});
+	return name;
 }
 /**
  * 38.使用迷你UI的弹出提示功能

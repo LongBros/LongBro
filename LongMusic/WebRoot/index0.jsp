@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>欢迎使用-小可爱版小闹钟</title>
+    <title>哆啦闹铃(Doralarm)-重要的事情不再忘记|电脑工作者必备</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="keywords" content="功能强大的网页版闹铃,实用网页版小闹铃,电脑工作者必备闹铃,哆啦工具,LongBro工具">
     <meta name="description" content="实用网页版小闹铃，网页上的闹铃，电脑工作者必备工具，提供存储多个闹铃设置，自由铃声设置，提示语设置等多重功能,打卡必备工具">
@@ -15,18 +15,46 @@
     <script src="scripts/boot.js" type="text/javascript"></script>
     
     <link rel="stylesheet" type="text/css" href="css/lovelyAlarm.css">
-    <script src="js/myjs/player.js"></script><!-- 调用其函数：根据资源id得到资源名 -->
     <script src="js/myjs/lovelyAlarm.js"></script>
     <script src="js/myjs/timeDeal.js"></script>
     <script src="js/myjs/setting.js" type="text/javascript"></script><!-- 填充音乐和提示语以供选择 -->
+	<style type="text/css">
+	   .logo{
+	      margin-left:20px;
+	      font-size:30px;
+	      font-family: 'Arizonia', cursive;
+	      text-shadow:#fff 1px 1px 1px;
+	   }
+	   .logo  a{
+	       color:white;
+	       -webkit-transition: all 0.5s; 
+	       -moz-transition: all 0.5s; 
+	       -o-transition: all 0.5s;
+	       text-decoration: none;
+	   }
+       .logo  a:hover{ padding-left:20px}
+       .addBtn{
+		    background-color: #4CAF50; /* Green */
+		    border: none;
+		    color: white;
+		    padding: 6px 14px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 12px;
+		    cursor: pointer;
+		    border-radius: 4px;
+		}
+	</style>
 </head>
-<body style="" id="body"> 
+<body style="background-image: " id="body"> 
 	<div>
-		<span class="topmenu" title="温馨提示" onmouseover="showTips()" onmouseout="hideTips()">?</span>
+		<span class="logo"><a href="http://112.74.173.44/LongVideos">哆啦小闹铃</a></span>
+		<!-- <span class="topmenu" title="温馨提示" onmouseover="showTips()" onmouseout="hideTips()">?</span>
 		<span class="topmenu" onclick="notice()" title="通知"><i class="Hui-iconfont" style="font-size:18px">&#xe62f;</i></span>
 		<span class="topmenu" onclick="copyLink()" title="复制并分享"><i class="Hui-iconfont" style="font-size:18px">&#xe6aa;</i></span>
 		<span class="topmenu" onclick="myInfo()" title="个人"><i class="Hui-iconfont" style="font-size:18px">&#xe60a;</i></span>
-		<span class="topmenu" onclick="setting()" title="设置"><i class="Hui-iconfont" style="font-size:18px">&#xe61d;</i><img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif"></span>
+		 --><span class="topmenu" onclick="setting()" title="设置"><i class="Hui-iconfont" style="font-size:18px">&#xe61d;</i><img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif"></span>
 		<span class="topmenu" onclick="changeMode()" title="点击切换背景"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></span>
 	</div>
 	<div><span id="tips"></span></div>
@@ -37,13 +65,13 @@
 		用户名:<input class="mini-textbox" style="width: 60px;" id="userName" name="userName"> <br>
 		性别:<input name="sex" id="sex" class="mini-radiobuttonlist" textField="name" valueField="id" value="male" data="[{'name':'男','id':'male'},{'name':'女','id':'female'}]">
 		签名:<input id="sign" class="mini-textbox" style="width: 160px;" name="sign">
-		<center><a onclick="editInfo()">提交</a></center>
+		<center><a onclick="mini.alert('个人信息编辑模块暂未开启')">提交</a></center>
 	</form>
-	
+	<div class="randomSen" id="randomSen">"Welcome to Doralarm Website!"</div>
      <center>
 		<div class="remark">
-			<div id="array" style="display: none"></div>
-			<div id="alarm"></div>
+			<div id="array" style="display: none;"></div>
+			<div id="alarm" style="cursor: pointer;"></div>
 		</div>
 		<form id="newAlarm" name="newAlarm" class="newAlarm">
             	<table>
@@ -64,7 +92,7 @@
 	            	 style="width:120px;" emptytext="请选择音乐" valuefield="sourceId"
 	            	  textField="songName" showNullItem="true" data=""></td>
                 	</tr>
-	            	<tr><td></td><td colspan="2"><span style="background: cyan" onclick="create()">添加</span></td></tr>
+	            	<tr><td></td><td colspan="2"><span class="addBtn" onclick="create()">添加</span></td></tr>
             	</table>
         </form>
         <div id="allAlarm" class="allAlarm">
@@ -99,7 +127,7 @@
 		//mini.get("tip").setData(dataTip);
 		getAlarmTime();
 	</script>
-	<div class="bottom" id="bottom">
+	<div class="bottoms" id="bottoms">
 		<div class="sitemap">
 			<dl>
 				<dt>本站他站</dt>
@@ -108,7 +136,7 @@
 				<dd><a href="/LongBlog" target="_blank">LongBro博客</a></dd>
 				<dd><a href="index.jsp" target="_blank">哆拉音乐</a></dd>
 				<dd><a href="hui" target="_blank">LongBro工具</a></dd>
-				<dd><a href="mini/myAccount.html" target="_blank">Mini账单</a></dd>
+				<dd><a onclick="mini.alert('该网站仅供站长访问！')" target="_blank">Mini账单</a></dd>
 			</dl>
 			<dl>
 				<dt>常用站</dt>
@@ -120,6 +148,27 @@
 				<dd><a href="https://y.qq.com/" target="_blank">QQ音乐</a></dd>
 			
 			</dl>
+		</div>
+	</div>
+	<div id="sponsorImage" style="display:none;background:white;width:200px;bottom:50px;height:240px;position:relative;cursor: pointer;margin-right: 55px;float: right;">
+		
+		<img id="paypal" alt="" style="margin-left: 20px;display:inline-block" src="image/picture/paypal.jpg" width="160px" height="219px">
+    	<img id="wechat" alt="" style="margin-left: 20px;display: none" src="image/picture/wechat.jpg" width="160px" height="219px">
+    	<img id="qq" alt="" style="margin-left: 20px;display: none" src="image/picture/qq.jpg" width="160px" height="219px">
+    	<div style="background-color: pink;padding-bottom: 8px;padding-top: 4px;">
+			<span id="payBtn" style="float: left;margin-left: 20px;color:red" onclick="switchImg('pay')">支付宝</span>&emsp;
+			<span id="weBtn" style="float: center;margin-left: 17px;margin-right: 20px" onclick="switchImg('we')">微信</span>&emsp;
+			<span id="qqBtn" style="float: right;margin-right: 18px" onclick="switchImg('qq')">QQ</span>
+		</div>
+    </div>
+	<div style="background: #fff;position:fixed;bottom:0; left:0px;width:100%;height:40px;cursor:pointer; ">
+		<span style="margin-left:50px;padding-top:8px;font-size: 15px;float: left;" onclick="mini.alert('域名正在备案进行中，暂无法使用域名访问网站！带来的不便还请见谅')">www.duola.vip © 2019~2020	&emsp;|&emsp;豫ICP备16023798号-1</span>
+		<span style="margin-left:50px;padding-top:8px;font-size: 18px;float: left;"></span>
+		<div style="margin-right:50px;padding-top:6px;font-size: 13px;float: right;">
+			<span onclick="tabOnItem('0')">每日一句</span>&emsp;|&emsp;
+			<span onclick="tabOnItem('1')">用户使用指南</span>&emsp;|&emsp;
+			<span id="sponsor" onclick="tabOnItem('2')">赞赏支持</span>&nbsp;<i class="Hui-iconfont" title="赞助记录" onclick="tabOnItem('4')" style="font-size:18px">&#xe627;</i>&nbsp;|&emsp;
+			<span onclick="tabOnItem('3')" title="给作者留下你的珍贵性建议">留言作者</span>
 		</div>
 	</div>
 </body>
