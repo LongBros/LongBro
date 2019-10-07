@@ -36,5 +36,10 @@ public class AlarmUserServiceImpl implements AlarmUserService {
 		// TODO Auto-generated method stub
 		dao.updateAlarmUser(au);
 	}
+	@Override
+	public Integer getAUserNums() {
+		// TODO Auto-generated method stub
+		return dao.getAUserNums();
+	}
 }
 

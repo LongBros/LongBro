@@ -19,7 +19,7 @@ import com.longbro.bean.Alarm;
 public interface AlarmDao{
 	public List<Alarm> getAlarmByUserId(String userId);
 	public void addAlarm(Alarm alarm);
-	public boolean isAlarmExits(String userId,String time);
+	public Integer getAlarmNums(String userId,String time);
 	public void updateAStatusById(int aId);
 }
 

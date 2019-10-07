@@ -5,6 +5,7 @@ package com.longbro.dao;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import com.longbro.bean.AlarmUser;
 /**
  * 
@@ -19,5 +20,7 @@ public interface AlarmUserDao{
 	public AlarmUser getById(String userId);
 	public void addAlarmUser(AlarmUser au);
 	public void updateAlarmUser(AlarmUser au);
+	public Integer getAUserNums();
+
 }
 

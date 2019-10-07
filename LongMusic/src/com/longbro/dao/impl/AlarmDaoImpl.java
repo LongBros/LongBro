@@ -33,15 +33,12 @@ public class AlarmDaoImpl extends BaseDao implements AlarmDao {
 		this.insert(pre+"create", alarm);
 	}
 	@Override
-	public boolean isAlarmExits(String userId, String time) {
+	public Integer getAlarmNums(String userId, String time) {
 		HashMap<String, String> map=new HashMap<>();
 		map.put("userId", userId);map.put("time", time);
 		// TODO Auto-generated method stub
-		int num=(int)this.selectOne(pre+"isAlarmExits", map);
-		if(num==0){//该用户未设置该闹铃
-			return false;
-		}
-		return true;
+		int num=(int)this.selectOne(pre+"getAlarmNums", map);
+		return num;
 	}
 	@Override
 	public void updateAStatusById(int aId) {

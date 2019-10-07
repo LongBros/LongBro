@@ -70,5 +70,7 @@
 		WHERE
 		a_UserId=#{AUserid}
 	</delete>
-	
+	<select id="getUserCount" resultType="java.lang.Integer">
+		select count(1) from alarm_user;
+	</select>
 </mapper>

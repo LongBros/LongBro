@@ -162,13 +162,14 @@
 		</div>
     </div>
 	<div style="background: #fff;position:fixed;bottom:0; left:0px;width:100%;height:40px;cursor:pointer; ">
-		<span style="margin-left:50px;padding-top:8px;font-size: 15px;float: left;" onclick="mini.alert('域名正在备案进行中，暂无法使用域名访问网站！带来的不便还请见谅')">www.duola.vip © 2019~2020	&emsp;|&emsp;豫ICP备16023798号-1</span>
+		<span style="margin-left:50px;padding-top:8px;font-size: 15px;float: left;" onclick="mini.alert('域名正在备案进行中，暂无法使用域名访问网站！带来的不便还请见谅')">www.duola.vip © 2018~2020	&emsp;|&emsp;豫ICP备16023798号-1</span>
 		<span style="margin-left:50px;padding-top:8px;font-size: 18px;float: left;"></span>
 		<div style="margin-right:50px;padding-top:6px;font-size: 13px;float: right;">
 			<span onclick="tabOnItem('0')">每日一句</span>&emsp;|&emsp;
-			<span onclick="tabOnItem('1')">用户使用指南</span>&emsp;|&emsp;
+			<span onclick="tabOnItem('1')">用户使用指南</span><img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif">|&emsp;
 			<span id="sponsor" onclick="tabOnItem('2')">赞赏支持</span>&nbsp;<i class="Hui-iconfont" title="赞助记录" onclick="tabOnItem('4')" style="font-size:18px">&#xe627;</i>&nbsp;|&emsp;
-			<span onclick="tabOnItem('3')" title="给作者留下你的珍贵性建议">留言作者</span>
+			<span onclick="tabOnItem('3')" title="给作者留下你的珍贵性建议">留言作者</span>&emsp;|&emsp;
+			<span onclick="tabOnItem('5')">哆啦统计</span><img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif">
 		</div>
 	</div>
 </body>

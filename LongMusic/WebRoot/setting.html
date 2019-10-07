@@ -99,7 +99,7 @@
 		</div>
   	
     <br>
-    <center><span id="oacb" onclick="openWords()" style="font-size: 20px;cursor: pointer;">
+    <center><span id="oacb" onclick="openWords()" style="font-size: 20px;cursor: pointer;padding-bottom: 40px;">
    		 展开<i class="Hui-iconfont" style="font-size:20px">&#xe6d5;</i>更多
     </span></center>
     <div id="words" style="display: none;margin-left: 30px;margin-bottom: 100px;">
@@ -126,6 +126,7 @@
 			    作用举例：<br>1.每日上下班钉钉等<span style="color: red">打卡提醒</span>，<br>
 			  2.上班情况下如果有事(比如某个群定好上午十点要发红包)需定闹铃使用手机会有铃声影响<br>
 		 	  3.上班族<span style="color: red">订外卖提醒</span>工具，可定时十点半订外卖，到时自动提醒。再也不用为忘记订外卖而挨饿啦~
+		 	  4.如果你是带午饭的上班族那么它对你也是量身定做，可定时十一点半热饭，到时自动提醒。再也不用为忘记热饭而吃饭晚啦~
 		 	  <h4>因为需求与想法，所以萌生了此工具的构思；而因为有执行力，所……以，它被做了出来！虽然
 		 	  它看似是一个很小的工具，<br>但其实很实用。希望觉得不错的小伙伴可以多多宣传，作者在此向
 		 	  各位表示感谢！如有需要，它将来会拥有越来越多的功能</h4>
@@ -138,7 +139,28 @@
 		 	
 		 </div>
     </div>
-    
+    <div id="sponsorImage" style="display:none;background:#009688;width:200px;bottom:50px;height:240px;float: right;position:fixed;cursor: pointer;margin-right: 55px;">
+		
+		<img id="paypal" alt="" style="margin-left: 20px;display:inline-block" src="image/picture/paypal.jpg" width="160px" height="219px">
+    	<img id="wechat" alt="" style="margin-left: 20px;display: none" src="image/picture/wechat.jpg" width="160px" height="219px">
+    	<img id="qq" alt="" style="margin-left: 20px;display: none" src="image/picture/qq.jpg" width="160px" height="219px">
+    	<div style="background-color: pink;padding-bottom: 8px;padding-top: 4px;">
+			<span id="payBtn" style="float: left;margin-left: 20px;color:red" onclick="switchImg('pay')">支付宝</span>&emsp;
+			<span id="weBtn" style="float: center;margin-left: 17px;margin-right: 20px" onclick="switchImg('we')">微信</span>&emsp;
+			<span id="qqBtn" style="float: right;margin-right: 18px" onclick="switchImg('qq')">QQ</span>
+		</div>
+    </div>
+	<div style="background: pink;position:fixed;bottom:0; left:0px;width:100%;height:40px;cursor:pointer; ">
+		<div style="margin-left:50px;padding-top:6px;font-size: 13px;float: left;">
+			<span id="sponsor" onclick="tabOnItem('2')">赞赏支持</span>&nbsp;<i class="Hui-iconfont" title="赞助记录" onclick="tabOnItem('4')" style="font-size:18px">&#xe627;</i>&nbsp;|&emsp;
+			<span onclick="tabOnItem('0')">每日一句</span>&emsp;|&emsp;
+			<span onclick="tabOnItem('1')">用户使用指南</span>&emsp;|&emsp;
+			<span onclick="tabOnItem('3')" title="给作者留下你的珍贵性建议">留言作者</span>
+		</div>
+		<span style="margin-right:50px;padding-top:8px;font-size: 15px;float:right ;" onclick="mini.alert('域名正在备案进行中，暂无法使用域名访问网站！带来的不便还请见谅')">www.duola.vip © 2018~2020	&emsp;|&emsp;豫ICP备16023798号-1</span>
+		<span style="margin-right:50px;padding-top:8px;font-size: 18px;float:right ;"></span>
+		
+	</div>
     <script type="text/javascript">
         mini.parse();
         var listbox1 = mini.get("listbox1");

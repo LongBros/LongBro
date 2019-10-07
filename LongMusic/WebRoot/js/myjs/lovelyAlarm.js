@@ -329,7 +329,30 @@ function tabOnItem(which){
 		window.open("http://112.74.173.44/LongVideos/toast.jsp","_blank");
 	}else if(which=="4"){//赞助记录
 		window.open("http://112.74.173.44/LongBlog/sponsor/showSponsor.jsp","_blank");
+	}else if(which=="5"){//赞助记录
+		var statistic=document.getElementById("randomSen");
+		$.ajax({
+			url:"getAUserCounts.do",
+			type:"get",
+			success:function(data){
+				$("#randomSen").text("哆啦统计:共"+data+"位小伙伴")
+			}
+		});
+		$.ajax({
+			url:"getAlarmNums.do",
+			type:"get",
+			success:function(data){
+				$("#randomSen").append("，共创建"+data+"个闹铃");
+				mini.showTips(myAlert(""+statistic.innerText))
+			}
+		});
+		//10s后切换为原内容
+		window.setInterval("setContent()", 10000);
 	}
+}
+//设置广播内容为原本，以上6s后调用
+function setContent(){
+	document.getElementById("randomSen").innerText="\"Welcome to Doralarm Website!\"";
 }
 //19.支付宝、微信、QQ收款码切换
 function switchImg(which) {

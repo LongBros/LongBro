@@ -70,7 +70,7 @@ public class AlarmController{
     	alarm.setAMusic(music);
     	alarm.setAStatus(0);
     	alarm.setACreatetime(TimeUtil.time());
-    	if(alarmService.isAlarmExits(userId, time)){
+    	if(alarmService.getAlarmNums(userId, time)!=0){
     		return "Error!You have set this alarm before";
     	}
     	alarmService.addAlarm(alarm);
@@ -82,5 +82,16 @@ public class AlarmController{
     	//虽然说是删除，但实际是修改状态
     	alarmService.updateAStatusById(aId);
     	return "delete the alarm successfully!";
+    }
+    /**
+     * @desc 得到所有闹铃的数量
+     * @author zcl
+     * @date 2019年10月7日
+     * @return
+     */
+    @RequestMapping(value="getAlarmNums",method=RequestMethod.GET)
+    @ResponseBody
+    public Integer getAlarmNums(){
+    	return alarmService.getAlarmNums("", "");
     }
 }

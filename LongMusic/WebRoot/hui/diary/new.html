@@ -1,0 +1,402 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+<script type="text/javascript" src="../js/jquery.js"></script>
+<title>写新日记 - 哆啦日记</title>
+<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<style type="text/css">
+	body {
+		background-color: #e2e2e2;
+	}
+	article{
+		background-color:white; 
+		margin-top:20px;
+		margin-left:50px;
+		margin-right: 400px;
+	}
+	aside{
+		float: right;
+	}
+</style>
+<body>
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="">哆啦日记</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="">Ying</a> 
+			<span class="logo navbar-slogan f-l mr-10 hidden-xs">Doranote</span> 
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<nav class="nav navbar-nav">
+				<ul class="cl">
+					<li class="dropDown dropDown_hover"><a href="javascript:;" class="dropDown_A"><i class="Hui-iconfont">&#xe600;</i> 新增 <i class="Hui-iconfont">&#xe6d5;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="javascript:;" onclick="article_add('添加资讯','article-add.html')"><i class="Hui-iconfont">&#xe616;</i> 资讯</a></li>
+							<li><a href="javascript:;" onclick="picture_add('添加资讯','picture-add.html')"><i class="Hui-iconfont">&#xe613;</i> 图片</a></li>
+							<li><a href="javascript:;" onclick="product_add('添加资讯','product-add.html')"><i class="Hui-iconfont">&#xe620;</i> 产品</a></li>
+							<li><a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')"><i class="Hui-iconfont">&#xe60d;</i> 用户</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+		<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+			<ul class="cl">
+				<li id="homepage">首页</li>
+				<li class="dropDown dropDown_hover">
+					<a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+					<ul class="dropDown-menu menu radius box-shadow">
+						<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
+						<li><a href="#">切换账户</a></li>
+						<li><a href="#">退出</a></li>
+					</ul>
+				</li>
+				<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
+				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+					<ul class="dropDown-menu menu radius box-shadow">
+						<li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
+						<li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
+						<li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+						<li><a href="javascript:;" data-val="red" title="红色">红色</a></li>
+						<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+						<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>
+</header>
+
+<script> 
+$.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js',function(){  
+ alert(remote_ip_info.country);//国家  
+ alert(remote_ip_info.province);//省份  
+ alert(remote_ip_info.city);//城市  
+});  
+</script>
+
+<article class="page-container">
+	<form class="form form-horizontal" id="form-article-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-1">城市：</label>
+			<div class="formControls col-xs-8 col-sm-3">
+				<input type="text" id="location" name="location" class="input-text" value="广东省广州市" placeholder="">
+			</div>
+			<label class="form-label col-xs-4 col-sm-1">天气：</label>
+			<div class="formControls col-xs-8 col-sm-3">
+				<i class="Hui-iconfont" style="font-size:18px" title="晴">&#xe6ae;</i><!-- 晴 -->
+				<i class="Hui-iconfont" style="font-size:18px" title="雾">&#xe6af;</i>
+				<i class="Hui-iconfont" style="font-size:18px" title="霾">&#xe6ad;</i>
+				<i class="Hui-iconfont" style="font-size:18px" title="阴">&#xe6b1;</i><!-- 阴 -->
+				<i class="Hui-iconfont" style="font-size:18px" title="雨">&#xe6b2;</i><!-- 雨 -->
+				<i class="Hui-iconfont" style="font-size:18px" title="雪">&#xe6b0;</i>
+			</div>
+			<label class="form-label col-xs-4 col-sm-1">心情：</label>
+			<div class="formControls col-xs-8 col-sm-2">
+				<i class="Hui-iconfont" style="font-size:18px" title="开心">&#xe668;</i>
+				<i class="Hui-iconfont" style="font-size:18px" title="微笑">&#xe656;</i>
+				<i class="Hui-iconfont" style="font-size:18px" title="哭脸">&#xe688;</i>
+				<i class="Hui-iconfont" style="font-size:18px" title="愤怒">&#xe65d;</i>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-1">标题：</label>
+			<div class="formControls col-xs-8 col-sm-10">
+				<input type="text" class="input-text" value="" placeholder="给你的日记加个标题吧^-^(可空)" id="songName" name="songName">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-1">内容：</label>
+			<div class="formControls col-xs-8 col-sm-10">
+				<textarea rows="16" name="content" id="content" class="textarea"  placeholder="说点什么吧...最少输入10个字符"></textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/2000</p>
+			</div>
+		</div>
+		<div id="expression">
+			
+		</div>
+		<div class="row cl">
+			<div class="formControls col-xs-8 col-sm-1"></div>
+			<div class="formControls col-xs-8 col-sm-6">
+				<img alt="嗷大喵表情" title="嗷大喵表情" style="width: 18px;height: 18px" src="../../image/expre/aodamiao/weixiao.gif" onmousedown="imgAo()">
+				<img alt="小黄脸表情" title="小黄脸表情" style="width: 18px;height: 18px" src="../../image/expre/huang/wx.gif" onmouseover="closeImgHu()" onmousedown="openImgHu()">
+				<img alt="aru表情" title="aru表情" style="width: 18px;height: 18px" src="../../image/expre/aru/1.png" onmouseover="" onmousedown="">
+				<img alt="新贴吧表情" title="新贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/newtieba/a.png" onmouseover="" onmousedown="">
+				<img alt="qq表情" title="qq表情" style="width: 18px;height: 18px" src="../../image/expre/qq/aini.gif" onmouseover="" onmousedown="">
+				<img alt="贴吧表情" title="贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/tieba/a.png" onmouseover="" onmousedown="">
+				<img alt="微博表情" title="微博表情" style="width: 18px;height: 18px" src="../../image/expre/weibo/aini.png" onmouseover="" onmousedown="">
+			
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-1">评论：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<div class="check-box">
+					<input type="checkbox" id="allowcomment" name="allowcomment" value="">
+					<label for="checkbox-pinglun">&nbsp;(选中后日记可被评论)</label>
+				</div>
+			</div>
+		</div> 
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-1"><span class="c-red"></span>权限：</label>
+			<div class="formControls col-xs-8 col-sm-2"> <span class="select-box">
+				<select name="authority" class="select">
+					<option value="完全公开">完全公开</option>
+					<option value="自己可见">自己可见</option>
+					<option value="登录可见" selected="selected">登录可见</option>
+				</select>
+				</span> 
+			</div>
+			
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-1"><span class="c-red"></span>分类：</label>
+			<div class="formControls col-xs-8 col-sm-2"> 
+				<span class="select-box">
+					<select name="category" class="select">
+						<option value="完全公开">日记</option>
+						<option value="自己可见">笔记</option>
+						<option value="登录可见">idea</option>
+						<option value="登录可见">诗词(文学)</option>
+					</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<button onClick="submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交</button>
+				<!-- <button onClick="article_save();" class="btn btn-secondary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存草稿</button>
+				<button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+			 -->
+			 </div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="lib/ueditor/1.4.3/ueditor.config.js"></script> 
+<script type="text/javascript" src="lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
+<script type="text/javascript" src="lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+
+function querySongById(){
+	$.ajax({
+			type:"Get",
+			async:false,
+			url:"../querySongById.do?id="+GetQueryString("id"),
+			dataType:"Json",
+			success:function(data){
+				document.getElementById("sourceId").value=data.sourceId;
+				document.getElementById("songName").value=data.songName;
+				document.getElementById("singer").value=data.singer;
+				document.getElementById("duration").value=data.duration;
+				document.getElementById("album").value=data.album;
+				document.getElementById("lyric").innerText=data.lyric;
+			}
+	});
+}
+$(function(){
+	querySongById();
+	
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	//表单验证
+	$("#form-article-add").validate({
+		rules:{
+			articletitle:{
+				required:true,
+			},
+			articletitle2:{
+				required:true,
+			},
+			articlecolumn:{
+				required:true,
+			},
+			articletype:{
+				required:true,
+			},
+			articlesort:{
+				required:true,
+			},
+			keywords:{
+				required:true,
+			},
+			abstract:{
+				required:true,
+			},
+			author:{
+				required:true,
+			},
+			sources:{
+				required:true,
+			},
+			allowcomments:{
+				required:true,
+			},
+			commentdatemin:{
+				required:true,
+			},
+			commentdatemax:{
+				required:true,
+			},
+
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			//$(form).ajaxSubmit();
+			var index = parent.layer.getFrameIndex(window.name);
+			//parent.$('.btn-refresh').click();
+			parent.layer.close(index);
+		}
+	});
+	
+	$list = $("#fileList"),
+	$btn = $("#btn-star"),
+	state = "pending",
+	uploader;
+
+	var uploader = WebUploader.create({
+		auto: true,
+		swf: 'lib/webuploader/0.1.5/Uploader.swf',
+	
+		// 文件接收服务端。
+		server: 'fileupload.php',
+	
+		// 选择文件的按钮。可选。
+		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+		pick: '#filePicker',
+	
+		// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+		resize: false,
+		// 只允许选择图片文件。
+		accept: {
+			title: 'Images',
+			extensions: 'gif,jpg,jpeg,bmp,png',
+			mimeTypes: 'image/*'
+		}
+	});
+	uploader.on( 'fileQueued', function( file ) {
+		var $li = $(
+			'<div id="' + file.id + '" class="item">' +
+				'<div class="pic-box"><img></div>'+
+				'<div class="info">' + file.name + '</div>' +
+				'<p class="state">等待上传...</p>'+
+			'</div>'
+		),
+		$img = $li.find('img');
+		$list.append( $li );
+	
+		// 创建缩略图
+		// 如果为非图片文件，可以不用调用此方法。
+		// thumbnailWidth x thumbnailHeight 为 100 x 100
+		uploader.makeThumb( file, function( error, src ) {
+			if ( error ) {
+				$img.replaceWith('<span>不能预览</span>');
+				return;
+			}
+	
+			$img.attr( 'src', src );
+		}, thumbnailWidth, thumbnailHeight );
+	});
+	// 文件上传过程中创建进度条实时显示。
+	uploader.on( 'uploadProgress', function( file, percentage ) {
+		var $li = $( '#'+file.id ),
+			$percent = $li.find('.progress-box .sr-only');
+	
+		// 避免重复创建
+		if ( !$percent.length ) {
+			$percent = $('<div class="progress-box"><span class="progress-bar radius"><span class="sr-only" style="width:0%"></span></span></div>').appendTo( $li ).find('.sr-only');
+		}
+		$li.find(".state").text("上传中");
+		$percent.css( 'width', percentage * 100 + '%' );
+	});
+	
+	// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+	uploader.on( 'uploadSuccess', function( file ) {
+		$( '#'+file.id ).addClass('upload-state-success').find(".state").text("已上传");
+	});
+	
+	// 文件上传失败，显示上传出错。
+	uploader.on( 'uploadError', function( file ) {
+		$( '#'+file.id ).addClass('upload-state-error').find(".state").text("上传出错");
+	});
+	
+	// 完成上传完了，成功或者失败，先删除进度条。
+	uploader.on( 'uploadComplete', function( file ) {
+		$( '#'+file.id ).find('.progress-box').fadeOut();
+	});
+	uploader.on('all', function (type) {
+        if (type === 'startUpload') {
+            state = 'uploading';
+        } else if (type === 'stopUpload') {
+            state = 'paused';
+        } else if (type === 'uploadFinished') {
+            state = 'done';
+        }
+
+        if (state === 'uploading') {
+            $btn.text('暂停上传');
+        } else {
+            $btn.text('开始上传');
+        }
+    });
+
+    $btn.on('click', function () {
+        if (state === 'uploading') {
+            uploader.stop();
+        } else {
+            uploader.upload();
+        }
+    });
+	
+	var ue = UE.getEditor('editor');
+	
+});
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

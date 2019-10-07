@@ -33,9 +33,9 @@ public class AlarmServiceImpl implements AlarmService {
 		dao.addAlarm(alarm);
 	}
 	@Override
-	public boolean isAlarmExits(String userId, String time) {
+	public Integer getAlarmNums(String userId, String time) {
 		// TODO Auto-generated method stub
-		return dao.isAlarmExits(userId, time);
+		return dao.getAlarmNums(userId, time);
 	}
 	@Override
 	public void updateAStatusById(int aId) {

@@ -18,5 +18,6 @@ public interface AlarmUserService{
 	public AlarmUser getById(String userId);
 	public void addAlarmUser(AlarmUser au);
 	public void updateAlarmUser(AlarmUser au);
+	public Integer getAUserNums();
 }
 

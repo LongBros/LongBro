@@ -34,5 +34,10 @@ public class AlarmUserDaoImpl extends BaseDao implements AlarmUserDao {
 		// TODO Auto-generated method stub
 		this.update(pre+"update", au);
 	}
+	@Override
+	public Integer getAUserNums() {
+		// TODO Auto-generated method stub
+		return (Integer)this.selectOne(pre+"getUserCount",null);
+	}
 }
 

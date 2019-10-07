@@ -74,9 +74,18 @@
 	<select id="getAlarmByUserId" parameterType="java.lang.String" resultMap="Alarm">
 		select * from alarm where a_UserId=#{userId} and a_Status=0 order by a_Time asc;
 	</select>
-	<!-- 得到数量，根据数量判断某用户是否设置某个闹铃 -->
-	<select id="isAlarmExits" parameterType="java.util.Map" resultType="java.lang.Integer">
-		select count(*) from alarm where a_UserId=#{userId} and a_Time=#{time} and a_Status=0;
+	<!--  根据用户id和闹铃时间得到数量，根据数量判断某用户是否设置某个闹铃 -->
+	<select id="getAlarmNums" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) 
+		from alarm 
+		where 1=1
+		<if test="userId!=null and userId!=''">
+			and a_UserId=#{userId}
+		</if>
+		<if test="time!=null and time!=''">
+			and a_Time=#{time}
+		</if>
+		and a_Status=0;
 	</select>
 	<update id="updateAStatusById">
 		update alarm set a_Status=1 where a_Id=#{aId}
