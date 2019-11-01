@@ -13,9 +13,11 @@
 	
 	<insert id="create" parameterType="com.longbro.bean.AlarmUser">
 		INSERT INTO alarm_user
-		(a_UserId,a_UserName,a_UserSign,a_UserBack,a_CreateTime)
+		(a_UserId,a_UserName,a_UserSign,a_UserBack,a_CreateTime,a_Source)
 		VALUES 
-		(#{AUserid,jdbcType=NUMERIC}, #{AUsername,jdbcType=VARCHAR}, #{AUsersign,jdbcType=VARCHAR}, #{AUserback,jdbcType=VARCHAR}, #{ACreatetime,jdbcType=VARCHAR})
+		(#{AUserid,jdbcType=NUMERIC}, #{AUsername,jdbcType=VARCHAR}, 
+		#{AUsersign,jdbcType=VARCHAR}, #{AUserback,jdbcType=VARCHAR}, 
+		#{ACreatetime,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="get"   parameterType="java.lang.String" resultMap="AlarmUser">

@@ -51,7 +51,7 @@ function random(min, max){
 //4.随机设置背景色和开心图片
 function randBack(){
 	var colors=new Array("pink","orange","cyan","purple");//背景色
-	var backImgs=new Array("alarmBack.jpg","alarmBack1.png","back0.jpg","back1.jpg","back2.jpg","back4.jpg","back6.jpg","back28.jpg");//背景图
+	var backImgs=new Array("alarmBack.jpg","alarmBack1.png","alarmBack2.jpg","back0.jpg","back1.jpg","back2.jpg","back4.jpg","back6.jpg","back28.jpg");//背景图
 	var m=random(colors.length-1);
 	var n=random(backImgs.length-1);
 	//随机设置背景色
@@ -104,7 +104,7 @@ function minusAlarm(){
 		dataType:"Json",
 		success:function(data){
 			for(var i=0;i<data.length;i++){
-				$("#allAlarm").append("<span style='color:red;' title='提示语:"+data[i].atips+",铃声:"+getNameBySId(data[i].amusic)+"'>"+data[i].atime+"</span>&emsp;<i class='Hui-iconfont' style='font-size:18px' onclick='delAlarm("+data[i].aid+")'>&#xe6e2;</i><br>");
+				$("#allAlarm").append("<span style='color:red;' title='提示语:"+data[i].atips+"\r\r铃声:"+getNameBySId(data[i].amusic)+"'>"+data[i].atime+"</span>&emsp;<i class='Hui-iconfont' style='font-size:18px' onclick='delAlarm("+data[i].aid+")'>&#xe6e2;</i><br>");
 			}
 		}
 	});
@@ -128,8 +128,13 @@ function create(){
 		return "";
 	}
 	
-	var tip=document.newAlarm.tip.value;
-	var music=document.newAlarm.music.value;
+	var tip=document.newAlarm.tip.value+"";
+	var music=document.newAlarm.music.value+"";
+	if(tip==""||music==""){
+		mini.showTips(myAlert("请选择提示语和铃声后再创建闹铃喔^-^"));
+		return "";
+	}
+
 	var time=formatW1(hour)+":"+formatW1(minute)+":"+formatW1(second);
 //	time=encodeURI(encodeURI("&"+time));
 	$.ajax({
@@ -149,8 +154,16 @@ function create(){
 function getAlarmTime(){
 	var user=getCookie("user")+"";
 	if(user==""){//cookie中没有userId，则请求后台生成。并返回
+		var source="";
+		if (document.referrer === '') {// 当没有上一级url链接的时候，返回上一级按钮的链接改成项目首页url链接地址，这也是很符合项目逻辑的
+		    source="无";
+		}else{
+			source=document.referrer;
+		}
+		alert(source);
+
 		$.ajax({
-			url:"genUserId.do",
+			url:"genUserId.do?source="+source,
 			async:true,
 			type:"GET",
 			dataType:"text",
@@ -158,6 +171,7 @@ function getAlarmTime(){
 				//将生成的userId赋给user，并存至cookie
 				user=data;
 				setCookie("user", user);
+
 			}
 		});
 	}
@@ -184,7 +198,7 @@ function setAlarmText(user){
 					if(i!=0){
 						$("#alarm").append("、");
 					}
-					$("#alarm").append("<span style='color:red;' title='提示语:"+data[i].atips+",铃声:"+getNameBySId(data[i].amusic)+"'>"+data[i].atime+"</span>");
+					$("#alarm").append("<span style='color:red;' title='提示语:"+data[i].atips+"\r\r铃声:"+getNameBySId(data[i].amusic)+"'>"+data[i].atime+"</span>");
 				}
 				$("#array").text(as);
 			}else{
@@ -342,8 +356,8 @@ function tabOnItem(which){
 			url:"getAlarmNums.do",
 			type:"get",
 			success:function(data){
-				$("#randomSen").append("，共创建"+data+"个闹铃");
-				mini.showTips(myAlert(""+statistic.innerText))
+				$("#randomSen").append("，创建"+data+"个闹铃");
+				mini.showTips(myAlert(""+statistic.innerText));
 			}
 		});
 		//10s后切换为原内容
@@ -352,7 +366,7 @@ function tabOnItem(which){
 }
 //设置广播内容为原本，以上6s后调用
 function setContent(){
-	document.getElementById("randomSen").innerText="\"Welcome to Doralarm Website!\"";
+	document.getElementById("randomSen").innerText="\"Welcome to Doralarm!\"";
 }
 //19.支付宝、微信、QQ收款码切换
 function switchImg(which) {

@@ -7,58 +7,124 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="Bookmark" href="/favicon.ico" >
-<link rel="Shortcut Icon" href="../image/logo/dlam.jpg" />
+<link rel="Shortcut Icon" href="../../image/logo/dlam.jpg" />
 <!--[if lt IE 9]>
 <script type="text/javascript" src="lib/html5shiv.js"></script>
 <script type="text/javascript" src="lib/respond.min.js"></script>
 <![endif]-->
+<link rel="stylesheet" type="text/css" href="../../css/index1.css">
+
 <link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
 <link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
+
+<script type="text/javascript" src="js/index.js"></script>
+
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 <title>哆啦日记-不仅仅是怀旧</title>
-<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+<meta name="keywords" content="">
+<meta name="description" content="">
 </head>
+<style type="text/css">
+	body {
+		background-color: #e2e2e2;
+	}
+	.contents{
+		width: 55%;
+		margin-left: 420px;
+		margin-top: 30px;
+		background:white ;
+	}
+	.diarys{
+	}
+	
+	.diary{
+		padding: 10px;
+		background-color: white;
+		padding-bottom: 5px;
+		cursor: pointer;
+	}
+	.diary img{
+		width: 20px;
+		height: 24px;
+		padding: 1px;
+	}
+	.diarys .touxiang{
+		width: 50px;
+		height: 44px;
+		padding: 1px;
+		border-radius:5px;
+	}
+	.rights{
+		top: 75px;
+		left:38px;
+		width:356px;
+		position:fixed;
+		float: right;
+		background:white;
+	}
+	.website{
+		margin-left: 10px;
+	}
+	.statistic{
+		margin-left: 10px;
+	}
+	.newer{
+		margin-left: 10px;
+		margin-bottom: 20px;
+	}
+	.info{
+		color: gray;
+		font-size: 10px;
+	}
+	.zan{
+		float:right;
+		margin-right: 15px;
+	}
+	.pages{
+		vertical-align: middle;
+		text-align: center;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+	.pages span{
+		width:30px;
+		height:30px;
+		text-align:center;
+		line-height:30px;
+		display:inline-block;
+		background-color:#e2e2e2; 
+	}
+</style>
 <body>
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
 		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">哆啦日记</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">Ying</a> 
 			<span class="logo navbar-slogan f-l mr-10 hidden-xs">Doranote</span> 
 			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
-			<nav class="nav navbar-nav">
-				<ul class="cl">
-					<li class="dropDown dropDown_hover"><a href="javascript:;" class="dropDown_A"><i class="Hui-iconfont">&#xe600;</i> 新增 <i class="Hui-iconfont">&#xe6d5;</i></a>
-						<ul class="dropDown-menu menu radius box-shadow">
-							<li><a href="javascript:;" onclick="article_add('添加资讯','article-add.html')"><i class="Hui-iconfont">&#xe616;</i> 资讯</a></li>
-							<li><a href="javascript:;" onclick="picture_add('添加资讯','picture-add.html')"><i class="Hui-iconfont">&#xe613;</i> 图片</a></li>
-							<li><a href="javascript:;" onclick="product_add('添加资讯','product-add.html')"><i class="Hui-iconfont">&#xe620;</i> 产品</a></li>
-							<li><a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')"><i class="Hui-iconfont">&#xe60d;</i> 用户</a></li>
-					</ul>
-				</li>
-			</ul>
-		</nav>
-		<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+				<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
 			<ul class="cl">
-				<li>超级管理员</li>
+				<li><a href="new.html">写日记</a></li>
 				<li class="dropDown dropDown_hover">
 					<a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
-						<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
-						<li><a href="#">切换账户</a></li>
-						<li><a href="#">退出</a></li>
+						<li><a href="javascript:;" onClick="openNewPage('2')">我的家园</a></li>
+						<li><a href="javascript:;" onClick="openNewPage('3')">写日记</a></li>
+						<li><a href="javascript:;" onClick="openNewPage('4')">哆啦闹铃</a></li>
+						<li><a class="login" id="login" style="display:block">登录</a></li>
+						<li><a href="javascript:;" onClick="openNewPage('6')" class="login">退出</a></li>
 				</ul>
 			</li>
-				<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
+				<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger" id="unReadNum">5</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
 				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
-						<li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
-						<li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
+						<li><a href="javascript:;" data-val="default" title="黑色">默认（黑色）</a></li>
+						<li><a href="javascript:;" data-val="blue" title="默认（蓝色）">蓝色</a></li>
 						<li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
 						<li><a href="javascript:;" data-val="red" title="红色">红色</a></li>
 						<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
@@ -70,121 +136,74 @@
 	</div>
 </div>
 </header>
-<aside class="Hui-aside">
-	<div class="menu_dropdown bk_2">
-		<dl id="menu-article">
-			<dt><i class="Hui-iconfont">&#xe616;</i> 账单管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<dd>
-				<ul>
-					<li><a data-href="l-account-list.html" data-title="账单列表" href="javascript:void(0)">账单列表</a></li>
-					<li><a data-href="charts-1.html" data-title="折线图" href="javascript:void(0)">折线图</a></li>
-					<li><a data-href="charts-4.html" data-title="柱状图" href="javascript:void(0)">柱状图</a></li>
-					<li><a data-href="charts-5.html" data-title="饼状图" href="javascript:void(0)">饼状图</a></li>
-				</ul>
-			</dd>
-		</dl>
-		<dl id="menu-picture">
-			<dt><i class="Hui-iconfont">&#xe720;</i> 文章管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<dd>
-				<ul>
-					<li><a data-href="l-article-list.html" data-title="文章管理" href="javascript:void(0)">文章列表</a></li>
-				</ul>
-			</dd>
-		</dl>
-		<dl id="menu-product">
-			<dt><i class="Hui-iconfont">&#xe60f;</i> 音乐管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<dd>
-				<ul>
-					<li><a data-href="l-song-list.html" data-title="歌曲列表" href="javascript:void(0)">歌曲列表</a></li>
-					<li><a data-href="l-play-list.html" data-title="歌单列表" href="javascript:void(0)">歌单列表</a></li>
-					<li><a data-href="product-list.html" data-title="产品管理" href="javascript:void(0)">产品管理</a></li>
-				</ul>
-			</dd>
-		</dl>
-		<dl id="menu-comments">
-			<dt><i class="Hui-iconfont">&#xe622;</i> 评论管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<dd>
-				<ul>
-					<li><a data-href="l-comment-list.html" data-title="评论列表" href="javascript:;">评论列表</a></li>
-					<li><a data-href="feedback-list.html" data-title="意见反馈" href="javascript:void(0)">意见反馈</a></li>
-			</ul>
-		</dd>
-	</dl>
-		<dl id="menu-member">
-			<dt><i class="Hui-iconfont">&#xe60d;</i> 会员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<dd>
-				<ul>
-					<li><a data-href="member-list.html" data-title="会员列表" href="javascript:;">会员列表</a></li>
-					<li><a data-href="member-del.html" data-title="删除的会员" href="javascript:;">删除的会员</a></li>
-					<li><a data-href="member-level.html" data-title="等级管理" href="javascript:;">等级管理</a></li>
-					<li><a data-href="member-scoreoperation.html" data-title="积分管理" href="javascript:;">积分管理</a></li>
-					<li><a data-href="member-record-browse.html" data-title="浏览记录" href="javascript:void(0)">浏览记录</a></li>
-					<li><a data-href="member-record-download.html" data-title="下载记录" href="javascript:void(0)">下载记录</a></li>
-					<li><a data-href="member-record-share.html" data-title="分享记录" href="javascript:void(0)">分享记录</a></li>
-			</ul>
-		</dd>
-	</dl>
-		<dl id="menu-admin">
-			<dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<dd>
-				<ul>
-					<li><a data-href="admin-role.html" data-title="角色管理" href="javascript:void(0)">角色管理</a></li>
-					<li><a data-href="admin-permission.html" data-title="权限管理" href="javascript:void(0)">权限管理</a></li>
-					<li><a data-href="admin-list.html" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
-			</ul>
-		</dd>
-	</dl>
-		<dl id="menu-tongji">
-			<dt><i class="Hui-iconfont">&#xe61a;</i> 系统统计<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<dd>
-				<ul>
-					<li><a data-href="charts-2.html" data-title="时间轴折线图" href="javascript:void(0)">时间轴折线图</a></li>
-					<li><a data-href="charts-3.html" data-title="区域图" href="javascript:void(0)">区域图</a></li>
-					<li><a data-href="charts-6.html" data-title="3D柱状图" href="javascript:void(0)">3D柱状图</a></li>
-					<li><a data-href="charts-7.html" data-title="3D饼状图" href="javascript:void(0)">3D饼状图</a></li>
-			</ul>
-		</dd>
-	</dl>
-		<dl id="menu-system">
-			<dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-			<dd>
-				<ul>
-					<li><a data-href="system-base.html" data-title="系统设置" href="javascript:void(0)">系统设置</a></li>
-					<li><a data-href="system-category.html" data-title="栏目管理" href="javascript:void(0)">栏目管理</a></li>
-					<li><a data-href="system-data.html" data-title="数据字典" href="javascript:void(0)">数据字典</a></li>
-					<li><a data-href="system-shielding.html" data-title="屏蔽词" href="javascript:void(0)">屏蔽词</a></li>
-					<li><a data-href="system-log.html" data-title="系统日志" href="javascript:void(0)">系统日志</a></li>
-			</ul>
-		</dd>
-	</dl>
-</div>
-</aside>
-<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
-<section class="Hui-article-box">
-	<div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
-		<div class="Hui-tabNav-wp">
-			<ul id="min_title_list" class="acrossTab cl">
-				<li class="active">
-					<span title="我的桌面" data-href="welcome.html">我的桌面</span>
-					<em></em></li>
-		</ul>
-	</div>
-		<div class="Hui-tabNav-more btn-group"><a id="js-tabNav-prev" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d4;</i></a><a id="js-tabNav-next" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d7;</i></a></div>
-</div>
-	<div id="iframe_box" class="Hui-article">
-		<div class="show_iframe">
-			<div style="display:none" class="loading"></div>
-			<iframe scrolling="yes" frameborder="0" src="welcome.html"></iframe>
-	</div>
-</div>
-</section>
 
-<div class="contextMenu" id="Huiadminmenu">
-	<ul>
-		<li id="closethis">关闭当前 </li>
-		<li id="closeall">关闭全部 </li>
-</ul>
+<div class="modal fade" id="loginModal" style="display:none;">
+			<div class="modal-dialog modal-sm" style="width:540px;">
+				<div class="modal-content" style="border:none;">
+					<div class="col-left"></div>
+					<div class="col-right">
+						<div class="modal-header">
+							<button type="button" id="login_close" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="loginModalLabel" style="font-size: 18px;">登录</h4>
+						</div>
+						<div class="modal-body">
+							<section class="box-login v5-input-txt" id="box-login">
+								<form id="login_form" name="login_form" action="" method="post" autocomplete="off">
+									
+									<ul>
+										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入邮箱账号/手机号" type="text"></li>
+										<li class="form-group"><input class="form-control" id="id_password_l" name="password_l" placeholder="请输入密码" type="password"></li>
+									</ul>
+								</form>
+								<p class="good-tips marginB10"><a id="btnForgetpsw" class="fr">忘记密码？</a>还没有账号？<a href="javascript:;" target="_blank" id="btnRegister">立即注册</a></p>
+								<div class="login-box marginB10">
+									<button id="login_btn" type="button" onclick="login()" class="btn btn-micv5 btn-block globalLogin">登录</button>
+									<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+								</div>
+<!-- 								<div class="threeLogin"><span>其他方式登录</span><a class="nqq" href="javascript:;"></a><a class="nwx" href="javascript:;"></a><a class="nwb"></a></div>
+ -->							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>	
+
+<div class="contents">
+	<div class="pages" style="cursor: pointer;">
+	</div>
+	<div class="diarys" id="diarys">
+		<div class="diary" >
+			我是内容<br>
+			LongBro	2019-10-12 23:00:52 星期六 |《我又想你了》  广东省广州市
+			<div class="zan">
+				<i class="Hui-iconfont">&#xe725;</i>2000&nbsp;
+				<i class="Hui-iconfont">&#xe622;</i>66&nbsp;
+				<i class="Hui-iconfont">&#xe66d;</i>8
+			</div>
+		</div>
+	</div>
+	<div class="pages" style="cursor: pointer;">
+	</div>
 </div>
+
+<div class="rights">
+	<div class="website">
+		&emsp;哆啦日记<br>
+		哆啦日记，不仅仅是怀旧；哆啦日记，记录你生活的点点滴滴；哆啦日记，记录你生活的每一个
+		小细节！<br>www.duola.vip<br><br>
+	</div><div class="statistic">
+		&emsp;哆啦统计<br>在线人数：8888<br>用户数：888888<br>
+		今日笔记：88<br>总日记数：8888888<br><br>
+	</div>
+	<div class="newer">
+		&emsp;新人榜<br>LongBro<br>江湖英雄<br>哆啦1号<br>哆啦2号<br>
+		哆啦3号<br>传说<br>Superheroes<br>超级英雄<br>爱情算什么东东
+		<br>世上无难事，只怕有心人
+	</div>
+</div>
+
+
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
@@ -194,7 +213,26 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="../lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
 <script type="text/javascript">
+
+$(".login").on("click", login_popup),function() {
+    var e = [];
+    $(".modal").on("show.bs.modal",
+    function() {
+        for (var s = 0; e.length > s; s++) e[s] && (e[s].modal("hide"), e[s] = null);
+        e.push($(this));
+        var o = $(this),
+        a = o.find(".modal-dialog"),
+        t = $('<div style="display:table; width:100%; height:100%;"></div>');
+        t.html('<div style="vertical-align:middle; display:table-cell;"></div>'),
+        t.children("div").html(a),
+        o.html(t)
+    })
+} ();
+var curPage=1;
 $(function(){
+	loadDiary('1');//分页加载日记
+	setPage();//根据日记数量设置分页
+	//initUnReadMessage();//加载当前登录用户有多少未读喜欢
 	/*$("#min_title_list li").contextMenu('Huiadminmenu', {
 		bindings: {
 			'closethis': function(t) {
@@ -222,51 +260,164 @@ function myselfinfo(){
 	});
 }
 
-/*资讯-添加*/
-function article_add(title,url){
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url
-	});
-	layer.full(index);
-}
-/*图片-添加*/
-function picture_add(title,url){
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url
-	});
-	layer.full(index);
-}
-/*产品-添加*/
-function product_add(title,url){
-	var index = layer.open({
-		type: 2,
-		title: title,
-		content: url
-	});
-	layer.full(index);
-}
-/*用户-添加*/
-function member_add(title,url,w,h){
-	layer_show(title,url,w,h);
-}
+/*根据页码加载日记*/
+function loadDiary(page){
+	$("#diarys").text("");
+	$.ajax({
+		url:"../../getDiaryBy.do?page="+page,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+			for(var i=0;i<data.length;i++){
+				//处理内容和标题
+				var title=data[i].ntitle+"";
+				var con=handleCon(data[i].ncontent);
+				console.log(con);
 
-
+				if(con.length>50){
+					//con=con.substring(0,50)+"...";
+				}
+				if(title.length>10){
+					title=title.substring(0,8)+"...";
+				}
+				//分类
+				var cate=getCateById(data[i].ntype);
+				$("#diarys").append("<div class=\"diary\"><img src='../../image/tx/"+data[i].headImage+".jpg' class='touxiang'><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
+				+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+data[i].userName
+				+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
+				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation
+				+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i>10&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
+				+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
+				+"</div><hr width='740px'>");
+			}
+		}
+	});
+	curPage=parseInt(page);
+	setPage();
+}
+/*根据分类id得到分类名*/
+function getCateById(id){
+	var cate="0";
+	if(id=="0"){
+		cate="生活日记";
+	}else if(id=="1"){
+		cate="工作笔记";
+	}else if(id=="2"){
+		cate="idea";
+	}else if(id=="3"){
+		cate="诗词(文学)";
+	}
+	return cate;
+}
+/*处理日记内容*/
+function handleCon(content){
+	var reg=/<[^<>]+>/g ;
+	var con=content+"";
+	con=con.replace(reg, "");
+	con=con.replace(new RegExp("::::","gm"), ".jpg'>");
+	con=con.replace(new RegExp(":::","gm"), ".png'>");
+	con=con.replace(new RegExp("::","gm"), ".gif'>");
+	con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='../../image/expre/newtieba/");
+	con=con.replace(new RegExp("<<","gm"), "<img alt='' src='../../image/expre/tieba/");
+	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='../../image/expre/weibo/");
+	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='../../image/expre/huang/");
+	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
+	return con;
+}
+/*打开其他的界面：作者、某日记*/
+function openOther(type,value){
+	if(type==0){
+		window.open("diary.html?id="+value, "_blank")
+	}else if(type==1){
+		window.open("author.html?author="+value, "_blank")
+	}
+}
+/*根据日记数量初始化页码按钮*/
+function setPage(){
+	$(".pages").text('');
+	var num=0;
+	$.ajax({
+		url:"../../getDiaryNumBy.do",
+		type:"get",
+		async:false,
+		data:{
+			
+		},
+		dataType:"text",
+		success:function(data){
+			num=data;
+		}
+	});
+	var page=0;
+	if(num%10==0){//可整除的话，页码数为总日记数除以10
+		page=num/10;
+	}else{//不可整除的话，页码数为总日记数除以10加1
+		page=parseInt(num/10)+1;
+	}
+	$(".pages").append("共"+num+"篇日记&emsp;");
+	if(curPage!=1){
+		$(".pages").append("<span onclick=\"loadDiary('1')\">首</span>&emsp;")
+		$(".pages").append("<span onclick=\"loadDiary('"+(curPage-1)+"')\">←</span>&emsp;");
+	}
+	if(page>5){//多于6页，只显示6页
+		if(curPage>page-5){//当前页码大于总页码-6，输出后六页
+			for(var i=page-4;i<=page;i++){
+	              if(i==curPage){
+	  				   $(".pages").append("<span onclick=\"loadDiary('"+i+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+		          }else{
+					   $(".pages").append("<span onclick=\"loadDiary('"+i+"')\">"+i+"</span>&emsp;")
+	         	  }
+	        }
+		}else{//当前页码小于总页码-6，输出当前页码后的六页
+            for(var i=curPage;i<curPage+5;i++){
+                if(i==curPage){
+	  				   $(".pages").append("<span onclick=\"loadDiary('"+i+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+                }else{
+					   $(".pages").append("<span onclick=\"loadDiary('"+i+"')\">"+i+"</span>&emsp;")
+                }
+            }
+         }
+		
+	}else{
+		for(var i=1;i<=page;i++){
+			if(curPage==i){
+				$(".pages").append("<span onclick=\"loadDiary('"+i+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+			}else{
+				$(".pages").append("<span onclick=\"loadDiary('"+i+"')\">"+i+"</span>&emsp;")
+			}
+		}
+	}
+	if(curPage+1<=page){//＜＞
+		$(".pages").append("<span onclick=\"loadDiary('"+(curPage+1)+"')\">→</span>&emsp;")
+		$(".pages").append("<span onclick=\"loadDiary('"+page+"')\">尾</span>&emsp;")
+	}
+}
+//2019-10-26	加载当前登录用户有多少未读喜欢、收藏、被关注等消息
+function initUnReadMessage(){
+	
+	$.ajax({
+		url:"../../getPraiseNum.do?PPraised=",
+		type:"get",
+		async:false,
+		dataType:"text",
+		success:function(data){
+			document.getElementById("unReadNum").innerText=data;
+		}
+	});
+}
+//打开新页面
+function openNewPage(which){
+	if(which=="2"){
+		window.open("myHome.html", "_blank")
+	}else if(which=="3"){
+		window.open("new.html", "_blank")
+	}else if(which=="4"){
+		window.open("http://112.74.173.44/LongMusic/index0.jsp", "_blank")
+	}else if(which=="5"){
+		alert("login")
+	}
+}
 </script> 
-
-<!--此乃百度统计代码，请自行删除-->
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-<!--/此乃百度统计代码，请自行删除-->
 </body>
 </html>

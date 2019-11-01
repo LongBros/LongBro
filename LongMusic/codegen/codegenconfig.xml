@@ -11,30 +11,25 @@
 
     <templates>
         <template id="dao" path="dao.ftl"/>
-        <template id="daoImpl" path="DaoImpl.ftl"/>
         <template id="service"  path="service.ftl"/>
-        <template id="serviceImpl"  path="serviceImpl.ftl"/>
         <template id="mapping"  path="mapping.ftl"/>
         <template id="entity"  path="entity.ftl"/>
         <template id="controller" path="controller.ftl" />
     </templates>
 
     <files baseDir="D:\aaaaaaa\LongBro\LongMusic\src">
-        <file refTemplate="mapping" filename="{class}.map.xml" dir="{system}\{domain}\bean"
+        <file refTemplate="mapping" filename="{class}.map.xml" dir="{system}\{domain}\{package}\bean"
               sub="true" override="true"/>
-        <file refTemplate="dao" filename="{class}Dao.java" dir="{system}\{domain}\dao" sub="true"  override="true"/>
-        <file refTemplate="daoImpl" filename="{class}DaoImpl.java" dir="{system}\{domain}\dao\impl" sub="true"  override="true"/>
-    	<file refTemplate="service" filename="{class}Service.java" dir="{system}\{domain}\service" sub="true"  override="true"/>
-        <file refTemplate="serviceImpl" filename="{class}ServiceImpl.java" dir="{system}\{domain}\service\impl" sub="true"  override="true"/>
-
-        <file refTemplate="entity" filename="{class}.java" dir="{system}\{domain}\bean"
+        <file refTemplate="dao" filename="{class}Dao.java" dir="{system}\{domain}\{package}\dao" sub="true"  override="true"/>
+    	<file refTemplate="service" filename="{class}Service.java" dir="{system}\{domain}\{package}\service" sub="true"  override="true"/>
+        <file refTemplate="entity" filename="{class}.java" dir="{system}\{domain}\{package}\bean"
               sub="true" override="true"/>
         <file refTemplate="controller" filename="{class}Controller.java"
-            dir="{system}\{domain}\controller" sub="false" override="true"/>
+            dir="{system}\{domain}\{package}\controller" sub="false" override="true"/>
        
    </files>
-    <table tableName="alarm_user">
-        <variable name="class" value="AlarmUser" />
-        <variable name="package" value="" />
+    <table tableName="d_user_info">
+        <variable name="class" value="UserInfo" />
+        <variable name="package" value="note" />
     </table>
 </config>

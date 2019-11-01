@@ -64,6 +64,7 @@ public class SongController {
 		map.put("website", request.getParameter("website"));
 		map.put("descr", request.getParameter("descr"));
 		map.put("time", request.getParameter("time"));
+		map.put("lyric",DownloadUtil.spideLyric(request.getParameter("sourceId")));
 		System.out.print(getClassName()+".addSong:"+request.getParameter("time"));
 		Song song=service.querySongBySId(request.getParameter("sourceId"));
 		if(song!=null){

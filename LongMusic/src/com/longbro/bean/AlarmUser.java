@@ -20,6 +20,7 @@ public class AlarmUser {
 	protected String ATips;
 	protected String AUserback; 
 	protected String ACreatetime; 
+	private String source;//2019-10-18用户来源
 	public Integer getAUserid() {
 		return this.AUserid;
 	}
@@ -92,6 +93,16 @@ public class AlarmUser {
 	 */
 	public String getACreatetime() {
 		return this.ACreatetime;
+	}
+
+
+	public String getSource() {
+		return source;
+	}
+
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 	
 }

@@ -83,9 +83,10 @@
 			and a_UserId=#{userId}
 		</if>
 		<if test="time!=null and time!=''">
-			and a_Time=#{time}
+			and a_Time=#{time} and a_Status=0<!-- 参数不为空时指定查启用状态的 -->
 		</if>
-		and a_Status=0;
+		;
+		
 	</select>
 	<update id="updateAStatusById">
 		update alarm set a_Status=1 where a_Id=#{aId}

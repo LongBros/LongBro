@@ -18,7 +18,6 @@
 <#if (model.sub)>
 	<#assign foreignField=model.foreignKey?lower_case>
 </#if>
-
 package ${system}.${domain}.${package}.bean;
 /**
  *  
@@ -36,9 +35,7 @@ public class ${class}{
 	<#list commonList as col>
 	<#assign colName=func.convertUnderLine(col.columnName)>
 	<#if func.isExcludeField( colName) >
-	@FieldDefine(title = "${col.comment}")
-	@Column(name = "${col.columnName}")
-	protected ${col.colType} ${colName}; 
+	protected ${col.colType} ${colName}; //${col.comment}
 	</#if>
 	</#list>
 	
@@ -52,16 +49,12 @@ public class ${class}{
 	</#list>
 	</#if>
 	
-	
 	public ${pkModel.colType} get${func.convertUnderLine(pkModel.columnName)?cap_first}() {
 		return this.${func.convertUnderLine(pkModel.columnName)};
 	}
-
-	
 	public void set${func.convertUnderLine(pkModel.columnName)?cap_first}(${pkModel.colType} aValue) {
 		this.${func.convertUnderLine(pkModel.columnName)} = aValue;
 	}
-	
 	<#list commonList as col>
 	<#assign colName=func.convertUnderLine(col.columnName)>
 	<#if func.isExcludeField( colName) >

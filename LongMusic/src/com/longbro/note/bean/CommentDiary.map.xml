@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.CommentDiary">
+	<resultMap id="CommentDiary" type="com.longbro.note.bean.CommentDiary">
+		<id property="CId" column="c_Id" jdbcType="NUMERIC"/>
+		<result property="CReviewedDiary" column="c_Reviewed_Diary" jdbcType="VARCHAR"/>
+		<result property="CComment" column="c_Comment" jdbcType="VARCHAR"/>
+		<result property="CReviewer" column="c_Reviewer" jdbcType="VARCHAR"/>
+		<result property="CReviewed" column="c_Reviewed" jdbcType="VARCHAR"/>
+		<result property="CReviewTime" column="c_Review_Time" jdbcType="VARCHAR"/>
+		<result property="CReadStatus" column="c_Read_Status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.CommentDiary">
+		INSERT INTO d_comment
+		(c_Id,c_Reviewed_Diary,c_Comment,c_Reviewer,c_Reviewed,c_Review_Time,c_Read_Status)
+		VALUES 
+		(#{CId,jdbcType=NUMERIC}, #{CReviewedDiary,jdbcType=VARCHAR}, #{CComment,jdbcType=VARCHAR}, #{CReviewer,jdbcType=VARCHAR}, #{CReviewed,jdbcType=VARCHAR}, #{CReviewTime,jdbcType=VARCHAR}, #{CReadStatus,jdbcType=NUMERIC})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="CommentDiary">
+		SELECT * FROM d_comment 
+		WHERE 
+		c_Id=#{CId}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="CommentDiary">
+		SELECT * FROM d_comment
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY c_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.CommentDiary">
+		UPDATE d_comment
+        <set>
+			<if test="CReviewedDiary != null">
+				c_Reviewed_Diary=#{CReviewedDiary,jdbcType=VARCHAR},
+			</if>
+			<if test="CComment != null">
+				c_Comment=#{CComment,jdbcType=VARCHAR},
+			</if>
+			<if test="CReviewer != null">
+				c_Reviewer=#{CReviewer,jdbcType=VARCHAR},
+			</if>
+			<if test="CReviewed != null">
+				c_Reviewed=#{CReviewed,jdbcType=VARCHAR},
+			</if>
+			<if test="CReviewTime != null">
+				c_Review_Time=#{CReviewTime,jdbcType=VARCHAR},
+			</if>
+			<if test="CReadStatus != null">
+				c_Read_Status=#{CReadStatus,jdbcType=NUMERIC}
+			</if>
+		</set>
+		WHERE
+		c_Id=#{CId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM d_comment 
+		WHERE
+		c_Id=#{CId}
+	</delete>
+	
+	
+</mapper>

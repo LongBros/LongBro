@@ -9,26 +9,31 @@
 <#assign foreignKey=func.convertUnderLine(model.foreignKey)>
 <#assign pkType=func.getPkType(model)>
 <#assign fkType=func.getFkType(model)>
-
-
 package ${system}.${domain}.${package}.dao;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import ${system}.${domain}.${package}.bean.${class};
+import ${system}.${domain}.${package}.dao.${class}Dao;
+import ${system}.${domain}.common.BaseDao;
+
+import org.springframework.stereotype.Repository;
 /**
- * 
- * <pre> 
- * 描述：${comment} DAO接口
+ * 描述：${comment} 
  <#if vars.developer?exists>
  * 作者:${vars.developer}
  </#if>
  * 日期:${date?string("yyyy-MM-dd HH:mm:ss")}
  * 版权：${vars.company}
- * </pre>
  */
-public interface ${class}Dao{
-	
+@Repository
+public class ${class}Dao extends BaseDao{
+
+	public String getNamespace() {
+		return ${class}.class.getName();
+	}
+	public void create(${class} bean) {
+		// TODO Auto-generated method stub
+		this.insert(getNamespace()+".create", bean);
+	}
 }
 

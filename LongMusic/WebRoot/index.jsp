@@ -17,7 +17,6 @@
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<link rel="stylesheet" type="text/css" href="css/index1.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">	
-	<script type="text/javascript" src="js/common.js"></script>
   </head>
   <style>
     table{

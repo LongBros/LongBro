@@ -67,7 +67,7 @@
 		签名:<input id="sign" class="mini-textbox" style="width: 160px;" name="sign">
 		<center><a onclick="mini.alert('个人信息编辑模块暂未开启')">提交</a></center>
 	</form>
-	<div class="randomSen" id="randomSen">"Welcome to Doralarm Website!"</div>
+	<div class="randomSen" id="randomSen">"Welcome to Doralarm!"</div>
      <center>
 		<div class="remark">
 			<div id="array" style="display: none;"></div>
@@ -150,7 +150,7 @@
 			</dl>
 		</div>
 	</div>
-	<div id="sponsorImage" style="display:none;background:white;width:200px;bottom:50px;height:240px;position:relative;cursor: pointer;margin-right: 55px;float: right;">
+    <div id="sponsorImage" style="display:none;background:#009688;width:200px;bottom:50px;height:240px;position:fixed;cursor: pointer;">
 		
 		<img id="paypal" alt="" style="margin-left: 20px;display:inline-block" src="image/picture/paypal.jpg" width="160px" height="219px">
     	<img id="wechat" alt="" style="margin-left: 20px;display: none" src="image/picture/wechat.jpg" width="160px" height="219px">
@@ -162,15 +162,15 @@
 		</div>
     </div>
 	<div style="background: #fff;position:fixed;bottom:0; left:0px;width:100%;height:40px;cursor:pointer; ">
-		<span style="margin-left:50px;padding-top:8px;font-size: 15px;float: left;" onclick="mini.alert('域名正在备案进行中，暂无法使用域名访问网站！带来的不便还请见谅')">www.duola.vip © 2018~2020	&emsp;|&emsp;豫ICP备16023798号-1</span>
-		<span style="margin-left:50px;padding-top:8px;font-size: 18px;float: left;"></span>
-		<div style="margin-right:50px;padding-top:6px;font-size: 13px;float: right;">
+		
+		<div style="margin-left:50px;padding-top:6px;font-size: 13px;float: left;">
+			<span id="sponsor" onclick="tabOnItem('2')">赞赏支持</span>&nbsp;<i class="Hui-iconfont" title="赞助记录" onclick="tabOnItem('4')" style="font-size:18px">&#xe627;</i>&nbsp;|&emsp;
 			<span onclick="tabOnItem('0')">每日一句</span>&emsp;|&emsp;
 			<span onclick="tabOnItem('1')">用户使用指南</span><img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif">|&emsp;
-			<span id="sponsor" onclick="tabOnItem('2')">赞赏支持</span>&nbsp;<i class="Hui-iconfont" title="赞助记录" onclick="tabOnItem('4')" style="font-size:18px">&#xe627;</i>&nbsp;|&emsp;
 			<span onclick="tabOnItem('3')" title="给作者留下你的珍贵性建议">留言作者</span>&emsp;|&emsp;
 			<span onclick="tabOnItem('5')">哆啦统计</span><img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif">
 		</div>
+		<span style="margin-right:50px;padding-top:8px;font-size: 15px;float: right;" onclick="mini.alert('域名正在备案进行中，暂无法使用域名访问网站！带来的不便还请见谅')">www.duola.vip © 2018~2020	&emsp;|&emsp;豫ICP备16023798号-1</span>
 	</div>
 </body>
 </html>

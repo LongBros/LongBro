@@ -1,0 +1,467 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="../../image/logo/dlam.jpg" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
+<script type="text/javascript" src="js/index.js"></script><!-- 获取当前登录用户 -->
+<script type="text/javascript" src="../../js/myjs/timeDeal.js"></script><!-- 时间处理函数 -->
+<script type="text/javascript" src="js/new.js"></script>
+
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>哆啦日记-不仅仅是怀旧</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+</head>
+<style type="text/css">
+	body {
+		background-color: #e2e2e2;
+	}
+	.contents{
+		width: 880px;
+		margin-left: 420px;
+		background:white ;
+	}
+	.diary{
+		width: 800px;
+		margin-left: 10px;
+		margin-top: 30px;
+		
+	}
+	.diary img{
+		width: 20px;
+		height: 24px;
+		padding: 1px;
+	}
+	.info{
+		color: gray;
+		font-size: 10px;
+	}
+	.zan{
+		float:right;
+		margin-right: 15px;
+	}
+	.rights{
+		top: 75px;
+		left:38px;
+		width:356px;
+		position:fixed;
+		float: right;
+		background:white;
+		height: 520px;
+	}
+	.rights img{
+		width: 124px;
+		height: 180px;
+		padding: 1px;
+		margin-left:20px;
+		margin-top:20px;
+		border-radius:5px;
+	}
+	.rights .perStatistic{
+		padding-left: 20px;
+		margin-top: 10px;
+		padding-bottom: 10px;
+	}
+	.rights .perInfo{
+		padding-left: 20px;
+		margin-top: 10px;
+		padding-bottom: 10px;
+	}
+	.rights .activeInfo{
+		padding-left: 20px;
+		margin-top: 20px;
+	}
+	.content{
+		padding-left:40px;
+		margin-top: 20px;
+	}
+	.praiseAStore{
+		text-align: center;
+		margin-top: 20px;
+	}
+	.comment{
+		margin-left: 20px;
+		margin-bottom: 20px;r
+	}
+</style>
+<body>
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">哆啦日记</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">Ying</a> 
+			<span class="logo navbar-slogan f-l mr-10 hidden-xs">Doranote</span> 
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+				<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+			<ul class="cl">
+				<li>写日记</li>
+				<li class="dropDown dropDown_hover">
+					<a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+					<ul class="dropDown-menu menu radius box-shadow">
+						<li><a href="javascript:;" onClick="myselfinfo()">我的家园</a></li>
+						<li><a href="#">写笔记</a></li>
+						<li><a href="#">退出</a></li>
+				</ul>
+			</li>
+				<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
+				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+					<ul class="dropDown-menu menu radius box-shadow">
+						<li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
+						<li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
+						<li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+						<li><a href="javascript:;" data-val="red" title="红色">红色</a></li>
+						<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+						<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>
+</header>
+<div class="contents">
+	<div class="diary" id="diary">
+		LongBro	2019-10-12 23:00:52 星期六 |《我又想你了》  广东省广州市
+		<div class="zan">
+			<i class="Hui-iconfont">&#xe725;</i>2000&nbsp;
+			<i class="Hui-iconfont">&#xe622;</i>66&nbsp;
+			<i class="Hui-iconfont">&#xe66d;</i>8
+		</div>
+		我是内容<br>
+	</div>
+	<div class="praiseAStore">
+		<i class="Hui-iconfont" id="praise" onclick="praise()" title="点赞" style="font-size: 33px;cursor: pointer;">&#xe649;</i>
+  &emsp;<i class="Hui-iconfont" id="store" onclick="store()" title="收藏" style="font-size: 33px;cursor: pointer;">&#xe69e;</i>
+	</div>
+	<div class="comment">
+		<div class="row cl">
+			<div class="formControls col-xs-8 col-sm-10">
+				<textarea rows="16" name="content" id="content" class="textarea" onkeyup="calcInput()" placeholder="期待你的神评喔..."></textarea>
+				<p class="textarea-numberbar"><em class="textarea-length" id="inputNum">0</em>/2000</p>
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="formControls col-xs-8 col-sm-6">
+				<img alt="嗷大喵表情" title="嗷大喵表情" style="width: 18px;height: 18px" src="../../image/expre/aodamiao/weixiao.gif" onmousedown="oocImage('0')">
+				<img alt="小黄脸表情" title="小黄脸表情" style="width: 18px;height: 18px" src="../../image/expre/huang/wx.gif" onmouseover="closeImgHu()" onmousedown="oocImage('1')">
+				<!-- <img alt="aru表情" title="aru表情" style="width: 18px;height: 18px" src="../../image/expre/aru/1.png" onmouseover="" onmousedown="oocImage('2')"> -->
+				<img alt="新贴吧表情" title="新贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/newtieba/a.png" onmouseover="" onmousedown="oocImage('3')">
+				<!--  <img alt="qq表情" title="qq表情" style="width: 18px;height: 18px" src="../../image/expre/qq/aini.gif" onmouseover="" onmousedown="oocImage('4')">-->
+				<img alt="贴吧表情" title="贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/tieba/a.png" onmouseover="" onmousedown="oocImage('5')">
+				<img alt="微博表情" title="微博表情" style="width: 18px;height: 18px" src="../../image/expre/weibo/aini.png" onmouseover="" onmousedown="oocImage('6')">
+			
+			</div>
+		</div>
+	</div>
+	
+</div>
+<div class="rights">
+		<img src='../../image/logo/dlam.jpg' class='touxiang'>
+		<!-- 自己的账号显示上传头像按钮，别人的根据有没有关注而显示 -->
+		<button>上传头像<i class="Hui-iconfont">&#xe642;</i></button>
+		<button>关注<i class="Hui-iconfont">&#xe716;</i></button>
+		<button>已关注<i class="Hui-iconfont">&#xe676;</i></button>
+	<div class="perStatistic">
+		<span title="她关注的人">关注：88</span>&emsp;<span title="关注她的人">粉丝：99</span>&emsp;
+		<span title="她喜欢的日记">喜欢：99</span>&emsp;<span title="她收藏的日记">收藏：99</span><br>	
+		<span title="她的日记总被阅读量">被阅读量：888888</span>&emsp;<span title="她的日记总被评论量">被评论数：2222</span>&emsp;<span title="她的日记总被赞数量">被赞：99999</span>
+	</div>
+	<hr>
+	<div class="perInfo">
+		<span id="userNameT">LongBro</span><br>
+		昵称：<span id="userName">LongBro</span><br>
+		哆啦ID：<span id="userId">88888888</span><br>
+		家歌：<span id="homeSong">四块五</span><br>
+		性别：<span id="sex">男</span><br>
+		个性签名：<span id="signature">自先沉稳，而后爱人</span><br>
+	</div>
+	<hr>
+	<div class="activeInfo">
+		<i class="Hui-iconfont">&#xe690;</i><span id="joinTime">加入时间：2019.09.28 11:26</span><br>
+		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：2019.09.28 11:26</span><br>
+	</div>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="../lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+<script type="text/javascript">
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+var id =GetQueryString("id");//当前日记的id
+var author="";//当前日记的作者
+//var user=getUser();//当前登录用户
+$(function(){
+	//网页title由loadDiary函数和loadAuthorInfo共同生成
+	loadDiary(id);//根据日记id参数加载对应日记
+	//document.getElementById("userId").innerText=user;
+	//判断当前登录人是否已点赞、收藏该日记，并对图标做修改
+	//setIcon(id);//若该函数出错，会导致下方不能执行
+	author=document.getElementById("userId").innerText;//在loadDiary函数中设置的
+	loadAuthorInfo();
+});
+/*个人信息*/
+function myselfinfo(){
+	layer.open({
+		type: 1,
+		area: ['300px','200px'],
+		fix: false, //不固定
+		maxmin: true,
+		shade:0.4,
+		title: '查看信息',
+		content: '<div>管理员信息</div>'
+	});
+}
+
+/*根据日记id加载日记*/
+function loadDiary(id){
+	$("#diary").text("");
+	$.ajax({
+		url:"../../getDiaryById.do?id="+id,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+				//处理内容和标题
+				var title=data.ntitle+"";
+				var con=handleCon(data.ncontent);
+				console.log(con);
+
+				if(con.length>50){
+					//con=con.substring(0,50)+"...";
+				}
+				author=data.nwritter;
+				document.getElementById("userId").innerText=author;
+				//加载当前日记作者的关注、粉丝、喜欢、收藏及其他基本信息以显示
+				document.title="《"+title+"》~'";
+				if(title.length>10){
+					title=title.substring(0,8)+"...";
+				}
+				//分类
+				var cate=getCateById(data.ntype);
+				$("#diary").append("<h2><center>"+data.ntitle+"</center></h2>"
+						+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openAuthor(\""+data.userName+"\")'>"+data.userName
+						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data.ntime
+						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data.ntitle+"'>《"+title+"》</span>&emsp;"+data.nlocation
+						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i><span id='browseNum'>2000</span>&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i>66&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span id='praiseNum'>"+data.praiseNum
+						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>18&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span id='storeNum'>"+data.storeNum+"</span></div></div>"
+						+"<div class='content'>"+con+"</div>"
+
+						);
+		}
+	});
+}
+/*根据分类id得到分类名*/
+function getCateById(id){
+	var cate="0";
+	if(id=="0"){
+		cate="生活日记";
+	}else if(id=="1"){
+		cate="工作笔记";
+	}else if(id=="2"){
+		cate="idea";
+	}else if(id=="3"){
+		cate="诗词(文学)";
+	}
+	return cate;
+}
+/*处理日记内容*/
+function handleCon(content){
+	var con=content+"";
+	con=con.replace(new RegExp("::::","gm"), ".jpg'>");
+	con=con.replace(new RegExp(":::","gm"), ".png'>");
+	con=con.replace(new RegExp("::","gm"), ".gif'>");
+	con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='../../image/expre/newtieba/");
+	con=con.replace(new RegExp("<<","gm"), "<img alt='' src='../../image/expre/tieba/");
+	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='../../image/expre/weibo/");
+	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='../../image/expre/huang/");
+	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
+	return con;
+}
+/*打开作者的界面*/
+function openAuthor(author){
+	alert(author);
+}
+//判断当前登录人是否已点赞、收藏该日记，并对图标做修改
+function setIcon(id){
+	var praise=0;//该篇日记当前登录人是否已点赞
+	var store=0;//该篇日记当前登录人是否已收藏
+	$.ajax({
+		url:"../../getPraise.do",
+		type:"get",
+		async:false,
+		dataType:"Json",
+		data:{
+			PDiary:id,
+			PPraiser:user
+		},
+		success:function(data){
+			if(data.pdiary==id){//当前用户已喜欢
+				praise=1;
+			}
+		}
+	});
+	$.ajax({
+		url:"../../getStore.do",
+		type:"get",
+		async:false,
+		dataType:"Json",
+		data:{
+			SDiary:id,
+			SStorer:user
+		},
+		success:function(data){
+			if(data.sdiary==id){//当前用户已收藏
+				store=1;
+			}
+		}
+	});
+	
+	var pra=document.getElementById("praise");
+	var st=document.getElementById("store");
+	if(praise==0){//点赞记录表中无登录用户对于当前日记的点赞记录，视为没点赞
+		pra.title="点赞";
+		pra.innerHTML="&#xe649;";
+	}else{
+		pra.title="取消点赞";
+		pra.innerHTML="&#xe648;";
+	}
+	if(store==0){
+		st.title="收藏";
+		st.innerHTML="&#xe69e;";
+	}else{
+		st.title="取消收藏";
+		st.innerHTML="&#xe630;";
+	}
+}
+//点赞与取消点赞
+function praise(){
+	var pra=document.getElementById("praise");
+	var pNum=document.getElementById("praiseNum");
+	if(pra.title=="点赞"){
+		$.ajax({
+			url:"../../praiseDiary.do",
+			type:"get",
+			async:false,
+			dataType:"text",
+			data:{
+				PDiary:id,
+				PPraiser:user,
+				PPraised:author,
+				PPraiseTime:formatW2(new Date()+"")
+			},
+			success:function(res){
+				//alert("点赞成功")
+			}
+		});
+		pra.title="取消点赞";
+		pra.innerHTML="&#xe648;";
+		pNum.innerText=parseInt(pNum.innerText)+1;
+	}else{
+		$.ajax({
+			url:"../../removePraiseDiary.do",
+			type:"get",
+			async:false,
+			dataType:"text",
+			data:{
+				PDiary:id,
+				PPraiser:user
+			},
+			success:function(res){
+				//alert("取消喜欢成功")
+			}
+		});
+		pra.title="点赞";
+		pra.innerHTML="&#xe649;";
+		pNum.innerText=parseInt(pNum.innerText)-1;
+	}
+}
+//收藏与取消收藏
+function store(){
+	var st=document.getElementById("store");
+	var sNum=document.getElementById("storeNum");
+	if(st.title=="收藏"){
+		$.ajax({
+			url:"../../storeDiary.do",
+			type:"get",
+			async:false,
+			dataType:"text",
+			data:{
+				SDiary:id,
+				SStorer:user,
+				SStored:author,
+				SStoreTime:formatW2(new Date()+"")
+			},
+			success:function(res){
+				//alert("收藏成功")
+			}
+		});
+		st.title="取消收藏";
+		st.innerHTML="&#xe630;";
+		sNum.innerText=parseInt(sNum.innerText)+1;
+	}else{
+		$.ajax({
+			url:"../../removeStoreDiary.do",
+			type:"get",
+			async:false,
+			dataType:"text",
+			data:{
+				SDiary:id,
+				SStorer:user
+			},
+			success:function(res){
+				//alert("取消收藏成功")
+			}
+		});
+		st.title="收藏";
+		st.innerHTML="&#xe69e;";
+		sNum.innerText=parseInt(sNum.innerText)-1;
+
+	}
+}
+//2019-10-26加载作者的信息:关注信息，互动计数，基本信息，活跃信息
+function loadAuthorInfo(){
+	$.ajax({
+		url:"../../getAuthorInfoByUserId.do?UUserId="+author,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+			document.title=document.title+data.uuserName+"'的日记~哆啦官网";
+			document.getElementById("userId").innerText=author;
+			document.getElementById("userNameT").innerText=data.uuserName;
+			document.getElementById("userName").innerText=data.uuserName;
+			document.getElementById("homeSong").innerText=data.uhomeSong;
+			document.getElementById("signature").innerText=data.signature;
+			document.getElementById("sex").innerText=data.uuserSex;
+			document.getElementById("joinTime").innerText="加入时间："+data.ujoinTime;
+		}
+	});
+}
+</script> 
+</body>
+</html>

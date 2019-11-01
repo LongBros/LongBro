@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.StoreDiary">
+	<resultMap id="StoreDiary" type="com.longbro.note.bean.StoreDiary">
+		<id property="SId" column="s_Id" jdbcType="NUMERIC"/>
+		<result property="SDiary" column="s_Diary" jdbcType="VARCHAR"/>
+		<result property="SStorer" column="s_Storer" jdbcType="VARCHAR"/>
+		<result property="SStored" column="s_Stored" jdbcType="VARCHAR"/>
+		<result property="SStoreTime" column="s_Store_Time" jdbcType="VARCHAR"/>
+		<result property="SReadStatus" column="s_Read_Status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.StoreDiary">
+		INSERT INTO d_store
+		(s_Diary,s_Storer,s_Stored,s_Store_Time)
+		VALUES 
+		(#{SDiary,jdbcType=VARCHAR}, #{SStorer,jdbcType=VARCHAR}, #{SStored,jdbcType=VARCHAR}, #{SStoreTime,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get"  resultMap="StoreDiary">
+		SELECT * FROM d_store 
+		WHERE 
+		s_Diary=#{SDiary} and s_Storer=#{SStorer}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="StoreDiary">
+		SELECT * FROM d_store
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY s_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.StoreDiary">
+		UPDATE d_store
+        <set>
+			<if test="SDiary != null">
+				s_Diary=#{SDiary,jdbcType=VARCHAR},
+			</if>
+			<if test="SStorer != null">
+				s_Storer=#{SStorer,jdbcType=VARCHAR},
+			</if>
+			<if test="SStored != null">
+				s_Stored=#{SStored,jdbcType=VARCHAR},
+			</if>
+			<if test="SStoreTime != null">
+				s_Store_Time=#{SStoreTime,jdbcType=VARCHAR},
+			</if>
+			<if test="SReadStatus != null">
+				s_Read_Status=#{SReadStatus,jdbcType=NUMERIC}
+			</if>
+		</set>
+		WHERE
+		s_Id=#{SId}
+	</update>
+	
+	<delete id="remove" parameterType="com.longbro.note.bean.StoreDiary">
+		DELETE FROM d_store 
+		WHERE
+		s_Diary=#{SDiary} and s_Storer=#{SStorer}
+	</delete>
+	
+</mapper>

@@ -48,15 +48,16 @@ public class AlarmUserController{
      */
     @RequestMapping(value="genUserId",method=RequestMethod.GET)
     @ResponseBody
-    public String genUserId(){
+    public String genUserId(String source){
     	String userId=Strings.allotNum(8)+"";//随机生成userId
     	AlarmUser au=alarmUserService.getById(userId);
     	if(au!=null){//该用户id已存在，需重新生成
-    		genUserId();
+    		genUserId(source);
     	}
     	au=new AlarmUser();
     	au.setAUserid(Integer.parseInt(userId));
     	au.setACreatetime(TimeUtil.time());
+    	au.setSource(source);
     	alarmUserService.addAlarmUser(au);
     	return userId;
     }
@@ -123,7 +124,7 @@ public class AlarmUserController{
     	return au;
     }
     /**
-     * @desc 得到所有用户的数量
+     * @desc 6.得到所有用户的数量
      * @author zcl
      * @date 2019年10月7日
      */

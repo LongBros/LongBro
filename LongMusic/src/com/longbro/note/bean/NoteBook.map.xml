@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.NoteBook">
+	<resultMap id="NoteBook" type="com.longbro.note.bean.NoteBook">
+		<id property="NId" column="n_Id" jdbcType="NUMERIC"/>
+		<result property="NType" column="n_Type" jdbcType="NUMERIC"/>
+		<result property="NBookid" column="n_BookId" jdbcType="NUMERIC"/>
+		<result property="NWritter" column="n_Writter" jdbcType="VARCHAR"/>
+		<result property="NTitle" column="n_Title" jdbcType="VARCHAR"/>
+		<result property="NContent" column="n_Content" jdbcType="VARCHAR"/>
+		<result property="NTime" column="n_Time" jdbcType="VARCHAR"/>
+		<result property="NWeather" column="n_Weather" jdbcType="NUMERIC"/>
+		<result property="NMood" column="n_Mood" jdbcType="NUMERIC"/>
+		<result property="NLocation" column="n_Location" jdbcType="VARCHAR"/>
+		<result property="NAllowComment" column="n_AllowComment" jdbcType="NUMERIC"/>
+		<result property="nAuthority" column="n_Authority" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.NoteBook">
+		INSERT INTO d_diary
+		(n_Type,n_BookId,n_Writter,n_Title,n_Content,n_Time,n_Weather,
+		n_Mood,n_Location,n_AllowComment,n_Authority)
+		VALUES 
+		(#{NType,jdbcType=NUMERIC}, #{NBookid,jdbcType=NUMERIC}, 
+		#{NWritter,jdbcType=VARCHAR}, #{NTitle,jdbcType=VARCHAR}, 
+		#{NContent,jdbcType=VARCHAR}, #{NTime,jdbcType=VARCHAR}, 
+		#{NWeather,jdbcType=NUMERIC}, #{NMood,jdbcType=NUMERIC}, 
+		#{NLocation,jdbcType=VARCHAR},#{NAllowComment,jdbcType=NUMERIC},
+		#{NAuthority,jdbcType=NUMERIC})
+	</insert>
+	
+	<select id="get" parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Diary">
+		select d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
+		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
+		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
+		d.n_Authority nAuthority,di.u_User_Name userName,di.u_Head_Image headImage,
+		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
+		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum
+		 from d_diary d
+		 left join d_user_info di on d.n_Writter=di.u_User_Id
+		WHERE 
+		n_Id=#{id}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="NoteBook">
+		SELECT * FROM d_diary
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY n_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.NoteBook">
+		UPDATE d_diary
+        <set>
+			<if test="NType != null">
+				n_Type=#{NType,jdbcType=NUMERIC},
+			</if>
+			<if test="NBookid != null">
+				n_BookId=#{NBookid,jdbcType=NUMERIC},
+			</if>
+			<if test="NWritter != null">
+				n_Writter=#{NWritter,jdbcType=VARCHAR},
+			</if>
+			<if test="NTitle != null">
+				n_Title=#{NTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="NContent != null">
+				n_Content=#{NContent,jdbcType=VARCHAR},
+			</if>
+			<if test="NTime != null">
+				n_Time=#{NTime,jdbcType=VARCHAR},
+			</if>
+			<if test="NWeather != null">
+				n_Weather=#{NWeather,jdbcType=NUMERIC},
+			</if>
+			<if test="NMood != null">
+				n_Mood=#{NMood,jdbcType=NUMERIC},
+			</if>
+			<if test="NLocation != null">
+				n_Location=#{NLocation,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE
+		n_Id=#{NId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM d_diary 
+		WHERE
+		n_Id=#{NId}
+	</delete>
+	<select id="getDiaryByPage" parameterType="java.lang.Integer" resultMap="NoteBook">
+		select * from d_diary 
+		ORDER BY n_Time DESC,n_Id DESC LIMIT #{page},10 
+	</select>
+	<select id="getDiaryBy" parameterType="com.longbro.note.bean.NoteBook" resultType="com.longbro.note.bean.Diary">
+		select d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
+		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
+		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
+		d.n_Authority nAuthority,di.u_User_Name userName,di.u_Head_Image headImage,
+		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
+		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum
+		 from d_diary d
+		 left join d_user_info di on d.n_Writter=di.u_User_Id
+		  where 1=1 
+		<if test="author!=null and author!=''">
+			and n_Writter=#{author}
+		</if>
+		ORDER BY n_Time DESC,n_Id DESC
+		<if test="page!=null and page!=''">
+			LIMIT ${page},10 
+		</if>
+		;
+	</select>
+	<select id="getDiaryNumBy" parameterType="com.longbro.note.bean.NoteBook" resultType="java.lang.Integer">
+		select count(1) from d_diary where 1=1 
+		<if test="NType!=null and NType!=''"><!-- 日记分类 -->
+			 and n_Type =#{NType}
+		</if>
+		<if test="NWritter!=null and NWritter!=''"><!-- 日记作者 -->
+			 and n_Writter=#{NWritter}
+		</if>
+		ORDER BY n_Id desc;
+	</select>
+</mapper>

@@ -3,6 +3,7 @@ function login_popup() {
 }
 
 $(".login").on("click", login_popup),function() {
+	alert('1')
     var e = [];
     $(".modal").on("show.bs.modal",
     function() {

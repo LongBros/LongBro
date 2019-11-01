@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.UserInfo">
+	<resultMap id="UserInfo" type="com.longbro.note.bean.UserInfo">
+		<id property="UId" column="u_Id" jdbcType="NUMERIC"/>
+		<result property="UUserName" column="u_User_Name" jdbcType="VARCHAR"/>
+		<result property="UUserId" column="u_User_Id" jdbcType="NUMERIC"/>
+		<result property="UUserSex" column="u_User_Sex" jdbcType="NUMERIC"/>
+		<result property="UCommentNum" column="u_Comment_Num" jdbcType="NUMERIC"/>
+		<result property="UPraisedNum" column="u_Praised_Num" jdbcType="NUMERIC"/>
+		<result property="UJoinTime" column="u_Join_Time" jdbcType="VARCHAR"/>
+		<result property="UStatus" column="u_Status" jdbcType="NUMERIC"/>
+		<result property="UBornTime" column="u_Born_Time" jdbcType="VARCHAR"/>
+		<result property="UHomeSong" column="u_Home_Song" jdbcType="VARCHAR"/>
+		<result property="signature" column="u_Signature" jdbcType="VARCHAR"/>
+		<result property="headImage" column="u_Head_Image" jdbcType="VARCHAR"/>
+		<result property="password" column="u_Password" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.UserInfo">
+		INSERT INTO d_user_info
+		(u_Id,u_User_Name,u_User_Id,u_User_Sex,u_Comment_Num,u_Praised_Num,u_Join_Time,u_Status,u_Born_Time,u_Home_Song)
+		VALUES 
+		(#{UId,jdbcType=NUMERIC}, #{UUserName,jdbcType=VARCHAR}, #{UUserId,jdbcType=NUMERIC}, #{UUserSex,jdbcType=NUMERIC}, #{UCommentNum,jdbcType=NUMERIC}, #{UPraisedNum,jdbcType=NUMERIC}, #{UJoinTime,jdbcType=VARCHAR}, #{UStatus,jdbcType=NUMERIC}, #{UBornTime,jdbcType=VARCHAR}, #{UHomeSong,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Author">
+		SELECT u_Id UId,u_User_Name UUserName,u_User_Id UUserId,u_User_Sex UUserSex,
+		u_Comment_Num UCommentNum,u_Praised_Num UPraisedNum,u_Join_Time UJoinTime,
+		u_Status UStatus,u_Born_Time UBornTime,u_Home_Song UHomeSong,u_Signature signature,
+		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=#{UUserId}) likeNum,
+		(SELECT COUNT(1) FROM d_store WHERE s_Storer=#{UUserId}) storeNum,
+		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=#{UUserId}) praisedNum
+		FROM d_user_info 
+		WHERE 
+		u_User_Id=#{UUserId}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="UserInfo">
+		SELECT * FROM d_user_info
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY u_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.UserInfo">
+		UPDATE d_user_info
+        <set>
+			<if test="UUserName != null">
+				u_User_Name=#{UUserName,jdbcType=VARCHAR},
+			</if>
+			<if test="UUserId != null">
+				u_User_Id=#{UUserId,jdbcType=NUMERIC},
+			</if>
+			<if test="UUserSex != null">
+				u_User_Sex=#{UUserSex,jdbcType=NUMERIC},
+			</if>
+			<if test="UCommentNum != null">
+				u_Comment_Num=#{UCommentNum,jdbcType=NUMERIC},
+			</if>
+			<if test="UPraisedNum != null">
+				u_Praised_Num=#{UPraisedNum,jdbcType=NUMERIC},
+			</if>
+			<if test="UJoinTime != null">
+				u_Join_Time=#{UJoinTime,jdbcType=VARCHAR},
+			</if>
+			<if test="UStatus != null">
+				u_Status=#{UStatus,jdbcType=NUMERIC},
+			</if>
+			<if test="UBornTime != null">
+				u_Born_Time=#{UBornTime,jdbcType=VARCHAR},
+			</if>
+			<if test="UHomeSong != null">
+				u_Home_Song=#{UHomeSong,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE
+		u_Id=#{UId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM d_user_info 
+		WHERE
+		u_Id=#{UId}
+	</delete>
+	<select id="loginNote"  resultMap="UserInfo">
+		select * from d_user_info where u_User_Id=#{acc} and u_Password=#{pass};
+	</select>
+	
+</mapper>

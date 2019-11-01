@@ -1,3 +1,15 @@
+2019-10-13
+1.js中实现类似java中的contains方法
+  expre.indexOf("aodamiao") != -1
+2.js中实现java中replaceAll方法~https://blog.csdn.net/fukaiit/article/details/83245943
+  1）使用具有全局标志g的正则表达式
+  	var str = "dogdogdog";var str2 = str.replace(/dog/g,"cat");
+  2）使用另一种具有全局标志g的正则表达式的定义方法
+  	 con=con.replace(new RegExp("::::","gm"), ".jpg'>");
+  3）给string对象添加原型方法replaceAll()
+  	String.prototype.replaceAll = function(s1, s2) {
+    	return this.replace(new RegExp(s1, "gm"), s2);
+	}
 2019-10-07
 使title或alert中的内容换行，
 可用:

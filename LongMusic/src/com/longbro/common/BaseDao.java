@@ -5,7 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class BaseDao {
+public class BaseDao<T> {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
@@ -14,7 +14,6 @@ public class BaseDao {
 	 * Discription:查询多条数据
 	 * 
 	 * @param statement
-	 *            SqlMapper�����ļ���insert SQL����Ӧ�ġ�����ռ�.sqlId��
 	 * @return
 	 */
 	public List<?> selectList(String statement) {
@@ -26,9 +25,7 @@ public class BaseDao {
 	 * Discription:根据指定条件查询多条数据
 	 * 
 	 * @param statement
-	 *            SqlMapper�����ļ���insert SQL����Ӧ�ġ�����ռ�.sqlId��
 	 * @param parameter
-	 *            �־û�����
 	 * @return
 	 */
 	public List<?> selectList(String statement, Object parameter) {
@@ -57,7 +54,6 @@ public class BaseDao {
 	 * Discription:插入数据
 	 * 
 	 * @param statement
-	 *            SqlMapper�����ļ���insert SQL����Ӧ�ġ�����ռ�.sqlId��
 	 * @param parameter
 	 * @return
 	 */
@@ -70,9 +66,7 @@ public class BaseDao {
 	 * Discription:修改数据
 	 * 
 	 * @param statement
-	 *            SqlMapper�����ļ���update SQL����Ӧ�ġ�����ռ�.sqlId��
 	 * @param parameter
-	 *            �־û�����
 	 * @return
 	 */
 	public int update(String statement, Object parameter) {

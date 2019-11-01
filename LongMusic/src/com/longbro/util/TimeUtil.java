@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 /**
@@ -38,7 +39,7 @@ public class TimeUtil {
 	public static String user="root";
 	public static String pass="ZCLZY";
 	/**
-	 * 返回yyyy-MM-dd HH:mm:ss格式的时间
+	 * 1.返回yyyy-MM-dd HH:mm:ss格式的时间
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年9月14日
@@ -50,7 +51,7 @@ public class TimeUtil {
 		return time;
 	}
 	/**
-	 * 得到今天的年-月-日
+	 * 2.得到今天的年-月-日
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年9月20日
@@ -60,7 +61,7 @@ public class TimeUtil {
 		return time().substring(0, 10);
 	}
 	/**
-	 * 得到当前月
+	 * 3.得到当前月
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年9月22日
@@ -70,7 +71,7 @@ public class TimeUtil {
 		return time().substring(0, 7);
 	}
 	/**
-	 * 得到昨天的年月日
+	 * 3.得到昨天的年月日
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年9月20日
@@ -81,7 +82,7 @@ public class TimeUtil {
 		return sf.format(new Date(System.currentTimeMillis()-oneday));
 	}
 	/**
-	 * 得到n天前的时间点
+	 * 4.得到n天前的时间点
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年9月20日
@@ -91,7 +92,7 @@ public class TimeUtil {
 		return sdfD.format(new Date(System.currentTimeMillis()-n*oneday));
 	}
 	/**
-	 * 得到汉语星期几
+	 * 5.得到汉语星期几
 	 * @return
 	 */
 	public static String getCWeek(){
@@ -111,7 +112,7 @@ public class TimeUtil {
 		return "星期"+cweekNum;
 	}
 	/**
-	 * 得到英语星期？,如Sunday
+	 * 6.得到英语星期？,如Sunday
 	 * @return
 	 */
 	public static String getEWeek(){
@@ -130,7 +131,7 @@ public class TimeUtil {
 		return eweek;
 	}
 	/**
-	 * 利用数组得到汉语星期几
+	 * 7.利用数组得到汉语星期几
 	 * @return
 	 */
 	public static String getWeek(){
@@ -158,30 +159,30 @@ public class TimeUtil {
 		return cweekNum;
 	}
 	/**
-	 * 	获取客户端的IP地址
-	 * @param request
+	 * @desc 8.随机生成时间  HH:mm:ss
+	 * @author zcl
+	 * @date 2019年10月26日
 	 */
-	public static String getIp(HttpServletRequest request) {
-		String l_Ip=request.getHeader("x-forwarded-for");
-		if(l_Ip==null||l_Ip.length()==0){
-		   l_Ip=request.getHeader("Proxy-Client-IP");
-		}if(l_Ip==null||l_Ip.length()==0||"unknown".equalsIgnoreCase(l_Ip)){
-		    l_Ip=request.getHeader("WL-Proxy-Client-IP");
-		}if(l_Ip==null||l_Ip.length()==0||"unknown".equalsIgnoreCase(l_Ip)){
-		    l_Ip=request.getRemoteAddr();
-		    if(l_Ip.equals("127.0.0.1") ||l_Ip.equals("0:0:0:0:0:0:0:1")){
-			    //根据网卡取本机配置的IP
-			    InetAddress in=null;
-			    try {
-					in=InetAddress.getLocalHost();
-				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			    l_Ip=in.getHostAddress();//输出的为本机的IP为172.24.21.129，
-			    //但是宿舍无线分配的IP为219.157.79.134手机热点分配的是223.104.105.248，而需要记录的正是这，而非本机 
-		   }
+	public static String genRandomTime(){
+		Random ran=new Random();
+		int hour=ran.nextInt(24);
+		int min=ran.nextInt(60);
+		int sec=ran.nextInt(60);
+		return handleNum(hour)+":"+handleNum(min)+":"+handleNum(sec);
+	}
+	/**
+	 * @desc 9.补0操作，若m为个位数，则在其前补零
+	 * @author zcl
+	 * @date 2019年10月26日
+	 * @param m
+	 * @return
+	 */
+	public static String handleNum(int m){
+		if(m<10){
+			return "0"+m;
+		}else{
+			return m+"";
 		}
-		return l_Ip;
-	} 
+	}
+	
 }
