@@ -22,5 +22,8 @@ public class CommentDiaryDao extends BaseDao{
 		// TODO Auto-generated method stub
 		this.insert(getNamespace()+".create", bean);
 	}
+	public List<CommentDiary> getComByDiaryId(int id) {
+		return this.selectList(getNamespace()+".get",id);
+	}
 }
 

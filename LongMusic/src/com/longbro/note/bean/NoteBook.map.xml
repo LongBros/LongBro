@@ -14,6 +14,7 @@
 		<result property="NLocation" column="n_Location" jdbcType="VARCHAR"/>
 		<result property="NAllowComment" column="n_AllowComment" jdbcType="NUMERIC"/>
 		<result property="nAuthority" column="n_Authority" jdbcType="NUMERIC"/>
+		<result property="nSongId" column="n_song_id" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.longbro.note.bean.NoteBook">
@@ -33,8 +34,9 @@
 		select d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
 		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
 		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
-		d.n_Authority nAuthority,di.u_User_Name userName,di.u_Head_Image headImage,
+		d.n_Authority nAuthority,d.n_song_id nSongId,di.u_User_Name userName,di.u_Head_Image headImage,
 		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
+		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
 		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum
 		 from d_diary d
 		 left join d_user_info di on d.n_Writter=di.u_User_Id
@@ -105,23 +107,24 @@
 		select d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
 		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
 		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
-		d.n_Authority nAuthority,di.u_User_Name userName,di.u_Head_Image headImage,
+		d.n_Authority nAuthority,d.n_song_id nSongId,di.u_User_Name userName,di.u_Head_Image headImage,
 		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
+		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
 		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum
 		 from d_diary d
 		 left join d_user_info di on d.n_Writter=di.u_User_Id
-		  where 1=1 
+		  where 1=1 and n_Authority=0
 		<if test="author!=null and author!=''">
 			and n_Writter=#{author}
 		</if>
 		ORDER BY n_Time DESC,n_Id DESC
 		<if test="page!=null and page!=''">
-			LIMIT ${page},10 
+			LIMIT ${page},${perPage} 
 		</if>
 		;
 	</select>
 	<select id="getDiaryNumBy" parameterType="com.longbro.note.bean.NoteBook" resultType="java.lang.Integer">
-		select count(1) from d_diary where 1=1 
+		select count(1) from d_diary where 1=1 and n_Authority=0
 		<if test="NType!=null and NType!=''"><!-- 日记分类 -->
 			 and n_Type =#{NType}
 		</if>
@@ -129,5 +132,15 @@
 			 and n_Writter=#{NWritter}
 		</if>
 		ORDER BY n_Id desc;
+	</select>
+	<!-- 在diary.html界面使用，当前作者当前日记的上下篇切换功能	1上一篇，2下一篇 -->
+	<select id="getBeforeAndNextId" parameterType="java.util.Map" resultType="java.util.Map">
+		(SELECT n_Id id,n_Title title,1 as t FROM d_diary 
+		WHERE n_Writter=#{author} AND n_Id&lt;#{id} 
+		ORDER BY n_Id DESC LIMIT 0,1 )
+		UNION 
+		(SELECT n_Id id,n_Title title,2 as t FROM d_diary 
+		WHERE n_Writter=#{author} AND n_Id&gt;#{id}
+		 LIMIT 0,1 );
 	</select>
 </mapper>

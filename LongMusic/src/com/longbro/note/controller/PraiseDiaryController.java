@@ -23,6 +23,7 @@ import com.longbro.note.service.PraiseDiaryService;
  * @copyright 多啦学娱网络科技有限公司
  */
 @Controller
+@RequestMapping("/note/praise/")
 public class PraiseDiaryController{
     @Autowired
     PraiseDiaryService praiseDiaryService;

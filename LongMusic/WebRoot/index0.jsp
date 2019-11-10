@@ -1,3 +1,4 @@
+<%@page import="com.longbro.util.MachineAccount"%>
 <%@ page language="java" pageEncoding="utf-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 tdansitional//EN" "http://www.w3.org/td/xhtml1/DTD/xhtml1-tdansitional.dtd">
 
@@ -106,6 +107,16 @@
 		
 		<div id="time"></div>
 	 </center>
+	 <%
+	 	if(!MachineAccount.ifHasGen()){
+			int machines[]={66666666,88888888};
+			for(int account:machines){
+				MachineAccount.genDiary(account);
+			}
+		}else{
+			System.out.println("当日已生成过！");
+		}
+	 %>
     <audio id="song" src="" autoplay></audio>
     <script type="text/javascript">
 		var hour=new Array();
@@ -136,7 +147,7 @@
 				<dd><a href="/LongBlog" target="_blank">LongBro博客</a></dd>
 				<dd><a href="index.jsp" target="_blank">哆拉音乐</a></dd>
 				<dd><a href="hui" target="_blank">LongBro工具</a></dd>
-				<dd><a onclick="mini.alert('该网站仅供站长访问！')" target="_blank">Mini账单</a></dd>
+				<dd><a href="mini/myAccount.html" target="_blank">Mini账单</a></dd>
 			</dl>
 			<dl>
 				<dt>常用站</dt>

@@ -18,10 +18,10 @@
 		(#{CId,jdbcType=NUMERIC}, #{CReviewedDiary,jdbcType=VARCHAR}, #{CComment,jdbcType=VARCHAR}, #{CReviewer,jdbcType=VARCHAR}, #{CReviewed,jdbcType=VARCHAR}, #{CReviewTime,jdbcType=VARCHAR}, #{CReadStatus,jdbcType=NUMERIC})
 	</insert>
 	
-	<select id="get"   parameterType="java.lang.String" resultMap="CommentDiary">
+	<select id="get"   parameterType="java.lang.Integer" resultMap="CommentDiary">
 		SELECT * FROM d_comment 
 		WHERE 
-		c_Id=#{CId}
+		c_Reviewed_Diary=#{id} order by c_Review_Time desc;
 	</select>
 	
 	<select id="query" parameterType="java.util.Map" resultMap="CommentDiary">

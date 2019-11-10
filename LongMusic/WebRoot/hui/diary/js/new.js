@@ -20,7 +20,7 @@ function writeNote(){
 		com=0;//允许评论
 	}
 	$.ajax({
-		url:"../../addNote.do",
+		url:"../../note/diary/addNote.do",
 		type:"get",
 		async:false,
 		dataType:"text",
@@ -161,10 +161,14 @@ function oocImage(type){
 		}
 	}
 }
-//选中表情后将表情同步到输入框
-function appendValue(img){
-	var con=document.form.content.value;
-	document.form.content.value=con+img;
+/**
+ * 选中表情后将表情同步到输入框---
+ * 11-07取消前两行采用根据id是为了同时可以在diary.html中使用
+ */function appendValue(img){
+//	var con=document.form.content.value;
+//	document.form.content.value=con+img;
+	var con=document.getElementById("content").value;
+	document.getElementById("content").value=con+img;
 }
 //打开新页面
 function openNewPage(which){

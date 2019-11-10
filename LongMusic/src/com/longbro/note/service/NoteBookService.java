@@ -39,5 +39,8 @@ public class NoteBookService{
 		// TODO Auto-generated method stub
 		return dao.getDiaryBy(map);
 	}
+	public List<HashMap<String,Object>> getBeforeAndNextId(int id,String author){
+		return dao.getBeforeAndNextId(id, author);
+	}
 }
 

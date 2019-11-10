@@ -18,10 +18,36 @@ public class MachineAccount {
 	static Statement st=null;
 	static ResultSet rs=null;
 	public static void main(String[] args) {
-		int machines[]={66666666,88888888};
-		for(int account:machines){
-			genDiary(account);
+		if(!ifHasGen()){
+			int machines[]={66666666,88888888};
+			for(int account:machines){
+				genDiary(account);
+			}
+		}else{
+			System.out.println("当日已生成过！");
 		}
+		
+	}
+	/**
+	 * 确认当天是否已生成，已生成返回true
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年11月10日
+	 * @return
+	 */
+	public static boolean ifHasGen(){
+		st=JdbcUtil.getCon();
+		try {
+			rs=st.executeQuery("select * from d_diary where n_Time like '%"+TimeUtil.getToday()+"%'");
+			if(rs.next())
+				return true;
+			st.close();
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	/**
 	 * @desc 根据账号为其生成对应的日记
@@ -57,6 +83,7 @@ public class MachineAccount {
 				int type=3;
 				String title="";
 				String content="";
+				String songId="";
 				String time=TimeUtil.getToday()+" "+TimeUtil.genRandomTime();
 				int wea=0;
 				int mood=0;
@@ -67,11 +94,12 @@ public class MachineAccount {
 				}else if(table=="song"){
 					title=rs.getString("songName")+"-"+rs.getString("singer");
 					content=rs.getString("lyric");
+					songId=rs.getString("sourceId");
 				}
 				//根据原始表内容生成日记并录入日记表
-				insSql="INSERT INTO `music`.`d_diary` (`n_Type`, `n_BookId`, `n_Writter`, `n_Title`, `n_Content`, `n_Time`, `n_Weather`, `n_Mood`, `n_Location`, `n_AllowComment`, `n_Authority`) VALUES ('"
+				insSql="INSERT INTO `music`.`d_diary` (`n_Type`, `n_BookId`, `n_Writter`, `n_Title`, `n_Content`, `n_Time`, `n_Weather`, `n_Mood`, `n_Location`, `n_AllowComment`, `n_Authority`,`n_song_id`) VALUES ('"
 				+type+"', NULL, '"+account+"', '"+title+"', '"+content+"', '"
-						+time+"', '"+wea+"', '"+mood+"', '"+loc+"', '1', '0');";
+						+time+"', '"+wea+"', '"+mood+"', '"+loc+"', '1', '0','"+songId+"');";
 				System.out.println(insSql);
 			}
 			st.executeUpdate(updSql+id);//更新原表该条记录为已被使用

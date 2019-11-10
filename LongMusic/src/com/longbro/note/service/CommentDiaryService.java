@@ -23,5 +23,8 @@ public class CommentDiaryService{
 		// TODO Auto-generated method stub
 		dao.create(bean);
 	}
+	public List<CommentDiary> getComByDiaryId(int id) {
+		return dao.getComByDiaryId(id);
+	}
 }
 

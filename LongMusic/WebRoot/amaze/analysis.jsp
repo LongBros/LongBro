@@ -114,6 +114,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="am-u-sm-12">            
               <script type="text/javascript" src="../js/highcharts.js"></script>
 					<script type="text/javascript">
+						var value = prompt('本站登录密码：', '');//这么执着的吗？尊重隐私喔
+				        if(value=="145989"){
+				        }else{
+				        	alert("password is error,Exit right now!");
+					        window.open('','_self');
+					        window.close();
+				        }
 						var time="";
 						var in_="";
 						var out="";

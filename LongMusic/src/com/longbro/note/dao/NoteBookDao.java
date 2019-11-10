@@ -2,6 +2,7 @@ package com.longbro.note.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.longbro.common.BaseDao;
 import com.longbro.note.bean.Diary;
@@ -36,6 +37,12 @@ public class NoteBookDao extends BaseDao{
 	public List<Diary> getDiaryBy(HashMap<String, String> map) {
 		// TODO Auto-generated method stub
 		return (List<Diary>)this.selectList(pre+"getDiaryBy", map);
+	}
+	public List<HashMap<String,Object>> getBeforeAndNextId(int id,String author){
+		Map<String,Object> map=new HashMap<>();
+		map.put("author", author);
+		map.put("id", id);
+		return (List<HashMap<String,Object>>)this.selectList(pre+"getBeforeAndNextId", map);
 	}
 }
 

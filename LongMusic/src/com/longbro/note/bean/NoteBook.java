@@ -22,7 +22,7 @@ public class NoteBook{
 	protected String NLocation; 
 	protected Integer NAllowComment; 
 	protected Integer nAuthority; 
-
+	protected String nSongId;
 	public Integer getNId() {
 		return this.NId;
 	}
@@ -140,6 +140,12 @@ public class NoteBook{
 	}
 	public void setNAuthority(Integer NAuthority) {
 		 nAuthority=NAuthority ;
+	}
+	public String getnSongId() {
+		return nSongId;
+	}
+	public void setnSongId(String nSongId) {
+		this.nSongId = nSongId;
 	}
 	
 }

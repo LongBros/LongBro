@@ -21,6 +21,7 @@
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
 
 <script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/index1.js"></script>
 
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
@@ -228,10 +229,10 @@ $(".login").on("click", login_popup),function() {
         o.html(t)
     })
 } ();
-var curPage=1;
+var author='';
 $(function(){
-	loadDiary('1');//分页加载日记
-	setPage();//根据日记数量设置分页
+	loadDiary('','1',perPage);//分页加载日记
+	setPage('',perPage);//根据日记数量设置分页，参数为作者
 	//initUnReadMessage();//加载当前登录用户有多少未读喜欢
 	/*$("#min_title_list li").contextMenu('Huiadminmenu', {
 		bindings: {
@@ -247,177 +248,7 @@ $(function(){
 		}
 	});*/
 });
-/*个人信息*/
-function myselfinfo(){
-	layer.open({
-		type: 1,
-		area: ['300px','200px'],
-		fix: false, //不固定
-		maxmin: true,
-		shade:0.4,
-		title: '查看信息',
-		content: '<div>管理员信息</div>'
-	});
-}
 
-/*根据页码加载日记*/
-function loadDiary(page){
-	$("#diarys").text("");
-	$.ajax({
-		url:"../../getDiaryBy.do?page="+page,
-		type:"get",
-		async:false,
-		dataType:"Json",
-		success:function(data){
-			for(var i=0;i<data.length;i++){
-				//处理内容和标题
-				var title=data[i].ntitle+"";
-				var con=handleCon(data[i].ncontent);
-				console.log(con);
-
-				if(con.length>50){
-					//con=con.substring(0,50)+"...";
-				}
-				if(title.length>10){
-					title=title.substring(0,8)+"...";
-				}
-				//分类
-				var cate=getCateById(data[i].ntype);
-				$("#diarys").append("<div class=\"diary\"><img src='../../image/tx/"+data[i].headImage+".jpg' class='touxiang'><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
-				+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+data[i].userName
-				+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
-				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation
-				+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i>10&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
-				+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
-				+"</div><hr width='740px'>");
-			}
-		}
-	});
-	curPage=parseInt(page);
-	setPage();
-}
-/*根据分类id得到分类名*/
-function getCateById(id){
-	var cate="0";
-	if(id=="0"){
-		cate="生活日记";
-	}else if(id=="1"){
-		cate="工作笔记";
-	}else if(id=="2"){
-		cate="idea";
-	}else if(id=="3"){
-		cate="诗词(文学)";
-	}
-	return cate;
-}
-/*处理日记内容*/
-function handleCon(content){
-	var reg=/<[^<>]+>/g ;
-	var con=content+"";
-	con=con.replace(reg, "");
-	con=con.replace(new RegExp("::::","gm"), ".jpg'>");
-	con=con.replace(new RegExp(":::","gm"), ".png'>");
-	con=con.replace(new RegExp("::","gm"), ".gif'>");
-	con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='../../image/expre/newtieba/");
-	con=con.replace(new RegExp("<<","gm"), "<img alt='' src='../../image/expre/tieba/");
-	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='../../image/expre/weibo/");
-	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='../../image/expre/huang/");
-	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
-	return con;
-}
-/*打开其他的界面：作者、某日记*/
-function openOther(type,value){
-	if(type==0){
-		window.open("diary.html?id="+value, "_blank")
-	}else if(type==1){
-		window.open("author.html?author="+value, "_blank")
-	}
-}
-/*根据日记数量初始化页码按钮*/
-function setPage(){
-	$(".pages").text('');
-	var num=0;
-	$.ajax({
-		url:"../../getDiaryNumBy.do",
-		type:"get",
-		async:false,
-		data:{
-			
-		},
-		dataType:"text",
-		success:function(data){
-			num=data;
-		}
-	});
-	var page=0;
-	if(num%10==0){//可整除的话，页码数为总日记数除以10
-		page=num/10;
-	}else{//不可整除的话，页码数为总日记数除以10加1
-		page=parseInt(num/10)+1;
-	}
-	$(".pages").append("共"+num+"篇日记&emsp;");
-	if(curPage!=1){
-		$(".pages").append("<span onclick=\"loadDiary('1')\">首</span>&emsp;")
-		$(".pages").append("<span onclick=\"loadDiary('"+(curPage-1)+"')\">←</span>&emsp;");
-	}
-	if(page>5){//多于6页，只显示6页
-		if(curPage>page-5){//当前页码大于总页码-6，输出后六页
-			for(var i=page-4;i<=page;i++){
-	              if(i==curPage){
-	  				   $(".pages").append("<span onclick=\"loadDiary('"+i+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
-		          }else{
-					   $(".pages").append("<span onclick=\"loadDiary('"+i+"')\">"+i+"</span>&emsp;")
-	         	  }
-	        }
-		}else{//当前页码小于总页码-6，输出当前页码后的六页
-            for(var i=curPage;i<curPage+5;i++){
-                if(i==curPage){
-	  				   $(".pages").append("<span onclick=\"loadDiary('"+i+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
-                }else{
-					   $(".pages").append("<span onclick=\"loadDiary('"+i+"')\">"+i+"</span>&emsp;")
-                }
-            }
-         }
-		
-	}else{
-		for(var i=1;i<=page;i++){
-			if(curPage==i){
-				$(".pages").append("<span onclick=\"loadDiary('"+i+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
-			}else{
-				$(".pages").append("<span onclick=\"loadDiary('"+i+"')\">"+i+"</span>&emsp;")
-			}
-		}
-	}
-	if(curPage+1<=page){//＜＞
-		$(".pages").append("<span onclick=\"loadDiary('"+(curPage+1)+"')\">→</span>&emsp;")
-		$(".pages").append("<span onclick=\"loadDiary('"+page+"')\">尾</span>&emsp;")
-	}
-}
-//2019-10-26	加载当前登录用户有多少未读喜欢、收藏、被关注等消息
-function initUnReadMessage(){
-	
-	$.ajax({
-		url:"../../getPraiseNum.do?PPraised=",
-		type:"get",
-		async:false,
-		dataType:"text",
-		success:function(data){
-			document.getElementById("unReadNum").innerText=data;
-		}
-	});
-}
-//打开新页面
-function openNewPage(which){
-	if(which=="2"){
-		window.open("myHome.html", "_blank")
-	}else if(which=="3"){
-		window.open("new.html", "_blank")
-	}else if(which=="4"){
-		window.open("http://112.74.173.44/LongMusic/index0.jsp", "_blank")
-	}else if(which=="5"){
-		alert("login")
-	}
-}
 </script> 
 </body>
 </html>

@@ -21,6 +21,8 @@
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
 <script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/index1.js"></script>
+
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
@@ -119,9 +121,11 @@
 				<li class="dropDown dropDown_hover">
 					<a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
-						<li><a href="javascript:;" onClick="myselfinfo()">我的家园</a></li>
-						<li><a href="#">写笔记</a></li>
-						<li><a href="#">退出</a></li>
+						<li><a href="javascript:;" onClick="openNewPage('2')">我的家园</a></li>
+						<li><a href="javascript:;" onClick="openNewPage('3')">写日记</a></li>
+						<li><a href="javascript:;" onClick="openNewPage('4')">哆啦闹铃</a></li>
+						<li><a class="login" id="login" style="display:block">登录</a></li>
+						<li><a href="javascript:;" onClick="openNewPage('6')" class="login">退出</a></li>
 				</ul>
 			</li>
 				<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
@@ -198,32 +202,20 @@ function GetQueryString(name)
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 }
-var curPage=1;
+
 var author=GetQueryString("author");//被查看的用户
 //var user=getUser();//当前登录用户
 $(function(){
 	loadAuthorInfo();
-	setPage();
-	loadDiaryByAuthor(author,1);
+	setPage(author,perPage);
+	loadDiary(author,1,perPage);
 });
-/*个人信息*/
-function myselfinfo(){
-	layer.open({
-		type: 1,
-		area: ['300px','200px'],
-		fix: false, //不固定
-		maxmin: true,
-		shade:0.4,
-		title: '查看信息',
-		content: '<div>管理员信息</div>'
-	});
-}
 
 /*根据作者加载日记*/
 function loadDiaryByAuthor(author,page){
 	$("#diarys").text("");
 	$.ajax({
-		url:"../../getDiaryBy.do",
+		url:"../../note/diary/getDiaryBy.do",
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -238,8 +230,8 @@ function loadDiaryByAuthor(author,page){
 				var con=handleCon(data[i].ncontent);
 				console.log(con);
 
-				if(con.length>50){
-					//con=con.substring(0,50)+"...";
+				if(con.length>250){
+					con=con.substring(0,250)+"...";
 				}
 				if(title.length>10){
 					title=title.substring(0,8)+"...";
@@ -249,7 +241,7 @@ function loadDiaryByAuthor(author,page){
 				$("#diarys").append("<div class=\"diary\"><span onclick='openOther(0,"+data[i].nid+")'>&emsp;&emsp;"+con+"</span><br>"
 						+"<div class='info'>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
 						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation+""
-						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i>188&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>8&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
+						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>8&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
 						+"</div><hr width='740px'>");
 			}
 		}
@@ -265,89 +257,11 @@ function openOther(type,value){
 		window.open("author.html?author="+value, "_blank")
 	}
 }
-/*根据分类id得到分类名*/
-function getCateById(id){
-	var cate="0";
-	if(id=="0"){
-		cate="生活日记";
-	}else if(id=="1"){
-		cate="工作笔记";
-	}else if(id=="2"){
-		cate="idea";
-	}else if(id=="3"){
-		cate="诗词(文学)";
-	}
-	return cate;
-}
-/*处理日记内容*/
-function handleCon(content){
-	var reg=/<[^<>]+>/g ;
-	//var reg1=/<(?!img).*?>/g;//保留img标签
-	//var reg2=/<\/?((?!img).)*?\/?>/g;
-	//var reg3=/<(?!img|p|/p).*?>/g;//保留img、p标签
-	var con=content+"";
-	con=con.replace(reg, "");
-	con=con.replace(new RegExp("::::","gm"), ".jpg'>");
-	con=con.replace(new RegExp(":::","gm"), ".png'>");
-	con=con.replace(new RegExp("::","gm"), ".gif'>");
-	con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='../../image/expre/newtieba/");
-	con=con.replace(new RegExp("<<","gm"), "<img alt='' src='../../image/expre/tieba/");
-	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='../../image/expre/weibo/");
-	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='../../image/expre/huang/");
-	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
-	
-	return con;
-}
-/*根据日记数量初始化页码按钮*/
-function setPage(){
-	$(".pages").text('');
-	var num=0;
-	$.ajax({
-		url:"../../getDiaryNumBy.do",
-		type:"get",
-		async:false,
-		data:{
-			NWritter:author
-		},
-		dataType:"text",
-		success:function(data){
-			num=data;
-		}
-	});
-	var page=0;
-	if(num%10==0){//可整除的话，页码数为总日记数除以10
-		page=num/10;
-	}else{//不可整除的话，页码数为总日记数除以10加1
-		page=parseInt(num/10)+1;
-	}
-	$(".pages").append("共"+num+"篇日记&emsp;");
-	if(page>1){//两页及以上方显示页码
-		if(curPage!=1){
-			$(".pages").append("<span onclick=\"loadDiaryByAuthor('"+author+"','1')\">首</span>&emsp;")
-			$(".pages").append("<span onclick=\"loadDiaryByAuthor('"+author+"','"+(curPage-1)+"')\">←</span>&emsp;");
-		}
-		if(page>6){//多于6页，只显示6页
-			
-		}else{
-			for(var i=1;i<=page;i++){
-				if(curPage==i){
-					$(".pages").append("<span onclick=\"loadDiaryByAuthor('"+author+"','"+i+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
-				}else{
-					$(".pages").append("<span onclick=\"loadDiaryByAuthor('"+author+"','"+i+"')\">"+i+"</span>&emsp;")
-				}
-			}
-		}
-		if(curPage+1<=page){//＜＞
-			$(".pages").append("<span onclick=\"loadDiaryByAuthor('"+author+"','"+(curPage+1)+"')\">→</span>&emsp;")
-			$(".pages").append("<span onclick=\"loadDiaryByAuthor('"+author+"','"+page+"')\">尾</span>&emsp;")
-		}
-	}
-	
-}
+
 //2019-10-26加载作者的信息:关注信息，互动计数，基本信息，活跃信息
 function loadAuthorInfo(){
 	$.ajax({
-		url:"../../getAuthorInfoByUserId.do?UUserId="+author,
+		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+author,
 		type:"get",
 		async:false,
 		dataType:"Json",

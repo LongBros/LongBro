@@ -22,6 +22,7 @@ import com.longbro.note.service.StoreDiaryService;
  * @copyright 多啦学娱网络科技有限公司
  */
 @Controller
+@RequestMapping("/note/store/")
 public class StoreDiaryController{
     @Autowired
     StoreDiaryService storeDiaryService;

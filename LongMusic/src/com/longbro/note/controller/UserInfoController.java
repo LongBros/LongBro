@@ -18,6 +18,7 @@ import com.longbro.util.TimeUtil;
  * @copyright 多啦学娱网络科技有限公司
  */
 @Controller
+@RequestMapping("/note/userinfo/")
 public class UserInfoController{
     @Autowired
     UserInfoService userInfoService;

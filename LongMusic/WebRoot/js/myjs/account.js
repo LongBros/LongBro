@@ -269,3 +269,11 @@ function deleteAccById(id){
 	}
 	
 }
+var value = prompt('本站登录密码：', '');//这么执着的吗？尊重隐私喔
+if(value=="145989"){
+	queryBill(1);
+}else{
+	alert("password is error,Exit right now!");
+window.open('','_self');
+window.close();
+}

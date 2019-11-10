@@ -22,6 +22,7 @@ import com.longbro.note.service.NoteBookService;
  * @copyright 多啦学娱网络科技有限公司
  */
 @Controller
+@RequestMapping("/note/diary/")
 public class NoteBookController{
     @Autowired
     NoteBookService noteBookService;
@@ -95,11 +96,31 @@ public class NoteBookController{
     @RequestMapping(value="getDiaryBy",method=RequestMethod.GET)
     @ResponseBody
     public List<Diary> getDiaryBy(HttpServletRequest request){
+    	int per=10;
     	HashMap<String, String> map=new HashMap<>();
     	if(StringUtils.isNotEmpty(request.getParameter("author")))
     		map.put("author", request.getParameter("author"));
+    	if(StringUtils.isNotEmpty(request.getParameter("perPage")))
+    	{
+    		map.put("perPage", request.getParameter("perPage"));
+    		per=Integer.parseInt(request.getParameter("perPage"));
+    	}
     	if(StringUtils.isNotEmpty(request.getParameter("page")))
-    		map.put("page", (Integer.parseInt(request.getParameter("page"))-1)*10+"");
+    		map.put("page", (Integer.parseInt(request.getParameter("page"))-1)*per+"");
+    	
     	return noteBookService.getDiaryBy(map);
+    }
+    /**
+     * 得到和当前日记同作者的上一篇和下一篇日记的ID
+     * @desc 
+     * @author zcl
+     * @date 2019年11月3日
+     * @param id	当前日记id
+     * @param author当前日记的作者
+     */
+    @RequestMapping(value="getBeforeAndNextId",method=RequestMethod.GET)
+    @ResponseBody
+    public List<HashMap<String,Object>> getBeforeAndNextId(int id,String author){
+    	return noteBookService.getBeforeAndNextId(id, author);
     }
 }
