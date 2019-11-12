@@ -37,5 +37,8 @@ public class PraiseDiaryService{
 	public int getPraiseNum(String diary){
 		return dao.getPraiseNum(diary);
 	}
+	public List<PraiseDiary> getMyLikeDiary(String userId){
+		return dao.getLikeDiarybyUser(userId);
+	}
 }
 

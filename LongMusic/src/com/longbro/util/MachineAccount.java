@@ -38,7 +38,7 @@ public class MachineAccount {
 	public static boolean ifHasGen(){
 		st=JdbcUtil.getCon();
 		try {
-			rs=st.executeQuery("select * from d_diary where n_Time like '%"+TimeUtil.getToday()+"%'");
+			rs=st.executeQuery("select * from d_diary where n_Writter='12345678' n_Time like '%"+TimeUtil.getToday()+"%'");
 			if(rs.next())
 				return true;
 			st.close();

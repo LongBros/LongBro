@@ -113,7 +113,7 @@
 		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum
 		 from d_diary d
 		 left join d_user_info di on d.n_Writter=di.u_User_Id
-		  where 1=1 and n_Authority=0
+		  where 1=1 and find_in_set(n_Authority,#{authority})
 		<if test="author!=null and author!=''">
 			and n_Writter=#{author}
 		</if>
@@ -136,11 +136,14 @@
 	<!-- 在diary.html界面使用，当前作者当前日记的上下篇切换功能	1上一篇，2下一篇 -->
 	<select id="getBeforeAndNextId" parameterType="java.util.Map" resultType="java.util.Map">
 		(SELECT n_Id id,n_Title title,1 as t FROM d_diary 
-		WHERE n_Writter=#{author} AND n_Id&lt;#{id} 
+		WHERE n_Writter=#{author} and n_Authority=0 AND n_Id&lt;#{id} 
 		ORDER BY n_Id DESC LIMIT 0,1 )
 		UNION 
 		(SELECT n_Id id,n_Title title,2 as t FROM d_diary 
-		WHERE n_Writter=#{author} AND n_Id&gt;#{id}
+		WHERE n_Writter=#{author} and n_Authority=0 AND n_Id&gt;#{id}
 		 LIMIT 0,1 );
+	</select>
+	<select id="getMyDiary">
+		
 	</select>
 </mapper>

@@ -12,6 +12,8 @@
 <script type="text/javascript" src="lib/html5shiv.js"></script>
 <script type="text/javascript" src="lib/respond.min.js"></script>
 <![endif]-->
+<link rel="stylesheet" type="text/css" href="../../css/index1.css">
+
 <link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
 <link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
@@ -136,16 +138,16 @@
 			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
 				<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
 			<ul class="cl">
-				<li>写日记</li>
+				<!-- <li>写日记</li> -->
 				<li class="dropDown dropDown_hover">
-					<a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+					<a href="#" class="dropDown_A"><span id="image">admin</span> <i class="Hui-iconfont">&#xe6d5;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
-						<li><a href="javascript:;" onClick="openNewPage('2')">我的家园</a></li>
-						<li><a href="javascript:;" onClick="openNewPage('3')">写日记</a></li>
-						<li><a href="javascript:;" onClick="openNewPage('4')">哆啦闹铃</a></li>
+						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
+						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
+						<li><a href="javascript:;" id="alarm" style="display:none" onClick="openNewPage('4')">哆啦闹铃</a></li>
+						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
 						<li><a class="login" id="login" style="display:block">登录</a></li>
-						<li><a href="javascript:;" onClick="openNewPage('6')" class="login">退出</a></li>
-				</ul>
+					</ul>
 			</li>
 				<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
 				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
@@ -163,9 +165,44 @@
 	</div>
 </div>
 </header>
+
+<div class="modal fade" id="loginModal" style="display:none;">
+			<div class="modal-dialog modal-sm" style="width:540px;">
+				<div class="modal-content" style="border:none;">
+					<div class="col-left"></div>
+					<div class="col-right">
+						<div class="modal-header">
+							<button type="button" id="login_close" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="loginModalLabel" style="font-size: 18px;">登录</h4>
+						</div>
+						<div class="modal-body">
+							<section class="box-login v5-input-txt" id="box-login">
+								<form id="login_form" name="login_form" action="" method="post" autocomplete="off">
+									
+									<ul>
+										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入邮箱账号/手机号" type="text"></li>
+										<li class="form-group"><input class="form-control" id="id_password_l" name="password_l" placeholder="请输入密码" type="password"></li>
+									</ul>
+								</form>
+								<p class="good-tips marginB10"><a id="btnForgetpsw" class="fr">忘记密码？</a>还没有账号？<a href="javascript:;" target="_blank" id="btnRegister">立即注册</a></p>
+								<div class="login-box marginB10">
+									<button id="login_btn" type="button" onclick="login()" class="btn btn-micv5 btn-block globalLogin">登录</button>
+									<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+								</div>
+<!-- 								<div class="threeLogin"><span>其他方式登录</span><a class="nqq" href="javascript:;"></a><a class="nwx" href="javascript:;"></a><a class="nwb"></a></div>
+ -->							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>	
+
+
 <div class="contents">
-	<audio id="song" src="" autoplay="autoplay" style="visibility: hidden;"></audio>
-	<span id="pre" style="float: left;margin-left: 20px;margin-top: 10px;"></span><span id="next" style="float: right;margin-right: 20px;margin-top: 10px;"></span>
+	<span id="pre" style="float: left;margin-left: 20px;margin-top: 10px;"></span>
+	<span id="next" style="float: right;margin-right: 20px;margin-top: 10px;"></span>
+	<audio id="song" src="" autoplay="autoplay" controls="controls" style="float: left;margin-left: 20px;margin-top: 10px;display:none"></audio>
 	<div class="diary" id="diary">
 		
 	</div>
@@ -250,21 +287,35 @@ function GetQueryString(name)
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 }
+$(".login").on("click", login_popup),function() {
+    var e = [];
+    $(".modal").on("show.bs.modal",
+    function() {
+        for (var s = 0; e.length > s; s++) e[s] && (e[s].modal("hide"), e[s] = null);
+        e.push($(this));
+        var o = $(this),
+        a = o.find(".modal-dialog"),
+        t = $('<div style="display:table; width:100%; height:100%;"></div>');
+        t.html('<div style="vertical-align:middle; display:table-cell;"></div>'),
+        t.children("div").html(a),
+        o.html(t)
+    })
+} ();
 var id =GetQueryString("id");//当前日记的id
 var author="";//当前日记的作者
 //var user=getUser();//当前登录用户
 $(function(){
+	getUser();
 	//网页title由loadDiary函数和loadAuthorInfo共同生成
 	loadDiary(id);//根据日记id参数加载对应日记
 	//document.getElementById("userId").innerText=user;
 	//判断当前登录人是否已点赞、收藏该日记，并对图标做修改
-	//setIcon(id);//若该函数出错，会导致下方不能执行
+	setIcon(id);//若该函数出错，会导致下方不能执行
 	author=document.getElementById("userId").innerText;//在loadDiary函数中设置的
 	loadAuthorInfo();
 	getBeforeAndNextId();
 	loadCom();//加载评论
 });
-
 </script> 
 </body>
 </html>

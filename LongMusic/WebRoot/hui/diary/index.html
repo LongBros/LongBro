@@ -110,16 +110,16 @@
 			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
 				<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
 			<ul class="cl">
-				<li><a href="new.html">写日记</a></li>
+				<!-- <li><a href="new.html">写日记</a></li> -->
 				<li class="dropDown dropDown_hover">
-					<a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+					<a href="#" class="dropDown_A"><span id="image">admin</span> <i class="Hui-iconfont">&#xe6d5;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
-						<li><a href="javascript:;" onClick="openNewPage('2')">我的家园</a></li>
-						<li><a href="javascript:;" onClick="openNewPage('3')">写日记</a></li>
-						<li><a href="javascript:;" onClick="openNewPage('4')">哆啦闹铃</a></li>
+						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
+						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
+						<li><a href="javascript:;" id="alarm" style="display:none" onClick="openNewPage('4')">哆啦闹铃</a></li>
+						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
 						<li><a class="login" id="login" style="display:block">登录</a></li>
-						<li><a href="javascript:;" onClick="openNewPage('6')" class="login">退出</a></li>
-				</ul>
+					</ul>
 			</li>
 				<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger" id="unReadNum">5</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
 				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
@@ -197,14 +197,16 @@
 		&emsp;哆啦统计<br>在线人数：8888<br>用户数：888888<br>
 		今日笔记：88<br>总日记数：8888888<br><br>
 	</div>
-	<div class="newer">
-		&emsp;新人榜<br>LongBro<br>江湖英雄<br>哆啦1号<br>哆啦2号<br>
-		哆啦3号<br>传说<br>Superheroes<br>超级英雄<br>爱情算什么东东
-		<br>世上无难事，只怕有心人
+	<div class="newer" style="cursor: pointer">
+		&emsp;新人榜<br>
+		<span style="color: red;font-size:20px;">1.</span><span onclick="openAuthor('1314521')">LongBros</span><br>
+		<font style="color: green;font-size:20px;">2.</font><span onclick="openAuthor('12345678')">FatLuo</span><br>
+		<font style="color: cyan;font-size:20px;">3.</font><span onclick="openAuthor('88888888')">歌词网</span><br>
+		<font style="color: black;font-size:20px;">4.</font><span onclick="openAuthor('66666666')">古诗网</span><br>
+		<font style="color: black;font-size:20px;">5.</font><span onclick="openAuthor('819123980')">Mr.Wang</span><br>
+		<font style="color: black;font-size:20px;">6.</font><span onclick="openAuthor('24972612')">Mrs.Zhang</span><br>
 	</div>
 </div>
-
-
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
@@ -214,7 +216,7 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="../lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
 <script type="text/javascript">
-
+getUser();
 $(".login").on("click", login_popup),function() {
     var e = [];
     $(".modal").on("show.bs.modal",
@@ -248,7 +250,11 @@ $(function(){
 		}
 	});*/
 });
-
+//打开新人榜对应新人
+function openAuthor(aid){
+	window.location="author.html?author="+aid;
+	//window.open("myHome.html", "_blank")
+}
 </script> 
 </body>
 </html>

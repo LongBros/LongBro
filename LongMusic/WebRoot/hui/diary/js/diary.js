@@ -93,6 +93,7 @@ function openAuthor(author){
 }
 //6.判断当前登录人是否已点赞、收藏该日记，并对图标做修改
 function setIcon(id){
+	var user=getCookie("userNote")+"";
 	var praise=0;//该篇日记当前登录人是否已点赞
 	var store=0;//该篇日记当前登录人是否已收藏
 	$.ajax({
@@ -145,6 +146,11 @@ function setIcon(id){
 }
 //7.点赞与取消点赞
 function praise(){
+	if(!ifLogin()){
+		alert("请先登录");
+		return;
+	}
+	var user=getCookie("userNote")+"";
 	var pra=document.getElementById("praise");
 	var pNum=document.getElementById("praiseNum");
 	if(pra.title=="点赞"){
@@ -187,6 +193,11 @@ function praise(){
 }
 //8.收藏与取消收藏
 function store(){
+	if(!ifLogin()){
+		alert("请先登录");
+		return;
+	}
+	var user=getCookie("userNote")+"";
 	var st=document.getElementById("store");
 	var sNum=document.getElementById("storeNum");
 	if(st.title=="收藏"){
@@ -341,4 +352,13 @@ function playAudio(sid){
 	}
 	var song=document.getElementById("song");
 	song.src=url;
+	song.style.display="inline-block";
+}
+//判断是否已登录
+function ifLogin(){
+	var userPass=getCookie("userPass")+"";
+	if(userPass!=""){//已登录用户，隐藏登录按钮
+		return true;
+	}
+	return false;
 }

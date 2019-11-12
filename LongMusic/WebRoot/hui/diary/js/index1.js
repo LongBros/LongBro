@@ -1,5 +1,6 @@
 var curPage=1;//当前页码
 var perPage=10;//当前一页展示日记数量
+var user=getCookie("userNote")+"";
 /*个人信息*/
 function myselfinfo(){
 	layer.open({
@@ -14,10 +15,14 @@ function myselfinfo(){
 }
 
 /*
- * 根据页码加载日记
+ * 根据页码加载日记--用于首页和作者页
  * @param 作者	页码
 */
 function loadDiary(author,page,perPage){
+	var au="0";//完全公开的
+	if(user!=null){//登录用户可看到完全公开和登录可见的
+		au="0,2";
+	}
 	$("#diarys").text("");
 	$.ajax({
 		url:"../../note/diary/getDiaryBy.do",
@@ -27,6 +32,7 @@ function loadDiary(author,page,perPage){
 		data:{
 			author:author,
 			page:page,
+			authority:au,
 			perPage:perPage
 		},
 		success:function(data){
@@ -42,10 +48,14 @@ function loadDiary(author,page,perPage){
 				if(title.length>10){
 					title=title.substring(0,8)+"...";
 				}
+				var userName=data[i].userName;
+				if(user==data[i].nwritter){//当前登录人的日记特殊显示作者
+					userName="<font color='red'>"+data[i].userName+"(朕)</font>";
+				}
 				//分类
 				var cate=getCateById(data[i].ntype);
 				$("#diarys").append("<div class=\"diary\"><img src='../../image/tx/"+data[i].headImage+".jpg' class='touxiang'><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
-				+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+data[i].userName
+				+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName
 				+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
 				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation
 				+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
@@ -185,18 +195,7 @@ function initUnReadMessage(){
 		}
 	});
 }
-//打开新页面
-function openNewPage(which){
-	if(which=="2"){
-		window.open("myHome.html", "_blank")
-	}else if(which=="3"){
-		window.open("new.html", "_blank")
-	}else if(which=="4"){
-		window.open("http://112.74.173.44/LongMusic/index0.jsp", "_blank")
-	}else if(which=="5"){
-		alert("login")
-	}
-}
+
 function setPer(pernum){
 	perPage=pernum;
 	setPage(author,perPage);

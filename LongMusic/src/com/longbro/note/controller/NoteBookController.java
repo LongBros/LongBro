@@ -105,9 +105,11 @@ public class NoteBookController{
     		map.put("perPage", request.getParameter("perPage"));
     		per=Integer.parseInt(request.getParameter("perPage"));
     	}
+    	if(StringUtils.isNotEmpty(request.getParameter("authority")))
+    		map.put("authority", request.getParameter("authority"));
     	if(StringUtils.isNotEmpty(request.getParameter("page")))
     		map.put("page", (Integer.parseInt(request.getParameter("page"))-1)*per+"");
-    	
+    	System.out.println(request.getParameter("authority"));
     	return noteBookService.getDiaryBy(map);
     }
     /**

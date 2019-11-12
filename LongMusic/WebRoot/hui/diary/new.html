@@ -20,15 +20,17 @@
 <link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
-<script type="text/javascript" src="js/index.js"></script>
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
+<link rel="stylesheet" type="text/css" href="../../css/index1.css">
+
 <!--/meta 作为公共模版分离出去-->
 <script type="text/javascript" src="../../js/jquery.js"></script>
 <script type="text/javascript" src="js/new.js"></script>
 <script type="text/javascript" src="../../js/myjs/timeDeal.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 
 <title>写新日记 - 哆啦日记</title>
 <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
@@ -71,11 +73,13 @@
 			<ul class="cl">
 				<li id="homepage" style="cursor:pointer;" onclick="openNewPage('1')">首页</li>
 				<li class="dropDown dropDown_hover">
-					<a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+					<a href="#" class="dropDown_A"><span id="image">admin</span> <i class="Hui-iconfont">&#xe6d5;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
-						<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
-						<li><a href="#">切换账户</a></li>
-						<li><a href="#">退出</a></li>
+						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
+						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
+						<li><a href="javascript:;" id="alarm" style="display:none" onClick="openNewPage('4')">哆啦闹铃</a></li>
+						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
+						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
 				</li>
 				<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
@@ -95,6 +99,38 @@
 </div>
 </header>
 
+<div class="modal fade" id="loginModal" style="display:none;">
+			<div class="modal-dialog modal-sm" style="width:540px;">
+				<div class="modal-content" style="border:none;">
+					<div class="col-left"></div>
+					<div class="col-right">
+						<div class="modal-header">
+							<button type="button" id="login_close" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="loginModalLabel" style="font-size: 18px;">登录</h4>
+						</div>
+						<div class="modal-body">
+							<section class="box-login v5-input-txt" id="box-login">
+								<form id="login_form" name="login_form" action="" method="post" autocomplete="off">
+									
+									<ul>
+										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入邮箱账号/手机号" type="text"></li>
+										<li class="form-group"><input class="form-control" id="id_password_l" name="password_l" placeholder="请输入密码" type="password"></li>
+									</ul>
+								</form>
+								<p class="good-tips marginB10"><a id="btnForgetpsw" class="fr">忘记密码？</a>还没有账号？<a href="javascript:;" target="_blank" id="btnRegister">立即注册</a></p>
+								<div class="login-box marginB10">
+									<button id="login_btn" type="button" onclick="login()" class="btn btn-micv5 btn-block globalLogin">登录</button>
+									<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+								</div>
+<!-- 								<div class="threeLogin"><span>其他方式登录</span><a class="nqq" href="javascript:;"></a><a class="nwx" href="javascript:;"></a><a class="nwb"></a></div>
+ -->							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>	
+
 <script> 
 /* $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js',function(){  
  alert(remote_ip_info.country);//国家  
@@ -102,7 +138,7 @@
  alert(remote_ip_info.city);//城市  
 });   */
 </script>
-<font color="red" style="margin-left: 100px;margin-top: 10px;">您当前处于访客写日记模式，日记面临丢失风险，登录后获得所写日记的专属权！</font>
+<font color="red" style="margin-left: 100px;margin-top: 10px;"><span id="tip">您当前处于访客写日记模式，日记面临丢失风险，登录后获得所写日记的专属权！</span></font>
 <article class="page-container">
 	<form class="form form-horizontal" name="form" id="form-article-add">
 		<div class="row cl">
@@ -171,9 +207,9 @@
 			<label class="form-label col-xs-4 col-sm-1"><span class="c-red"></span>权限：</label>
 			<div class="formControls col-xs-8 col-sm-2"> <span class="select-box">
 				<select name="authority" class="select">
-					<option value="0">完全公开</option>
+					<option value="0" selected="selected">完全公开</option>
 					<option value="1">自己可见</option>
-					<option value="2" selected="selected">登录可见</option>
+					<option value="2">登录可见</option>
 				</select>
 				</span> 
 			</div>
@@ -224,6 +260,28 @@ function GetQueryString(name)
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
+}
+$(".login").on("click", login_popup),function() {
+    var e = [];
+    $(".modal").on("show.bs.modal",
+    function() {
+        for (var s = 0; e.length > s; s++) e[s] && (e[s].modal("hide"), e[s] = null);
+        e.push($(this));
+        var o = $(this),
+        a = o.find(".modal-dialog"),
+        t = $('<div style="display:table; width:100%; height:100%;"></div>');
+        t.html('<div style="vertical-align:middle; display:table-cell;"></div>'),
+        t.children("div").html(a),
+        o.html(t)
+    })
+} ();
+getUser();
+var user=getCookie("userNote")+"";
+document.getElementById("tip").innerText="欢迎使用哆啦日记网，记录你生活的点点滴滴";
+if(user==""){
+	alert("登录后方可写日记");
+	document.getElementById("tip").innerText="请先登录后再写日记！(注册功能暂未开放，欢迎联系1459892910索要账号)";
+	login_popup();
 }
 //2019-10-27
 function calcInput(){

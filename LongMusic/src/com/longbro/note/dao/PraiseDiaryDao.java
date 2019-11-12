@@ -42,5 +42,8 @@ public class PraiseDiaryDao extends BaseDao{
 	public int getPraiseNum(String diary){
 		return (Integer)this.selectOne(getNamespace()+".getPraiseNum", diary);
 	}
+	public List<PraiseDiary> getLikeDiarybyUser(String userId){
+		return (List<PraiseDiary>)this.selectList(getNamespace()+".getLikeDiarybyUser", userId);
+	}
 }
 

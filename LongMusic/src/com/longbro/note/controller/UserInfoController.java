@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.longbro.bean.AlarmUser;
+import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.Author;
 import com.longbro.note.bean.UserInfo;
 import com.longbro.note.service.UserInfoService;
@@ -67,11 +68,18 @@ public class UserInfoController{
      */
     @RequestMapping(value="loginNote",method=RequestMethod.GET)
     @ResponseBody
-    public boolean loginNote(String acc,String pass){
+    public BaseResult<UserInfo> loginNote(String acc,String pass){
+    	BaseResult<UserInfo> result=new BaseResult<UserInfo>();
     	UserInfo ui=userInfoService.loginNote(acc, pass);
     	if(ui!=null){
-    		return true;
+    		result.setCode(200);
+    		result.setMessage("登录成功");
+    		result.setResult(ui);
+    		return result;
     	}
-    	return false;
+    	result.setCode(110);
+    	result.setMessage("请检查你输入的账号");
+    	result.setResult(null);
+    	return result;
     }
 }

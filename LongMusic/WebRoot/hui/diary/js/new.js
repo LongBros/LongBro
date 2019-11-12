@@ -1,5 +1,12 @@
+var user=getCookie("userNote")+"";
 //写日记
 function writeNote(){
+	if(user==""){
+		alert("登录后方可写日记");
+		document.getElementById("tip").innerText="请先登录后再写日记！";
+		login_popup();
+		return;
+	}
 	var loc=document.form.location.value;
 	var wea=document.form.weather.value;
 	var mood=document.form.mood.value;
@@ -25,7 +32,7 @@ function writeNote(){
 		async:false,
 		dataType:"text",
 		data:{
-			NWritter:"1314521",
+			NWritter:user,
 			NType:category,
 			NTitle:title,
 			NContent:content,
@@ -169,10 +176,4 @@ function oocImage(type){
 //	document.form.content.value=con+img;
 	var con=document.getElementById("content").value;
 	document.getElementById("content").value=con+img;
-}
-//打开新页面
-function openNewPage(which){
-	if(which=="1"){
-		window.open("index.html", "_blank")
-	}
 }
