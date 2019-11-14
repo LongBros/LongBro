@@ -57,6 +57,9 @@ function loadDiary(id){
 						+"<div class='content'>"+con+"</div>"
 
 						);
+				if(data.nallowComment==1){//不允许评论
+					$("#comment").text("");
+				}
 		}
 	});
 }

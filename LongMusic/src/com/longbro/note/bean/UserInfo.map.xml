@@ -15,6 +15,7 @@
 		<result property="signature" column="u_Signature" jdbcType="VARCHAR"/>
 		<result property="headImage" column="u_Head_Image" jdbcType="VARCHAR"/>
 		<result property="password" column="u_Password" jdbcType="VARCHAR"/>
+		<result property="location" column="u_Location" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.longbro.note.bean.UserInfo">

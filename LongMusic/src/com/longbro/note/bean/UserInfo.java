@@ -22,7 +22,8 @@ public class UserInfo{
 	protected String UHomeSong; //家歌
 	protected String signature;
 	protected String headImage;
-	protected String password;//2019-20-27
+	protected String password;//2019-10-27
+	protected String location;//2019-11-15
 	public Integer getUId() {
 		return this.UId;
 	}
@@ -145,6 +146,12 @@ public class UserInfo{
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 }

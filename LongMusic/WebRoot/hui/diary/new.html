@@ -82,7 +82,17 @@
 						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
 				</li>
-				<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
+				<li id="Hui-msg" class="dropDown right dropDown_hover"> <a href="#" title="消息"><span class="badge badge-danger" id="unReadNum">5</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> 
+					<ul class="dropDown-menu menu radius box-shadow">
+						<li><a href="javascript:;" data-val="red" title="公告数目">公告<font color="red">1</font></a></li>
+						<li><a href="javascript:;" data-val="default" title="评论数目">评论</a></li>
+						<li><a href="javascript:;" data-val="blue" title="获赞数目">获赞<font color="red">2</font></a></li>
+						<li><a href="javascript:;" data-val="green" title="关注数目">关注<font color="red">2</font></a></li>
+						<li><a href="javascript:;" data-val="yellow" title="点击后消息标记为已读">朕已阅✔</a></li>
+						<li><a href="javascript:;" data-val="yellow" title="消息设置">设置</a></li>
+					</ul>
+
+				</li>
 				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
@@ -276,6 +286,7 @@ $(".login").on("click", login_popup),function() {
     })
 } ();
 getUser();
+setLocation(); 
 var user=getCookie("userNote")+"";
 document.getElementById("tip").innerText="欢迎使用哆啦日记网，记录你生活的点点滴滴";
 if(user==""){
@@ -289,6 +300,24 @@ function calcInput(){
 	co=co+"";
 	document.getElementById("inputNum").innerHTML="<font color=\"red\">"+co.length+"</font>";
 
+}
+function setLocation(){
+	var acc=getCookie("userNote")+"";//账号，即哆啦id
+	var pass=getCookie("userPass")+"";
+	$.ajax({
+		url:"../../note/userinfo/loginNote.do?acc="+acc+"&pass="+pass,
+		async:true,
+		type:"GET",
+		dataType:"Json",
+		success:function(data){
+			if(data.result!=null){
+				document.form.location.value=data.result.location;
+			}else{
+				alert('未匹配到你输入的账号')
+			}
+
+		}
+	});
 }
 /*
 $(function(){

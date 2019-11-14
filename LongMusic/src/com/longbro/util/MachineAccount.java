@@ -99,7 +99,7 @@ public class MachineAccount {
 				//根据原始表内容生成日记并录入日记表
 				insSql="INSERT INTO `music`.`d_diary` (`n_Type`, `n_BookId`, `n_Writter`, `n_Title`, `n_Content`, `n_Time`, `n_Weather`, `n_Mood`, `n_Location`, `n_AllowComment`, `n_Authority`,`n_song_id`) VALUES ('"
 				+type+"', NULL, '"+account+"', '"+title+"', '"+content+"', '"
-						+time+"', '"+wea+"', '"+mood+"', '"+loc+"', '1', '0','"+songId+"');";
+						+time+"', '"+wea+"', '"+mood+"', '"+loc+"', '0', '0','"+songId+"');";
 				System.out.println(insSql);
 			}
 			st.executeUpdate(updSql+id);//更新原表该条记录为已被使用
