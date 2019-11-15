@@ -1,4 +1,6 @@
-/*1.个人信息*/
+/**
+ * 1.个人信息
+ */
 function myselfinfo(){
 	layer.open({
 		type: 1,
@@ -11,7 +13,10 @@ function myselfinfo(){
 	});
 }
 
-/*2.根据日记id加载日记*/
+/**
+ * 2.根据日记id加载日记
+ * @param id
+ */
 function loadDiary(id){
 	$("#diary").text("");
 	$.ajax({
@@ -40,7 +45,7 @@ function loadDiary(id){
 					}
 					title1=data.ntitle+"<span title=\"点击可播放喔\" style=\"cursor:pointer;color:red;\" onclick=\"playAudio('"+songId+"')\">▷</span><img style=\"width: 28px;height: 28px;\" src=\"../../image/picture/hot1.gif\">";
 				}
-				//加载当前日记作者的关注、粉丝、喜欢、收藏及其他基本信息以显示
+				
 				document.title="《"+title+"》~'";
 				if(title.length>10){
 					title=title.substring(0,8)+"...";
@@ -63,7 +68,11 @@ function loadDiary(id){
 		}
 	});
 }
-/*3.根据分类id得到分类名*/
+/**
+ * 3.根据分类id得到分类名
+ * @param id
+ * @returns {String}
+ */
 function getCateById(id){
 	var cate="0";
 	if(id=="0"){
@@ -77,7 +86,11 @@ function getCateById(id){
 	}
 	return cate;
 }
-/*4.处理日记内容*/
+/**
+ * 4.处理日记内容
+ * @param content
+ * @returns
+ */
 function handleCon(content){
 	var con="&emsp;&emsp;"+content;
 	con=con.replace(new RegExp("::::","gm"), ".jpg'>");
@@ -90,11 +103,17 @@ function handleCon(content){
 	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
 	return con.replace(new RegExp("<br>","gm"), "<br>&emsp;&emsp;");
 }
-/*5.打开作者的界面*/
+/**
+ * 5.打开作者的界面
+ * @param author
+ */
 function openAuthor(author){
 	alert(author);
 }
-//6.判断当前登录人是否已点赞、收藏该日记，并对图标做修改
+/**
+ * 6.判断当前登录人是否已点赞、收藏该日记，并对图标做修改
+ * @param id
+ */
 function setIcon(id){
 	var user=getCookie("userNote")+"";
 	var praise=0;//该篇日记当前登录人是否已点赞
@@ -147,7 +166,9 @@ function setIcon(id){
 		st.innerHTML="&#xe630;";
 	}
 }
-//7.点赞与取消点赞
+/**
+ * 7.点赞与取消点赞
+ */
 function praise(){
 	if(!ifLogin()){
 		alert("请先登录");
@@ -194,7 +215,9 @@ function praise(){
 		pNum.innerText=parseInt(pNum.innerText)-1;
 	}
 }
-//8.收藏与取消收藏
+/**
+ * 8.收藏与取消收藏
+ */
 function store(){
 	if(!ifLogin()){
 		alert("请先登录");
@@ -242,7 +265,9 @@ function store(){
 
 	}
 }
-//9.2019-10-26加载作者的信息:关注信息，互动计数，基本信息，活跃信息
+/**
+ * 9.2019-10-26加载作者的信息:关注信息，互动计数，基本信息，活跃信息
+ */
 function loadAuthorInfo(){
 	$.ajax({
 		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+author,
@@ -261,7 +286,9 @@ function loadAuthorInfo(){
 		}
 	});
 }
-//10.得到歌曲文章的上下篇
+/**
+ * 10.得到当前文章的上下篇
+ */
 function getBeforeAndNextId(){
 	$.ajax({
 		url:"../../note/diary/getBeforeAndNextId.do?author="+author+"&id="+id,
@@ -287,7 +314,9 @@ function getBeforeAndNextId(){
 		}
 	});
 }
-//11.评论
+/**
+ * 11.评论
+ */
 function submit_comment(){
 	var con=document.getElementById("content").value+"";//内容
 	if(con.length<5){
@@ -311,7 +340,9 @@ function submit_comment(){
 	});
 	loadCom();
 }
-//12.加载当前文章的评论
+/**
+ * 12.加载当前文章的评论
+ */
 function loadCom(){
 	$('#comments').text("");
 	$.ajax({
@@ -348,7 +379,7 @@ function playAudio(sid){
 		url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
 	}else if(sid.substring(sid.length-3)==".kw"){
 		url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
-	}else if(sid.substring(sid.length-4)==".m4a"){
+	}else if(sid.substring(sid.length-4)==".m4a"||sid.substring(sid.length-4)==".mp3"){
 		url=sid;
 	}else{
 		url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
@@ -357,7 +388,7 @@ function playAudio(sid){
 	song.src=url;
 	song.style.display="inline-block";
 }
-//判断是否已登录
+//14.判断是否已登录
 function ifLogin(){
 	var userPass=getCookie("userPass")+"";
 	if(userPass!=""){//已登录用户，隐藏登录按钮

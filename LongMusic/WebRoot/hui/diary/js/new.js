@@ -177,3 +177,28 @@ function oocImage(type){
 	var con=document.getElementById("content").value;
 	document.getElementById("content").value=con+img;
 }
+//2019-10-27
+ function calcInput(){
+ 	var co=document.form.content.value;//吐槽内容
+ 	co=co+"";
+ 	document.getElementById("inputNum").innerHTML="<font color=\"red\">"+co.length+"</font>";
+ }
+ //2019-11-15
+ function setLocation(){
+ 	var acc=getCookie("userNote")+"";//账号，即哆啦id
+ 	var pass=getCookie("userPass")+"";
+ 	$.ajax({
+ 		url:"../../note/userinfo/loginNote.do?acc="+acc+"&pass="+pass,
+ 		async:true,
+ 		type:"GET",
+ 		dataType:"Json",
+ 		success:function(data){
+ 			if(data.result!=null){
+ 				document.form.location.value=data.result.location;
+ 			}else{
+ 				alert('未匹配到你输入的账号')
+ 			}
+
+ 		}
+ 	});
+ }

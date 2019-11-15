@@ -79,6 +79,8 @@ function getCateById(id){
 		cate="idea";
 	}else if(id=="3"){
 		cate="诗词(文学)";
+	}else if(id=="4"){
+		cate="深度好文";
 	}
 	return cate;
 }

@@ -234,6 +234,7 @@
 						<option value="1">工作笔记</option>
 						<option value="2">idea</option>
 						<option value="3">诗词(文学)</option>
+						<option value="4">深度好文</option>
 					</select>
 				</span> 
 			</div>
@@ -294,31 +295,7 @@ if(user==""){
 	document.getElementById("tip").innerText="请先登录后再写日记！(注册功能暂未开放，欢迎联系1459892910索要账号)";
 	login_popup();
 }
-//2019-10-27
-function calcInput(){
-	var co=document.form.content.value;//吐槽内容
-	co=co+"";
-	document.getElementById("inputNum").innerHTML="<font color=\"red\">"+co.length+"</font>";
 
-}
-function setLocation(){
-	var acc=getCookie("userNote")+"";//账号，即哆啦id
-	var pass=getCookie("userPass")+"";
-	$.ajax({
-		url:"../../note/userinfo/loginNote.do?acc="+acc+"&pass="+pass,
-		async:true,
-		type:"GET",
-		dataType:"Json",
-		success:function(data){
-			if(data.result!=null){
-				document.form.location.value=data.result.location;
-			}else{
-				alert('未匹配到你输入的账号')
-			}
-
-		}
-	});
-}
 /*
 $(function(){
 	

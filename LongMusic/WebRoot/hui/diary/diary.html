@@ -21,7 +21,7 @@
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
 <script type="text/javascript" src="js/index.js"></script><!-- 获取当前登录用户 -->
 <script type="text/javascript" src="../../js/myjs/timeDeal.js"></script><!-- 时间处理函数 -->
-<script type="text/javascript" src="js/new.js"></script>
+<script type="text/javascript" src="js/new.js"></script><!-- 评论使用到 -->
 <script type="text/javascript" src="js/diary.js"></script>
 
 <!--[if IE 6]>
@@ -322,7 +322,7 @@ $(function(){
 	//判断当前登录人是否已点赞、收藏该日记，并对图标做修改
 	setIcon(id);//若该函数出错，会导致下方不能执行
 	author=document.getElementById("userId").innerText;//在loadDiary函数中设置的
-	loadAuthorInfo();
+	loadAuthorInfo();//加载当前日记作者的关注、粉丝、喜欢、收藏及其他基本信息以显示
 	getBeforeAndNextId();
 	loadCom();//加载评论
 });
