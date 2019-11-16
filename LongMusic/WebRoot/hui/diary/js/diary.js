@@ -115,7 +115,7 @@ function openAuthor(author){
  * @param id
  */
 function setIcon(id){
-	var user=getCookie("userNote")+"";
+	var user=getCookie("userId")+"";
 	var praise=0;//该篇日记当前登录人是否已点赞
 	var store=0;//该篇日记当前登录人是否已收藏
 	$.ajax({
@@ -174,7 +174,7 @@ function praise(){
 		alert("请先登录");
 		return;
 	}
-	var user=getCookie("userNote")+"";
+	var user=getCookie("userId")+"";
 	var pra=document.getElementById("praise");
 	var pNum=document.getElementById("praiseNum");
 	if(pra.title=="点赞"){
@@ -390,7 +390,7 @@ function playAudio(sid){
 }
 //14.判断是否已登录
 function ifLogin(){
-	var userPass=getCookie("userPass")+"";
+	var userPass=getCookie("userNick")+"";
 	if(userPass!=""){//已登录用户，隐藏登录按钮
 		return true;
 	}

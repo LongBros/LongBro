@@ -70,6 +70,8 @@
 		WHERE
 		c_Id=#{CId}
 	</delete>
-	
+	<update id="setAsReaded">
+		UPDATE d_comment SET c_Read_Status=1 WHERE c_Reviewed=#{_parameter} AND c_Read_Status=0;
+	</update>
 	
 </mapper>

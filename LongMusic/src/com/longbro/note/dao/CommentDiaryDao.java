@@ -1,6 +1,7 @@
 package com.longbro.note.dao;
 
 import java.util.List;
+
 import com.longbro.note.bean.CommentDiary;
 import com.longbro.note.dao.CommentDiaryDao;
 import com.longbro.common.BaseDao;
@@ -24,6 +25,10 @@ public class CommentDiaryDao extends BaseDao{
 	}
 	public List<CommentDiary> getComByDiaryId(int id) {
 		return this.selectList(getNamespace()+".get",id);
+	}
+	//2019-11-16设置所有未读消息为已读
+	public void setAsReaded(String userId){
+		this.update(getNamespace()+".setAsReaded", userId);
 	}
 }
 

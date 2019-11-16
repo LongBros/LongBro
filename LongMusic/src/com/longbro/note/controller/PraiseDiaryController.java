@@ -1,10 +1,12 @@
 package com.longbro.note.controller;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Controller;
@@ -74,8 +76,12 @@ public class PraiseDiaryController{
      */
     @RequestMapping(value="getPraiseNum",method=RequestMethod.GET)
     @ResponseBody
-    public int getPraiseNum(String diaryId){
-    	return praiseDiaryService.getPraiseNum(diaryId);
+    public int getPraiseNum(String diaryId,String PPraised,int status){
+    	Map<String,Object> map=new HashedMap();
+    	map.put("diaryId", diaryId);
+    	map.put("PPraised", PPraised);
+    	map.put("status", status);
+    	return praiseDiaryService.getPraiseNum(map);
     }
     /**
      * @desc 5.得到某用户喜欢的日记

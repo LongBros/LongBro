@@ -1,4 +1,11 @@
 package com.longbro.note.controller;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,7 +16,11 @@ import com.longbro.bean.AlarmUser;
 import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.Author;
 import com.longbro.note.bean.UserInfo;
+import com.longbro.note.service.CommentDiaryService;
+import com.longbro.note.service.PraiseDiaryService;
+import com.longbro.note.service.StoreDiaryService;
 import com.longbro.note.service.UserInfoService;
+import com.longbro.service.CommentService;
 import com.longbro.util.Strings;
 import com.longbro.util.TimeUtil;
 /**
@@ -23,6 +34,12 @@ import com.longbro.util.TimeUtil;
 public class UserInfoController{
     @Autowired
     UserInfoService userInfoService;
+    @Autowired
+    CommentDiaryService commentDiaryService;
+    @Autowired
+    PraiseDiaryService praiseDiaryService;
+    @Autowired
+    StoreDiaryService storeDiaryService;
     /**
      * @desc 1.根据userId获取用户信息
      * @author zcl
@@ -59,7 +76,7 @@ public class UserInfoController{
     	return userId;
     }
     /**
-     * @desc 登录哆啦日记网的校验
+     * @desc 3.登录哆啦日记网的校验
      * @author zcl
      * @date 2019年10月27日
      * @param acc
@@ -68,17 +85,65 @@ public class UserInfoController{
      */
     @RequestMapping(value="loginNote",method=RequestMethod.GET)
     @ResponseBody
-    public BaseResult<UserInfo> loginNote(String acc,String pass){
-    	BaseResult<UserInfo> result=new BaseResult<UserInfo>();
+    public BaseResult<String> loginNote(String acc,String pass,HttpServletResponse response){
+    	BaseResult<String> result=new BaseResult<String>();
     	UserInfo ui=userInfoService.loginNote(acc, pass);
     	if(ui!=null){
+    		Cookie cookie=new Cookie("userId", acc);
+    		cookie.setMaxAge(30*24*60*60);
+    		cookie.setPath("/");
+    		response.addCookie(cookie);
+    		Cookie cookie1=new Cookie("userNick", ui.getUUserName());
+    		cookie1.setMaxAge(30*24*60*60);
+    		cookie1.setPath("/");
+    		response.addCookie(cookie1);
+    		Cookie cookie2=new Cookie("userAddr", ui.getLocation());
+    		cookie2.setMaxAge(30*24*60*60);
+    		cookie2.setPath("/");
+    		response.addCookie(cookie2);
+    		System.out.println(cookie.getValue());
     		result.setCode(200);
     		result.setMessage("登录成功");
-    		result.setResult(ui);
+    		result.setResult(1);
     		return result;
     	}
     	result.setCode(110);
     	result.setMessage("请检查你输入的账号");
+    	result.setResult(null);
+    	return result;
+    }
+    /**
+     * @desc 4.查询某用户或所有用户的未读数量
+     * @author zcl
+     * @date 2019年11月16日
+     * @param userId
+     */
+    @RequestMapping("queryUnReadNum")
+    @ResponseBody
+    public BaseResult<String> queryUnReadNum(String userId){
+    	BaseResult<String> result=new BaseResult<String>();
+    	List<HashMap<String, Object>> map=new ArrayList<HashMap<String, Object>>();
+    	result.setCode(200);
+    	result.setResult(userInfoService.queryUnReadNum(userId));
+    	result.setMessage("查询成功");
+    	return result;
+    }
+    /**
+     * @desc 5.设置所有未读消息为已读
+     * @author zcl
+     * @date 2019年11月16日
+     * @param userId
+     * @return
+     */
+    @RequestMapping("setAsReaded")
+    @ResponseBody
+    public BaseResult<String> setAsReaded(String userId){
+    	BaseResult<String> result=new BaseResult<String>();
+    	commentDiaryService.setAsReaded(userId);
+    	praiseDiaryService.setAsReaded(userId);
+    	storeDiaryService.setAsReaded(userId);
+    	result.setCode(200);
+    	result.setMessage("已设置所有未读消息为已读");
     	result.setResult(null);
     	return result;
     }

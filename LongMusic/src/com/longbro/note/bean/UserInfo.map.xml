@@ -95,5 +95,19 @@
 	<select id="loginNote"  resultMap="UserInfo">
 		select * from d_user_info where u_User_Id=#{acc} and u_Password=#{pass};
 	</select>
+	<!-- 查询某用户或所有用户的未读 -->
+	<select id="queryUnReadNum" resultType="java.util.HashMap">
+		SELECT d.u_User_Id,d.u_User_Name,
+		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=d.u_User_Id AND p_Read_Status=0) praiseNum,
+		(SELECT COUNT(1) FROM d_comment WHERE c_Reviewed=d.u_User_Id AND c_Read_Status=0) comNum,
+		(SELECT COUNT(1) FROM d_store WHERE s_Stored=d.u_User_Id AND s_Read_Status=0) storedNum,
+		(SELECT COUNT(1) FROM d_notice WHERE n_Noticed=d.u_User_Id AND n_Read_Status=0) noticedNum
+		FROM d_user_info d 
+		where 1=1 
+		<if test="_parameter != null and _parameter !=''">
+			and d.u_User_Id=#{_parameter}
+		</if>
+		;
+	</select>
 	
 </mapper>

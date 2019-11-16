@@ -1,6 +1,7 @@
 package com.longbro.note.dao;
 
 import java.util.List;
+
 import com.longbro.note.bean.StoreDiary;
 import com.longbro.note.dao.StoreDiaryDao;
 import com.longbro.common.BaseDao;
@@ -29,6 +30,10 @@ public class StoreDiaryDao extends BaseDao{
 	public StoreDiary get(StoreDiary diary) {
 		// TODO Auto-generated method stub
 		return (StoreDiary)this.selectOne(getNamespace()+".get", diary);
+	}
+	//2019-11-16设置所有未读消息为已读
+	public void setAsReaded(String userId){
+		this.update(getNamespace()+".setAsReaded", userId);
 	}
 }
 

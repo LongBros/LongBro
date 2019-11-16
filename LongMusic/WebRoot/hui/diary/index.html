@@ -20,6 +20,7 @@
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
 
+<script type="text/javascript" src="../../js/jquery.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/index1.js"></script>
 
@@ -121,13 +122,13 @@
 						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
 			</li>
-				<li id="Hui-msg" class="dropDown right dropDown_hover"> <a href="#" title="消息"><span class="badge badge-danger" id="unReadNum">5</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> 
+				<li id="Hui-msg" class="dropDown right dropDown_hover"> <a href="#" title="消息"><span class="badge badge-danger" id="unReadNum"></span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> 
 					<ul class="dropDown-menu menu radius box-shadow">
-						<li><a href="javascript:;" data-val="red" title="公告数目">公告<font color="red">1</font></a></li>
-						<li><a href="javascript:;" data-val="default" title="评论数目">评论</a></li>
-						<li><a href="javascript:;" data-val="blue" title="获赞数目">获赞<font color="red">2</font></a></li>
-						<li><a href="javascript:;" data-val="green" title="关注数目">关注<font color="red">2</font></a></li>
-						<li><a href="javascript:;" data-val="yellow" title="点击后消息标记为已读">朕已阅✔</a></li>
+						<li><a href="javascript:;" data-val="red" title="公告数目">公告<font color="red"><span id="advNum"></span></font></a></li>
+						<li><a href="javascript:;" data-val="default" title="评论数目">评论<font color="red"><span id="comNum"></span></font></a></li>
+						<li><a href="javascript:;" data-val="blue" title="获赞数目">获赞<font color="red"><span id="praiseNum"></span></font></a></li>
+						<li><a href="javascript:;" data-val="green" title="关注数目">关注<font color="red"><span id="noticeNum"></span></font></a></li>
+						<li><a href="javascript:;" data-val="yellow" title="点击后消息标记为已读" id="cleanBtn" style="display:none" onclick="setAsReaded()">朕已阅✔</a></li>
 						<li><a href="javascript:;" data-val="yellow" title="消息设置">设置</a></li>
 					</ul>
 
@@ -244,23 +245,11 @@ $(".login").on("click", login_popup),function() {
     })
 } ();
 var author='';
+
 $(function(){
 	loadDiary('','1',perPage);//分页加载日记
 	setPage('',perPage);//根据日记数量设置分页，参数为作者
-	//initUnReadMessage();//加载当前登录用户有多少未读喜欢
-	/*$("#min_title_list li").contextMenu('Huiadminmenu', {
-		bindings: {
-			'closethis': function(t) {
-				console.log(t);
-				if(t.find("i")){
-					t.find("i").trigger("click");
-				}		
-			},
-			'closeall': function(t) {
-				alert('Trigger was '+t.id+'\nAction was Email');
-			},
-		}
-	});*/
+
 });
 //打开新人榜对应新人
 function openAuthor(aid){

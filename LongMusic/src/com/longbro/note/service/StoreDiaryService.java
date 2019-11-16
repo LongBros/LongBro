@@ -32,5 +32,9 @@ public class StoreDiaryService{
 		// TODO Auto-generated method stub
 		return dao.get(diary);
 	}
+	//2019-11-16设置所有未读消息为已读
+	public void setAsReaded(String userId){
+		dao.setAsReaded(userId);
+	}
 }
 

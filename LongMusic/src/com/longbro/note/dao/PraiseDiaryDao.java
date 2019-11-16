@@ -1,6 +1,7 @@
 package com.longbro.note.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.bean.StoreDiary;
@@ -39,11 +40,15 @@ public class PraiseDiaryDao extends BaseDao{
 		// TODO Auto-generated method stub
 		return (PraiseDiary)this.selectOne(getNamespace()+".get", diary);
 	}
-	public int getPraiseNum(String diary){
-		return (Integer)this.selectOne(getNamespace()+".getPraiseNum", diary);
+	public int getPraiseNum(Map<String,Object> map){
+		return (Integer)this.selectOne(getNamespace()+".getPraiseNum", map);
 	}
 	public List<PraiseDiary> getLikeDiarybyUser(String userId){
 		return (List<PraiseDiary>)this.selectList(getNamespace()+".getLikeDiarybyUser", userId);
+	}
+	//2019-11-16设置所有未读消息为已读
+	public void setAsReaded(String userId){
+		this.update(getNamespace()+".setAsReaded", userId);
 	}
 }
 

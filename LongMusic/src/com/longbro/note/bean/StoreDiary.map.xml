@@ -66,5 +66,7 @@
 		WHERE
 		s_Diary=#{SDiary} and s_Storer=#{SStorer}
 	</delete>
-	
+	<update id="setAsReaded">
+		UPDATE d_store SET s_Read_Status=1 WHERE s_Stored=#{_parameter} AND s_Read_Status=0;
+	</update>
 </mapper>

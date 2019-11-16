@@ -1,5 +1,6 @@
 package com.longbro.note.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.longbro.note.bean.Author;
@@ -33,5 +34,10 @@ public class UserInfoService{
 	public UserInfo loginNote(String acc,String pass){
 		return dao.loginNote(acc, pass);
 	}
+	//2019-11-16查询用户未读的被赞、评论、、、数量
+	public List<HashMap<String, Object>> queryUnReadNum(String userId){
+		return dao.queryUnReadNum(userId);
+	}
+	
 }
 

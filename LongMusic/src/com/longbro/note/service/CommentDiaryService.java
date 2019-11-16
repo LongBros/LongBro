@@ -1,8 +1,10 @@
 package com.longbro.note.service;
 
 import java.util.List;
+
 import com.longbro.note.bean.CommentDiary;
 import com.longbro.note.dao.CommentDiaryDao;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,6 +27,10 @@ public class CommentDiaryService{
 	}
 	public List<CommentDiary> getComByDiaryId(int id) {
 		return dao.getComByDiaryId(id);
+	}
+	//2019-11-16设置所有未读消息为已读
+	public void setAsReaded(String userId){
+		dao.setAsReaded(userId);
 	}
 }
 

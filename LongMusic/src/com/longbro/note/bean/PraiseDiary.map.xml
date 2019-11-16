@@ -65,15 +65,18 @@
 		DELETE FROM d_praise 
 		WHERE p_Diary=#{PDiary} and p_Praiser=#{PPraiser}
 	</delete>
-	<!-- 得到当前日记有多少人喜欢 -->
+	<!-- 1.得到当前日记有多少人喜欢2.得到某人的未读喜欢、所有被喜欢数量 -->
 	<select id="getPraiseNum" parameterType="java.lang.String">
 		SELECT COUNT(1) FROM d_praise 
 		WHERE 1=1
-		<if test="diary!='' and diary!=null"><!-- 得到当前日记有多少人喜欢 -->
-			and p_Diary=#{diary}
+		<if test="diaryId!='' and diaryId!=null"><!-- 得到当前日记有多少人喜欢 -->
+			and p_Diary=#{diaryId}
 		</if> 
 		<if test="PPraised!='' and PPraised!=null"><!-- 得到当前用户有多少未读喜欢 -->
-			and p_Praised=#{PPraised} and p_Read_Status=0
+			and p_Praised=#{PPraised} 
+		</if>
+		<if test="status!='' and status!=null">
+			and find_in_set(p_Read_Status,#{status})
 		</if>
 		;
 	</select>
@@ -86,4 +89,7 @@
 		LEFT JOIN d_diary dd on dp.p_Diary=dd.n_Id
  		WHERE p_Praiser=#{userId};
 	</select>
+	<update id="setAsReaded">
+		UPDATE d_praise SET p_Read_Status=1 WHERE p_Praised=#{_parameter} AND p_Read_Status=0;
+	</update>
 </mapper>

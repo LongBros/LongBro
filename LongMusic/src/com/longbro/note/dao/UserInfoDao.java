@@ -33,5 +33,10 @@ public class UserInfoDao extends BaseDao<UserInfo>{
 		map.put("pass", pass);
 		return (UserInfo)this.selectOne(getNamespace()+".loginNote", map);
 	}
+	//2019-11-16查询用户未读的被赞、评论、、、数量
+	public List<HashMap<String, Object>> queryUnReadNum(String userId){
+		return (List<HashMap<String, Object>>)this.selectList("queryUnReadNum",userId);
+	}
+	
 }
 

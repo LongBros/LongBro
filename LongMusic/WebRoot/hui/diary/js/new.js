@@ -1,4 +1,3 @@
-var user=getCookie("userNote")+"";
 //写日记
 function writeNote(){
 	if(user==""){
@@ -185,20 +184,6 @@ function oocImage(type){
  }
  //2019-11-15
  function setLocation(){
- 	var acc=getCookie("userNote")+"";//账号，即哆啦id
- 	var pass=getCookie("userPass")+"";
- 	$.ajax({
- 		url:"../../note/userinfo/loginNote.do?acc="+acc+"&pass="+pass,
- 		async:true,
- 		type:"GET",
- 		dataType:"Json",
- 		success:function(data){
- 			if(data.result!=null){
- 				document.form.location.value=data.result.location;
- 			}else{
- 				alert('未匹配到你输入的账号')
- 			}
-
- 		}
- 	});
+ 	var userAddr=getCookie("userAddr")+"";
+ 	document.form.location.value=userAddr;
  }

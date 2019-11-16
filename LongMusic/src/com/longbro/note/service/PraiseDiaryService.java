@@ -1,6 +1,7 @@
 package com.longbro.note.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.bean.StoreDiary;
@@ -34,11 +35,15 @@ public class PraiseDiaryService{
 		// TODO Auto-generated method stub
 		return dao.get(diary);
 	}
-	public int getPraiseNum(String diary){
-		return dao.getPraiseNum(diary);
+	public int getPraiseNum(Map<String,Object> map){
+		return dao.getPraiseNum(map);
 	}
 	public List<PraiseDiary> getMyLikeDiary(String userId){
 		return dao.getLikeDiarybyUser(userId);
+	}
+	//2019-11-16设置所有未读消息为已读
+	public void setAsReaded(String userId){
+		dao.setAsReaded(userId);
 	}
 }
 
