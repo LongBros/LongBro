@@ -45,8 +45,14 @@ function loadDiary(author,page,perPage){
 				if(con.length>250){
 					con=con.substring(0,250)+"......";
 				}
+				
 				if(title.length>10){
-					title=title.substring(0,8)+"...";
+					title="《"+title.substring(0,8)+"...》";
+				}else{
+					title="《"+title+"》";
+				}
+				if(data[i].nTop==1){
+					title=title+"<font color='red'>(置顶)</font>"
 				}
 				var userName=data[i].userName;
 				if(user==data[i].nwritter){//当前登录人的日记特殊显示作者
@@ -57,7 +63,7 @@ function loadDiary(author,page,perPage){
 				$("#diarys").append("<div class=\"diary\"><img src='../../image/tx/"+data[i].headImage+".jpg' class='touxiang'><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
 				+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName
 				+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
-				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation
+				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>"+title+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation
 				+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
 				+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
 				+"</div><hr width='740px'>");
@@ -83,6 +89,37 @@ function getCateById(id){
 		cate="深度好文";
 	}
 	return cate;
+}
+/*根据分类id得到分类名*/
+function getMoodById(id){
+	var mood="0";
+	if(id=="0"){
+		mood="开心";
+	}else if(id=="1"){
+		mood="微笑";
+	}else if(id=="2"){
+		mood="哭脸";
+	}else if(id=="3"){
+		mood="愤怒";
+	}
+	return mood;
+}
+function getWeaById(id){
+	var wea="0";
+	if(id=="0"){
+		wea="晴";
+	}else if(id=="1"){
+		wea="雾";
+	}else if(id=="2"){
+		wea="霾";
+	}else if(id=="3"){
+		wea="阴";
+	}else if(id=="4"){
+		wea="雨";
+	}else if(id=="5"){
+		wea="雪";
+	}
+	return wea;
 }
 /*处理日记内容*/
 function handleCon(content){

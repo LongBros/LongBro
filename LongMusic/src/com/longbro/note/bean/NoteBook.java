@@ -23,6 +23,7 @@ public class NoteBook{
 	protected Integer NAllowComment; 
 	protected Integer nAuthority; 
 	protected String nSongId;
+	protected Integer nTop; 
 	public Integer getNId() {
 		return this.NId;
 	}
@@ -146,6 +147,12 @@ public class NoteBook{
 	}
 	public void setnSongId(String nSongId) {
 		this.nSongId = nSongId;
+	}
+	public Integer getnTop() {
+		return nTop;
+	}
+	public void setnTop(Integer nTop) {
+		this.nTop = nTop;
 	}
 	
 }

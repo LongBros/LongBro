@@ -109,5 +109,22 @@
 		</if>
 		;
 	</select>
-	
+	<!-- 查询某用户或所有用户的互动信息：赞、评论、收藏、关注,被赞、被评论、被收藏、被关注 -->
+	<select id="queryInteractNum" resultType="java.util.HashMap">
+		SELECT d.u_User_Id,d.u_User_Name,
+		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=d.u_User_Id) praisedNum,
+		(SELECT COUNT(1) FROM d_comment WHERE c_Reviewed=d.u_User_Id) comedNum,
+		(SELECT COUNT(1) FROM d_store WHERE s_Stored=d.u_User_Id) storedNum,
+		(SELECT COUNT(1) FROM d_notice WHERE n_Noticed=d.u_User_Id) noticedNum,
+		
+		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=d.u_User_Id) praiseNum,
+		(SELECT COUNT(1) FROM d_comment WHERE c_Reviewer=d.u_User_Id) comNum,
+		(SELECT COUNT(1) FROM d_store WHERE s_Storer=d.u_User_Id) storeNum,
+		(SELECT COUNT(1) FROM d_notice WHERE n_Noticer=d.u_User_Id) noticeNum
+		FROM d_user_info d where 1=1 
+		<if test="_parameter != null and _parameter !=''">
+			and d.u_User_Id=#{_parameter}
+		</if>
+		;
+	</select>
 </mapper>

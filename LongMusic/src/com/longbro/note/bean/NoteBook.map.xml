@@ -104,7 +104,8 @@
 		ORDER BY n_Time DESC,n_Id DESC LIMIT #{page},10 
 	</select>
 	<select id="getDiaryBy" parameterType="com.longbro.note.bean.NoteBook" resultType="com.longbro.note.bean.Diary">
-		select d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
+		select 
+		d.n_top nTop,d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
 		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
 		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
 		d.n_Authority nAuthority,d.n_song_id nSongId,di.u_User_Name userName,di.u_Head_Image headImage,
@@ -117,7 +118,7 @@
 		<if test="author!=null and author!=''">
 			and n_Writter=#{author}
 		</if>
-		ORDER BY n_Time DESC,n_Id DESC
+		ORDER BY n_top desc,n_Time DESC,n_Id DESC
 		<if test="page!=null and page!=''">
 			LIMIT ${page},${perPage} 
 		</if>

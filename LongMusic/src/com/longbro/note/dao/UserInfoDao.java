@@ -37,6 +37,9 @@ public class UserInfoDao extends BaseDao<UserInfo>{
 	public List<HashMap<String, Object>> queryUnReadNum(String userId){
 		return (List<HashMap<String, Object>>)this.selectList("queryUnReadNum",userId);
 	}
-	
+	//2019-11-16查询某用户或所有用户的互动信息
+	public List<HashMap<String, Object>> queryInteractNum(String userId){
+		return (List<HashMap<String, Object>>)this.selectList("queryInteractNum",userId);
+	}
 }
 

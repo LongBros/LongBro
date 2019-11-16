@@ -1,4 +1,5 @@
 package com.longbro.note.service;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -6,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.bean.StoreDiary;
 import com.longbro.note.dao.StoreDiaryDao;
 /**
@@ -31,6 +33,9 @@ public class StoreDiaryService{
 	public StoreDiary get(StoreDiary diary) {
 		// TODO Auto-generated method stub
 		return dao.get(diary);
+	}
+	public List<HashMap<String,Object>> getStoreDiarybyUser(String userId){
+		return dao.getStoreDiarybyUser(userId);
 	}
 	//2019-11-16设置所有未读消息为已读
 	public void setAsReaded(String userId){

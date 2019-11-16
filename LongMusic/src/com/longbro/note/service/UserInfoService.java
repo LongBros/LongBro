@@ -38,6 +38,9 @@ public class UserInfoService{
 	public List<HashMap<String, Object>> queryUnReadNum(String userId){
 		return dao.queryUnReadNum(userId);
 	}
-	
+	//2019-11-16查询某用户或所有用户的互动信息
+	public List<HashMap<String, Object>> queryInteractNum(String userId){
+		return dao.queryInteractNum(userId);
+	}
 }
 

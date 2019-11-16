@@ -223,7 +223,7 @@ function store(){
 		alert("请先登录");
 		return;
 	}
-	var user=getCookie("userNote")+"";
+	var user=getCookie("userId")+"";
 	var st=document.getElementById("store");
 	var sNum=document.getElementById("storeNum");
 	if(st.title=="收藏"){
@@ -265,27 +265,7 @@ function store(){
 
 	}
 }
-/**
- * 9.2019-10-26加载作者的信息:关注信息，互动计数，基本信息，活跃信息
- */
-function loadAuthorInfo(){
-	$.ajax({
-		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+author,
-		type:"get",
-		async:false,
-		dataType:"Json",
-		success:function(data){
-			document.title=document.title+data.uuserName+"'的日记~哆啦官网";
-			document.getElementById("userId").innerText=author;
-			document.getElementById("userNameT").innerText=data.uuserName;
-			document.getElementById("userName").innerText=data.uuserName;
-			document.getElementById("homeSong").innerText=data.uhomeSong;
-			document.getElementById("signature").innerText=data.signature;
-			document.getElementById("sex").innerText=data.uuserSex;
-			document.getElementById("joinTime").innerText="加入时间："+data.ujoinTime;
-		}
-	});
-}
+
 /**
  * 10.得到当前文章的上下篇
  */

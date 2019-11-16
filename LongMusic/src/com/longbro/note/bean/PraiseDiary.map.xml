@@ -81,12 +81,16 @@
 		;
 	</select>
 	<!-- 得到某用户喜欢的日记 -->
-	<select id="getLikeDiarybyUser" parameterType="java.lang.String">
-		SELECT dd.n_Title title,dd.n_Content content,dd.n_Time time,
-			   dd.n_Location loc,dd.n_Writter writter,
-			   dp.p_Praise_Time likeTime 
+	<select id="getLikeDiarybyUser" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT dd.n_Id id,dd.n_Title title,dd.n_Type cate,dd.n_Content content,
+			   dd.n_Time time,dd.n_Location loc,dd.n_Writter writter,
+			   dp.p_Praise_Time likeTime,dui.u_User_Name,dui.u_Head_Image headImg,
+		(SELECT count(1) FROM d_praise WHERE p_Diary=dd.n_Id) praiseNum,
+		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=dd.n_Id) commentNum,
+		(SELECT count(1) FROM d_store WHERE s_Diary=dd.n_Id) storeNum
 		FROM d_praise dp
 		LEFT JOIN d_diary dd on dp.p_Diary=dd.n_Id
+		LEFT JOIN d_user_info dui ON dd.n_Writter=dui.u_User_Id
  		WHERE p_Praiser=#{userId};
 	</select>
 	<update id="setAsReaded">

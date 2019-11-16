@@ -173,3 +173,53 @@ function setAsReaded(){
 		}
 	});
  }
+/**
+ * 9.2019-10-26加载作者的信息:关注信息，互动计数，基本信息，活跃信息
+ */
+function loadAuthorInfo(){
+	$.ajax({
+		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+author,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+			document.title=document.title+data.uuserName+"'的日记~哆啦官网";
+			document.getElementById("userId").innerText=author;
+			document.getElementById("userNameT").innerText=data.uuserName;
+			document.getElementById("userName").innerText=data.uuserName;
+			document.getElementById("homeSong").innerText=data.uhomeSong;
+			document.getElementById("signature").innerText=data.signature;
+			document.getElementById("sex").innerText=data.uuserSex;
+			document.getElementById("joinTime").innerText="加入时间："+data.ujoinTime;
+		}
+	});
+	setInteractNum(author);
+}
+//加载并设置某人的互动数量信息
+function setInteractNum(user){
+	$.ajax({
+		url:"../../note/userinfo/queryInteractNum.do",
+		type:"post",
+		async:true,
+		dataType:"json",
+		data:{
+			userId:user
+		},
+		success:function(data){
+			if(data.result.length!=1){
+				return;
+			}
+			var interactNum=data.result[0];
+			var comNum=interactNum.comNum;
+			var praiseNum=interactNum.praiseNum;
+			var noticedNum=interactNum.noticedNum;
+			
+			$("#careNum").text(interactNum.noticeNum);
+			$("#noticedNum").text(interactNum.noticedNum);
+			$("#likeNum").text(interactNum.praiseNum);
+			$("#storeNum").text(interactNum.storeNum);
+			$("#comedNum").text(interactNum.comedNum);
+			$("#praisedNum").text(interactNum.praisedNum);
+		}
+	});
+}

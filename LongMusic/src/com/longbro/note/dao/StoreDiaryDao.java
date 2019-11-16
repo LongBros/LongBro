@@ -1,7 +1,10 @@
 package com.longbro.note.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.bean.StoreDiary;
 import com.longbro.note.dao.StoreDiaryDao;
 import com.longbro.common.BaseDao;
@@ -30,6 +33,9 @@ public class StoreDiaryDao extends BaseDao{
 	public StoreDiary get(StoreDiary diary) {
 		// TODO Auto-generated method stub
 		return (StoreDiary)this.selectOne(getNamespace()+".get", diary);
+	}
+	public List<HashMap<String,Object>> getStoreDiarybyUser(String userId){
+		return (List<HashMap<String,Object>>)this.selectList(getNamespace()+".getStoreDiarybyUser", userId);
 	}
 	//2019-11-16设置所有未读消息为已读
 	public void setAsReaded(String userId){

@@ -1,6 +1,9 @@
 
 package com.longbro.note.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.longbro.house.bean.BaseResult;
+import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.bean.StoreDiary;
 import com.longbro.note.service.StoreDiaryService;
 /**
@@ -27,7 +32,7 @@ public class StoreDiaryController{
     @Autowired
     StoreDiaryService storeDiaryService;
     /**
-     * @desc 添加收藏记录
+     * @desc 1.添加收藏记录
      * @author zcl
      * @date 2019年10月22日
      * @param diary
@@ -38,7 +43,7 @@ public class StoreDiaryController{
     	storeDiaryService.create(diary);
     }
     /**
-     * @desc 取消收藏
+     * @desc 2.取消收藏
      * @author zcl
      * @date 2019年10月22日
      * @param diary
@@ -49,7 +54,7 @@ public class StoreDiaryController{
     	storeDiaryService.remove(diary);
     }
     /**
-     * @desc 根据日记id和当前登录用户判断登录用户是否已收藏
+     * @desc 3.根据日记id和当前登录用户判断登录用户是否已收藏
      * @author zcl
      * @date 2019年10月22日
      * @param diary
@@ -58,5 +63,26 @@ public class StoreDiaryController{
     @ResponseBody
     public StoreDiary getStore(StoreDiary diary){
     	return storeDiaryService.get(diary);
+    }
+    /**
+     * @desc 4.查询某用户收藏的日记
+     * @author zcl
+     * @date 2019年11月16日
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value="getMyStoreDiary",method=RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<List<HashMap<String, Object>>> getMyStoreDiary(String userId){
+    	BaseResult<List<HashMap<String, Object>>> result=new BaseResult<>();
+    	if(StringUtils.isEmpty(userId)){
+    		result.setCode(110);
+    		result.setMessage("用户id不能为空");
+    		return result;
+    	}
+    	result.setResult(storeDiaryService.getStoreDiarybyUser(userId));;
+    	result.setCode(200);
+    	result.setMessage("查询成功");
+    	return result;
     }
 }

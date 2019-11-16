@@ -147,4 +147,22 @@ public class UserInfoController{
     	result.setResult(null);
     	return result;
     }
+    /**
+     * @desc 加载某用户或所有用户的互动信息：
+     * 赞、评论、收藏、关注,被赞、被评论、被收藏、被关注
+     * @author zcl
+     * @date 2019年11月16日
+     * @param userId
+     * @return
+     */
+    @RequestMapping("queryInteractNum")
+    @ResponseBody
+	public BaseResult<List<HashMap<String, Object>>> queryInteractNum(String userId){
+		BaseResult<List<HashMap<String, Object>>> result=new BaseResult<List<HashMap<String, Object>>>();
+		result.setCode(200);
+    	result.setMessage("已加载完毕");
+    	result.setResult(userInfoService.queryInteractNum(userId));
+    	
+    	return result;
+	}
 }

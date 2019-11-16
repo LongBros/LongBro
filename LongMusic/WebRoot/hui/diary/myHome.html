@@ -21,7 +21,6 @@
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
 <script type="text/javascript" src="../../js/jquery.js"></script>
-
 <script type="text/javascript" src="js/index.js"></script><!-- 获取当前登录用户 -->
 <script type="text/javascript" src="js/index1.js"></script><!-- 处理日记 -->
 
@@ -44,7 +43,7 @@
 		background:white ;
 		margin-top: 30px;
 	}
-	.contents font{
+	.tabs span{
 		margin-left:30px;
 		cursor: pointer;
 	}
@@ -52,7 +51,7 @@
 		width: 800px;
 		margin-left: 10px;
 		margin-top: 10px;
-		
+		cursor: pointer;
 	}
 	.diary img{
 		width: 20px;
@@ -183,7 +182,12 @@
 
 
 <div class="contents">
-	<font style="color: red">我的日记</font>&emsp;<font>我的喜欢</font>&emsp;<font>我的收藏</font>&emsp;<font>我看过的</font>
+	<div class="tabs">
+		&emsp;&emsp;<span onclick="loadMyDiary()" id="my">我的日记</span>
+		&emsp;&emsp;<span onclick="loadMyLove()" id="love">我的喜欢</span>
+		&emsp;<span onclick="loadMyStore()" id="store">我的收藏</span>
+		&emsp;<span>我看过的</span>	
+	</div>
 	<div id="myDiary"></div>
 </div>
 <div class="rights">
@@ -193,9 +197,10 @@
 		<button>关注<i class="Hui-iconfont">&#xe716;</i></button>
 		<button>已关注<i class="Hui-iconfont">&#xe676;</i></button>
 	<div class="perStatistic">
-		<span title="她关注的人">关注：88</span>&emsp;<span title="关注她的人">粉丝：99</span>&emsp;
-		<span title="她喜欢的日记">喜欢：99</span>&emsp;<span title="她收藏的日记">收藏：99</span><br>	
-		<span title="她的日记总被阅读量">被阅读量：888888</span>&emsp;<span title="她的日记总被评论量">被评论数：2222</span>&emsp;<span title="她的日记总被赞数量">被赞：99999</span>
+		关注：<span title="朕关注的人" id="careNum">0</span>&emsp;粉丝：<span title="关注朕的人" id="noticedNum">0</span>&emsp;
+		喜欢：<span title="朕喜欢的日记" id="likeNum">0</span>&emsp;收藏：<span title="朕收藏的日记" id="storeNum">0</span><br>	
+		<span title="朕的日记总被阅读量">被阅读量：0</span>&emsp;被评论数：<span title="朕的日记总被评论量" id="comedNum">0</span>
+		&emsp;被赞：<span title="她的日记总被赞数量" id="praisedNum">0</span>
 	</div>
 	<hr>
 	<div class="perInfo">
@@ -238,37 +243,24 @@ $(".login").on("click", login_popup),function() {
         o.html(t)
     })
 } ();
+var author=user;//loadAuthorInfo()函数中需要author
+
 $(function(){
 	//判断当前登录人是否已点赞、收藏该日记，并对图标做修改
-	loadAuthorInfo();
+	loadAuthorInfo();//index.js中
 	loadMyDiary();
 });
 
-//2019-10-26加载作者的信息:关注信息，互动计数，基本信息，活跃信息
-function loadAuthorInfo(){
-	$.ajax({
-		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
-		type:"get",
-		async:false,
-		dataType:"Json",
-		success:function(data){
-			document.title=data.uuserName+"的家园~哆啦官网";
-			document.getElementById("userId").innerText=user;
-			document.getElementById("userNameT").innerText=data.uuserName;
-			document.getElementById("userName").innerText=data.uuserName;
-			document.getElementById("homeSong").innerText=data.uhomeSong;
-			document.getElementById("signature").innerText=data.signature;
-			document.getElementById("sex").innerText=data.uuserSex;
-			document.getElementById("joinTime").innerText="加入时间："+data.ujoinTime;
-		}
-	});
-}
 //加载我的日记
 function loadMyDiary(){
+	$("#myDiary").text('');
 	if(user==""){
 		alert("请登录");
 		return;
 	}
+	document.getElementById("my").style.color="red";
+	document.getElementById("love").style.color="black";
+	document.getElementById("store").style.color="black";
 	var au="0,1,2";//完全公开的
 	//$("#myDiary").text("");
 	$.ajax({
@@ -293,44 +285,97 @@ function loadMyDiary(){
 				if(title.length>10){
 					//title=title.substring(0,8)+"...";
 				}
+				var mood=getMoodById(data[i].nmood);
+				var wea=getWeaById(data[i].nweather);
 				//分类
 				var cate=getCateById(data[i].ntype);
-				$("#myDiary").append(
-				"<div class=\"diary\"><div class='info'>"
-				+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
-				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"' onclick='openOther(0,"+data[i].nid+")'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation
-				+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
-				+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
-				+"</div><hr width='740px'>");
+				$("#myDiary").append("<div class=\"diary\"><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
+						+"<div class='info'>"
+						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime+"&emsp;&emsp;心情："+mood+"&emsp;&emsp;天气："+wea
+						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>《"+title+"》</span>&emsp;"
+						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
+						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
+						+"</div><hr width='740px'>");
 			}
 		}
 	});
 }
 //加载我喜欢的
 function loadMyLove(){
-	//note/praise/getMyLikeDiary.do?userId=1314521
+	$("#myDiary").text('');
+	if(user==""){
+		alert("请登录");
+		return;
+	}
+	document.getElementById("my").style.color="black";
+	document.getElementById("love").style.color="red";
+	document.getElementById("store").style.color="black";
 	$.ajax({
-		url:"../../note/diary/getDiaryBy.do",
+		url:"../../note/praise/getMyLikeDiary.do?userId="+user,
 		type:"get",
 		async:false,
 		dataType:"Json",
-		data:{
-			author:user,
-			page:1,
-			authority:au,
-			perPage:10
-		},
 		success:function(data){
-			
+			var res=data.result;
+			for(var i=0;i<res.length;i++){
+				var con=handleCon(res[i].content);
+				var title=res[i].title+"";
+				if(con.length>250){
+					con=con.substring(0,250)+"......";
+				}
+				if(title.length>10){
+					title=title.substring(0,8)+"...";
+				}
+				$("#myDiary").append("<div class=\"diary\" title='"+res[i].time+"喜欢'><img src='../../image/tx/"+res[i].headImg+".jpg' class='touxiang'><span onclick='openOther(0,"+res[i].id+")'>"+con+"</span><br>"
+						+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+res[i].writter+"\")'>"+res[i].u_User_Name
+						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+res[i].time
+						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+res[i].cate+"&nbsp;:<span title='"+res[i].title+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+res[i].loc
+						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+res[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+res[i].praiseNum
+						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
+						+"</div><hr width='740px'>");
+			}
 		}
 	});
 }
 //加载我收藏的
 function loadMyStore(){
-	
+	$("#myDiary").text('');
+	if(user==""){
+		alert("请登录");
+		return;
+	}
+	document.getElementById("my").style.color="black";
+	document.getElementById("love").style.color="black";
+	document.getElementById("store").style.color="red";
+	$.ajax({
+		url:"../../note/store/getMyStoreDiary.do?userId="+user,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+			var res=data.result;
+			for(var i=0;i<res.length;i++){
+				var con=handleCon(res[i].content);
+				var title=res[i].title+"";
+				if(con.length>250){
+					con=con.substring(0,250)+"......";
+				}
+				if(title.length>10){
+					title=title.substring(0,8)+"...";
+				}
+				$("#myDiary").append("<div class=\"diary\" title='"+res[i].time+"收藏'><img src='../../image/tx/"+res[i].headImg+".jpg' class='touxiang'><span onclick='openOther(0,"+res[i].id+")'>"+con+"</span><br>"
+						+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+res[i].writter+"\")'>"+res[i].u_User_Name
+						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+res[i].time
+						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+res[i].cate+"&nbsp;:<span title='"+res[i].title+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+res[i].loc
+						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+res[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+res[i].praiseNum
+						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
+						+"</div><hr width='740px'>");
+			}
+		}
+	});
 }
 //加载我看过的
-function loadMyStore(){
+function loadMyFeet(){
 	
 }
 </script> 
