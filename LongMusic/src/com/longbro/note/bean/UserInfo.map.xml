@@ -31,7 +31,8 @@
 		u_Status UStatus,u_Born_Time UBornTime,u_Home_Song UHomeSong,u_Signature signature,
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=#{UUserId}) likeNum,
 		(SELECT COUNT(1) FROM d_store WHERE s_Storer=#{UUserId}) storeNum,
-		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=#{UUserId}) praisedNum
+		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=#{UUserId}) praisedNum,
+		(SELECT COUNT(1) FROM d_visit WHERE v_Visited=#{UUserId}) visitedNum
 		FROM d_user_info 
 		WHERE 
 		u_User_Id=#{UUserId}
@@ -116,11 +117,14 @@
 		(SELECT COUNT(1) FROM d_comment WHERE c_Reviewed=d.u_User_Id) comedNum,
 		(SELECT COUNT(1) FROM d_store WHERE s_Stored=d.u_User_Id) storedNum,
 		(SELECT COUNT(1) FROM d_notice WHERE n_Noticed=d.u_User_Id) noticedNum,
+		(SELECT COUNT(1) FROM d_visit WHERE v_Visited=d.u_User_Id) visitedNum,
 		
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=d.u_User_Id) praiseNum,
 		(SELECT COUNT(1) FROM d_comment WHERE c_Reviewer=d.u_User_Id) comNum,
 		(SELECT COUNT(1) FROM d_store WHERE s_Storer=d.u_User_Id) storeNum,
-		(SELECT COUNT(1) FROM d_notice WHERE n_Noticer=d.u_User_Id) noticeNum
+		(SELECT COUNT(1) FROM d_notice WHERE n_Noticer=d.u_User_Id) noticeNum,
+		(SELECT COUNT(1) FROM d_visit WHERE v_Visitor=d.u_User_Id) visitNum
+		
 		FROM d_user_info d where 1=1 
 		<if test="_parameter != null and _parameter !=''">
 			and d.u_User_Id=#{_parameter}

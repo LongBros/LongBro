@@ -214,11 +214,13 @@ function setInteractNum(user){
 			var comNum=interactNum.comNum;
 			var praiseNum=interactNum.praiseNum;
 			var noticedNum=interactNum.noticedNum;
-			
 			$("#careNum").text(interactNum.noticeNum);
 			$("#noticedNum").text(interactNum.noticedNum);
 			$("#likeNum").text(interactNum.praiseNum);
 			$("#storeNum").text(interactNum.storeNum);
+			
+			$("#visitNum").text(interactNum.visitNum);
+			$("#visitedNum").text(interactNum.visitedNum);
 			$("#comedNum").text(interactNum.comedNum);
 			$("#praisedNum").text(interactNum.praisedNum);
 		}
