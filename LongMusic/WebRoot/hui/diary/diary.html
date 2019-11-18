@@ -323,6 +323,8 @@ $(function(){
 	//判断当前登录人是否已点赞、收藏该日记，并对图标做修改
 	setIcon(id);//若该函数出错，会导致下方不能执行
 	author=document.getElementById("userId").innerText;//在loadDiary函数中设置的
+	
+	addVisitRecord(id);//添加浏览记录
 	loadAuthorInfo();//加载当前日记作者的关注、粉丝、喜欢、收藏及其他基本信息以显示
 	getBeforeAndNextId();
 	loadCom();//加载评论

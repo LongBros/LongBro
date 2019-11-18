@@ -34,10 +34,12 @@
 		select d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
 		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
 		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
-		d.n_Authority nAuthority,d.n_song_id nSongId,di.u_User_Name userName,di.u_Head_Image headImage,
+		d.n_Authority nAuthority,d.n_song_id nSongId,
+		di.u_User_Name userName,di.u_Head_Image headImage,
 		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
 		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
-		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum
+		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,
+		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum
 		 from d_diary d
 		 left join d_user_info di on d.n_Writter=di.u_User_Id
 		WHERE 
@@ -111,7 +113,8 @@
 		d.n_Authority nAuthority,d.n_song_id nSongId,di.u_User_Name userName,di.u_Head_Image headImage,
 		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
 		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
-		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum
+		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,
+		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum
 		 from d_diary d
 		 left join d_user_info di on d.n_Writter=di.u_User_Id
 		  where 1=1 and find_in_set(n_Authority,#{authority})

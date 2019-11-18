@@ -17,7 +17,6 @@ public class Diary extends NoteBook{
 	private int storeNum;//收藏数量
 	private int commentNum;//评论数量
 	
-	
 	public String getUserName() {
 		return userName;
 	}

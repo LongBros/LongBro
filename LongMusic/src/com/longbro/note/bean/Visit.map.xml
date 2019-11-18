@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.Visit">
+	<resultMap id="Visit" type="com.longbro.note.bean.Visit">
+		<id property="VId" column="v_Id" jdbcType="NUMERIC"/>
+		<result property="VDiary" column="v_Diary" jdbcType="VARCHAR"/>
+		<result property="VVisitor" column="v_Visitor" jdbcType="VARCHAR"/>
+		<result property="VVisited" column="v_Visited" jdbcType="VARCHAR"/>
+		<result property="VVisitTime" column="v_Visit_Time" jdbcType="VARCHAR"/>
+		<result property="VReadStatus" column="v_Read_Status" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.Visit">
+		INSERT INTO d_visit
+		(v_Id,v_Diary,v_Visitor,v_Visited,v_Visit_Time,v_Read_Status)
+		VALUES 
+		(#{VId,jdbcType=NUMERIC}, #{VDiary,jdbcType=VARCHAR}, #{VVisitor,jdbcType=VARCHAR}, #{VVisited,jdbcType=VARCHAR}, #{VVisitTime,jdbcType=VARCHAR}, #{VReadStatus,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="Visit">
+		SELECT * FROM d_visit 
+		WHERE 
+		v_Id=#{VId}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="Visit">
+		SELECT * FROM d_visit
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY v_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.Visit">
+		UPDATE d_visit
+        <set>
+			<if test="VDiary != null">
+				v_Diary=#{VDiary,jdbcType=VARCHAR},
+			</if>
+			<if test="VVisitor != null">
+				v_Visitor=#{VVisitor,jdbcType=VARCHAR},
+			</if>
+			<if test="VVisited != null">
+				v_Visited=#{VVisited,jdbcType=VARCHAR},
+			</if>
+			<if test="VVisitTime != null">
+				v_Visit_Time=#{VVisitTime,jdbcType=VARCHAR},
+			</if>
+			<if test="VReadStatus != null">
+				v_Read_Status=#{VReadStatus,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE
+		v_Id=#{VId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM d_visit 
+		WHERE
+		v_Id=#{VId}
+	</delete>
+	
+	
+</mapper>

@@ -59,7 +59,7 @@ function login(){
 	$.ajax({
 		url:"../../note/userinfo/loginNote.do?acc="+acc+"&pass="+pass,
 		async:true,
-		type:"GET",
+		type:"POST",
 		dataType:"Json",
 		success:function(data){
 			if(data.code=="200"){//存cookie过程放至后端代码
@@ -183,13 +183,14 @@ function loadAuthorInfo(){
 		async:false,
 		dataType:"Json",
 		success:function(data){
+			var sex=getSexById(data.uuserSex);
 			document.title=document.title+data.uuserName+"'的日记~哆啦官网";
 			document.getElementById("userId").innerText=author;
 			document.getElementById("userNameT").innerText=data.uuserName;
 			document.getElementById("userName").innerText=data.uuserName;
 			document.getElementById("homeSong").innerText=data.uhomeSong;
 			document.getElementById("signature").innerText=data.signature;
-			document.getElementById("sex").innerText=data.uuserSex;
+			document.getElementById("sex").innerText=sex;
 			document.getElementById("joinTime").innerText="加入时间："+data.ujoinTime;
 		}
 	});
@@ -222,4 +223,15 @@ function setInteractNum(user){
 			$("#praisedNum").text(interactNum.praisedNum);
 		}
 	});
+}
+function getSexById(id){
+	var sex="";
+	if(id==0){
+		sex="女";
+	}else if(id==1){
+		sex="男";
+	}else{
+		sex="不详";
+	}
+	return sex;
 }

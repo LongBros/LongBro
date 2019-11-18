@@ -1,4 +1,9 @@
 /**
+ * 切记一个页面中不能有两个同名id，因同名id会导致数据设置错误
+ * 例(storeNum，和storeNum1；praiseNum和praiseNum1)
+ * 
+ */
+/**
  * 1.个人信息
  */
 function myselfinfo(){
@@ -39,10 +44,7 @@ function loadDiary(id){
 				if(songId.length<5){
 					title1=data.ntitle+"";
 				}else{
-					var r=confirm("当前日记有对应音频，是否播放");
-					if(r==true){
-						playAudio(songId);
-					}
+					ifAutoPlay(songId);
 					title1=data.ntitle+"<span title=\"点击可播放喔\" style=\"cursor:pointer;color:red;\" onclick=\"playAudio('"+songId+"')\">▷</span><img style=\"width: 28px;height: 28px;\" src=\"../../image/picture/hot1.gif\">";
 				}
 				
@@ -52,13 +54,16 @@ function loadDiary(id){
 				}
 				//分类
 				var cate=getCateById(data.ntype);
+				//
+				//<i class=\"Hui-iconfont\">&#xe66e;</i>18&nbsp;
+				
 				$("#diary").append("<h2><center>"+title1+"</center></h2>"
 						+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openAuthor(\""+data.userName+"\")'>"+data.userName
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data.ntime
 						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data.ntitle+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data.nlocation
-						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i><span id='browseNum'>2000</span>&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"
-						+data.commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span id='praiseNum'>"+data.praiseNum
-						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>18&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span id='storeNum'>"+data.storeNum+"</span></div></div>"
+						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i><span id='browseNum'>"+data.visitNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"
+						+data.commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span id='praiseNum1'>"+data.praiseNum
+						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span id='storeNum1'>"+data.storeNum+"</span></div></div>"
 						+"<div class='content'>"+con+"</div>"
 
 						);
@@ -101,6 +106,8 @@ function handleCon(content){
 	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='../../image/expre/weibo/");
 	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='../../image/expre/huang/");
 	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
+	//修改“古诗网”内容的img
+	con=con.replace(new RegExp("uploads/allimg","gm"), "http://www.exam58.com/uploads/allimg");
 	return con.replace(new RegExp("<br>","gm"), "<br>&emsp;&emsp;");
 }
 /**
@@ -176,7 +183,7 @@ function praise(){
 	}
 	var user=getCookie("userId")+"";
 	var pra=document.getElementById("praise");
-	var pNum=document.getElementById("praiseNum");
+	var pNum=document.getElementById("praiseNum1");
 	if(pra.title=="点赞"){
 		$.ajax({
 			url:"../../note/praise/praiseDiary.do",
@@ -225,7 +232,7 @@ function store(){
 	}
 	var user=getCookie("userId")+"";
 	var st=document.getElementById("store");
-	var sNum=document.getElementById("storeNum");
+	var sNum=document.getElementById("storeNum1");
 	if(st.title=="收藏"){
 		$.ajax({
 			url:"../../note/store/storeDiary.do",
@@ -359,7 +366,7 @@ function playAudio(sid){
 		url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
 	}else if(sid.substring(sid.length-3)==".kw"){
 		url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
-	}else if(sid.substring(sid.length-4)==".m4a"||sid.substring(sid.length-4)==".mp3"){
+	}else if(sid.substring(sid.length-4)==".aac"||sid.substring(sid.length-4)==".m4a"||sid.substring(sid.length-4)==".mp3"){
 		url=sid;
 	}else{
 		url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
@@ -375,4 +382,32 @@ function ifLogin(){
 		return true;
 	}
 	return false;
+}
+//15根据登录用户对于音频的设置来处理是否播放音频
+function ifAutoPlay(songId){
+	if(1==0){//提示是否播放
+		var r=confirm("当前日记有对应音频，是否播放");
+		if(r==true){
+			playAudio(songId);
+		}
+	}else if(1==1){//无需提示直接播放
+		playAudio(songId);
+	}
+}
+//添加一条访问记录
+function addVisitRecord(id){
+	var user=getCookie("userId")+"";
+	$.ajax({
+		url:"../../note/visit/addVisitRecord.do",
+		type:"get",
+		async:false,
+		data:{
+			VDiary:id,
+			VVisitor:user,
+			VVisited:author
+		},
+		success:function(){
+			
+		}
+	});
 }

@@ -83,7 +83,7 @@ public class UserInfoController{
      * @param pass
      * @return
      */
-    @RequestMapping(value="loginNote",method=RequestMethod.GET)
+    @RequestMapping(value="loginNote",method=RequestMethod.POST)
     @ResponseBody
     public BaseResult<String> loginNote(String acc,String pass,HttpServletResponse response){
     	BaseResult<String> result=new BaseResult<String>();

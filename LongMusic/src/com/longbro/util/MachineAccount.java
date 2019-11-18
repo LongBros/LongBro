@@ -18,14 +18,15 @@ public class MachineAccount {
 	static Statement st=null;
 	static ResultSet rs=null;
 	public static void main(String[] args) {
-		if(!ifHasGen()){
-			int machines[]={66666666,88888888};
+		int machines[]={66666666,88888888};
 			for(int account:machines){
-				genDiary(account);
+				if(!ifHasGen(account)){
+					genDiary(account);
+				}else{
+					System.out.println("当日已生成过！");
+				}
 			}
-		}else{
-			System.out.println("当日已生成过！");
-		}
+		
 		
 	}
 	/**
@@ -35,10 +36,10 @@ public class MachineAccount {
 	 * @date 2019年11月10日
 	 * @return
 	 */
-	public static boolean ifHasGen(){
+	public static boolean ifHasGen(int account){
 		st=JdbcUtil.getCon();
 		try {
-			rs=st.executeQuery("select * from d_diary where n_Writter='12345678' n_Time like '%"+TimeUtil.getToday()+"%'");
+			rs=st.executeQuery("select * from d_diary where n_Writter='"+account+"' and n_Time like '%"+TimeUtil.getToday()+"%'");
 			if(rs.next())
 				return true;
 			st.close();
@@ -103,6 +104,7 @@ public class MachineAccount {
 				System.out.println(insSql);
 			}
 			st.executeUpdate(updSql+id);//更新原表该条记录为已被使用
+			System.out.println(updSql);
 
 			st.execute(insSql);
 			st.close();

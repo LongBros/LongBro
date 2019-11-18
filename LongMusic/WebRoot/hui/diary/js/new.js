@@ -178,7 +178,8 @@ function oocImage(type){
 }
 //2019-10-27
  function calcInput(){
- 	var co=document.form.content.value;//吐槽内容
+ 	//var co=document.form.content.value;//吐槽内容
+	var co=document.getElementById("content").value;
  	co=co+"";
  	document.getElementById("inputNum").innerHTML="<font color=\"red\">"+co.length+"</font>";
  }
