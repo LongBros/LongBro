@@ -104,7 +104,7 @@ public class MachineAccount {
 				System.out.println(insSql);
 			}
 			st.executeUpdate(updSql+id);//更新原表该条记录为已被使用
-			System.out.println(updSql);
+			System.out.println(updSql+id);
 
 			st.execute(insSql);
 			st.close();

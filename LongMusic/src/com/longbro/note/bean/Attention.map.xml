@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.Attention">
+	<resultMap id="Attention" type="com.longbro.note.bean.Attention">
+		<id property="NId" column="n_Id" jdbcType="NUMERIC"/>
+		<result property="NNoticer" column="n_Noticer" jdbcType="VARCHAR"/>
+		<result property="NNoticed" column="n_Noticed" jdbcType="VARCHAR"/>
+		<result property="NNoticeTime" column="n_Notice_Time" jdbcType="VARCHAR"/>
+		<result property="NReadStatus" column="n_Read_Status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.Attention">
+		INSERT INTO d_notice
+		(n_Id,n_Noticer,n_Noticed,n_Notice_Time,n_Read_Status)
+		VALUES 
+		(#{NId,jdbcType=NUMERIC}, #{NNoticer,jdbcType=VARCHAR}, #{NNoticed,jdbcType=VARCHAR}, #{NNoticeTime,jdbcType=VARCHAR}, #{NReadStatus,jdbcType=NUMERIC})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="Attention">
+		SELECT * FROM d_notice 
+		WHERE 
+		n_Id=#{NId}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="Attention">
+		SELECT * FROM d_notice
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY n_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.Attention">
+		UPDATE d_notice
+        <set>
+			<if test="NNoticer != null">
+				n_Noticer=#{NNoticer,jdbcType=VARCHAR},
+			</if>
+			<if test="NNoticed != null">
+				n_Noticed=#{NNoticed,jdbcType=VARCHAR},
+			</if>
+			<if test="NNoticeTime != null">
+				n_Notice_Time=#{NNoticeTime,jdbcType=VARCHAR},
+			</if>
+			<if test="NReadStatus != null">
+				n_Read_Status=#{NReadStatus,jdbcType=NUMERIC}
+			</if>
+		</set>
+		WHERE
+		n_Id=#{NId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM d_notice 
+		WHERE
+		n_Id=#{NId}
+	</delete>
+	
+	
+</mapper>
