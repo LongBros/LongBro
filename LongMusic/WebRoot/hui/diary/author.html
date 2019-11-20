@@ -208,8 +208,7 @@
 
 <div class="rights">
 		<img src='../../image/logo/dlam.jpg' class='touxiang'>
-		<button>上传头像<i class="Hui-iconfont">&#xe642;</i></button>
-		<button id="attention" onclick="attenAuthor()">关注<i class="Hui-iconfont">&#xe716;</i></button>
+		<button id="attention" onclick="attenAuthor()"></button>
 
 	<div class="perStatistic">
 		关注：<span title="她关注的人" id="careNum">0</span>&emsp;粉丝：<span title="关注她的人" id="noticedNum">0</span>&emsp;
@@ -268,6 +267,7 @@ $(function(){
 	loadAuthorInfo();
 	setPage(author,perPage);
 	loadDiary(author,1,perPage);
+	ifAttention();
 });
 
 /*根据作者加载日记*/
@@ -318,27 +318,56 @@ function openOther(type,value){
 }
 //判断是否当前登录用户是否已关注当前作者
 function ifAttention(){
-	var attBtn=document.getElementById("attention");
-	if(1==1){//已关注，则隐藏“关注”按钮
-		attBtn.style.display="none";
-	}else{
-		attBtn.style.display="inline-block";
+	if(user==author){//当前登录用户查看自己时，不显示关注、已关注
+		return;
 	}
-}
-
-function attenAuthor(){
-	var attBtn=document.getElementById("attention");
+	var ifAtt=0;//0表示未关注
 	$.ajax({
-		url:"../../note/notice/noticeAuthor.do",
+		url:"../../note/notice/whetherHasNotice.do",
 		type:"get",
 		async:false,
 		data:{
 			NNoticer:user,
 			NNoticed:author
 		}, 
+		dataType:"Json",
 		success:function(data){
-			
+
+			if(data.code==200){
+				ifAtt=1;
+			}
 		}
+	});
+	var attBtn=document.getElementById("attention");
+	if(ifAtt==1){//已关注，则隐藏“关注”按钮
+		attBtn.innerHTML="已关注<i class=\"Hui-iconfont\">&#xe676;</i>";
+	}else{
+		attBtn.innerHTML="关注<i class=\"Hui-iconfont\">&#xe716;</i>";
+	}
+}
+
+function attenAuthor(){
+	var attBtn=document.getElementById("attention");
+	var fanNum=document.getElementById("noticedNum");//粉丝数
+	var text=attBtn.innerHTML+"";
+	var url="";//
+	if(text.indexOf("已关注")!=-1){//已关注情况取消关注
+		url="../../note/notice/cancelAtten.do";
+		attBtn.innerHTML="关注<i class=\"Hui-iconfont\">&#xe716;</i>";
+		fanNum.innerText=parseInt(fanNum.innerText)-1;
+	}else{
+		url="../../note/notice/noticeAuthor.do";
+		attBtn.innerHTML="已关注<i class=\"Hui-iconfont\">&#xe676;</i>";
+		fanNum.innerText=parseInt(fanNum.innerText)+1;
+	}
+	$.ajax({
+		url:url,
+		type:"get",
+		async:false,
+		data:{
+			NNoticer:user,
+			NNoticed:author
+		}, 
 	});
 }
 </script> 

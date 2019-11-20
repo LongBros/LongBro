@@ -16,10 +16,10 @@
 		(#{NId,jdbcType=NUMERIC}, #{NNoticer,jdbcType=VARCHAR}, #{NNoticed,jdbcType=VARCHAR}, #{NNoticeTime,jdbcType=VARCHAR}, #{NReadStatus,jdbcType=NUMERIC})
 	</insert>
 	
-	<select id="get"   parameterType="java.lang.String" resultMap="Attention">
+	<select id="get" parameterType="com.longbro.note.bean.Attention" resultMap="Attention">
 		SELECT * FROM d_notice 
 		WHERE 
-		n_Id=#{NId}
+		n_Noticer=#{NNoticer} and n_Noticed=#{NNoticed};
 	</select>
 	
 	<select id="query" parameterType="java.util.Map" resultMap="Attention">
@@ -57,10 +57,10 @@
 		n_Id=#{NId}
 	</update>
 	
-	<delete id="remove" parameterType="java.lang.String">
+	<delete id="remove" parameterType="com.longbro.note.bean.Attention">
 		DELETE FROM d_notice 
 		WHERE
-		n_Id=#{NId}
+		n_Noticer=#{NNoticer} and n_Noticed=#{NNoticed};
 	</delete>
 	
 	
