@@ -28,8 +28,8 @@
             dir="{system}\{domain}\{package}\controller" sub="false" override="true"/>
        
    </files>
-    <table tableName="d_visit">
-        <variable name="class" value="Visit" />
+    <table tableName="d_notice">
+        <variable name="class" value="Attention" />
         <variable name="package" value="note" />
     </table>
 </config>

@@ -32,7 +32,9 @@
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=#{UUserId}) likeNum,
 		(SELECT COUNT(1) FROM d_store WHERE s_Storer=#{UUserId}) storeNum,
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=#{UUserId}) praisedNum,
-		(SELECT COUNT(1) FROM d_visit WHERE v_Visited=#{UUserId}) visitedNum
+		(SELECT COUNT(1) FROM d_visit WHERE v_Visited=#{UUserId}) visitedNum,
+		(SELECT COUNT(1) FROM d_notice WHERE n_Noticer=#{UUserId}) noticeNum,
+		(SELECT COUNT(1) FROM d_notice WHERE n_Noticed=#{UUserId}) fanNum
 		FROM d_user_info 
 		WHERE 
 		u_User_Id=#{UUserId}

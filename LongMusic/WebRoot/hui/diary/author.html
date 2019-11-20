@@ -209,8 +209,8 @@
 <div class="rights">
 		<img src='../../image/logo/dlam.jpg' class='touxiang'>
 		<button>上传头像<i class="Hui-iconfont">&#xe642;</i></button>
-		<button>关注<i class="Hui-iconfont">&#xe716;</i></button>
-		<button>已关注<i class="Hui-iconfont">&#xe676;</i></button>
+		<button id="attention" onclick="attenAuthor()">关注<i class="Hui-iconfont">&#xe716;</i></button>
+
 	<div class="perStatistic">
 		关注：<span title="她关注的人" id="careNum">0</span>&emsp;粉丝：<span title="关注她的人" id="noticedNum">0</span>&emsp;
 		喜欢：<span title="她喜欢的日记" id="likeNum">0</span>&emsp;收藏：<span title="她收藏的日记" id="storeNum">0</span><br>	
@@ -262,7 +262,7 @@ $(".login").on("click", login_popup),function() {
     })
 } ();
 var author=GetQueryString("author");//被查看的用户
-//var user=getUser();//当前登录用户
+var user=getCookie("userId")+"";//当前登录用户
 $(function(){
 	getUser();
 	loadAuthorInfo();
@@ -316,7 +316,31 @@ function openOther(type,value){
 		window.open("author.html?author="+value, "_blank")
 	}
 }
+//判断是否当前登录用户是否已关注当前作者
+function ifAttention(){
+	var attBtn=document.getElementById("attention");
+	if(1==1){//已关注，则隐藏“关注”按钮
+		attBtn.style.display="none";
+	}else{
+		attBtn.style.display="inline-block";
+	}
+}
 
+function attenAuthor(){
+	var attBtn=document.getElementById("attention");
+	$.ajax({
+		url:"../../note/notice/noticeAuthor.do",
+		type:"get",
+		async:false,
+		data:{
+			NNoticer:user,
+			NNoticed:author
+		}, 
+		success:function(data){
+			
+		}
+	});
+}
 </script> 
 </body>
 </html>
