@@ -317,6 +317,7 @@ function submit_comment(){
 		type:"get",
 		async:false,
 		data:{
+			CReviewer:author==""?"":author,
 			CReviewedDiary:id,
 			CComment:con,
 			CReviewed:author

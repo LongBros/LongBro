@@ -32,7 +32,6 @@ public class CommentDiaryController{
     @ResponseBody
     public void commentDiary(CommentDiary cd){
     	String time=TimeUtil.time();
-    	cd.setCReviewer("123141414");
     	cd.setCReviewTime(time);
     	cd.setCReadStatus(0);
     	commentDiaryService.create(cd);

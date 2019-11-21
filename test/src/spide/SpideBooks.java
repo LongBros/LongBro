@@ -74,7 +74,7 @@ public class SpideBooks {
 			for(HashMap<String,String> book:books){
 				
 			}
-			Document doc = Jsoup.connect(url).get();
+			Document doc = Jsoup.connect("http://").get();
 			Elements info=doc.getElementsByClass("book_info");
 			String infos=info+"";
 //			String img=infos.substring(infos.indexOf("src"), infos.indexOf("alt"));

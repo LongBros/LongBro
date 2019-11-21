@@ -1,3 +1,4 @@
+package script;
 import java.io.File;
 import java.io.FileWriter;
 import java.sql.Connection;
