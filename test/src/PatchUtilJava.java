@@ -19,9 +19,9 @@ import java.util.List;
  */
 public class PatchUtilJava {
 
-    public static String patchFile = "C:/Users/pc/Desktop/packet/路径.txt";//补丁文件:记录更新文件的项目路径，如:src/main/java/com/redxun/sys/core/controller/SysAccountFormController.java
+    public static String patchFile = "C:/Users/pc/Desktop/packet/four.txt";//补丁文件:记录更新文件的项目路径，如:src/main/java/com/redxun/sys/core/controller/SysAccountFormController.java
 
-    public static String classPath="D:/lcfexMy/lcfex-mortgageBusiness/";//java所在路径:从WEB-INF开始
+    public static String classPath="D:/alc201910171/lcfex-mortgageBusiness/";//java所在路径:从WEB-INF开始
 
     public static String outputPath = "C:/Users/pc/Desktop/packet/";//生成的增量输出存放路径
 

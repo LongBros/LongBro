@@ -151,7 +151,7 @@ function openOther(type,value){
 }
 /*
  * 根据日记数量初始化页码按钮
- * @param 作者
+ * @param 作者，每页数量
 */
 function setPage(author,perPage){
 	$(".pages").text('');
@@ -184,8 +184,11 @@ function setPage(author,perPage){
 		}
 	}
 	sel=sel+"</select>";
-	$(".pages").append(sel);
-	$(".pages").append("&nbsp;共"+num+"篇日记&nbsp;"+curPage+"/"+page+"&emsp;");
+	if(num>10){
+		$(".pages").append(sel+"&nbsp;共"+num+"篇日记&nbsp;"+curPage+"/"+page+"&emsp;");
+	}else{//只有10篇无需显示选择每页多少篇
+		$(".pages").append("&nbsp;共"+num+"篇日记&nbsp;");
+	}
 	if(curPage!=1){
 		$(".pages").append("<span onclick=\"loadDiary('"+author+"','1','"+perPage+"')\">首</span>&emsp;")
 		$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+(curPage-1)+"','"+perPage+"')\">←</span>&emsp;");
@@ -209,18 +212,29 @@ function setPage(author,perPage){
             }
          }
 		
-	}else{
-		for(var i=1;i<=page;i++){
-			if(curPage==i){
-				$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
-			}else{
-				$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+	}else{//少于5页，显示所有页码
+		if(page!=1){//只有一页无需显示页码
+			for(var i=1;i<=page;i++){
+				if(curPage==i){
+					$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+				}else{
+					$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+				}
 			}
 		}
 	}
 	if(curPage+1<=page){//＜＞
 		$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+(curPage+1)+"','"+perPage+"')\">→</span>&emsp;")
 		$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+page+"','"+perPage+"')\">尾</span>&emsp;")
+	}
+	if(page>5){//多于5页显示下拉选择页码功能
+		var pagesC="";
+		pagesC+="<select name='selPage' οnchange=\"loadDiary('"+author+"',options[selectedIndex].value,'"+perPage+"')\">";
+		for(var i=1;i<=page;i++){
+			pagesC+="<option value="+i+">"+i+"</option>";
+		}
+		pagesC+="</select>";
+		$(".pages").append(pagesC);
 	}
 }
 //2019-10-26	加载当前登录用户有多少未读喜欢、收藏、被关注等消息
@@ -242,3 +256,9 @@ function setPer(pernum){
 	setPage(author,perPage);
 	loadDiary(author,curPage,perPage);
 }
+$(function(){
+	 $("select[name='qualifications']").change(function(){
+//		 loadDiary('"+author+"',options[selectedIndex].value,'"+perPage+"');
+		 alert("aaa")
+	})
+})
