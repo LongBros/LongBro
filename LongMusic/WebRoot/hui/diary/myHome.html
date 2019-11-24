@@ -101,6 +101,20 @@
 		text-align: center;
 		margin-top: 20px;
 	}
+	.pages{
+		vertical-align: middle;
+		text-align: center;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+	.pages span{
+		width:30px;
+		height:30px;
+		text-align:center;
+		line-height:30px;
+		display:inline-block;
+		background-color:#e2e2e2; 
+	}
 </style>
 <body>
 <header class="navbar-wrapper">
@@ -189,6 +203,8 @@
 		&emsp;<span>我看过的</span>	
 	</div>
 	<div id="myDiary"></div>
+	<div class="pages" style="cursor: pointer;">
+	</div>
 </div>
 <div class="rights">
 		<img src='../../image/logo/dlam.jpg' class='touxiang'>
@@ -246,11 +262,95 @@ var author=user;//loadAuthorInfo()函数中需要author
 $(function(){
 	//判断当前登录人是否已点赞、收藏该日记，并对图标做修改
 	loadAuthorInfo();//index.js中
-	loadMyDiary();
-});
+	var curPage=1;//当前页码
+	var perPage=10;//当前一页展示日记数量
+	loadMyDiary(author,curPage,perPage);
 
+	setPage1(author,perPage);
+});
+function setPage1(author,perPage){
+	$(".pages").text('');
+	var num=0;
+	$.ajax({
+		url:"../../note/diary/getDiaryNumBy.do",
+		type:"get",
+		async:false,
+		data:{
+			NWritter:author
+		},
+		dataType:"text",
+		success:function(data){
+			num=data;
+		}
+	});
+	var page=0;
+	if(num%perPage==0){//可整除的话，页码数为总日记数除以10
+		page=num/perPage;
+	}else{//不可整除的话，页码数为总日记数除以10加1
+		page=parseInt(num/perPage)+1;
+	}
+	var value=new Array("10","20","30","40");
+	var sel="<select onchange='setPer1(options[selectedIndex].value)'>";
+	for(var i=0;i<value.length;i++){
+		if(value[i]==perPage){
+			sel=sel+"<option value='"+value[i]+"' selected>每页"+value[i]+"篇</option>";
+		}else{
+			sel=sel+"<option value='"+value[i]+"'>每页"+value[i]+"篇</option>";
+		}
+	}
+	sel=sel+"</select>";
+	if(num>10){
+		$(".pages").append(sel+"&nbsp;共"+num+"篇日记&nbsp;"+curPage+"/"+page+"&emsp;");
+	}else{//只有10篇无需显示选择每页多少篇
+		$(".pages").append("&nbsp;共"+num+"篇日记&nbsp;");
+	}
+	if(curPage!=1){
+		$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','1','"+perPage+"')\">首</span>&emsp;")
+		$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+(curPage-1)+"','"+perPage+"')\">←</span>&emsp;");
+	}
+	if(page>5){//多于5页，只显示5页
+		if(curPage>page-5){//当前页码大于总页码-5，输出后六页
+			for(var i=page-4;i<=page;i++){
+	              if(i==curPage){
+	  				   $(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+		          }else{
+					   $(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+	         	  }
+	        }
+		}else{//当前页码小于总页码-6，输出当前页码后的六页
+            for(var i=curPage;i<curPage+5;i++){
+                if(i==curPage){
+	  				   $(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+                }else{
+					   $(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+                }
+            }
+         }
+		
+	}else{//少于5页，显示所有页码
+		if(page!=1){//只有一页无需显示页码
+			for(var i=1;i<=page;i++){
+				if(curPage==i){
+					$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+				}else{
+					$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+				}
+			}
+		}
+	}
+	if(curPage+1<=page){//＜＞
+		$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+(curPage+1)+"','"+perPage+"')\">→</span>&emsp;")
+		$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+page+"','"+perPage+"')\">尾</span>&emsp;")
+	}
+	
+}
+function setPer1(pernum){
+	perPage=pernum;
+	setPage1(author,perPage);
+	loadMyDiary(author,curPage,perPage);
+}
 //加载我的日记
-function loadMyDiary(){
+function loadMyDiary(user,page,perPage){
 	$("#myDiary").text('');
 	if(user==""){
 		alert("请登录");
@@ -268,11 +368,15 @@ function loadMyDiary(){
 		dataType:"Json",
 		data:{
 			author:user,
-			page:1,
+			page:page,
 			authority:au,
-			perPage:10
+			perPage:perPage
 		},
 		success:function(data){
+			if(data.length<1){
+				$("#myDiary").append("<br><br><center>你还没有写过日记呢，快去写一篇吧！</center><br><br>");
+				return;
+			}
 			for(var i=0;i<data.length;i++){
 				//处理内容和标题
 				var title=data[i].ntitle+"";
@@ -291,12 +395,18 @@ function loadMyDiary(){
 						+"<div class='info'>"
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime+"&emsp;&emsp;心情："+mood+"&emsp;&emsp;天气："+wea
 						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>《"+title+"》</span>&emsp;"
-						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
-						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
-						+"</div><hr width='740px'>");
+						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum
+						+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
+						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum
+						+"</span>&nbsp;<span style='color:red' onclick='editDiary("+data[i].nid+")'>编辑</span></div></div>"
+						+"</div><hr width='800px'>");
 			}
+
 		}
 	});
+	curPage=parseInt(page);
+	perPage=parseInt(perPage);
+	setPage1(user,perPage);
 }
 //加载我喜欢的
 function loadMyLove(){
@@ -315,6 +425,10 @@ function loadMyLove(){
 		dataType:"Json",
 		success:function(data){
 			var res=data.result;
+			if(res.length<1){
+				$("#myDiary").append("<br><br><center>你还没有喜欢的日记喔！</center><br><br>");
+				return;
+			}
 			for(var i=0;i<res.length;i++){
 				var con=handleCon(res[i].content);
 				var title=res[i].title+"";
@@ -329,9 +443,11 @@ function loadMyLove(){
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+res[i].time
 						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+res[i].cate+"&nbsp;:<span title='"+res[i].title+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+res[i].loc
 						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+res[i].visitNum+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+res[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+res[i].praiseNum
-						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
+						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
 						+"</div><hr width='740px'>");
 			}
+			$("#myDiary").append("<br><br><center>朕共喜欢<font color='red'>"+res.length+"</font>篇日记</center><br>");
+
 		}
 	});
 }
@@ -352,6 +468,10 @@ function loadMyStore(){
 		dataType:"Json",
 		success:function(data){
 			var res=data.result;
+			if(res.length<1){
+				$("#myDiary").append("<br><br><center>你还没有收藏过日记喔！</center><br><br>");
+				return;
+			}
 			for(var i=0;i<res.length;i++){
 				var con=handleCon(res[i].content);
 				var title=res[i].title+"";
@@ -366,15 +486,22 @@ function loadMyStore(){
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+res[i].time
 						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+res[i].cate+"&nbsp;:<span title='"+res[i].title+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+res[i].loc
 						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+res[i].visitNum+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+res[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+res[i].praiseNum
-						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
+						+"</span>&nbsp;&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
 						+"</div><hr width='740px'>");
 			}
+			$("#myDiary").append("<br><br><center>朕共收藏了<font color='red'>"+res.length+"</font>篇日记</center><br>");
+
 		}
 	});
 }
 //加载我看过的
 function loadMyFeet(){
 	
+}
+//编辑日记
+function editDiary(id){
+	//window.location="new.html?id="+id;
+	window.open("new.html?id="+id,"_blank");
 }
 </script> 
 </body>

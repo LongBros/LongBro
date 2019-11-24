@@ -38,9 +38,10 @@ public class AttentionController{
     @ResponseBody
     public BaseResult noticeAuthor(Attention att){
     	BaseResult bs=new BaseResult<>();
-    	if(StringUtils.isEmpty(att.getNNoticer())){
+    	Attention atten=attentionService.whetherNotice(att);
+    	if(StringUtils.isEmpty(att.getNNoticer())||atten!=null){
     		bs.setCode(110);
-    		bs.setMessage("请先登录");
+    		bs.setMessage("当前用户未登录或已经关注该作者");
     		return bs;
     	}
     	att.setNNoticeTime(TimeUtil.time());

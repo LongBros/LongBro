@@ -98,6 +98,7 @@ function getCateById(id){
  */
 function handleCon(content){
 	var con="&emsp;&emsp;"+content;
+	con=con.replace(new RegExp("&amp;","gm"), "&");
 	con=con.replace(new RegExp("::::","gm"), ".jpg'>");
 	con=con.replace(new RegExp(":::","gm"), ".png'>");
 	con=con.replace(new RegExp("::","gm"), ".gif'>");

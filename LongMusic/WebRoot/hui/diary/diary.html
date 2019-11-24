@@ -258,9 +258,7 @@
 <div class="rights">
 		<img src='../../image/logo/dlam.jpg' class='touxiang'>
 		<!-- 自己的账号显示上传头像按钮，别人的根据有没有关注而显示 -->
-		<button>上传头像<i class="Hui-iconfont">&#xe642;</i></button>
-		<button>关注<i class="Hui-iconfont">&#xe716;</i></button>
-		<button>已关注<i class="Hui-iconfont">&#xe676;</i></button>
+		<button id="attention" onclick="attenAuthor()"></button>
 	<div class="perStatistic">
 		关注：<span title="她关注的人" id="careNum">0</span>&emsp;粉丝：<span title="关注她的人" id="noticedNum">0</span>&emsp;
 		喜欢：<span title="她喜欢的日记" id="likeNum">0</span>&emsp;收藏：<span title="她收藏的日记" id="storeNum">0</span><br>	
@@ -314,7 +312,7 @@ $(".login").on("click", login_popup),function() {
 } ();
 var id =GetQueryString("id");//当前日记的id
 var author="";//当前日记的作者
-//var user=getUser();//当前登录用户
+var user=getCookie("userId")+"";//当前登录用户
 $(function(){
 	getUser();
 	//网页title由loadDiary函数和loadAuthorInfo共同生成
@@ -328,6 +326,7 @@ $(function(){
 	loadAuthorInfo();//加载当前日记作者的关注、粉丝、喜欢、收藏及其他基本信息以显示
 	getBeforeAndNextId();
 	loadCom();//加载评论
+	ifAttention();
 });
 </script> 
 </body>

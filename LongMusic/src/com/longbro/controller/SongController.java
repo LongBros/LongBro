@@ -64,7 +64,9 @@ public class SongController {
 		map.put("website", request.getParameter("website"));
 		map.put("descr", request.getParameter("descr"));
 		map.put("time", request.getParameter("time"));
-		map.put("lyric",DownloadUtil.spideLyric(request.getParameter("sourceId")));
+		if(request.getParameter("website").equals("网易云音乐")){
+			map.put("lyric",DownloadUtil.spideLyric(request.getParameter("sourceId")));
+		}
 		System.out.print(getClassName()+".addSong:"+request.getParameter("time"));
 		Song song=service.querySongBySId(request.getParameter("sourceId"));
 		if(song!=null){
@@ -86,7 +88,7 @@ public class SongController {
 		return result;
 	}
 	/**
-	 * 2分页查询歌曲
+	 * 2.分页查询歌曲
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年5月4日
@@ -192,8 +194,7 @@ public class SongController {
 		return song;
 	}
 	/**
-	 * 6.编辑歌曲
-	 * @desc 
+	 * @desc 6.编辑歌曲
 	 * @author zcl
 	 * @date 2019年5月4日
 	 * @param request
@@ -312,6 +313,12 @@ public class SongController {
 		System.out.println(getClassName()+".findSongNumBy(Integer type)"+":"+type+"》》》》》》》》》》》》"+time);
 		return service.findSongNumBy(time);
 	}
+	/**
+	 * @desc 10.查询所有的歌手
+	 * @author zcl
+	 * @date 2019年11月23日
+	 * @return
+	 */
 	@RequestMapping (value="queryAllSinger",method=RequestMethod.GET)
 	@ResponseBody
 	public ArrayList<String> queryAllSinger(){
@@ -319,8 +326,7 @@ public class SongController {
 		return ss; 
 	}
 	/**
-	 * 根据资源id得到资源信息
-	 * @desc 
+	 * @desc 11.根据资源id得到资源信息
 	 * @author zcl
 	 * @date 2019年10月4日
 	 * @param sourceId

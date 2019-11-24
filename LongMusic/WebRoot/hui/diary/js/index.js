@@ -196,7 +196,7 @@ function loadAuthorInfo(){
 	});
 	setInteractNum(author);
 }
-//加载并设置某人的互动数量信息
+//10.加载并设置某人的互动数量信息
 function setInteractNum(user){
 	$.ajax({
 		url:"../../note/userinfo/queryInteractNum.do",
@@ -226,6 +226,7 @@ function setInteractNum(user){
 		}
 	});
 }
+//11.根据性别id获取性别
 function getSexById(id){
 	var sex="";
 	if(id==0){
@@ -236,4 +237,67 @@ function getSexById(id){
 		sex="不详";
 	}
 	return sex;
+}
+
+//12.判断当前登录用户是否已关注当前作者
+function ifAttention(){
+	if(user==author){//当前登录用户查看自己时，不显示关注、已关注
+		return;
+	}
+	var ifAtt=0;//0表示未关注
+	$.ajax({
+		url:"../../note/notice/whetherHasNotice.do",
+		type:"get",
+		async:false,
+		data:{
+			NNoticer:user,
+			NNoticed:author
+		}, 
+		dataType:"Json",
+		success:function(data){
+
+			if(data.code==200){
+				ifAtt=1;
+			}
+		}
+	});
+	var attBtn=document.getElementById("attention");
+	if(ifAtt==1){//已关注，则隐藏“关注”按钮
+		attBtn.innerHTML="已关注<i class=\"Hui-iconfont\">&#xe676;</i>";
+	}else{
+		attBtn.innerHTML="关注<i class=\"Hui-iconfont\">&#xe716;</i>";
+	}
+}
+/**
+ * 13.关注与取消关注
+ */
+function attenAuthor(){
+	if(user==""){
+		alert("请先登录！");
+		return;
+	}
+	var attBtn=document.getElementById("attention");
+	var fanNum=document.getElementById("noticedNum");//粉丝数
+	var text=attBtn.innerHTML+"";
+	var url="";//
+	if(text.indexOf("已关注")!=-1){//已关注情况取消关注
+		url="../../note/notice/cancelAtten.do";
+		attBtn.innerHTML="关注<i class=\"Hui-iconfont\">&#xe716;</i>";
+		fanNum.innerText=parseInt(fanNum.innerText)-1;
+		alert("已取消关注！");
+	}else{
+		url="../../note/notice/noticeAuthor.do";
+		attBtn.innerHTML="已关注<i class=\"Hui-iconfont\">&#xe676;</i>";
+		fanNum.innerText=parseInt(fanNum.innerText)+1;
+		alert("已关注！");
+	}
+	$.ajax({
+		url:url,
+		type:"get",
+		async:false,
+		data:{
+			NNoticer:user,
+			NNoticed:author
+		}, 
+	});
 }
