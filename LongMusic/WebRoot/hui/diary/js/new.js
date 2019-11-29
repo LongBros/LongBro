@@ -1,4 +1,3 @@
-var ue = UE.getEditor('editor');
 //ue.ready(function() {
 //    //设置编辑器的内容
 //    //ue.setContent('');
@@ -10,6 +9,7 @@ var ue = UE.getEditor('editor');
 //    var $content=$('#content');
 //    $content.val(html);
 //});
+
 //1.写日记
 function writeNote(){
 	if(user==""){
@@ -23,7 +23,6 @@ function writeNote(){
 	var mood=document.form.mood.value;
 	var title=document.form.title.value+"";
 	var content = ue.getContent();
-//	var content=document.form.content.value+"";
 	var allowcomment=document.form.allowcomment;
 	var authority=document.form.authority.value;
 	var category=document.form.category.value;
@@ -38,12 +37,20 @@ function writeNote(){
 	if(allowcomment.checked){
 		com=0;//允许评论
 	}
+	var time="";
+	var updateTime="";
+	if(id!=null&&id!=""){//编辑日记时，updateTime在java中定义
+	}else{
+		id=0;
+		time=formatW2(new Date()+"");
+	}
 	$.ajax({
-		url:"../../note/diary/addNote.do",
+		url:"../../note/diary/addOrEditNote.do",
 		type:"get",
 		async:false,
-		dataType:"text",
+		dataType:"Json",
 		data:{
+			NId:id,
 			NWritter:user,
 			NType:category,
 			NTitle:title,
@@ -53,10 +60,10 @@ function writeNote(){
 			NLocation:loc,
 			NAllowComment:com,
 			nAuthority:authority,
-			NTime:formatW2(new Date()+"")
+			NTime:time
 		},
 		success:function(res){
-			alert("日记已发布")
+			alert(res.message)
 		}
 	});
 }
@@ -222,7 +229,10 @@ function oocImage(type){
  				var cate=data.ntype;
  				var mood=data.nmood;
  				var wea=data.nweather;
- 	 			changeMood(mood);changeWea(wea);
+
+ 	 			changeMood(mood);
+ 	 			changeWea(wea);
+
  				document.getElementById("location").value=loc;
  				document.getElementById("title").value=title;
  				document.getElementById("mood").value=mood;
@@ -230,14 +240,21 @@ function oocImage(type){
  				var com=data.nallowComment;
  				if(com=='1'){//不允许评论
  					document.getElementById("allowcomment").checked=false;
- 				}
+ 				} 	 			
+
  				document.getElementById("authority").value=data.nauthority;
 // 				$('#location').text(loc);
 // 				$('#title').text(title);
-// 				alert(ue)
- 				ue.setContent(con);
- 				alert(ue)
- 				return con;
+ 				ue.ready(function() {//必须加上此行
+ 					ue.setContent(con);
+ 				});
+ 				//document.form.content.value=con;
  		}
  	});
  }
+ /***************************************
+ *为什么在appendValue函数中可直接使用ue.setContent，无需ue.ready，而loadDiaryById中必须要
+ *先ue.ready？是因为后者是在ajax中异步的？
+ *
+ *
+ ****************************************/

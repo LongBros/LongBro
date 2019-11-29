@@ -79,9 +79,6 @@
 			<if test="NContent != null">
 				n_Content=#{NContent,jdbcType=VARCHAR},
 			</if>
-			<if test="NTime != null">
-				n_Time=#{NTime,jdbcType=VARCHAR},
-			</if>
 			<if test="NWeather != null">
 				n_Weather=#{NWeather,jdbcType=NUMERIC},
 			</if>
@@ -89,7 +86,16 @@
 				n_Mood=#{NMood,jdbcType=NUMERIC},
 			</if>
 			<if test="NLocation != null">
-				n_Location=#{NLocation,jdbcType=VARCHAR}
+				n_Location=#{NLocation,jdbcType=VARCHAR},
+			</if>
+			<if test="NAllowComment != null">
+				n_AllowComment=#{NAllowComment,jdbcType=NUMERIC},
+			</if>
+			<if test="nAuthority != null">
+				n_Authority=#{nAuthority,jdbcType=NUMERIC},
+			</if>
+			<if test="updateTime != null">
+				n_update_time=#{updateTime,jdbcType=VARCHAR},
 			</if>
 		</set>
 		WHERE

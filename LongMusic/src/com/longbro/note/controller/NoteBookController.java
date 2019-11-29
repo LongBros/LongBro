@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+//import org.apache.log4j.Logger;
 import org.apache.poi.util.StringUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.Diary;
 import com.longbro.note.bean.NoteBook;
 import com.longbro.note.service.NoteBookService;
+import com.longbro.util.TimeUtil;
 /**
  * 笔记本控制器
  * @author longbro
@@ -24,33 +27,33 @@ import com.longbro.note.service.NoteBookService;
 @Controller
 @RequestMapping("/note/diary/")
 public class NoteBookController{
+//	Logger log = Logger.getLogger(AttentionController.class);
     @Autowired
     NoteBookService noteBookService;
     /**
-     * @desc 1.写日记-新建日记
+     * @desc 1.写日记或编辑日记
      * @author zcl
-     * @date 2019年10月19日
+     * @date 2019年10月19日&11-24
      * @param req
      * @param nb
      */
-    @RequestMapping(value="addNote",method=RequestMethod.GET)
+    @RequestMapping(value="addOrEditNote",method=RequestMethod.GET)
     @ResponseBody
-    public void addNote(HttpServletRequest req,NoteBook nb){
-//    	String loc=req.getParameter("location");
-//    	String wea=req.getParameter("weather");
-//    	String mood=req.getParameter("mood");
-//    	String title=req.getParameter("title");
-//    	String content=req.getParameter("content");
-//    	String allowcomment=req.getParameter("allowcomment");
-//    	String authority=req.getParameter("authority");
-//    	String category=req.getParameter("category");
-//    	NoteBook nb=new NoteBook();
-//    	nb.setNLocation(loc);nb.setNWeather(Integer.parseInt(wea));
-//    	nb.setNMood(Integer.parseInt(mood));nb.setNTitle(title);
-//    	nb.setNContent(content);nb.setNType(Integer.parseInt(category));
-//    	nb.setNAllowComment(Integer.parseInt(allowcomment));
-//    	nb.setNAuthority(Integer.parseInt(authority));
-    	noteBookService.addNote(nb);
+    public BaseResult addOrEditNote(NoteBook nb){
+    	BaseResult result=new BaseResult<>();
+    	System.out.println("id:"+nb.getNId());
+    	if(nb.getNId()==0){//无id时新增
+        	noteBookService.addNote(nb);
+        	result.setMessage("日记发布成功");
+//        	log.info("日记发布成功");
+    	}else{
+        	nb.setUpdateTime(TimeUtil.time());
+        	noteBookService.editDiary(nb);
+        	result.setMessage("日记修改成功");
+//        	log.info("日记修改成功");
+    	}
+    	result.setCode(200);
+    	return result;
     }
     /**
      * @desc 2.分页加载笔记(弃用，使用5)
@@ -61,6 +64,7 @@ public class NoteBookController{
     @RequestMapping(value="getDiaryByPage",method=RequestMethod.GET)
     @ResponseBody
     public List<NoteBook> getDiaryByPage(int page){
+//    	log.info("开始加载第"+page+"页的笔记");
     	return noteBookService.getDiaryByPage(page);
     }
     /**
@@ -73,6 +77,7 @@ public class NoteBookController{
     @RequestMapping(value="getDiaryById",method=RequestMethod.GET)
     @ResponseBody
     public NoteBook getDiaryById(int id){
+//    	log.info("开始加载id为："+id+"的笔记");
     	return noteBookService.getDiaryById(id);
     }
     /**
@@ -84,6 +89,7 @@ public class NoteBookController{
     @RequestMapping(value="getDiaryNumBy",method=RequestMethod.GET)
     @ResponseBody
     public int getDiaryNumBy(NoteBook diary){
+//    	log.info("开始获取指定笔记数量");
     	return noteBookService.getDiaryNumBy(diary);
     }
     /**
@@ -96,6 +102,7 @@ public class NoteBookController{
     @RequestMapping(value="getDiaryBy",method=RequestMethod.GET)
     @ResponseBody
     public List<Diary> getDiaryBy(HttpServletRequest request){
+//    	log.info("开始加载笔记");
     	int per=10;
     	HashMap<String, String> map=new HashMap<>();
     	if(StringUtils.isNotEmpty(request.getParameter("author")))
@@ -113,7 +120,7 @@ public class NoteBookController{
     	return noteBookService.getDiaryBy(map);
     }
     /**
-     * 得到和当前日记同作者的上一篇和下一篇日记的ID
+     * 6.得到和当前日记同作者的上一篇和下一篇日记的ID
      * @desc 
      * @author zcl
      * @date 2019年11月3日
@@ -123,6 +130,9 @@ public class NoteBookController{
     @RequestMapping(value="getBeforeAndNextId",method=RequestMethod.GET)
     @ResponseBody
     public List<HashMap<String,Object>> getBeforeAndNextId(int id,String author){
+//    	log.info("开始查询当前笔记的上下篇");
     	return noteBookService.getBeforeAndNextId(id, author);
     }
+    
+    
 }

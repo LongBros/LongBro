@@ -61,6 +61,7 @@
 	.info{
 		color: gray;
 		font-size: 10px;
+		padding-bottom: 6px;
 	}
 	.zan{
 		float:right;
@@ -391,14 +392,17 @@ function loadMyDiary(user,page,perPage){
 				var wea=getWeaById(data[i].nweather);
 				//分类
 				var cate=getCateById(data[i].ntype);
-				$("#myDiary").append("<div class=\"diary\"><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
+				$("#myDiary").append("<div class=\"diary\">&nbsp;<span title='"+data[i].ntitle
+				+"' style='color:black;font-size:18px;' >"+title+"</span><br><span onclick='openOther(0,"+data[i].nid+")' style='color:gray'>"+con+"</span><br>"
 						+"<div class='info'>"
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime+"&emsp;&emsp;心情："+mood+"&emsp;&emsp;天气："+wea
-						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>《"+title+"》</span>&emsp;"
+						+"&emsp;分类："+cate+"&emsp;"
 						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum
 						+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
 						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum
-						+"</span>&nbsp;<span style='color:red' onclick='editDiary("+data[i].nid+")'>编辑</span></div></div>"
+						+"</span>&nbsp;<span style='color:red' onclick='editDiary("+data[i].nid
+						+")'>编辑</span>&nbsp;<span style='color:red' onclick='delDiary("+data[i].nid
+						+")'>删除</span>&nbsp;<span style='color:red' onclick='diaryToTop("+data[i].nid+")'>置顶</span></div></div>"
 						+"</div><hr width='800px'>");
 			}
 
@@ -502,6 +506,27 @@ function loadMyFeet(){
 function editDiary(id){
 	//window.location="new.html?id="+id;
 	window.open("new.html?id="+id,"_blank");
+}
+//删除日记
+function delDiary(id){
+	var r=confirm("确认删除？");
+	if(r==false){
+		return;
+	}
+	$.ajax({
+		url:"../../note/diary/addOrEditNote.do",
+		type:"get",
+		async:false,
+		dataType:"Json",
+		data:{
+			NId:id,
+			nAuthority:3
+		},
+		success:function(res){
+			alert("日记已删除");
+			loadMyDiary(author,curPage,perPage);
+		}
+	});
 }
 </script> 
 </body>

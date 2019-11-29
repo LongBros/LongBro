@@ -24,6 +24,8 @@ public class UserInfo{
 	protected String headImage;
 	protected String password;//2019-10-27
 	protected String location;//2019-11-15
+	private Integer autoPlay;//自动播放带音频日记的音频(0:提示，1:自动播放，2:不播放) 
+	private String lastLogin;//最近登录
 	public Integer getUId() {
 		return this.UId;
 	}
@@ -152,6 +154,18 @@ public class UserInfo{
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public Integer getAutoPlay() {
+		return autoPlay;
+	}
+	public void setAutoPlay(Integer autoPlay) {
+		this.autoPlay = autoPlay;
+	}
+	public String getLastLogin() {
+		return lastLogin;
+	}
+	public void setLastLogin(String lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 	
 }

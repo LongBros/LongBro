@@ -18,14 +18,14 @@ import java.util.List;
  */
 public class patchPagUtil {
 
-    public static String patchFile="C:/Users/Administrator/Desktop/packet/2019-11-20.txt";//补丁文件
+    public static String patchFile="C:/Users/Administrator/Desktop/packet/2019-11-29.txt";//补丁文件
       
 //    public static String classPath="D:/workspace_git/lcfex-loan/target/lcfex-loan/";//class所在路径  
     public static String classPath="D:/apache-tomcat-8.5.35/webapps/LongMusic/";//class所在路径  
       
     public static String outputPath="C:/Users/Administrator/Desktop/packet/";//生成的增量输出放路径 
       
-    public static String version="2019-11-20/";//增量包版本  
+    public static String version="2019-11-29/";//增量包版本  
     
 //    public static String proName="loan/";//项目名称
     public static String proName="/";//项目名称
@@ -54,9 +54,9 @@ public class patchPagUtil {
     public static void copyFiles(List<String> list){  
           
         for(String fullFileName:list){  
-            if(fullFileName.indexOf("src/main/java")!=-1){//对源文件目录下的文件处理  
+            if(fullFileName.indexOf("src")!=-1){//对源文件目录下的文件处理  
             	//得到class文件物理路径
-                String fileName=fullFileName.replace("src/main/java","WEB-INF/classes").replace(".java", ".class");
+                String fileName=fullFileName.replace("src","WEB-INF/classes").replace(".java", ".class");
                 String tempDesPath=fileName.substring(0,fileName.lastIndexOf("/"));  
                 String desFilePathStr=outputPath+version+proName+tempDesPath;  
                 String desFileNameStr=outputPath+version+proName+fileName;  

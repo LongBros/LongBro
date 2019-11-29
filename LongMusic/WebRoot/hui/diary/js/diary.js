@@ -3,6 +3,8 @@
  * 例(storeNum，和storeNum1；praiseNum和praiseNum1)
  * 
  */
+var user=getCookie("userId")+"";//当前登录用户
+
 /**
  * 1.个人信息
  */
@@ -99,6 +101,7 @@ function getCateById(id){
 function handleCon(content){
 	var con="&emsp;&emsp;"+content;
 	con=con.replace(new RegExp("&amp;","gm"), "&");
+	con=con.replace(new RegExp("&lt;","gm"), "<");
 	con=con.replace(new RegExp("::::","gm"), ".jpg'>");
 	con=con.replace(new RegExp(":::","gm"), ".png'>");
 	con=con.replace(new RegExp("::","gm"), ".gif'>");
@@ -318,7 +321,7 @@ function submit_comment(){
 		type:"get",
 		async:false,
 		data:{
-			CReviewer:author==""?"":author,
+			CReviewer:user==""?"":user,
 			CReviewedDiary:id,
 			CComment:con,
 			CReviewed:author

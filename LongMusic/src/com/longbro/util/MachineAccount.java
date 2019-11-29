@@ -67,13 +67,13 @@ public class MachineAccount {
 			len=1000;
 			table="poem";
 			selSql="select * from "+table+" where p_Id=";
-			updSql="update "+table+" set p_Status=1,p_usetime="+TimeUtil.time()+" where p_Id=";
+			updSql="update "+table+" set p_Status=1,p_usetime='"+TimeUtil.time()+"' where p_Id=";
 			status="p_Status";
 		}else if(account==88888888){//歌词账号
 			len=600;
 			table="song";
 			selSql="select * from "+table+" where id=";
-			updSql="update "+table+" set status=1,use_time="+TimeUtil.time()+" where id=";
+			updSql="update "+table+" set status=1,use_time='"+TimeUtil.time()+"' where id=";
 			status="status";
 		}
 		st=JdbcUtil.getCon();
@@ -105,7 +105,7 @@ public class MachineAccount {
 						+time+"', '"+wea+"', '"+mood+"', '"+loc+"', '0', '0','"+songId+"');";
 				System.out.println(insSql);
 				st.executeUpdate(updSql+id);//更新原表该条记录为已被使用
-				System.out.println(new String((updSql+id).getBytes(),"utf-8")+";");
+				System.out.println(updSql+id+";");
 
 			}
 

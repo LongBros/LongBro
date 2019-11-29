@@ -42,5 +42,8 @@ public class NoteBookService{
 	public List<HashMap<String,Object>> getBeforeAndNextId(int id,String author){
 		return dao.getBeforeAndNextId(id, author);
 	}
+	public void editDiary(NoteBook nb){
+		dao.editDiary(nb);
+	}
 }
 

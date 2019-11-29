@@ -1,11 +1,14 @@
 
 package com.longbro.note.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+//import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,7 @@ import com.longbro.util.TimeUtil;
 @Controller
 @RequestMapping("/note/notice/")
 public class AttentionController{
+//	Logger log = Logger.getLogger(AttentionController.class);
     @Autowired
     AttentionService attentionService;
     /**
@@ -37,9 +41,10 @@ public class AttentionController{
     @RequestMapping(value="noticeAuthor",method=RequestMethod.GET)
     @ResponseBody
     public BaseResult noticeAuthor(Attention att){
+//    	log.info("开始关注作者");
     	BaseResult bs=new BaseResult<>();
-    	Attention atten=attentionService.whetherNotice(att);
-    	if(StringUtils.isEmpty(att.getNNoticer())||atten!=null){
+    	List<Attention> atten=attentionService.whetherNotice(att);
+    	if(StringUtils.isEmpty(att.getNNoticer())||atten.size()>0){
     		bs.setCode(110);
     		bs.setMessage("当前用户未登录或已经关注该作者");
     		return bs;
@@ -49,6 +54,7 @@ public class AttentionController{
     	attentionService.create(att);
     	bs.setCode(200);
     	bs.setMessage("关注成功");
+//    	log.info("关注作者成功");
     	return bs;
     }
     /**
@@ -59,10 +65,11 @@ public class AttentionController{
     @RequestMapping(value="whetherHasNotice",method=RequestMethod.GET)
     @ResponseBody
     public BaseResult whetherNotice(Attention att){
+//    	log.info("开始判断当前登录用户是否已关注作者");
     	BaseResult bs=new BaseResult<>();
-    	Attention atten=attentionService.whetherNotice(att);
+    	List<Attention> atten=attentionService.whetherNotice(att);
     	//当前人未登录或登录未关注，显示“关注”按钮
-    	if(atten==null||StringUtils.isEmpty(att.getNNoticer())){
+    	if(atten.size()<1||StringUtils.isEmpty(att.getNNoticer())){
     		bs.setCode(110);
     		bs.setMessage("当前人未登录或登录未关注");
     		return bs;
@@ -81,6 +88,7 @@ public class AttentionController{
     @RequestMapping(value="cancelAtten",method=RequestMethod.GET)
     @ResponseBody
     public BaseResult cancelAtten(Attention att){
+//    	log.info("开始取消关注作者");
     	BaseResult bs=new BaseResult<>();
     	if(StringUtils.isEmpty(att.getNNoticer())){
     		bs.setCode(110);

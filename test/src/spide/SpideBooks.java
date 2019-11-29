@@ -27,8 +27,8 @@ public class SpideBooks {
 	public static void main(String[] args) {
 //		String authors[]={"jinyong","feiwosuosi","yishu","xijuan","moyan","luxun"};
 		String author="";
-		String authors[]={"jiapingwa"};//"luxun","moyan","jinyong"
-		//luxun、moyan、jinyong已录完
+		String authors[]={""};//"luxun","moyan","jinyong"
+		//luxun、moyan、jinyong、jiapingwa、hanhan、sanmao已录完
 //		getBooksByAuthor(author);
 		for(String a:authors){
 			List<HashMap<String,String>> books=getBooksByAuthor(a);
@@ -71,12 +71,12 @@ public class SpideBooks {
 				map.put("desc", desc);
 				list.add(map);
 				map=new HashMap<>();
-//				String sql="INSERT INTO `music`.`books` (`b_BookId`, `b_name`, `b_Type`, `b_Writer`, `b_Time`, `b_desc`, `b_face`) VALUES "
-//						+ "('"+url+"', '"+bName+"', NULL, '"+author+"', '"+spide.TimeUtil.time()+"', '"+desc+"', '"+img+"');";
-//				st=con.createStatement();
-//				st.execute(sql);
-////				System.out.println(sql);
-//				System.out.println(author+"的“"+bName+"”已存入数据库>>"+spide.TimeUtil.time());
+				String sql="INSERT INTO `music`.`lib_books` (`b_BookId`, `b_name`, `b_Type`, `b_Writer`, `b_Time`, `b_desc`, `b_face`) VALUES "
+						+ "('"+url+"', '"+bName+"', NULL, '"+author+"', '"+spide.TimeUtil.time()+"', '"+desc+"', '"+img+"');";
+				st=con.createStatement();
+				st.execute(sql);
+//				System.out.println(sql);
+				System.out.println(author+"的“"+bName+"”已存入数据库>>"+spide.TimeUtil.time());
 
 //				System.out.println(url);
 //				System.out.println(img);
@@ -104,7 +104,7 @@ public class SpideBooks {
 			//useUnicode=true&characterEncoding=utf-8解决中文乱码
 			con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/music?useUnicode=true"
 					+ "&characterEncoding=utf-8&serverTimezone=UTC", "root", "ZCLZY");
-			for(int j=books.size()-1;j<books.size();j++){
+			for(int j=0;j<books.size();j++){
 				url=books.get(j).get("url");
 				Document doc = Jsoup.connect(url).get();
 				Elements info=doc.getElementsByClass("book_info");
@@ -120,7 +120,7 @@ public class SpideBooks {
 				String chapters[]=es.toString().split("<li>");
 				System.out.println(chapters.length);
 				HashMap<String, String> cha=new HashMap<>();
-				for(int i=12;i<chapters.length;i++){
+				for(int i=1;i<chapters.length;i++){
 					String chapter=chapters[i];
 					String u=chapter.substring(chapter.indexOf("href")+6, chapter.indexOf(".html")+5);
 					
@@ -132,7 +132,7 @@ public class SpideBooks {
 					cha.put("name", name);
 					cha.put("content", content);
 					chas.add(cha);
-					String sql="INSERT INTO `chapter` (`bookId`, `page`, `name`, `content`,`inputTime`) VALUES "
+					String sql="INSERT INTO `lib_chapter` (`bookId`, `page`, `name`, `content`,`inputTime`) VALUES "
 							+ "('"+url+"','"+u+"','"+name+"','"+content+"','"+spide.TimeUtil.time()+"');";
 					st=con.createStatement();
 					st.execute(new String(sql.getBytes(),"utf-8"));

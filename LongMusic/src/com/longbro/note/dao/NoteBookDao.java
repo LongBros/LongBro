@@ -44,5 +44,9 @@ public class NoteBookDao extends BaseDao{
 		map.put("id", id);
 		return (List<HashMap<String,Object>>)this.selectList(pre+"getBeforeAndNextId", map);
 	}
+	//2019-11-24编辑日记
+	public void editDiary(NoteBook nb){
+		this.update(pre+"update", nb);
+	}
 }
 
