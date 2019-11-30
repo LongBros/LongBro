@@ -133,14 +133,14 @@ public class MachineAccount {
 	public static int getUsableRawData(Statement st,String status,String selSql,int len){
 		int id=new Random().nextInt(len);
 		try {
-//			ResultSet rs=st.executeQuery(selSql+id);
-//			if(rs.next()){
-//				String sta=rs.getString(status);
-//				if(sta.equals("1")){//之前已被哆啦日记使用过
-////					rs.close();//11-22新加，并将下面加return
-//					return getUsableRawData(st,status,selSql,len);//递归重新生成
-//				}
-//			}
+			ResultSet rs=st.executeQuery(selSql+id);
+			if(rs.next()){
+				String sta=rs.getString(status);
+				if(sta.equals("1")){//之前已被哆啦日记使用过
+//					rs.close();//11-22新加，并将下面加return
+					return getUsableRawData(st,status,selSql,len);//递归重新生成
+				}
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

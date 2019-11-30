@@ -48,5 +48,23 @@ public class NoteBookDao extends BaseDao{
 	public void editDiary(NoteBook nb){
 		this.update(pre+"update", nb);
 	}
+//	11-30判断当天是否已生成过
+	public Integer ifHasGen(String day,String author){
+		HashMap<String, String> map=new HashMap<>();
+		map.put("day",day);
+		map.put("account", author);
+		return (Integer)this.selectOne(pre+"ifHasGen",map);
+	}
+	//得到某表所有未被使用过的
+	public List<HashMap<String, Object>> getDiaryByTable(String tables){
+		return (List<HashMap<String, Object>>)this.selectList(pre+"getDiaryByTable", tables);
+	}
+	public void alterUseStatus(String table,String time,String id){
+		HashMap<String, String> map=new HashMap<>();
+		map.put("tables",table);
+		map.put("time", time);
+		map.put("id", id+"");
+		this.update(pre+"alterUseStatus", map);
+	}
 }
 

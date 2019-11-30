@@ -71,5 +71,6 @@
 	<classpathentry kind="lib" path="D:/aaaaaaa/MyProject/LongBro/LongMusic/WebRoot/WEB-INF/lib/unoil-3.0.1.jar"/>
 	<classpathentry kind="lib" path="D:/aaaaaaa/MyProject/LongBro/LongMusic/WebRoot/WEB-INF/lib/xmlbeans-2.3.0.jar"/>
 	<classpathentry kind="lib" path="D:/aaaaaaa/MyProject/LongBro/LongMusic/WebRoot/WEB-INF/lib/xstream-1.3.1.jar"/>
+	<classpathentry kind="lib" path="D:/aaaaaaa/MyProject/LongBro/LongMusic/WebRoot/WEB-INF/lib/gson-2.7.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

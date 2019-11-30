@@ -156,4 +156,33 @@
 	<select id="getMyDiary">
 		
 	</select>
+	<!-- 查询当天某账号的录入情况 -->
+	<select id="ifHasGen" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select count(1) from d_diary 
+		where n_Writter=#{account} and n_Time like concat('%',#{day},'%');
+	</select>
+	<!-- 得到古诗网或歌词网的所有未使用过的 -->
+	<select id="getDiaryByTable" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select * from ${_parameter} 
+		where 1=1
+		<if test='_parameter=="song"'>
+			and status=0
+		</if>
+		<if test='_parameter=="poem"'>
+			and p_Status=0
+		</if>
+		;
+	</select>
+	<!-- 修改使用状态 -->
+	<update id="alterUseStatus" parameterType="java.util.HashMap">
+		update ${tables} 
+		set 
+		<if test='tables=="song"'>
+			status=1,use_time=#{time} where id=#{id}
+		</if>
+		<if test='tables=="poem"'>
+			p_Status=1,p_usetime=#{time} where p_Id=#{id}
+		</if>
+		 
+	</update>
 </mapper>

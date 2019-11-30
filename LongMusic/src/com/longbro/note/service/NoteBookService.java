@@ -45,5 +45,17 @@ public class NoteBookService{
 	public void editDiary(NoteBook nb){
 		dao.editDiary(nb);
 	}
+	//11-30判断当天是否已生成过
+	public Integer ifHasGen(String day,String author){
+		return dao.ifHasGen(day, author);
+	}
+	//得到随机生成的对应日记
+	public List<HashMap<String, Object>> getDiaryByTable(String table){
+		return dao.getDiaryByTable(table);
+	}
+	//插入对应日记，并在对应表置为已使用过
+	public void alterUseStatus(String table,String time,String id){
+		dao.alterUseStatus(table, time, id);
+	}
 }
 

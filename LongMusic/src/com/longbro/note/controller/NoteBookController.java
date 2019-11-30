@@ -1,6 +1,7 @@
 package com.longbro.note.controller;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.gson.Gson;
 import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.Diary;
 import com.longbro.note.bean.NoteBook;
@@ -102,6 +104,7 @@ public class NoteBookController{
     @RequestMapping(value="getDiaryBy",method=RequestMethod.GET)
     @ResponseBody
     public List<Diary> getDiaryBy(HttpServletRequest request){
+    	genDiary();
 //    	log.info("开始加载笔记");
     	int per=10;
     	HashMap<String, String> map=new HashMap<>();
@@ -133,6 +136,51 @@ public class NoteBookController{
 //    	log.info("开始查询当前笔记的上下篇");
     	return noteBookService.getBeforeAndNextId(id, author);
     }
-    
-    
+    /**
+     * @desc 7.每天随机生成歌词网和古诗网的日记
+     * @author zcl
+     * @date 2019年11月30日
+     */
+    public void genDiary(){
+
+    	int num=noteBookService.ifHasGen(TimeUtil.getToday(), "66666666");
+//    	if(num>0){//今日已生成过
+//        	System.out.println("今日已生成过");
+//    		return;
+//    	}
+    	int machines[]={66666666,88888888};
+		for(int account:machines){
+			String table="poem";
+			String idd="";
+			if(account==88888888){
+				table="song";
+			}
+			List<HashMap<String, Object>> list=noteBookService.getDiaryByTable(table);
+			int i=new Random().nextInt(list.size());
+			HashMap<String, Object> map=list.get(i);
+			NoteBook nb=new NoteBook();
+			nb.setNWritter(account+"");
+			nb.setNTime(TimeUtil.getToday()+" "+TimeUtil.genRandomTime());
+			nb.setNLocation("河南省邓州市");
+			nb.setNAuthority(0);
+			nb.setNType(3);
+			System.out.println(new Gson().toJson(list.get(i)));
+			if(account==88888888){
+				nb.setNTitle(map.get("songName")+"-"+map.get("singer"));
+				nb.setNContent(map.get("lyric")+"");
+				nb.setnSongId(map.get("sourceId")+"");
+				idd=map.get("id")+"";
+			}else{
+				nb.setNTitle(map.get("p_Name")+"-"+map.get("p_Poet"));
+				nb.setNContent(map.get("p_PoemCons")+"");
+				System.out.println(map.get("p_Id"));
+				idd=map.get("p_Id")+"";
+			}
+			noteBookService.addNote(nb);//插入笔记
+			//修改使用状态，万万不可用i
+//			noteBookService.alterUseStatus(table, TimeUtil.time(), idd);
+	    	System.out.println(">>>>>>>>>>>>>已生成今日"+account+"的日记为第"+idd);
+
+		}
+    }
 }
