@@ -35,14 +35,12 @@ function getUser(){
 		document.getElementById("exit").style.display="block";
 		document.getElementById("myHome").style.display="block";
 		document.getElementById("write").style.display="block";
-		document.getElementById("alarm").style.display="none";
 		document.getElementById("image").innerHTML=""+userNick+"";
 	}else{
 		document.getElementById("exit").style.display="none";
 		document.getElementById("login").style.display="block";
 		document.getElementById("myHome").style.display="none";
 		document.getElementById("write").style.display="none";
-		document.getElementById("alarm").style.display="none";
 		document.getElementById("image").innerHTML="请登录";
 	}
 }
@@ -82,7 +80,7 @@ function openNewPage(which){
 	}else if(which=="3"){
 		window.open("new.html", "_blank")
 	}else if(which=="4"){
-		window.open("http://112.74.173.44/LongMusic/index0.jsp", "_blank")
+		window.open("http://112.74.173.44/amaze/songsList.jsp", "_blank")
 	}else if(which=="5"){
 		alert("login")
 	}else if(which=="6"){
@@ -95,7 +93,6 @@ function openNewPage(which){
 		document.getElementById("exit").style.display="none";
 		document.getElementById("myHome").style.display="none";
 		document.getElementById("write").style.display="none";
-		document.getElementById("alarm").style.display="none";
 		document.getElementById("image").innerHTML="请登录";
 	}
 }
@@ -299,5 +296,21 @@ function attenAuthor(){
 			NNoticer:user,
 			NNoticed:author
 		}, 
+	});
+}
+//得到登录用户的一些设置
+//返回是否自动播放
+function getSetting(){
+	$.ajax({
+		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+			//设置背景
+			var body=document.getElementById("bodys");
+			body.style.background="url(../../res/images/back/"+data.back+")";
+			
+		}
 	});
 }

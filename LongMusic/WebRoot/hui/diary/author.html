@@ -16,6 +16,7 @@
 <script type="text/javascript" src="lib/respond.min.js"></script>
 <![endif]-->
 <link rel="stylesheet" type="text/css" href="../../css/index1.css">
+<link rel="stylesheet" type="text/css" href="css/index.css"><!-- 回顶部 -->
 
 <link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
@@ -33,9 +34,6 @@
 
 </head>
 <style type="text/css">
-	body {
-		background-color: #e2e2e2;
-	}
 	.contents{
 		width: 55%;
 		margin-left: 420px;
@@ -112,7 +110,7 @@
 		background-color:#e2e2e2; 
 	}
 </style>
-<body>
+<body id="bodys" style="background:url(../../res/images/back/back3.jpg)">
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
 		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">哆啦日记</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">Ying</a> 
@@ -126,7 +124,7 @@
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
 						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
-						<li><a href="javascript:;" id="alarm" style="display:none" onClick="openNewPage('4')">哆啦闹铃</a></li>
+						<li><a href="javascript:;" id="alarm" style="" onClick="openNewPage('4')">553Music</a></li>
 						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
 						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
@@ -231,6 +229,9 @@
 		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：2019.09.28 11:26</span><br>
 	</div>
 </div>
+<div class="toTop">
+	<a href="#" title="点我回顶部喔">^^</a>
+</div>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
@@ -268,6 +269,9 @@ $(function(){
 	setPage(author,perPage);
 	loadDiary(author,1,perPage);
 	ifAttention();
+	if(user!=""){
+		getSetting();//加载登录用户的设置
+	}
 });
 
 /*根据作者加载日记*/

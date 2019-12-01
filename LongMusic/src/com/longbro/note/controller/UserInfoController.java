@@ -174,4 +174,22 @@ public class UserInfoController{
     	
     	return result;
 	}
+    /**
+     * @desc 7.修改用户的昵称、签名、位置等信息
+     * @author zcl
+     * @date 2019年12月1日
+     * @param info
+     * @return
+     */
+    @RequestMapping("updateUserInfo")
+    @ResponseBody
+    public BaseResult<List<HashMap<String, Object>>> updateUserInfo(UserInfo info){
+		BaseResult<List<HashMap<String, Object>>> result=new BaseResult<List<HashMap<String, Object>>>();
+		userInfoService.updateUserInfo(info);
+		result.setCode(200);
+    	result.setMessage("信息保存成功");
+    	result.setResult("");
+    	
+    	return result;
+	}
 }

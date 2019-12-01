@@ -392,16 +392,26 @@ function ifLogin(){
 }
 //15根据登录用户对于音频的设置来处理是否播放音频
 function ifAutoPlay(songId){
-	if(1==0){//提示是否播放
-		var r=confirm("当前日记有对应音频，是否播放");
+	var autoPlay=0;//0:提示，1:自动播放，2:不播放
+	$.ajax({
+		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+			autoPlay=data.autoPlay;
+		}
+	});
+	if(autoPlay==0){//提示是否播放
+		var r=confirm("当前日记有对应音频，是否播放?\r(可到我的家园对音频是否自动播放进行设置)");
 		if(r==true){
 			playAudio(songId);
 		}
-	}else if(1==1){//无需提示直接播放
+	}else if(autoPlay==1){//无需提示直接播放
 		playAudio(songId);
 	}
 }
-//添加一条访问记录
+//16.添加一条访问记录
 function addVisitRecord(id){
 	var user=getCookie("userId")+"";
 	$.ajax({

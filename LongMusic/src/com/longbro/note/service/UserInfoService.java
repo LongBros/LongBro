@@ -42,5 +42,8 @@ public class UserInfoService{
 	public List<HashMap<String, Object>> queryInteractNum(String userId){
 		return dao.queryInteractNum(userId);
 	}
+	public void updateUserInfo(UserInfo info){
+		dao.update(info);
+	}
 }
 

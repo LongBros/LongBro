@@ -253,7 +253,6 @@ function appendValue(img,from){
  				if(com=='1'){//不允许评论
  					document.getElementById("allowcomment").checked=false;
  				} 	 			
-
  				document.getElementById("authority").value=data.nauthority;
 // 				$('#location').text(loc);
 // 				$('#title').text(title);

@@ -26,6 +26,7 @@ public class UserInfo{
 	protected String location;//2019-11-15
 	private Integer autoPlay;//自动播放带音频日记的音频(0:提示，1:自动播放，2:不播放) 
 	private String lastLogin;//最近登录
+	private String back;//网站背景2019-12-01
 	public Integer getUId() {
 		return this.UId;
 	}
@@ -166,6 +167,12 @@ public class UserInfo{
 	}
 	public void setLastLogin(String lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+	public String getBack() {
+		return back;
+	}
+	public void setBack(String back) {
+		this.back = back;
 	}
 	
 }

@@ -10,7 +10,8 @@
 <link rel="Shortcut Icon" href="../../image/logo/dlam.jpg" />
 <script type="text/javascript" src="js/index.js"></script>
 <link rel="stylesheet" type="text/css" href="../../css/index1.css">
-
+<link rel="stylesheet" type="text/css" href="css/index.css"><!-- 回顶部 -->
+<link rel="stylesheet" type="text/css" href="css/home.css"><!-- 回顶部 -->
 <!--[if lt IE 9]>
 <script type="text/javascript" src="lib/html5shiv.js"></script>
 <script type="text/javascript" src="lib/respond.min.js"></script>
@@ -33,91 +34,8 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 </head>
-<style type="text/css">
-	body {
-		background-color: #e2e2e2;
-	}
-	.contents{
-		width: 880px;
-		margin-left: 420px;
-		background:white ;
-		margin-top: 30px;
-	}
-	.tabs span{
-		margin-left:30px;
-		cursor: pointer;
-	}
-	.diary{
-		width: 800px;
-		margin-left: 10px;
-		margin-top: 10px;
-		cursor: pointer;
-	}
-	.diary img{
-		width: 20px;
-		height: 24px;
-		padding: 1px;
-	}
-	.info{
-		color: gray;
-		font-size: 10px;
-		padding-bottom: 6px;
-	}
-	.zan{
-		float:right;
-		margin-right: 15px;
-	}
-	.rights{
-		top: 75px;
-		left:38px;
-		width:356px;
-		position:fixed;
-		float: right;
-		background:white;
-		height: 520px;
-	}
-	.rights img{
-		width: 124px;
-		height: 180px;
-		padding: 1px;
-		margin-left:20px;
-		margin-top:20px;
-		border-radius:5px;
-	}
-	.rights .perStatistic{
-		padding-left: 20px;
-		margin-top: 10px;
-		padding-bottom: 10px;
-	}
-	.rights .perInfo{
-		padding-left: 20px;
-		margin-top: 10px;
-		padding-bottom: 10px;
-	}
-	.rights .activeInfo{
-		padding-left: 20px;
-		margin-top: 20px;
-	}
-	.praiseAStore{
-		text-align: center;
-		margin-top: 20px;
-	}
-	.pages{
-		vertical-align: middle;
-		text-align: center;
-		padding-top: 20px;
-		padding-bottom: 20px;
-	}
-	.pages span{
-		width:30px;
-		height:30px;
-		text-align:center;
-		line-height:30px;
-		display:inline-block;
-		background-color:#e2e2e2; 
-	}
-</style>
-<body>
+
+<body id="bodys" style="background:url(../../res/images/back/back3.jpg)">
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
 		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">哆啦日记</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">Ying</a> 
@@ -131,7 +49,7 @@
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
 						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
-						<li><a href="javascript:;" id="alarm" style="display:none" onClick="openNewPage('4')">哆啦闹铃</a></li>
+						<li><a href="javascript:;" id="alarm" style="" onClick="openNewPage('4')">553Music</a></li>
 						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
 						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
@@ -198,10 +116,11 @@
 
 <div class="contents">
 	<div class="tabs">
-		&emsp;&emsp;<span onclick="loadMyDiary()" id="my">我的日记</span>
+		&emsp;&emsp;<span onclick="loadMyDiary('1','10')" id="my">我的日记</span>
 		&emsp;&emsp;<span onclick="loadMyLove()" id="love">我的喜欢</span>
 		&emsp;<span onclick="loadMyStore()" id="store">我的收藏</span>
-		&emsp;<span>我看过的</span>	
+		&emsp;<span>我看过的</span>
+		&emsp;<span onclick="openSetting()" id="setting">设置</span>	
 	</div>
 	<div id="myDiary"></div>
 	<div class="pages" style="cursor: pointer;">
@@ -232,7 +151,9 @@
 		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：2019.09.28 11:26</span><br>
 	</div>
 </div>
-
+<div class="toTop">
+	<a href="#" title="点我回顶部喔">^^</a>
+</div>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
@@ -265,9 +186,12 @@ $(function(){
 	loadAuthorInfo();//index.js中
 	var curPage=1;//当前页码
 	var perPage=10;//当前一页展示日记数量
-	loadMyDiary(author,curPage,perPage);
+	loadMyDiary(curPage,perPage);
 
 	setPage1(author,perPage);
+	if(user!=""){
+		getSetting();//加载登录用户的设置
+	}
 });
 function setPage1(author,perPage){
 	$(".pages").text('');
@@ -348,10 +272,10 @@ function setPage1(author,perPage){
 function setPer1(pernum){
 	perPage=pernum;
 	setPage1(author,perPage);
-	loadMyDiary(author,curPage,perPage);
+	loadMyDiary(curPage,perPage);
 }
 //加载我的日记
-function loadMyDiary(user,page,perPage){
+function loadMyDiary(page,perPage){
 	$("#myDiary").text('');
 	if(user==""){
 		alert("请登录");
@@ -360,6 +284,7 @@ function loadMyDiary(user,page,perPage){
 	document.getElementById("my").style.color="red";
 	document.getElementById("love").style.color="black";
 	document.getElementById("store").style.color="black";
+	document.getElementById("setting").style.color="black";
 	var au="0,1,2";//完全公开的
 	//$("#myDiary").text("");
 	$.ajax({
@@ -368,7 +293,7 @@ function loadMyDiary(user,page,perPage){
 		async:false,
 		dataType:"Json",
 		data:{
-			author:user,
+			author:author,
 			page:page,
 			authority:au,
 			perPage:perPage
@@ -392,7 +317,7 @@ function loadMyDiary(user,page,perPage){
 				var wea=getWeaById(data[i].nweather);
 				//分类
 				var cate=getCateById(data[i].ntype);
-				$("#myDiary").append("<div class=\"diary\">&nbsp;<span title='"+data[i].ntitle
+				$("#myDiary").append("<div class=\"diary\">&nbsp;<span class='diaryTitle' title='"+data[i].ntitle
 				+"' style='color:black;font-size:18px;' onclick='openOther(0,"+data[i].nid+")'>"+title+"</span><br><span onclick='openOther(0,"+data[i].nid+")' style='color:gray'>"+con+"</span><br>"
 						+"<div class='info'>"
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime+"&emsp;&emsp;心情："+mood+"&emsp;&emsp;天气："+wea
@@ -415,6 +340,7 @@ function loadMyDiary(user,page,perPage){
 //加载我喜欢的
 function loadMyLove(){
 	$("#myDiary").text('');
+	$(".pages").text('');
 	if(user==""){
 		alert("请登录");
 		return;
@@ -422,6 +348,8 @@ function loadMyLove(){
 	document.getElementById("my").style.color="black";
 	document.getElementById("love").style.color="red";
 	document.getElementById("store").style.color="black";
+	document.getElementById("setting").style.color="black";
+
 	$.ajax({
 		url:"../../note/praise/getMyLikeDiary.do?userId="+user,
 		type:"get",
@@ -458,6 +386,7 @@ function loadMyLove(){
 //加载我收藏的
 function loadMyStore(){
 	$("#myDiary").text('');
+	$(".pages").text('');
 	if(user==""){
 		alert("请登录");
 		return;
@@ -465,6 +394,8 @@ function loadMyStore(){
 	document.getElementById("my").style.color="black";
 	document.getElementById("love").style.color="black";
 	document.getElementById("store").style.color="red";
+	document.getElementById("setting").style.color="black";
+
 	$.ajax({
 		url:"../../note/store/getMyStoreDiary.do?userId="+user,
 		type:"get",
@@ -525,6 +456,108 @@ function delDiary(id){
 		success:function(res){
 			alert("日记已删除");
 			loadMyDiary(author,curPage,perPage);
+		}
+	});
+}
+//
+function openSetting(){
+	$("#myDiary").text('');
+	$(".pages").text('');
+	document.getElementById("my").style.color="black";
+	document.getElementById("love").style.color="black";
+	document.getElementById("store").style.color="black";
+	document.getElementById("setting").style.color="red";
+	
+	loadInfo();//加载出作者信息以供编辑
+	$("#myDiary").append("<span>背景选择：</span>");
+	/* $("#myDiary").append("<a onclick='setBack()'>设置当前背景为默认朕的背景</a>"); */
+	loadAllBack();
+}
+//12-01
+function loadAllBack(){
+	var array=new Array("back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg"
+			,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png"
+			,"back0.gif","back1.gif");
+	for(var i=0;i<array.length;i++){
+		if(i%5==0){
+			$("#myDiary").append("<br>");
+		}
+		$("#myDiary").append("<img src='../../res/images/back/"+array[i]+"' title='点击即可设置当前\r背景为朕的背景^_^' class='backDemo' onclick='setBackground(\""+array[i]+"\")'>");
+	}
+	
+}
+
+/**
+ * 设置背景
+ */
+function setBackground(which){
+	var body=document.getElementById("bodys");
+	body.style.background="url(../../res/images/back/"+which+")";
+	saveInfo(4,which);//保存背景设置至数据库
+}
+
+function loadInfo(){
+	//加载出作者信息以供编辑
+	$.ajax({
+		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+author,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+			var sex=getSexById(data.uuserSex);
+			var string="<form name='info'><span>昵称：</span><input name='nickName' value='"+data.uuserName+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(1)' title='点击保存'>&#xe676;</i><br>";
+			string=string+"<span>个性签名：</span><input name='signature' value='"+data.signature+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(2)' title='点击保存'>&#xe676;</i><br>";
+			string=string+"<span>默认日记地址：</span><input name='location' value='"+data.location+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(3)' title='点击保存'>&#xe676;</i><br>";
+			//string=string+"<span>家歌选择：</span><font color='red'>"+data.uhomeSong+"</font><i class=\"Hui-iconfont\">&#xe6df;</i>(其他用户访问你的家园时会播放家歌)<br>";
+			string=string+"<span>音频自动播放：</span>";
+			var play=data.autoPlay;
+			var tips=new Array("弹出提示是否播放","自动播放","不自动播放");
+			for(var i=0;i<tips.length;i++){
+				if(i==play){
+					string=string+"<input type='radio' name='autoplay' onchange='saveInfo(5,"+i+")' value='"+i+"' checked='true'>"+tips[i]+"</input>&emsp;";
+				}else{
+					string=string+"<input type='radio' name='autoplay' onchange='saveInfo(5,"+i+")' value='"+i+"'>"+tips[i]+"</input>&emsp;";
+				}
+			}
+			string=string+"<br></form>";
+			$("#myDiary").append(string);
+		}
+	});
+}
+/* $("input[name=autoplay]").click(function(){
+    var value = $(this).val();
+    saveInfo(5,value);
+}); */
+/**
+ * 保存信息
+ * 1-昵称，2-个性签名，3-默认地址，4-背景图(结合value参数)
+ */
+function saveInfo(which,value){
+	var t=which+"";
+	var url="../../note/userinfo/updateUserInfo.do?UUserId="+author;
+	if(t=="1"){//昵称
+		url=url+"&UUserName="+document.info.nickName.value;
+	}else if(t=="2"){//个性签名
+		url=url+"&signature="+document.info.signature.value;
+	}else if(t=="3"){//默认地址
+		url=url+"&location="+document.info.location.value;
+	}else if(t=="4"){//背景图
+		url=url+"&back="+value;
+	}else if(t=="5"){//是否自动播放
+		url=url+"&autoPlay="+value;
+	}
+	
+	$.ajax({
+		url:url,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(res){
+			if(res.code==200){
+				alert(res.message);
+			}else{
+				alert("修改失败");
+			}
 		}
 	});
 }
