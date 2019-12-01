@@ -393,7 +393,7 @@ function loadMyDiary(user,page,perPage){
 				//分类
 				var cate=getCateById(data[i].ntype);
 				$("#myDiary").append("<div class=\"diary\">&nbsp;<span title='"+data[i].ntitle
-				+"' style='color:black;font-size:18px;' >"+title+"</span><br><span onclick='openOther(0,"+data[i].nid+")' style='color:gray'>"+con+"</span><br>"
+				+"' style='color:black;font-size:18px;' onclick='openOther(0,"+data[i].nid+")'>"+title+"</span><br><span onclick='openOther(0,"+data[i].nid+")' style='color:gray'>"+con+"</span><br>"
 						+"<div class='info'>"
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime+"&emsp;&emsp;心情："+mood+"&emsp;&emsp;天气："+wea
 						+"&emsp;分类："+cate+"&emsp;"

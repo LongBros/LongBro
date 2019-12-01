@@ -33,7 +33,7 @@ public class AttentionController{
     @Autowired
     AttentionService attentionService;
     /**
-     * @desc 关注作者
+     * @desc 1.关注作者
      * @author zcl
      * @date 2019年11月20日
      * @param att
@@ -58,7 +58,7 @@ public class AttentionController{
     	return bs;
     }
     /**
-     * @desc 判断当前登录用户是否已关注某作者
+     * @desc 2.判断当前登录用户是否已关注某作者
      * @author zcl
      * @date 2019年11月20日
      */
@@ -79,7 +79,7 @@ public class AttentionController{
 		return bs;
     }
     /**
-     * @desc 取消关注
+     * @desc 3.取消关注
      * @author zcl
      * @date 2019年11月20日
      * @param att

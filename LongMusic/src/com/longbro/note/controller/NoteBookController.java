@@ -39,7 +39,7 @@ public class NoteBookController{
      * @param req
      * @param nb
      */
-    @RequestMapping(value="addOrEditNote",method=RequestMethod.GET)
+    @RequestMapping(value="addOrEditNote",method=RequestMethod.POST)
     @ResponseBody
     public BaseResult addOrEditNote(NoteBook nb){
     	BaseResult result=new BaseResult<>();
@@ -144,10 +144,10 @@ public class NoteBookController{
     public void genDiary(){
 
     	int num=noteBookService.ifHasGen(TimeUtil.getToday(), "66666666");
-//    	if(num>0){//今日已生成过
-//        	System.out.println("今日已生成过");
-//    		return;
-//    	}
+    	if(num>0){//今日已生成过
+        	System.out.println("今日已生成过");
+    		return;
+    	}
     	int machines[]={66666666,88888888};
 		for(int account:machines){
 			String table="poem";
@@ -162,8 +162,11 @@ public class NoteBookController{
 			nb.setNWritter(account+"");
 			nb.setNTime(TimeUtil.getToday()+" "+TimeUtil.genRandomTime());
 			nb.setNLocation("河南省邓州市");
-			nb.setNAuthority(0);
+			nb.setNAuthority(0);//所有人可见
 			nb.setNType(3);
+			nb.setNAllowComment(0);//允许评论
+			nb.setNWeather(0);
+			nb.setNMood(0);
 			System.out.println(new Gson().toJson(list.get(i)));
 			if(account==88888888){
 				nb.setNTitle(map.get("songName")+"-"+map.get("singer"));
@@ -178,7 +181,7 @@ public class NoteBookController{
 			}
 			noteBookService.addNote(nb);//插入笔记
 			//修改使用状态，万万不可用i
-//			noteBookService.alterUseStatus(table, TimeUtil.time(), idd);
+			noteBookService.alterUseStatus(table, TimeUtil.time(), idd);
 	    	System.out.println(">>>>>>>>>>>>>已生成今日"+account+"的日记为第"+idd);
 
 		}

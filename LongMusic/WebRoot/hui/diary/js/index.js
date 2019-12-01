@@ -4,7 +4,7 @@
  ****************************************************************/
 
 var user=getCookie("userId")+"";
-var userNick=getCookie("userNick")+"";
+var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
 loadNotice();
 
 /**
@@ -36,7 +36,7 @@ function getUser(){
 		document.getElementById("myHome").style.display="block";
 		document.getElementById("write").style.display="block";
 		document.getElementById("alarm").style.display="none";
-		document.getElementById("image").innerHTML=""+getCookie("userNick")+"";
+		document.getElementById("image").innerHTML=""+userNick+"";
 	}else{
 		document.getElementById("exit").style.display="none";
 		document.getElementById("login").style.display="block";

@@ -46,7 +46,7 @@ function writeNote(){
 	}
 	$.ajax({
 		url:"../../note/diary/addOrEditNote.do",
-		type:"get",
+		type:"post",
 		async:false,
 		dataType:"Json",
 		data:{
@@ -93,8 +93,12 @@ function changeMood(which){
 	}
 	document.form.mood.value=which;
 }
-//4.加载各种小表情
-function oocImage(type){
+/**
+ * 4.加载各种小表情
+ * @param type 表情类型
+ * @param from 0：写日记，1：评论
+ */
+function oocImage(type,from){
 	//::表示gif,:::表示png,::::表示jpg
 	//&&表示嗷大喵，&&&表示小黄脸,&&&&表示微博,<<贴吧表情,<<<表示新贴吧
 	var expre=document.getElementById("expre").innerHTML+"";
@@ -110,7 +114,7 @@ function oocImage(type){
 	   				,"wuyu","xiaoku","xiaozheku","xihuan","yaobai","yihuo","zan"
 	   				,"zhayan","zhenjing","zhenjingku","zhuakuang");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/aodamiao/"+imgs[i]+".gif' onclick='appendValue(\"&&"+imgs[i]+"::\")'>");
+				$('#expre').append("<img alt='' src='../../image/expre/aodamiao/"+imgs[i]+".gif' onclick='appendValue(\"&&"+imgs[i]+"::\","+from+")'>");
 			}
 		}
 	}else if(type=='1'){
@@ -123,7 +127,7 @@ function oocImage(type){
 		    		   ,"jie","kun","jk","liuh","hanx","db","fend","zm","yw","xu","yun","zm"
 		    		   ,"shuai","kl","qiao","zj","ch","kb","gz","qd","huaix","zhh","yhh","hq");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/huang/"+imgs[i]+".gif' onclick='appendValue(\"&&&"+imgs[i]+"::\")'>");
+				$('#expre').append("<img alt='' src='../../image/expre/huang/"+imgs[i]+".gif' onclick='appendValue(\"&&&"+imgs[i]+"::\","+from+")'>");
 			}
 		}
 	}else if(type=='2'){
@@ -139,7 +143,7 @@ function oocImage(type){
 		    		   ,"154","155","156","157","158","159","16","160","161","162","163","164"
 		    		   ,"17","18","19","2","20");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/aru/"+imgs[i]+".png' onclick='appendValue(\"&&&"+imgs[i]+":::\")'>");
+				$('#expre').append("<img alt='' src='../../image/expre/aru/"+imgs[i]+".png' onclick='appendValue(\"&&&"+imgs[i]+":::\","+from+")'>");
 			}
 		}
 	}else if(type=='3'){
@@ -152,7 +156,7 @@ function oocImage(type){
 		    		   ,"meiguai","mianqiang","pen","qian","qianbi","ruo","shengli","shengqi","shuijiao","taikaixin","tu","tushe"
 		    		   ,"weiqu","xiaoyan","yi","yinxian","yinyue","yiwen","zhenbang");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/newtieba/"+imgs[i]+".png' onclick='appendValue(\"<<<"+imgs[i]+":::\")'>");
+				$('#expre').append("<img alt='' src='../../image/expre/newtieba/"+imgs[i]+".png' onclick='appendValue(\"<<<"+imgs[i]+":::\","+from+")'>");
 			}
 		}
 	}else if(type=='5'){
@@ -165,7 +169,7 @@ function oocImage(type){
 		    		   ,"meiguai","mianqiang","pen","qian","qianbi","ruo","shengli","shengqi","shuijiao","taikaixin","tu","tushe"
 		    		   ,"weiqu","xiaoyan","yi","yinxian","yinyue","yiwen","zhenbang");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/tieba/"+imgs[i]+".png' onclick='appendValue(\"<<"+imgs[i]+":::\")'>");
+				$('#expre').append("<img alt='' src='../../image/expre/tieba/"+imgs[i]+".png' onclick='appendValue(\"<<"+imgs[i]+":::\","+from+")'>");
 			}
 		}
 	}else if(type=='6'){//微博表情
@@ -182,7 +186,7 @@ function oocImage(type){
 		    		   "tianping","touxiao","tu","tuzi","v5","wabishi","weiqu","wu","xi","xiaoerbuyu","xiaoku","xiongmao","xixi",
 		    		   "xu","yinxian","yiwen","youhengheng","yun","yunbei","zhi","zhuakuang","zhutou","zuiyou","zuohengheng");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/weibo/"+imgs[i]+".png' onclick='appendValue(\"&&&&"+imgs[i]+":::\")'>");
+				$('#expre').append("<img alt='' src='../../image/expre/weibo/"+imgs[i]+".png' onclick='appendValue(\"&&&&"+imgs[i]+":::\","+from+")'>");
 			}
 		}
 	}
@@ -190,12 +194,20 @@ function oocImage(type){
 /**
  * 5.选中表情后将表情同步到输入框---
  * 11-07取消前两行采用根据id是为了同时可以在diary.html中使用
- */function appendValue(img){
+ * 12-01添加from参数，是判断新写日记还是新写评论
+ * @param img
+ * @param from 0：写日记，1：写评论
+ */
+
+function appendValue(img,from){
 //	var con=document.form.content.value;
 //	document.form.content.value=con+img;
-	ue.setContent(ue.getContent()+img);
-//	var con=document.getElementById("content").value;
-	document.getElementById("content").value=con+img;
+	if(from=="0")
+		ue.setContent(ue.getContent()+img);
+	else if(from=="1"){//评论时赋值评论的表情
+		var con=document.getElementById("content").value;
+		document.getElementById("content").value=con+img;
+	}
 }
 //6.当使用普通文本框时实时计算字数2019-10-27（已用富文本编辑器，该函数弃用）
  function calcInput(){
@@ -206,7 +218,7 @@ function oocImage(type){
  }
  //7.设置位置2019-11-15
  function setLocation(){
- 	var userAddr=getCookie("userAddr")+"";
+ 	var userAddr=decodeURI(decodeURI(getCookie("userAddr")+""));
  	document.form.location.value=userAddr;
  }
  /**

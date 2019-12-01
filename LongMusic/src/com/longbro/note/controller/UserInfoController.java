@@ -1,4 +1,6 @@
 package com.longbro.note.controller;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +55,7 @@ public class UserInfoController{
     	return userInfoService.get(UUserId);
     }
     /**
-     * 2.执行此方法必向数据库插入一条AlarmUser
+     * 2.注册用户
      * 先判断数据库是否已有该userId，再插入不同的userId
      * @desc 
      * @author zcl
@@ -82,10 +84,11 @@ public class UserInfoController{
      * @param acc
      * @param pass
      * @return
+     * @throws UnsupportedEncodingException 
      */
     @RequestMapping(value="loginNote",method=RequestMethod.POST)
     @ResponseBody
-    public BaseResult<String> loginNote(String acc,String pass,HttpServletResponse response){
+    public BaseResult<String> loginNote(String acc,String pass,HttpServletResponse response) throws UnsupportedEncodingException{
     	BaseResult<String> result=new BaseResult<String>();
     	UserInfo ui=userInfoService.loginNote(acc, pass);
     	if(ui!=null){
@@ -93,11 +96,17 @@ public class UserInfoController{
     		cookie.setMaxAge(30*24*60*60);
     		cookie.setPath("/");
     		response.addCookie(cookie);
-    		Cookie cookie1=new Cookie("userNick", ui.getUUserName());
+    		
+    		String uName=ui.getUUserName();
+    		uName=URLEncoder.encode(uName, "utf-8");
+    		Cookie cookie1=new Cookie("userNick", uName);
     		cookie1.setMaxAge(30*24*60*60);
     		cookie1.setPath("/");
     		response.addCookie(cookie1);
-    		Cookie cookie2=new Cookie("userAddr", ui.getLocation());
+    		
+    		String uLocation=ui.getLocation();
+    		uLocation=URLEncoder.encode(uLocation, "utf-8");
+    		Cookie cookie2=new Cookie("userAddr", uLocation);
     		cookie2.setMaxAge(30*24*60*60);
     		cookie2.setPath("/");
     		response.addCookie(cookie2);
@@ -148,7 +157,7 @@ public class UserInfoController{
     	return result;
     }
     /**
-     * @desc 加载某用户或所有用户的互动信息：
+     * @desc 6.加载某用户或所有用户的互动信息：
      * 赞、评论、收藏、关注,被赞、被评论、被收藏、被关注
      * @author zcl
      * @date 2019年11月16日
