@@ -11,7 +11,6 @@
 <script type="text/javascript" src="js/index.js"></script>
 <link rel="stylesheet" type="text/css" href="../../css/index1.css">
 <link rel="stylesheet" type="text/css" href="css/index.css"><!-- 回顶部 -->
-<link rel="stylesheet" type="text/css" href="css/home.css">
 <!--[if lt IE 9]>
 <script type="text/javascript" src="lib/html5shiv.js"></script>
 <script type="text/javascript" src="lib/respond.min.js"></script>
@@ -31,9 +30,45 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>我的家园-哆啦日记</title>
+<title>我的消息-哆啦日记</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
+<style type="text/css">
+	.contents{
+		width: 880px;
+		margin-left: 420px;
+		background:white ;
+		margin-top: 30px;
+	}
+	
+	
+	.info{
+		color: gray;
+		font-size: 10px;
+		padding-bottom: 6px;
+	}
+	.rights{
+		top: 75px;
+		left:188px;
+		width:206px;
+		position:fixed;
+		float: right;
+		background:white;
+		height: 220px;
+	}
+	.tabs .tab{
+		margin-left:20px;
+		margin-top:20px;
+		cursor: pointer;
+	}
+	.tabs .current{
+		margin-left:20px;
+		margin-top:20px;
+		background-color:red;
+		font-style:white;
+		cursor: pointer;
+	}
+</style>
 </head>
 
 <body id="bodys" style="background:url(../../res/images/back/back3.jpg)">
@@ -115,45 +150,18 @@
 		</div>
 
 
-<div class="contents">
-	<div class="tabs">
-		&emsp;&emsp;<span onclick="loadMyDiary('1','10')" id="my">我的日记</span>
-		&emsp;&emsp;<span onclick="loadMyLove()" id="love">我的喜欢</span>
-		&emsp;<span onclick="loadMyStore()" id="store">我的收藏</span>
-		<!-- &emsp;<span>我看过的</span> -->
-		&emsp;<span onclick="openSetting()" id="setting">设置</span>	
-	</div>
-	<div id="myDiary"></div>
-	<div class="pages" style="cursor: pointer;">
-	</div>
+<div class="contents" style="height: 600px;">
+	
 </div>
 <div class="rights">
-	 <img src='../../image/logo/dlam.jpg' class='touxiang'>
-	 <form action="../../note/userinfo/uploadHeadImage.do" method="post" enctype="multipart/form-data">
-		<input type="file" name="pic">
-		<input type="text" name="userId" value="66666666">
-		<input type="submit" value="上传">
-	</form>
-	<div class="perStatistic">
-		关注：<span title="朕关注的人" id="careNum">0</span>&emsp;粉丝：<span title="关注朕的人" id="noticedNum">0</span>&emsp;
-		喜欢：<span title="朕喜欢的日记" id="likeNum">0</span>&emsp;收藏：<span title="朕收藏的日记" id="storeNum">0</span><br>	
-		被阅读量：<span title="朕的日记总被阅读量" id="visitedNum">0</span>&emsp;阅读量：<span title="朕的阅读量" id="visitNum">0</span>&emsp;被评论数：<span title="朕的日记总被评论量" id="comedNum">0</span>
-		&emsp;被赞：<span title="她的日记总被赞数量" id="praisedNum">0</span>
+	<div class="tabs">
+		<div class="current"><span onclick="openTab(0)" id="system">系统通知</span></div>
+		<div class="tab"><span onclick="openTab(1)" id="attention">关注朕</span></div>
+		<div class="tab"><span onclick="openTab(2)" id="comment">给朕评论</span></div>
+		<div class="tab"><span onclick="openTab(3)" id="praise">给朕点赞</span></div>
+		<div class="tab"><span onclick="openTab(4)" id="msgsetting">消息设置</span></div>
 	</div>
-	<hr>
-	<div class="perInfo">
-		<span id="userNameT">LongBro</span><br>
-		昵称：<span id="userName">LongBro</span><br>
-		哆啦ID：<span id="userId">66666666</span><br>
-		家歌：<span id="homeSong">四块五</span><br>
-		性别：<span id="sex">男</span><br>
-		个性签名：<span id="signature">自先沉稳，而后爱人</span><br>
-	</div>
-	<hr>
-	<div class="activeInfo">
-		<i class="Hui-iconfont">&#xe690;</i><span id="joinTime">加入时间：2019.09.28 11:26</span><br>
-		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：2019.09.28 11:26</span><br>
-	</div>
+	
 </div>
 <div class="toTop">
 	<a href="#" title="点我回顶部喔">^^</a>
@@ -197,10 +205,27 @@ $(function(){
 		getSetting();//加载登录用户的设置
 	}
 });
-//12-02上传头像
-function uploadImg(){
-	var pics=document.getElementById("pic");
-	alert(pics.value);
+
+function openTab(which){
+	if(which==0){
+		$.ajax({
+			url:"../../note/praise/getPraise.do?PPraised=",
+			type:"get",
+			async:false,
+			dataType:"text",
+			success:function(data){
+				document.getElementById("unReadNum").innerText=data;
+			}
+		});
+	}else if(which==1){
+		
+	}else if(which==2){
+		
+	}else if(which==3){
+		
+	}else if(which==4){
+		
+	}
 }
 </script> 
 </body>

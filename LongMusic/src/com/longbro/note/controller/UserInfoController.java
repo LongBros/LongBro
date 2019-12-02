@@ -1,19 +1,28 @@
 package com.longbro.note.controller;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.gson.Gson;
 import com.longbro.bean.AlarmUser;
 import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.Author;
@@ -192,4 +201,48 @@ public class UserInfoController{
     	
     	return result;
 	}
+    /**
+     * @desc 上传头像
+     * @author zcl
+     * @date 2019年12月2日
+     * @param request
+     * @throws Exception
+     */
+    @RequestMapping(value="uploadHeadImage",method=RequestMethod.POST)
+    @ResponseBody
+    public void uploadHeadImage(HttpServletRequest request) throws Exception{
+		 String pname="";
+		 String userId="";
+		 System.out.println(request.getParameter("userId"));
+    	//创建 FileItem 对象的工厂
+		DiskFileItemFactory factory=new DiskFileItemFactory();
+		//ServletFileUpload 负责处理上传的文件数据，并将表单中每个输入项封装成一个 FileItem 对象中
+    	ServletFileUpload upload=new ServletFileUpload(factory);//2、创建一个文件上传解析器
+		upload.setHeaderEncoding("utf-8");////解决上传文件名的中文乱码
+		List<FileItem> items=upload.parseRequest(request);
+		System.out.println(new Gson().toJson(items));
+		Iterator<FileItem> ite=items.iterator();
+		while(ite.hasNext()){
+			FileItem fi=(FileItem)ite.next();
+			if(fi.isFormField()){//为普通表单字段，则调用getFieldName、getString方法得到字段名和字段值
+				if(fi.getFieldName().equals("userId")){
+					userId=fi.getString("userId");
+				}
+			}else{//为上传文件，则调用getInputStream方法得到数据输入流，从而读取上传数据。编码实现文件上传
+				if(fi.getName()!=null&&!fi.getName().equals("")){
+					  long fname=System.currentTimeMillis();
+					  pname=fname+".jpg";
+					  File file=new File("D:/apache-tomcat-8.5.35/webapps/",pname);
+					  //法一：使用fileitem直接向服务器写数据
+					  fi.write(file);
+				}else{
+				}
+			}
+		}
+		
+		UserInfo user=new UserInfo();
+		user.setHeadImage(pname);
+		user.setUUserId(Integer.parseInt(userId));
+		updateUserInfo(user);
+    }
 }

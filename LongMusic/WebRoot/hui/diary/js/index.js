@@ -181,7 +181,7 @@ function loadAuthorInfo(){
 		dataType:"Json",
 		success:function(data){
 			var sex=getSexById(data.uuserSex);
-			document.title=document.title+data.uuserName+"'的日记~哆啦官网";
+//			document.title=document.title+data.uuserName+"'的日记~哆啦官网";
 			document.getElementById("userId").innerText=author;
 			document.getElementById("userNameT").innerText=data.uuserName;
 			document.getElementById("userName").innerText=data.uuserName;
