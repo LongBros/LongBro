@@ -1,12 +1,29 @@
 41138119951015421X	18620101642	6217002440004113429
 
+11-28周四
+1.为给APP边案件添加案件进度的筛选，了解到mybatis的一个使用点。如下必须是外面单引号，里面双引号，否则会报numberFormatException
+<if test='taskNodesName=="" or taskNodesName==null or taskNodesName=="等" or taskNodesName=="等待" or taskNodesName=="等待签" or taskNodesName=="等待签约" or taskNodesName=="待" or taskNodesName=="待签"
+                    or taskNodesName=="待签约"  or taskNodesName=="签" or taskNodesName=="签约" or taskNodesName=="约" '>
+
+
+11-27为了解决类型为机构时仍显示人号码的问题，修改了其接口的xml文件，但后来造成了很大的问题(FlowScript中也调用了该接口，这里为机构时也取个人的号码)
+
+
+11-26周二
+从当前页到另一页，如何做到在另一页被关闭后返回到当前页时刷新当前页
+
+11-25周一
+如何使已有案号的APP边案件签件后不再生成案号：在前端中向Wcaseinfo中传入案号，在FlowScript的setCaseNumber脚本中添加代码
+
+
+
 11-21周四
 在将APP那边的案件使用union并到BPM的待处理列表中时，出现了字段与字段对应不上的问题，
 比如“创建时间”跑到”风控产品“那里，后来想了想，又在网上搜了搜，发现union的使用不仅
 要将两边的字段对应，顺序也要对应，比如：one,two,three union one,three,two就会导致数据错乱，可参见taskMgr.map.xml
 
 11-13
-关于系统参数的修改：直接修改数据库和通过浏览器修改不一样，通过浏览器修改会存入缓存中，
+关于系统参数-"aj.order.onoff"的修改：直接修改数据库和通过浏览器修改不一样，通过浏览器修改会存入缓存中，
 程序中是从缓存取的，所以导致从数据库修改效果一点儿也没改。
 
 

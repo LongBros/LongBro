@@ -11,6 +11,11 @@ ZCL145989
 ZHAOsl5201314.
 
 
+
+/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/
+
+/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/
+
 阅后即焚：喜欢的日记记得收藏或点赞喔，因为已阅读的日记就会消失在你的日记列表里喔
 
 

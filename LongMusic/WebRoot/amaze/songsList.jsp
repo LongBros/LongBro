@@ -251,7 +251,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <select onchange="querySongs(options[selectedIndex].value)">
               <option value='0'>页码</option>
               	<%
-              	for(int i=1;i<=13;i++){
+              	for(int i=1;i<=14;i++){
               		out.write("<option value='"+i+"'>&emsp;"+i+"</option>");
               	}
                %>

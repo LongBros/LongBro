@@ -20,11 +20,11 @@ public class MachineAccount {
 	public static void main(String[] args) {
 		int machines[]={66666666,88888888};
 			for(int account:machines){
-				if(!ifHasGen(account)){
+//				if(!ifHasGen(account)){
 					genDiary(account);
-				}else{
-					System.out.println("当日已生成过！");
-				}
+//				}else{
+//					System.out.println("当日已生成过！");
+//				}
 			}
 		
 		
@@ -76,7 +76,7 @@ public class MachineAccount {
 		}
 		st=JdbcUtil.getCon();
 		try {
-			int id=getUsableRawData(st,status,selSql,len);//此id已为未录入过的
+			int id=597;//此id已为未录入过的
 			System.out.println(id);
 			rs=st.executeQuery(selSql+id);//查询出日记
 			while(rs.next()){
@@ -103,10 +103,10 @@ public class MachineAccount {
 						+time+"', '"+wea+"', '"+mood+"', '"+loc+"', '0', '0','"+songId+"');";
 				System.out.println(insSql);
 			}
-			st.executeUpdate(updSql+id);//更新原表该条记录为已被使用
+//			st.executeUpdate(updSql+id);//更新原表该条记录为已被使用
 			System.out.println(updSql+id);
 
-			st.execute(insSql);
+//			st.execute(insSql);
 			st.close();
 			rs.close();
 		} catch (SQLException e) {
