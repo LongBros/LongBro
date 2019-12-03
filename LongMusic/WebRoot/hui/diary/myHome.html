@@ -10,7 +10,8 @@
 <link rel="Shortcut Icon" href="../../image/logo/dlam.jpg" />
 <script type="text/javascript" src="js/index.js"></script>
 <link rel="stylesheet" type="text/css" href="../../css/index1.css">
-
+<link rel="stylesheet" type="text/css" href="css/index.css"><!-- 回顶部 -->
+<link rel="stylesheet" type="text/css" href="css/home.css">
 <!--[if lt IE 9]>
 <script type="text/javascript" src="lib/html5shiv.js"></script>
 <script type="text/javascript" src="lib/respond.min.js"></script>
@@ -23,6 +24,7 @@
 <script type="text/javascript" src="../../js/jquery.js"></script>
 <script type="text/javascript" src="js/index.js"></script><!-- 获取当前登录用户 -->
 <script type="text/javascript" src="js/index1.js"></script><!-- 处理日记 -->
+<script type="text/javascript" src="js/myHome.js"></script>
 
 <script type="text/javascript" src="../../js/myjs/timeDeal.js"></script><!-- 时间处理函数 -->
 <!--[if IE 6]>
@@ -33,76 +35,8 @@
 <meta name="keywords" content="">
 <meta name="description" content="">
 </head>
-<style type="text/css">
-	body {
-		background-color: #e2e2e2;
-	}
-	.contents{
-		width: 880px;
-		margin-left: 420px;
-		background:white ;
-		margin-top: 30px;
-	}
-	.tabs span{
-		margin-left:30px;
-		cursor: pointer;
-	}
-	.diary{
-		width: 800px;
-		margin-left: 10px;
-		margin-top: 10px;
-		cursor: pointer;
-	}
-	.diary img{
-		width: 20px;
-		height: 24px;
-		padding: 1px;
-	}
-	.info{
-		color: gray;
-		font-size: 10px;
-	}
-	.zan{
-		float:right;
-		margin-right: 15px;
-	}
-	.rights{
-		top: 75px;
-		left:38px;
-		width:356px;
-		position:fixed;
-		float: right;
-		background:white;
-		height: 520px;
-	}
-	.rights img{
-		width: 124px;
-		height: 180px;
-		padding: 1px;
-		margin-left:20px;
-		margin-top:20px;
-		border-radius:5px;
-	}
-	.rights .perStatistic{
-		padding-left: 20px;
-		margin-top: 10px;
-		padding-bottom: 10px;
-	}
-	.rights .perInfo{
-		padding-left: 20px;
-		margin-top: 10px;
-		padding-bottom: 10px;
-	}
-	.rights .activeInfo{
-		padding-left: 20px;
-		margin-top: 20px;
-	}
-	.praiseAStore{
-		text-align: center;
-		margin-top: 20px;
-	}
-</style>
-<body>
+
+<body id="bodys" style="background:url(../../res/images/back/back3.jpg)">
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
 		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">哆啦日记</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">Ying</a> 
@@ -116,7 +50,7 @@
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
 						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
-						<li><a href="javascript:;" id="alarm" style="display:none" onClick="openNewPage('4')">哆啦闹铃</a></li>
+						<li><a href="javascript:;" id="alarm" style="" onClick="openNewPage('4')">553Music</a></li>
 						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
 						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
@@ -183,17 +117,23 @@
 
 <div class="contents">
 	<div class="tabs">
-		&emsp;&emsp;<span onclick="loadMyDiary()" id="my">我的日记</span>
+		&emsp;&emsp;<span onclick="loadMyDiary('1','10')" id="my">我的日记</span>
 		&emsp;&emsp;<span onclick="loadMyLove()" id="love">我的喜欢</span>
 		&emsp;<span onclick="loadMyStore()" id="store">我的收藏</span>
-		&emsp;<span>我看过的</span>	
+		<!-- &emsp;<span>我看过的</span> -->
+		&emsp;<span onclick="openSetting()" id="setting">设置</span>	
 	</div>
 	<div id="myDiary"></div>
+	<div class="pages" style="cursor: pointer;">
+	</div>
 </div>
 <div class="rights">
-		<img src='../../image/logo/dlam.jpg' class='touxiang'>
-		<!-- 自己的账号显示上传头像按钮，别人的根据有没有关注而显示 -->
-		<button>上传头像<i class="Hui-iconfont">&#xe642;</i></button>
+	 <img src='../../image/logo/dlam.jpg' class='touxiang'>
+	 <form action="../../note/userinfo/uploadHeadImage.do" method="post" enctype="multipart/form-data">
+		<input type="file" name="pic">
+		<input type="text" name="userId" value="66666666">
+		<input type="submit" value="上传">
+	</form>
 	<div class="perStatistic">
 		关注：<span title="朕关注的人" id="careNum">0</span>&emsp;粉丝：<span title="关注朕的人" id="noticedNum">0</span>&emsp;
 		喜欢：<span title="朕喜欢的日记" id="likeNum">0</span>&emsp;收藏：<span title="朕收藏的日记" id="storeNum">0</span><br>	
@@ -215,7 +155,9 @@
 		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：2019.09.28 11:26</span><br>
 	</div>
 </div>
-
+<div class="toTop">
+	<a href="#" title="点我回顶部喔">^^</a>
+</div>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
@@ -246,135 +188,19 @@ var author=user;//loadAuthorInfo()函数中需要author
 $(function(){
 	//判断当前登录人是否已点赞、收藏该日记，并对图标做修改
 	loadAuthorInfo();//index.js中
-	loadMyDiary();
-});
+	var curPage=1;//当前页码
+	var perPage=10;//当前一页展示日记数量
+	loadMyDiary(curPage,perPage);
 
-//加载我的日记
-function loadMyDiary(){
-	$("#myDiary").text('');
-	if(user==""){
-		alert("请登录");
-		return;
+	setPage1(author,perPage);
+	if(user!=""){
+		getSetting();//加载登录用户的设置
 	}
-	document.getElementById("my").style.color="red";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="black";
-	var au="0,1,2";//完全公开的
-	//$("#myDiary").text("");
-	$.ajax({
-		url:"../../note/diary/getDiaryBy.do",
-		type:"get",
-		async:false,
-		dataType:"Json",
-		data:{
-			author:user,
-			page:1,
-			authority:au,
-			perPage:10
-		},
-		success:function(data){
-			for(var i=0;i<data.length;i++){
-				//处理内容和标题
-				var title=data[i].ntitle+"";
-				var con=handleCon(data[i].ncontent);
-				if(con.length>250){
-					con=con.substring(0,250)+"......";
-				}
-				if(title.length>10){
-					//title=title.substring(0,8)+"...";
-				}
-				var mood=getMoodById(data[i].nmood);
-				var wea=getWeaById(data[i].nweather);
-				//分类
-				var cate=getCateById(data[i].ntype);
-				$("#myDiary").append("<div class=\"diary\"><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
-						+"<div class='info'>"
-						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime+"&emsp;&emsp;心情："+mood+"&emsp;&emsp;天气："+wea
-						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>《"+title+"》</span>&emsp;"
-						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
-						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
-						+"</div><hr width='740px'>");
-			}
-		}
-	});
-}
-//加载我喜欢的
-function loadMyLove(){
-	$("#myDiary").text('');
-	if(user==""){
-		alert("请登录");
-		return;
-	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="red";
-	document.getElementById("store").style.color="black";
-	$.ajax({
-		url:"../../note/praise/getMyLikeDiary.do?userId="+user,
-		type:"get",
-		async:false,
-		dataType:"Json",
-		success:function(data){
-			var res=data.result;
-			for(var i=0;i<res.length;i++){
-				var con=handleCon(res[i].content);
-				var title=res[i].title+"";
-				if(con.length>250){
-					con=con.substring(0,250)+"......";
-				}
-				if(title.length>10){
-					title=title.substring(0,8)+"...";
-				}
-				$("#myDiary").append("<div class=\"diary\" title='"+res[i].likeTime+"喜欢'><img src='../../image/tx/"+res[i].headImg+".jpg' class='touxiang'><span onclick='openOther(0,"+res[i].id+")'>"+con+"</span><br>"
-						+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+res[i].writter+"\")'>"+res[i].u_User_Name
-						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+res[i].time
-						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+res[i].cate+"&nbsp;:<span title='"+res[i].title+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+res[i].loc
-						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+res[i].visitNum+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+res[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+res[i].praiseNum
-						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
-						+"</div><hr width='740px'>");
-			}
-		}
-	});
-}
-//加载我收藏的
-function loadMyStore(){
-	$("#myDiary").text('');
-	if(user==""){
-		alert("请登录");
-		return;
-	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="red";
-	$.ajax({
-		url:"../../note/store/getMyStoreDiary.do?userId="+user,
-		type:"get",
-		async:false,
-		dataType:"Json",
-		success:function(data){
-			var res=data.result;
-			for(var i=0;i<res.length;i++){
-				var con=handleCon(res[i].content);
-				var title=res[i].title+"";
-				if(con.length>250){
-					con=con.substring(0,250)+"......";
-				}
-				if(title.length>10){
-					title=title.substring(0,8)+"...";
-				}
-				$("#myDiary").append("<div class=\"diary\" title='"+res[i].likeTime+"收藏'><img src='../../image/tx/"+res[i].headImg+".jpg' class='touxiang'><span onclick='openOther(0,"+res[i].id+")'>"+con+"</span><br>"
-						+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+res[i].writter+"\")'>"+res[i].u_User_Name
-						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+res[i].time
-						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+res[i].cate+"&nbsp;:<span title='"+res[i].title+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+res[i].loc
-						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+res[i].visitNum+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+res[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+res[i].praiseNum
-						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
-						+"</div><hr width='740px'>");
-			}
-		}
-	});
-}
-//加载我看过的
-function loadMyFeet(){
-	
+});
+//12-02上传头像
+function uploadImg(){
+	var pics=document.getElementById("pic");
+	alert(pics.value);
 }
 </script> 
 </body>

@@ -79,9 +79,6 @@
 			<if test="NContent != null">
 				n_Content=#{NContent,jdbcType=VARCHAR},
 			</if>
-			<if test="NTime != null">
-				n_Time=#{NTime,jdbcType=VARCHAR},
-			</if>
 			<if test="NWeather != null">
 				n_Weather=#{NWeather,jdbcType=NUMERIC},
 			</if>
@@ -89,7 +86,16 @@
 				n_Mood=#{NMood,jdbcType=NUMERIC},
 			</if>
 			<if test="NLocation != null">
-				n_Location=#{NLocation,jdbcType=VARCHAR}
+				n_Location=#{NLocation,jdbcType=VARCHAR},
+			</if>
+			<if test="NAllowComment != null">
+				n_AllowComment=#{NAllowComment,jdbcType=NUMERIC},
+			</if>
+			<if test="nAuthority != null">
+				n_Authority=#{nAuthority,jdbcType=NUMERIC},
+			</if>
+			<if test="updateTime != null">
+				n_update_time=#{updateTime,jdbcType=VARCHAR},
 			</if>
 		</set>
 		WHERE
@@ -150,4 +156,33 @@
 	<select id="getMyDiary">
 		
 	</select>
+	<!-- 查询当天某账号的录入情况 -->
+	<select id="ifHasGen" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select count(1) from d_diary 
+		where n_Writter=#{account} and n_Time like concat('%',#{day},'%');
+	</select>
+	<!-- 得到古诗网或歌词网的所有未使用过的 -->
+	<select id="getDiaryByTable" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select * from ${_parameter} 
+		where 1=1
+		<if test='_parameter=="song"'>
+			and status=0
+		</if>
+		<if test='_parameter=="poem"'>
+			and p_Status=0
+		</if>
+		;
+	</select>
+	<!-- 修改使用状态 -->
+	<update id="alterUseStatus" parameterType="java.util.HashMap">
+		update ${tables} 
+		set 
+		<if test='tables=="song"'>
+			status=1,use_time=#{time} where id=#{id}
+		</if>
+		<if test='tables=="poem"'>
+			p_Status=1,p_usetime=#{time} where p_Id=#{id}
+		</if>
+		 
+	</update>
 </mapper>

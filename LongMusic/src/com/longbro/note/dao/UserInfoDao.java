@@ -27,6 +27,9 @@ public class UserInfoDao extends BaseDao<UserInfo>{
 	public void create(UserInfo bean) {
 		this.insert(getNamespace()+".create", bean);
 	}
+	public void update(UserInfo bean) {
+		this.update(getNamespace()+".update", bean);
+	}
 	public UserInfo loginNote(String acc,String pass){
 		HashMap<String,String> map=new HashMap<>();
 		map.put("acc", acc);

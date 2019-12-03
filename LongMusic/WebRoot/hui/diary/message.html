@@ -1,9 +1,6 @@
-﻿<!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html>
 <head>
-<title>哆啦日记-不仅仅是怀旧</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
 <meta charset="utf-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -11,105 +8,69 @@
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="Bookmark" href="/favicon.ico" >
 <link rel="Shortcut Icon" href="../../image/logo/dlam.jpg" />
+<script type="text/javascript" src="js/index.js"></script>
+<link rel="stylesheet" type="text/css" href="../../css/index1.css">
+<link rel="stylesheet" type="text/css" href="css/index.css"><!-- 回顶部 -->
 <!--[if lt IE 9]>
 <script type="text/javascript" src="lib/html5shiv.js"></script>
 <script type="text/javascript" src="lib/respond.min.js"></script>
 <![endif]-->
-<link rel="stylesheet" type="text/css" href="../../css/index1.css">
-<link rel="stylesheet" type="text/css" href="css/index.css"><!-- 回顶部 -->
-
 <link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
 <link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
 <script type="text/javascript" src="../../js/jquery.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script type="text/javascript" src="js/index1.js"></script>
+<script type="text/javascript" src="js/index.js"></script><!-- 获取当前登录用户 -->
+<script type="text/javascript" src="js/index1.js"></script><!-- 处理日记 -->
+<script type="text/javascript" src="js/myHome.js"></script>
 
+<script type="text/javascript" src="../../js/myjs/timeDeal.js"></script><!-- 时间处理函数 -->
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-
-</head>
+<title>我的消息-哆啦日记</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
 <style type="text/css">
 	.contents{
-		width: 55%;
+		width: 880px;
 		margin-left: 420px;
-		margin-top: 30px;
 		background:white ;
+		margin-top: 30px;
 	}
-	.diarys{
-	}
-	.diary{
-		padding: 10px;
-		background-color: white;
-		padding-bottom: 5px;
-		cursor: pointer;
-	}
-	.diary img{
-		width: 20px;
-		height: 24px;
-		padding: 1px;
-	}
+	
+	
 	.info{
 		color: gray;
 		font-size: 10px;
-	}
-	.zan{
-		float:right;
-		margin-right: 15px;
+		padding-bottom: 6px;
 	}
 	.rights{
 		top: 75px;
-		left:38px;
-		width:356px;
+		left:188px;
+		width:206px;
 		position:fixed;
 		float: right;
 		background:white;
-		height: 520px;
+		height: 220px;
 	}
-	.rights img{
-		width: 124px;
-		height: 180px;
-		padding: 1px;
+	.tabs .tab{
 		margin-left:20px;
 		margin-top:20px;
-		border-radius:5px;
+		cursor: pointer;
 	}
-	.rights .perStatistic{
-		padding-left: 20px;
-		margin-top: 10px;
-		padding-bottom: 10px;
-	}
-	.rights .perInfo{
-		padding-left: 20px;
-		margin-top: 10px;
-		padding-bottom: 10px;
-	}
-	.rights .activeInfo{
-		padding-left: 20px;
-		margin-top: 20px;
-	}
-	.activeInfo span{
-		padding-left: 5px;
-	}
-	.pages{
-		vertical-align: middle;
-		text-align: center;
-		padding-top: 20px;
-		padding-bottom: 20px;
-	}
-	.pages span{
-		width:30px;
-		height:30px;
-		text-align:center;
-		line-height:30px;
-		display:inline-block;
-		background-color:#e2e2e2; 
+	.tabs .current{
+		margin-left:20px;
+		margin-top:20px;
+		background-color:red;
+		font-style:white;
+		cursor: pointer;
 	}
 </style>
+</head>
+
 <body id="bodys" style="background:url(../../res/images/back/back3.jpg)">
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
@@ -155,6 +116,7 @@
 </div>
 </header>
 
+
 <div class="modal fade" id="loginModal" style="display:none;">
 			<div class="modal-dialog modal-sm" style="width:540px;">
 				<div class="modal-content" style="border:none;">
@@ -184,50 +146,22 @@
 					</div>
 				</div>
 			</div>
-		</div>	
-
-<div class="contents">
-	<div class="pages" style="cursor: pointer;">
-	</div>
-	<div class="diarys" id="diarys">
-		<div class="diary" >
-			我是内容<br>
-			LongBro	2019-10-12 23:00:52 星期六 |《我又想你了》  广东省广州市
-			<div class="zan">
-				<i class="Hui-iconfont">&#xe725;</i>2000&nbsp;
-				<i class="Hui-iconfont">&#xe622;</i>66&nbsp;
-				<i class="Hui-iconfont">&#xe66d;</i>8
-			</div>
+			
 		</div>
-	</div>
-	<div class="pages" style="cursor: pointer;">
-	</div>
+
+
+<div class="contents" style="height: 600px;">
+	
 </div>
-
 <div class="rights">
-		<img src='../../image/logo/dlam.jpg' class='touxiang'>
-		<button id="attention" onclick="attenAuthor()"></button>
-
-	<div class="perStatistic">
-		关注：<span title="她关注的人" id="careNum">0</span>&emsp;粉丝：<span title="关注她的人" id="noticedNum">0</span>&emsp;
-		喜欢：<span title="她喜欢的日记" id="likeNum">0</span>&emsp;收藏：<span title="她收藏的日记" id="storeNum">0</span><br>	
-		被阅读量：<span title="她的日记总被阅读量" id="visitedNum">0</span>&emsp;阅读量：<span title="她的阅读量" id="visitNum">0</span>&emsp;被评论数：<span title="她的日记总被评论量" id="comedNum">0</span>
-		&emsp;被赞：<span title="她的日记总被赞数量" id="praisedNum">0</span>
+	<div class="tabs">
+		<div class="current"><span onclick="openTab(0)" id="system">系统通知</span></div>
+		<div class="tab"><span onclick="openTab(1)" id="attention">关注朕</span></div>
+		<div class="tab"><span onclick="openTab(2)" id="comment">给朕评论</span></div>
+		<div class="tab"><span onclick="openTab(3)" id="praise">给朕点赞</span></div>
+		<div class="tab"><span onclick="openTab(4)" id="msgsetting">消息设置</span></div>
 	</div>
-	<hr>
-	<div class="perInfo">
-		<span id="userNameT">LongBro</span><br>
-		昵称：<span id="userName">LongBro</span><br>
-		哆啦ID：<span id="userId">88888888</span><br>
-		家歌：<span id="homeSong">四块五</span><br>
-		性别：<span id="sex">男</span><br>
-		个性签名：<span id="signature">自先沉稳，而后爱人</span><br>
-	</div>
-	<hr>
-	<div class="activeInfo">
-		<i class="Hui-iconfont">&#xe690;</i><span id="joinTime">加入时间：2019.09.28 11:26</span><br>
-		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：2019.09.28 11:26</span><br>
-	</div>
+	
 </div>
 <div class="toTop">
 	<a href="#" title="点我回顶部喔">^^</a>
@@ -241,12 +175,8 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="../lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
 <script type="text/javascript">
-function GetQueryString(name)
-{
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-}
+var user=getCookie("userId")+"";//当前登录用户
+getUser();
 $(".login").on("click", login_popup),function() {
     var e = [];
     $(".modal").on("show.bs.modal",
@@ -261,66 +191,42 @@ $(".login").on("click", login_popup),function() {
         o.html(t)
     })
 } ();
-var author=GetQueryString("author");//被查看的用户
-var user=getCookie("userId")+"";//当前登录用户
+var author=user;//loadAuthorInfo()函数中需要author
+
 $(function(){
-	getUser();
-	loadAuthorInfo();
-	setPage(author,perPage);
-	loadDiary(author,1,perPage);
-	ifAttention();
+	//判断当前登录人是否已点赞、收藏该日记，并对图标做修改
+	loadAuthorInfo();//index.js中
+	var curPage=1;//当前页码
+	var perPage=10;//当前一页展示日记数量
+	loadMyDiary(curPage,perPage);
+
+	setPage1(author,perPage);
 	if(user!=""){
 		getSetting();//加载登录用户的设置
 	}
 });
 
-/*根据作者加载日记*/
-function loadDiaryByAuthor(author,page){
-	$("#diarys").text("");
-	$.ajax({
-		url:"../../note/diary/getDiaryBy.do",
-		type:"get",
-		async:false,
-		dataType:"Json",
-		data:{
-			author:author,
-			page:page
-		},
-		success:function(data){
-			for(var i=0;i<data.length;i++){
-				//处理内容和标题
-				var title=data[i].ntitle+"";
-				var con=handleCon(data[i].ncontent);
-				console.log(con);
-
-				if(con.length>250){
-					con=con.substring(0,250)+"...";
-				}
-				if(title.length>10){
-					title=title.substring(0,8)+"...";
-				}
-				//分类
-				var cate=getCateById(data[i].ntype);
-				$("#diarys").append("<div class=\"diary\"><span onclick='openOther(0,"+data[i].nid+")'>&emsp;&emsp;"+con+"</span><br>"
-						+"<div class='info'>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
-						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation+""
-						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>8&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
-						+"</div><hr width='740px'>");
+function openTab(which){
+	if(which==0){
+		$.ajax({
+			url:"../../note/praise/getPraise.do?PPraised=",
+			type:"get",
+			async:false,
+			dataType:"text",
+			success:function(data){
+				document.getElementById("unReadNum").innerText=data;
 			}
-		}
-	});
-	curPage=parseInt(page);
-	setPage();
-}
-/*打开其他的界面：作者、某日记*/
-function openOther(type,value){
-	if(type==0){
-		window.open("diary.html?id="+value, "_blank")
-	}else if(type==1){
-		window.open("author.html?author="+value, "_blank")
+		});
+	}else if(which==1){
+		
+	}else if(which==2){
+		
+	}else if(which==3){
+		
+	}else if(which==4){
+		
 	}
 }
-
 </script> 
 </body>
 </html>

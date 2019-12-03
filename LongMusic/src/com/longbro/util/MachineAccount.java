@@ -8,6 +8,7 @@ import java.util.Random;
 
 /**
  * 机器账号每日自动发表日记，包括：古诗账号(66666666)，歌词账号(88888888)
+ * 1.确认当天是否已生成，已生成返回true	2.根据账号为其生成对应的日记 3.得到可用的即未被录入过的id
  * @author 赵成龙
  * @website www.longqcloud.cn & www.zy52113.com
  * @date 2019年10月26日 上午8:58:33
@@ -30,20 +31,21 @@ public class MachineAccount {
 		
 	}
 	/**
-	 * 确认当天是否已生成，已生成返回true
+	 * 1.确认当天是否已生成，已生成返回true
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年11月10日
 	 * @return
 	 */
 	public static boolean ifHasGen(int account){
-		st=JdbcUtil.getCon();
+		Statement st1=JdbcUtil.getCon();
 		try {
-			rs=st.executeQuery("select * from d_diary where n_Writter='"+account+"' and n_Time like '%"+TimeUtil.getToday()+"%'");
-			if(rs.next())
+			ResultSet rs1=null;
+			rs1=st1.executeQuery("select * from d_diary where n_Writter='"+account+"' and n_Time like '%"+TimeUtil.getToday()+"%'");
+			if(rs1.next())
 				return true;
-			st.close();
-			rs.close();
+			st1.close();
+			rs1.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -51,7 +53,7 @@ public class MachineAccount {
 		return false;
 	}
 	/**
-	 * @desc 根据账号为其生成对应的日记
+	 * @desc 2.根据账号为其生成对应的日记
 	 * @author zcl
 	 * @date 2019年10月26日
 	 * @param account
@@ -65,13 +67,13 @@ public class MachineAccount {
 			len=1000;
 			table="poem";
 			selSql="select * from "+table+" where p_Id=";
-			updSql="update "+table+" set p_Status=1 where p_Id=";
+			updSql="update "+table+" set p_Status=1,p_usetime='"+TimeUtil.time()+"' where p_Id=";
 			status="p_Status";
 		}else if(account==88888888){//歌词账号
 			len=600;
 			table="song";
 			selSql="select * from "+table+" where id=";
-			updSql="update "+table+" set status=1 where id=";
+			updSql="update "+table+" set status=1,use_time='"+TimeUtil.time()+"' where id=";
 			status="status";
 		}
 		st=JdbcUtil.getCon();
@@ -102,6 +104,9 @@ public class MachineAccount {
 				+type+"', NULL, '"+account+"', '"+title+"', '"+content+"', '"
 						+time+"', '"+wea+"', '"+mood+"', '"+loc+"', '0', '0','"+songId+"');";
 				System.out.println(insSql);
+				st.executeUpdate(updSql+id);//更新原表该条记录为已被使用
+				System.out.println(updSql+id+";");
+
 			}
 //			st.executeUpdate(updSql+id);//更新原表该条记录为已被使用
 			System.out.println(updSql+id);
@@ -109,7 +114,7 @@ public class MachineAccount {
 //			st.execute(insSql);
 			st.close();
 			rs.close();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
@@ -118,7 +123,7 @@ public class MachineAccount {
 		
 	}
 	/**
-	 * @desc 得到可用的即未被录入过的id
+	 * @desc 3. 得到可用的即未被录入过的id
 	 * @author zcl
 	 * @date 2019年10月26日
 	 * @param st
@@ -131,13 +136,14 @@ public class MachineAccount {
 		int id=new Random().nextInt(len);
 		try {
 			ResultSet rs=st.executeQuery(selSql+id);
-			while(rs.next()){
+			if(rs.next()){
 				String sta=rs.getString(status);
 				if(sta.equals("1")){//之前已被哆啦日记使用过
-					getUsableRawData(st,status,selSql,len);//递归重新生成
+//					rs.close();//11-22新加，并将下面加return
+					return getUsableRawData(st,status,selSql,len);//递归重新生成
 				}
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}//查询出日记

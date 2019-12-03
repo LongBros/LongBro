@@ -1,0 +1,11 @@
+body{
+	/*background: url("../../../res/images/back/back3.jpg");
+	 background-color: #e2e2e2; */
+}
+.toTop{
+	position: fixed;
+	bottom: 20px;
+	float: right;
+	cursor: pointer;
+	left: 95%;
+}

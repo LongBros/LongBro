@@ -1,4 +1,3 @@
-<!--_meta 作为公共模版分离出去-->
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -77,7 +76,7 @@
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
 						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
-						<li><a href="javascript:;" id="alarm" style="display:none" onClick="openNewPage('4')">哆啦闹铃</a></li>
+						<li><a href="javascript:;" id="alarm" style="" onClick="openNewPage('4')">553Music</a></li>
 						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
 						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
@@ -180,23 +179,29 @@
 				<input id="title" name="title" type="text" class="input-text" value="" placeholder="给你的日记加个标题吧^-^(可空)">
 			</div>
 		</div>
-		<div class="row cl">
+		<!-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-1">内容：</label>
 			<div class="formControls col-xs-8 col-sm-10">
 				<textarea rows="16" name="content" id="content" class="textarea" onkeyup="calcInput()" placeholder="说点什么吧...最少输入10个字符"></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length" id="inputNum">0</em>/2000</p>
 			</div>
+		</div> -->
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-1">内容：</label>
+			<div class="formControls col-xs-8 col-sm-10">
+				<script id="editor" type="text/plain" style="width:100%;height:200px;"></script> 
+			</div>
 		</div>
 		<div class="row cl">
 			<div class="formControls col-xs-8 col-sm-1"></div>
 			<div class="formControls col-xs-8 col-sm-6">
-				<img alt="嗷大喵表情" title="嗷大喵表情" style="width: 18px;height: 18px" src="../../image/expre/aodamiao/weixiao.gif" onmousedown="oocImage('0')">
-				<img alt="小黄脸表情" title="小黄脸表情" style="width: 18px;height: 18px" src="../../image/expre/huang/wx.gif" onmouseover="closeImgHu()" onmousedown="oocImage('1')">
+				<img alt="嗷大喵表情" title="嗷大喵表情" style="width: 18px;height: 18px" src="../../image/expre/aodamiao/weixiao.gif" onmousedown="oocImage('0','0')">
+				<img alt="小黄脸表情" title="小黄脸表情" style="width: 18px;height: 18px" src="../../image/expre/huang/wx.gif" onmousedown="oocImage('1','0')">
 				<!-- <img alt="aru表情" title="aru表情" style="width: 18px;height: 18px" src="../../image/expre/aru/1.png" onmouseover="" onmousedown="oocImage('2')"> -->
-				<img alt="新贴吧表情" title="新贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/newtieba/a.png" onmouseover="" onmousedown="oocImage('3')">
+				<img alt="新贴吧表情" title="新贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/newtieba/a.png" onmouseover="" onmousedown="oocImage('3','0')">
 				<!--  <img alt="qq表情" title="qq表情" style="width: 18px;height: 18px" src="../../image/expre/qq/aini.gif" onmouseover="" onmousedown="oocImage('4')">-->
-				<img alt="贴吧表情" title="贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/tieba/a.png" onmouseover="" onmousedown="oocImage('5')">
-				<img alt="微博表情" title="微博表情" style="width: 18px;height: 18px" src="../../image/expre/weibo/aini.png" onmouseover="" onmousedown="oocImage('6')">
+				<img alt="贴吧表情" title="贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/tieba/a.png" onmouseover="" onmousedown="oocImage('5','0')">
+				<img alt="微博表情" title="微博表情" style="width: 18px;height: 18px" src="../../image/expre/weibo/aini.png" onmouseover="" onmousedown="oocImage('6','0')">
 			
 			</div>
 		</div>
@@ -215,7 +220,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-1"><span class="c-red"></span>权限：</label>
 			<div class="formControls col-xs-8 col-sm-2"> <span class="select-box">
-				<select name="authority" class="select">
+				<select name="authority" id="authority" class="select">
 					<option value="0" selected="selected">完全公开</option>
 					<option value="1">自己可见</option>
 					<option value="2">登录可见</option>
@@ -228,7 +233,7 @@
 			<label class="form-label col-xs-4 col-sm-1"><span class="c-red"></span>分类：</label>
 			<div class="formControls col-xs-8 col-sm-2"> 
 				<span class="select-box">
-					<select name="category" class="select">
+					<select name="category" id="category" class="select">
 						<option value="0">生活日记</option>
 						<option value="1">工作笔记</option>
 						<option value="2">idea</option>
@@ -256,21 +261,16 @@
 <script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer /作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
-<!-- <script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
-<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
-<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
-<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
-<script type="text/javascript" src="lib/webuploader/0.1.5/webuploader.min.js"></script> 
-<script type="text/javascript" src="lib/ueditor/1.4.3/ueditor.config.js"></script> 
-<script type="text/javascript" src="lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
-<script type="text/javascript" src="lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script> -->
+<script type="text/javascript" src="../lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="../lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="../lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="../lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="../lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="../lib/ueditor/1.4.3/ueditor.config.js"></script> 
+<script type="text/javascript" src="../lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
+<script type="text/javascript" src="../lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
-function GetQueryString(name)
-{
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-}
+
 $(".login").on("click", login_popup),function() {
     var e = [];
     $(".modal").on("show.bs.modal",
@@ -287,13 +287,27 @@ $(".login").on("click", login_popup),function() {
 } ();
 getUser();
 setLocation(); 
-alert(document.cookie)
+
+//alert(document.cookie)
 var user=getCookie("userId")+"";
 document.getElementById("tip").innerText="欢迎使用哆啦日记网，记录你生活的点点滴滴";
 if(user==""){
 	alert("登录后方可写日记");
 	document.getElementById("tip").innerText="请先登录后再写日记！(注册功能暂未开放，欢迎联系1459892910索要账号)";
 	login_popup();
+}
+var ue = UE.getEditor('editor');
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+var id=0;
+id=GetQueryString("id");
+if(id!=null&&id!=""){
+	loadDiaryById(id);
+	document.title="编辑日记-哆啦日记";
 }
 </script>
 <!--/请在上方写此页面业务相关的脚本-->

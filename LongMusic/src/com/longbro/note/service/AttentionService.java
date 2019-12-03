@@ -24,7 +24,7 @@ public class AttentionService{
 		dao.create(bean);
 	}
 	//判断当前登录用户是否已关注某作者2019年11月20日
-	public Attention whetherNotice(Attention att){
+	public List<Attention> whetherNotice(Attention att){
     	return dao.whetherNotice(att);
     }
 	//取消关注11-20

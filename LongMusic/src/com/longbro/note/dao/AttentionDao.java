@@ -23,8 +23,8 @@ public class AttentionDao extends BaseDao{
 		this.insert(getNamespace()+".create", bean);
 	}
 	//判断当前登录用户是否已关注某作者2019年11月20日
-	public Attention whetherNotice(Attention att){
-    	return (Attention)this.selectOne(getNamespace()+".get", att);
+	public List<Attention> whetherNotice(Attention att){
+    	return (List<Attention>)this.selectList(getNamespace()+".get", att);
     }
 	//取消关注11-20
 	public void cancelAtten(Attention bean) {

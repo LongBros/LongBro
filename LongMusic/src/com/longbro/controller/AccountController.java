@@ -39,7 +39,13 @@ import com.longbro.vo.CateAmountVo;
 @Controller
 public class AccountController {
 	@Autowired AccountService service;
-	
+	/**
+	 * @desc 1.添加账单
+	 * @author zcl
+	 * @date 2019年
+	 * @param request
+	 * @param response
+	 */
 	@RequestMapping(value="addBill",method=RequestMethod.GET)
 	@ResponseBody
 	public void addBill(HttpServletRequest request,HttpServletResponse response)
@@ -67,8 +73,7 @@ public class AccountController {
 				
 	}
 	/**
-	 * 根据分页查询所有账单
-	 * @desc 
+	 * @desc 2.根据分页查询所有账单
 	 * @author zcl
 	 * @date 2019年5月4日
 	 * @param request
@@ -82,8 +87,7 @@ public class AccountController {
 		return list;
 	}
 	/**
-	 * miniui根据分页、备注、排序查询账单
-	 * @desc 
+	 * @desc 3.miniui根据分页、备注、排序查询账单
 	 * @author zcl
 	 * @date 2019年5月4日
 	 * @param request
@@ -136,7 +140,7 @@ public class AccountController {
 		return map;
 	}
 	/**
-	 * @desc强大的搜索功能 
+	 * @desc 4.强大的搜索功能 
 	 * @author zcl
 	 * @date 2019年5月4日
 	 * @param request
@@ -184,7 +188,7 @@ public class AccountController {
 		return list;
 	}
 	/**
-	 * @desc 根据id搜索账单，编辑账单时使用
+	 * @desc 5.根据id搜索账单，编辑账单时使用
 	 * @author zcl
 	 * @date 2019年5月4日
 	 * @param request
@@ -198,6 +202,15 @@ public class AccountController {
 		Account acc=service.queryBillById(Integer.parseInt(request.getParameter("id")));
 		return acc;
 	}
+	/**
+	 * @desc 6.更新账单
+	 * @author zcl
+	 * @date 2019年
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping(value="updateBillById",method=RequestMethod.POST)
 	@ResponseBody
 	public String updateBillById(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
@@ -229,8 +242,7 @@ public class AccountController {
 		return "修改成功";
 	}
 	/**
-	 * 根据id删除账单
-	 * @desc 
+	 * @desc 7.根据id删除账单
 	 * @author zcl
 	 * @date 2019年5月11日
 	 * @param request
@@ -250,9 +262,7 @@ public class AccountController {
 		return "删除成功";
 	}
 	/**
-	 * 月分析和年分析
-	 * 返回月份、收入、支出、净收所组成的Map链表
-	 * @desc 
+	 * @desc 8.月分析和年分析 返回月份、收入、支出、净收所组成的Map链表
 	 * @author zcl
 	 * @date 2019年8月3日
 	 * @param request
@@ -296,8 +306,7 @@ public class AccountController {
 		return arr;
 	}
 	/**
-	 * 根据年/月和支/出得到相应的分类、金额、百分比组成的对象列表
-	 * @desc 
+	 * @desc 9.根据年/月和支/出得到相应的分类、金额、百分比组成的对象列表
 	 * @author zcl
 	 * @date 2019年8月3日
 	 * @param request

@@ -4,7 +4,7 @@
  ****************************************************************/
 
 var user=getCookie("userId")+"";
-var userNick=getCookie("userNick")+"";
+var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
 loadNotice();
 
 /**
@@ -35,14 +35,12 @@ function getUser(){
 		document.getElementById("exit").style.display="block";
 		document.getElementById("myHome").style.display="block";
 		document.getElementById("write").style.display="block";
-		document.getElementById("alarm").style.display="none";
-		document.getElementById("image").innerHTML=""+getCookie("userNick")+"";
+		document.getElementById("image").innerHTML=""+userNick+"";
 	}else{
 		document.getElementById("exit").style.display="none";
 		document.getElementById("login").style.display="block";
 		document.getElementById("myHome").style.display="none";
 		document.getElementById("write").style.display="none";
-		document.getElementById("alarm").style.display="none";
 		document.getElementById("image").innerHTML="请登录";
 	}
 }
@@ -82,7 +80,7 @@ function openNewPage(which){
 	}else if(which=="3"){
 		window.open("new.html", "_blank")
 	}else if(which=="4"){
-		window.open("http://112.74.173.44/LongMusic/index0.jsp", "_blank")
+		window.open("http://112.74.173.44/amaze/songsList.jsp", "_blank")
 	}else if(which=="5"){
 		alert("login")
 	}else if(which=="6"){
@@ -95,7 +93,6 @@ function openNewPage(which){
 		document.getElementById("exit").style.display="none";
 		document.getElementById("myHome").style.display="none";
 		document.getElementById("write").style.display="none";
-		document.getElementById("alarm").style.display="none";
 		document.getElementById("image").innerHTML="请登录";
 	}
 }
@@ -184,7 +181,7 @@ function loadAuthorInfo(){
 		dataType:"Json",
 		success:function(data){
 			var sex=getSexById(data.uuserSex);
-			document.title=document.title+data.uuserName+"'的日记~哆啦官网";
+//			document.title=document.title+data.uuserName+"'的日记~哆啦官网";
 			document.getElementById("userId").innerText=author;
 			document.getElementById("userNameT").innerText=data.uuserName;
 			document.getElementById("userName").innerText=data.uuserName;
@@ -196,7 +193,7 @@ function loadAuthorInfo(){
 	});
 	setInteractNum(author);
 }
-//加载并设置某人的互动数量信息
+//10.加载并设置某人的互动数量信息
 function setInteractNum(user){
 	$.ajax({
 		url:"../../note/userinfo/queryInteractNum.do",
@@ -226,6 +223,7 @@ function setInteractNum(user){
 		}
 	});
 }
+//11.根据性别id获取性别
 function getSexById(id){
 	var sex="";
 	if(id==0){
@@ -236,4 +234,83 @@ function getSexById(id){
 		sex="不详";
 	}
 	return sex;
+}
+
+//12.判断当前登录用户是否已关注当前作者
+function ifAttention(){
+	if(user==author){//当前登录用户查看自己时，不显示关注、已关注
+		return;
+	}
+	var ifAtt=0;//0表示未关注
+	$.ajax({
+		url:"../../note/notice/whetherHasNotice.do",
+		type:"get",
+		async:false,
+		data:{
+			NNoticer:user,
+			NNoticed:author
+		}, 
+		dataType:"Json",
+		success:function(data){
+
+			if(data.code==200){
+				ifAtt=1;
+			}
+		}
+	});
+	var attBtn=document.getElementById("attention");
+	if(ifAtt==1){//已关注，则隐藏“关注”按钮
+		attBtn.innerHTML="已关注<i class=\"Hui-iconfont\">&#xe676;</i>";
+	}else{
+		attBtn.innerHTML="关注<i class=\"Hui-iconfont\">&#xe716;</i>";
+	}
+}
+/**
+ * 13.关注与取消关注
+ */
+function attenAuthor(){
+	if(user==""){
+		alert("请先登录！");
+		return;
+	}
+	var attBtn=document.getElementById("attention");
+	var fanNum=document.getElementById("noticedNum");//粉丝数
+	var text=attBtn.innerHTML+"";
+	var url="";//
+	if(text.indexOf("已关注")!=-1){//已关注情况取消关注
+		url="../../note/notice/cancelAtten.do";
+		attBtn.innerHTML="关注<i class=\"Hui-iconfont\">&#xe716;</i>";
+		fanNum.innerText=parseInt(fanNum.innerText)-1;
+		alert("已取消关注！");
+	}else{
+		url="../../note/notice/noticeAuthor.do";
+		attBtn.innerHTML="已关注<i class=\"Hui-iconfont\">&#xe676;</i>";
+		fanNum.innerText=parseInt(fanNum.innerText)+1;
+		alert("已关注！");
+	}
+	$.ajax({
+		url:url,
+		type:"get",
+		async:false,
+		data:{
+			NNoticer:user,
+			NNoticed:author
+		}, 
+	});
+}
+//得到登录用户的一些设置
+//返回是否自动播放
+function getSetting(){
+	$.ajax({
+		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+			//设置背景
+			var body=document.getElementById("bodys");
+			body.style.background="url(../../res/images/back/"+data.back+")";
+			
+		}
+	});
 }

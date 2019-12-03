@@ -28,6 +28,12 @@ import com.longbro.util.TimeUtil;
 public class CommentDiaryController{
     @Autowired
     CommentDiaryService commentDiaryService;
+    /**
+     * @desc 1.添加评论，评论某日记
+     * @author zcl
+     * @date 2019年10月26日
+     * @param cd
+     */
     @RequestMapping("commentDiary")
     @ResponseBody
     public void commentDiary(CommentDiary cd){
@@ -36,6 +42,13 @@ public class CommentDiaryController{
     	cd.setCReadStatus(0);
     	commentDiaryService.create(cd);
     }
+    /**
+     * @desc 2.得到某日记的所有评论
+     * @author zcl
+     * @date 2019年10月26日
+     * @param id
+     * @return
+     */
     @RequestMapping("getComByDiaryId")
     @ResponseBody
     public List<CommentDiary> getComByDiaryId(int id){
