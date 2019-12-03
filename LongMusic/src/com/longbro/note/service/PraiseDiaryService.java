@@ -1,5 +1,6 @@
 package com.longbro.note.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,10 @@ public class PraiseDiaryService{
 	//2019-11-16设置所有未读消息为已读
 	public void setAsReaded(String userId){
 		dao.setAsReaded(userId);
+	}
+	//2019-12-03得到我的所有被赞的消息
+	public List<HashMap<String, String>> getMyMessage(String userId){
+		return dao.getMyMessage(userId);
 	}
 }
 

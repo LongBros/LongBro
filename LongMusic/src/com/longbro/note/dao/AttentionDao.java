@@ -1,6 +1,8 @@
 package com.longbro.note.dao;
 
+import java.util.HashMap;
 import java.util.List;
+
 import com.longbro.note.bean.Attention;
 import com.longbro.note.dao.AttentionDao;
 import com.longbro.common.BaseDao;
@@ -30,6 +32,10 @@ public class AttentionDao extends BaseDao{
 	public void cancelAtten(Attention bean) {
 		// TODO Auto-generated method stub
 		this.delete(getNamespace()+".remove", bean);
+	}
+	//2019-12-03得到我的所有被关注的消息
+	public List<HashMap<String, String>> getMyMessage(String userId){
+		return this.selectList(getNamespace()+".getMyMessage",userId);
 	}
 }
 

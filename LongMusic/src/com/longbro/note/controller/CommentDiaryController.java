@@ -1,6 +1,7 @@
 
 package com.longbro.note.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,9 +12,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.CommentDiary;
 import com.longbro.note.service.CommentDiaryService;
 import com.longbro.util.TimeUtil;
@@ -54,5 +57,27 @@ public class CommentDiaryController{
     public List<CommentDiary> getComByDiaryId(int id){
     	
     	return commentDiaryService.getComByDiaryId(id);
+    }
+    /**
+     * 得到我的所有被评论的消息
+     * @author LongBro
+     * 2019年12月3日
+     * 下午12:47:38
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value="getMyMessage",method=RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<HashMap<String, String>> getMyMessage(String userId){
+    	BaseResult<HashMap<String, String>> result=new BaseResult<>();
+    	if(StringUtils.isEmpty(userId)){
+    		result.setCode(110);
+    		result.setMessage("用户id不能为空");
+    		return result;
+    	}
+    	result.setResult(commentDiaryService.getMyMessage(userId));
+    	result.setCode(200);
+    	result.setMessage("查询成功");
+    	return result;
     }
 }

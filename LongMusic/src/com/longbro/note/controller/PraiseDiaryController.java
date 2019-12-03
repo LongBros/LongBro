@@ -1,4 +1,5 @@
 package com.longbro.note.controller;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,6 +99,28 @@ public class PraiseDiaryController{
     		return result;
     	}
     	result.setResult(praiseDiaryService.getMyLikeDiary(userId));;
+    	result.setCode(200);
+    	result.setMessage("查询成功");
+    	return result;
+    }
+    /**
+     * 得到我的所有被赞的消息
+     * @author LongBro
+     * 2019年12月3日
+     * 下午12:40:00
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value="getMyMessage",method=RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<HashMap<String, String>> getMyMessage(String userId){
+    	BaseResult<HashMap<String, String>> result=new BaseResult<>();
+    	if(StringUtils.isEmpty(userId)){
+    		result.setCode(110);
+    		result.setMessage("用户id不能为空");
+    		return result;
+    	}
+    	result.setResult(praiseDiaryService.getMyMessage(userId));
     	result.setCode(200);
     	result.setMessage("查询成功");
     	return result;

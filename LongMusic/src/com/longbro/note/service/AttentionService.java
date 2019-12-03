@@ -1,8 +1,11 @@
 package com.longbro.note.service;
 
+import java.util.HashMap;
 import java.util.List;
+
 import com.longbro.note.bean.Attention;
 import com.longbro.note.dao.AttentionDao;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,6 +34,10 @@ public class AttentionService{
 	public void cancelAtten(Attention bean) {
 		// TODO Auto-generated method stub
 		dao.cancelAtten(bean);
+	}
+	//2019-12-03得到我的所有被关注的消息
+	public List<HashMap<String, String>> getMyMessage(String userId){
+		return dao.getMyMessage(userId);
 	}
 }
 

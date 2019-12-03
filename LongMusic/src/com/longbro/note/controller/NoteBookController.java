@@ -150,13 +150,16 @@ public class NoteBookController{
     	}
     	int machines[]={66666666,88888888};
 		for(int account:machines){
+			System.out.println(">>>>>>>>>>>>>将生成用户"+account+"的日记");
 			String table="poem";
-			String idd="";
+			String idd="";//日记在原本数据表中的ID，方便修改状态为“已使用”状态
 			if(account==88888888){
 				table="song";
 			}
 			List<HashMap<String, Object>> list=noteBookService.getDiaryByTable(table);
+			System.out.println(">>>>>>>>>>>>>用户"+account+"未被使用的内容数量为"+list.size());
 			int i=new Random().nextInt(list.size());
+			System.out.println(">>>>>>>>>>>>>用户"+account+"今日将被使用的内容的序号为"+i);
 			HashMap<String, Object> map=list.get(i);
 			NoteBook nb=new NoteBook();
 			nb.setNWritter(account+"");
@@ -167,13 +170,13 @@ public class NoteBookController{
 			nb.setNAllowComment(0);//允许评论
 			nb.setNWeather(0);
 			nb.setNMood(0);
-			System.out.println(new Gson().toJson(list.get(i)));
-			if(account==88888888){
+			System.out.println(">>>>>>>>>>>>>用户"+account+"今日被使用的内容的实体为"+new Gson().toJson(map));
+			if(account==88888888){//歌曲
 				nb.setNTitle(map.get("songName")+"-"+map.get("singer"));
 				nb.setNContent(map.get("lyric")+"");
 				nb.setnSongId(map.get("sourceId")+"");
 				idd=map.get("id")+"";
-			}else{
+			}else{//古诗
 				nb.setNTitle(map.get("p_Name")+"-"+map.get("p_Poet"));
 				nb.setNContent(map.get("p_PoemCons")+"");
 				System.out.println(map.get("p_Id"));

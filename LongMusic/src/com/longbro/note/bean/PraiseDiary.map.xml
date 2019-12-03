@@ -97,8 +97,14 @@
 	<update id="setAsReaded">
 		UPDATE d_praise SET p_Read_Status=1 WHERE p_Praised=#{_parameter} AND p_Read_Status=0;
 	</update>
-	<!-- 得到某用户日记被喜欢的消息 -->
-	<select id="getMyMessage">
-		
+	<!--2019-12-03 得到某用户日记被喜欢的消息 -->
+	<select id="getMyMessage" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select dp.p_Type type,dp.p_Diary diaryId,dp.p_Praiser praiser,
+				dp.p_Praise_Time praiseTime,dp.p_Read_Status readStatus,
+				dui.u_User_Name praiserName,dd.n_Title praiseTitle
+		from d_praise dp
+		LEFT JOIN d_user_info dui ON dp.p_Praiser=dui.u_User_Id
+		LEFT JOIN d_diary dd ON dp.p_Diary=dd.n_Id
+	    WHERE dp.p_Praised=#{userId};
 	</select>
 </mapper>

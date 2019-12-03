@@ -1,4 +1,21 @@
-<<<<<<< HEAD
+hui/diary/author.html
+hui/diary/diary.html
+hui/diary/index.html
+hui/diary/message.html
+hui/diary/myHome.html
+src/com/longbro/note/bean/Attention.map.xml
+src/com/longbro/note/bean/CommentDiary.map.xml
+src/com/longbro/note/bean/PraiseDiary.map.xml
+src/com/longbro/note/controller/AttentionController.class
+src/com/longbro/note/controller/CommentDiaryController.class
+src/com/longbro/note/controller/NoteBookController.class
+src/com/longbro/note/controller/PraiseDiaryController.class
+src/com/longbro/note/dao/AttentionDao.class
+src/com/longbro/note/dao/CommentDiaryDao.class
+src/com/longbro/note/dao/PraiseDiaryDao.class
+src/com/longbro/note/service/AttentionService.class
+src/com/longbro/note/service/CommentDiaryService.class
+src/com/longbro/note/service/PraiseDiaryService.class
 08-26周一
 我觉得时间真的是过得好快，无论是工作日上班还是周末双休
 所以每一分钟都不要浪费，都要有意义的度过，那么怎么才算是有意义呢？
@@ -99,17 +116,14 @@ Happy Birthyear！本命年快乐！
 
 轻易不言爱，既然爱了，就会是一辈子，爱是一种责任。
 瓜子、核桃、蚕豆、麦仁 
-=======
-<<<<<<< HEAD
 file:///D:/my/longbro/index.html
 D:\apache-tomcat-8.5.35\webapps\util\songs
 8-03&8-04
-简单拜读了《深入理解java虚拟机》的第二章和第三章
+简单拜读了《深入理解class虚拟机》的第二章和第三章
 
-=======
+
 轻易不言爱，既然爱了，就会是一辈子，爱是一种责任。 
->>>>>>> cf4da6446975b4966a570ffc30e525716934ab87
->>>>>>> home
+
 
 做东西？or	学新东西底层东西？
 

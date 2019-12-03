@@ -74,7 +74,7 @@
 <body id="bodys" style="background:url(../../res/images/back/back3.jpg)">
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
-		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">哆啦日记</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">Ying</a> 
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/">哆啦日记</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">Ying</a> 
 			<span class="logo navbar-slogan f-l mr-10 hidden-xs">Doranote</span> 
 			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
 				<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
@@ -194,36 +194,45 @@ $(".login").on("click", login_popup),function() {
 var author=user;//loadAuthorInfo()函数中需要author
 
 $(function(){
-	//判断当前登录人是否已点赞、收藏该日记，并对图标做修改
-	loadAuthorInfo();//index.js中
-	var curPage=1;//当前页码
-	var perPage=10;//当前一页展示日记数量
-	loadMyDiary(curPage,perPage);
-
-	setPage1(author,perPage);
 	if(user!=""){
-		getSetting();//加载登录用户的设置
+		getSetting();//加载登录用户的设置：背景、不看他、是否自动播放等
 	}
 });
 
 function openTab(which){
-	if(which==0){
+	if(which==0){//系统通知
+		
+	}else if(which==1){//关注
 		$.ajax({
-			url:"../../note/praise/getPraise.do?PPraised=",
+			url:"../../note/notice/getMyMessage.do?userId="+user,
 			type:"get",
 			async:false,
-			dataType:"text",
+			dataType:"Json",
 			success:function(data){
-				document.getElementById("unReadNum").innerText=data;
+				//noticerId,noticeTime,readStatus,noticerName
 			}
 		});
-	}else if(which==1){
-		
-	}else if(which==2){
-		
-	}else if(which==3){
-		
-	}else if(which==4){
+	}else if(which==2){//评论
+		$.ajax({
+			url:"../../note/comment/getMyMessage.do?userId="+user,
+			type:"get",
+			async:false,
+			dataType:"Json",
+			success:function(data){
+				//diaryId，reviewer，reviewCon，reviewTime，readStatus，praiserName，praiseTitle
+			}
+		});
+	}else if(which==3){//点赞
+		$.ajax({
+			url:"../../note/praise/getMyMessage.do?userId="+user,
+			type:"get",
+			async:false,
+			dataType:"Json",
+			success:function(data){
+				//type,diaryId,praiser,praiseTime,readStatus,praiserName,praiseTitle
+			}
+		});
+	}else if(which==4){//消息设置
 		
 	}
 }

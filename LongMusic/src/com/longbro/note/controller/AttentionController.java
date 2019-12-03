@@ -1,6 +1,7 @@
 
 package com.longbro.note.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -100,5 +101,27 @@ public class AttentionController{
     	bs.setCode(200);
     	bs.setMessage("取消关注成功");
     	return bs;
+    }
+    /**
+     * 得到登录用户被关注的消息
+     * @author LongBro
+     * 2019年12月3日
+     * 下午12:56:26
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value="getMyMessage",method=RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<HashMap<String, String>> getMyMessage(String userId){
+    	BaseResult<HashMap<String, String>> result=new BaseResult<>();
+    	if(StringUtils.isEmpty(userId)){
+    		result.setCode(110);
+    		result.setMessage("用户id不能为空");
+    		return result;
+    	}
+    	result.setResult(attentionService.getMyMessage(userId));
+    	result.setCode(200);
+    	result.setMessage("查询成功");
+    	return result;
     }
 }
