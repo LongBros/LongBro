@@ -119,7 +119,10 @@ public class NoteBookController{
     		map.put("authority", request.getParameter("authority"));
     	if(StringUtils.isNotEmpty(request.getParameter("page")))
     		map.put("page", (Integer.parseInt(request.getParameter("page"))-1)*per+"");
-    	System.out.println(request.getParameter("authority"));
+    	//12-05新增，黑名单功能使用
+    	if(StringUtils.isNotEmpty(request.getParameter("user")))
+    		map.put("user", request.getParameter("user"));
+    	System.out.println(TimeUtil.time()+"-------->查询日记列表所传参数:"+new Gson().toJson(map));
     	return noteBookService.getDiaryBy(map);
     }
     /**

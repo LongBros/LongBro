@@ -41,5 +41,9 @@ public class StoreDiaryDao extends BaseDao{
 	public void setAsReaded(String userId){
 		this.update(getNamespace()+".setAsReaded", userId);
 	}
+	//2019-12-05得到我的所有被收藏的消息
+	public List<HashMap<String, String>> getMyMessage(String userId){
+		return this.selectList(getNamespace()+".getMyMessage",userId);
+	}
 }
 

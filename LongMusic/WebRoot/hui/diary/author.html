@@ -266,61 +266,13 @@ var user=getCookie("userId")+"";//当前登录用户
 $(function(){
 	getUser();
 	loadAuthorInfo();
-	setPage(author,perPage);
-	loadDiary(author,1,perPage);
+	setPage(author,perPage,'');//作者页不需过滤黑名单，当前登录人不传
+	loadDiary(author,1,perPage,'');//作者页不需过滤黑名单，当前登录人不传
 	ifAttention();
 	if(user!=""){
 		getSetting();//加载登录用户的设置
 	}
 });
-
-/*根据作者加载日记*/
-function loadDiaryByAuthor(author,page){
-	$("#diarys").text("");
-	$.ajax({
-		url:"../../note/diary/getDiaryBy.do",
-		type:"get",
-		async:false,
-		dataType:"Json",
-		data:{
-			author:author,
-			page:page
-		},
-		success:function(data){
-			for(var i=0;i<data.length;i++){
-				//处理内容和标题
-				var title=data[i].ntitle+"";
-				var con=handleCon(data[i].ncontent);
-				console.log(con);
-
-				if(con.length>250){
-					con=con.substring(0,250)+"...";
-				}
-				if(title.length>10){
-					title=title.substring(0,8)+"...";
-				}
-				//分类
-				var cate=getCateById(data[i].ntype);
-				$("#diarys").append("<div class=\"diary\"><span onclick='openOther(0,"+data[i].nid+")'>&emsp;&emsp;"+con+"</span><br>"
-						+"<div class='info'>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
-						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation+""
-						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>2019&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66e;</i>8&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
-						+"</div><hr width='740px'>");
-			}
-		}
-	});
-	curPage=parseInt(page);
-	setPage();
-}
-/*打开其他的界面：作者、某日记*/
-function openOther(type,value){
-	if(type==0){
-		window.open("diary.html?id="+value, "_blank")
-	}else if(type==1){
-		window.open("author.html?author="+value, "_blank")
-	}
-}
-
 </script> 
 </body>
 </html>
