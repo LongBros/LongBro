@@ -20,14 +20,14 @@
 	<insert id="create" parameterType="com.longbro.note.bean.NoteBook">
 		INSERT INTO d_diary
 		(n_Type,n_BookId,n_Writter,n_Title,n_Content,n_Time,n_Weather,
-		n_Mood,n_Location,n_AllowComment,n_Authority)
+		n_Mood,n_Location,n_AllowComment,n_Authority,n_song_id)
 		VALUES 
 		(#{NType,jdbcType=NUMERIC}, #{NBookid,jdbcType=NUMERIC}, 
 		#{NWritter,jdbcType=VARCHAR}, #{NTitle,jdbcType=VARCHAR}, 
 		#{NContent,jdbcType=VARCHAR}, #{NTime,jdbcType=VARCHAR}, 
 		#{NWeather,jdbcType=NUMERIC}, #{NMood,jdbcType=NUMERIC}, 
 		#{NLocation,jdbcType=VARCHAR},#{NAllowComment,jdbcType=NUMERIC},
-		#{NAuthority,jdbcType=NUMERIC})
+		#{NAuthority,jdbcType=NUMERIC},#{nSongId,jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="get" parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Diary">
@@ -126,6 +126,17 @@
 		  where 1=1 and find_in_set(n_Authority,#{authority})
 		<if test="author!=null and author!=''">
 			and n_Writter=#{author}
+		</if>
+		<!-- 法一:将黑名单通过参数传过来-->
+		<!--
+		<if test="blackNameList!=null and blackNameList!=''">
+			and !FIND_IN_SET(n_Writter,#{blackNameList})
+		</if> 
+		-->
+		<!-- 法二:当前登录人id传过来，根据id查到登录人的黑名单 -->
+		<if test="user!=null and user!=''">
+			and !FIND_IN_SET(n_Writter,
+				CONCAT('\'1,',(SELECT u_black_namelist FROM d_user_info WHERE u_User_Id=#{user}),',2\''))
 		</if>
 		ORDER BY n_top desc,n_Time DESC,n_Id DESC
 		<if test="page!=null and page!=''">

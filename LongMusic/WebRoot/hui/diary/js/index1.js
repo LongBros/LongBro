@@ -1,7 +1,7 @@
 var curPage=1;//当前页码
 var perPage=10;//当前一页展示日记数量
 var user=getCookie("userId")+"";
-/*个人信息*/
+/*1.个人信息*/
 function myselfinfo(){
 	layer.open({
 		type: 1,
@@ -15,10 +15,10 @@ function myselfinfo(){
 }
 
 /*
- * 根据页码加载日记--用于首页和作者页
+ * 2.根据页码加载日记--用于首页和作者页
  * @param 作者	页码
 */
-function loadDiary(author,page,perPage){
+function loadDiary(author,page,perPage,userId){
 	var au="0";//完全公开的
 	if(user!=null){//登录用户可看到完全公开和登录可见的
 		au="0,2";
@@ -33,7 +33,8 @@ function loadDiary(author,page,perPage){
 			author:author,
 			page:page,
 			authority:au,
-			perPage:perPage
+			perPage:perPage,
+			user:userId
 		},
 		success:function(data){
 			for(var i=0;i<data.length;i++){
@@ -78,9 +79,11 @@ function loadDiary(author,page,perPage){
 	});
 	curPage=parseInt(page);
 	perPage=parseInt(perPage);
-	setPage(author,perPage);
+	setPage(author,perPage,userId);
 }
-/*根据分类id得到分类名*/
+/**
+ *3.根据分类id得到分类名
+ */
 function getCateById(id){
 	var cate="0";
 	if(id=="0"){
@@ -96,7 +99,10 @@ function getCateById(id){
 	}
 	return cate;
 }
-/*根据分类id得到分类名*/
+/**
+ * 4.根据分类id得到分类名
+ *
+ */
 function getMoodById(id){
 	var mood="0";
 	if(id=="0"){
@@ -110,6 +116,11 @@ function getMoodById(id){
 	}
 	return mood;
 }
+/**
+ * 5.
+ * @param id
+ * @returns {String}
+ */
 function getWeaById(id){
 	var wea="0";
 	if(id=="0"){
@@ -127,7 +138,9 @@ function getWeaById(id){
 	}
 	return wea;
 }
-/*处理日记内容*/
+/**
+ * 6.处理日记内容
+ */
 function handleCon(content){
 	var reg=/<[^<>]+>/g ;
 	//var reg1=/<(?!img).*?>/g;//保留img标签
@@ -145,7 +158,10 @@ function handleCon(content){
 //	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
 	return con;
 }
-/*打开其他的界面：作者、某日记*/
+/**
+ * 7.打开其他的界面：作者、某日记
+ * 
+ */
 function openOther(type,value){
 	if(type==0){
 		window.open("diary.html?id="+value, "_blank")
@@ -153,11 +169,11 @@ function openOther(type,value){
 		window.open("author.html?author="+value, "_blank")
 	}
 }
-/*
- * 根据日记数量初始化页码按钮
+/**
+ * 8.根据日记数量初始化页码按钮
  * @param 作者，每页数量
 */
-function setPage(author,perPage){
+function setPage(author,perPage,userId){
 	$(".pages").text('');
 	var num=0;
 	$.ajax({
@@ -194,24 +210,24 @@ function setPage(author,perPage){
 		$(".pages").append("&nbsp;共"+num+"篇日记&nbsp;");
 	}
 	if(curPage!=1){
-		$(".pages").append("<span onclick=\"loadDiary('"+author+"','1','"+perPage+"')\">首</span>&emsp;")
-		$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+(curPage-1)+"','"+perPage+"')\">←</span>&emsp;");
+		$(".pages").append("<span onclick=\"loadDiary('"+author+"','1','"+perPage+"','"+userId+"')\">首</span>&emsp;")
+		$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+(curPage-1)+"','"+perPage+"','"+userId+"')\">←</span>&emsp;");
 	}
 	if(page>5){//多于5页，只显示5页
 		if(curPage>page-5){//当前页码大于总页码-5，输出后六页
 			for(var i=page-4;i<=page;i++){
 	              if(i==curPage){
-	  				   $(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+	  				   $(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"','"+userId+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
 		          }else{
-					   $(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+					   $(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"','"+userId+"')\">"+i+"</span>&emsp;")
 	         	  }
 	        }
 		}else{//当前页码小于总页码-6，输出当前页码后的六页
             for(var i=curPage;i<curPage+5;i++){
                 if(i==curPage){
-	  				   $(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+	  				   $(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"','"+userId+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
                 }else{
-					   $(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+					   $(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"','"+userId+"')\">"+i+"</span>&emsp;")
                 }
             }
          }
@@ -220,20 +236,20 @@ function setPage(author,perPage){
 		if(page!=1){//只有一页无需显示页码
 			for(var i=1;i<=page;i++){
 				if(curPage==i){
-					$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+					$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"','"+userId+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
 				}else{
-					$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+					$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+i+"','"+perPage+"','"+userId+"')\">"+i+"</span>&emsp;")
 				}
 			}
 		}
 	}
 	if(curPage+1<=page){//＜＞
-		$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+(curPage+1)+"','"+perPage+"')\">→</span>&emsp;")
-		$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+page+"','"+perPage+"')\">尾</span>&emsp;")
+		$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+(curPage+1)+"','"+perPage+"','"+userId+"')\">→</span>&emsp;")
+		$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+page+"','"+perPage+"','"+userId+"')\">尾</span>&emsp;")
 	}
 	if(page>5){//多于5页显示下拉选择页码功能
 		var pagesC="";
-		pagesC+="<select name='selPage' οnchange=\"loadDiary('"+author+"',options[selectedIndex].value,'"+perPage+"')\">";
+		pagesC+="<select name='selPage' οnchange=\"loadDiary('"+author+"',options[selectedIndex].value,'"+perPage+"','"+userId+"')\">";
 		for(var i=1;i<=page;i++){
 			pagesC+="<option value="+i+">"+i+"</option>";
 		}
@@ -241,7 +257,9 @@ function setPage(author,perPage){
 		$(".pages").append(pagesC);
 	}
 }
-//2019-10-26	加载当前登录用户有多少未读喜欢、收藏、被关注等消息
+/**
+ * 9.2019-10-26	加载当前登录用户有多少未读喜欢、收藏、被关注等消息
+ */
 function initUnReadMessage(){
 	
 	$.ajax({
@@ -254,7 +272,10 @@ function initUnReadMessage(){
 		}
 	});
 }
-
+/**
+ * 10.选择每页数量时自动设置页码
+ * @param pernum
+ */
 function setPer(pernum){
 	perPage=pernum;
 	setPage(author,perPage);
