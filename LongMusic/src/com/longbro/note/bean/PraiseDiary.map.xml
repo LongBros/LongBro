@@ -101,7 +101,7 @@
 	<select id="getMyMessage" parameterType="java.lang.String" resultType="java.util.HashMap">
 		select dp.p_Type type,dp.p_Diary diaryId,dp.p_Praiser praiser,
 				dp.p_Praise_Time praiseTime,dp.p_Read_Status readStatus,
-				dui.u_User_Name praiserName,dd.n_Title praiseTitle
+				dui.u_User_Name praiserName,dd.n_Title diaryTitle
 		from d_praise dp
 		LEFT JOIN d_user_info dui ON dp.p_Praiser=dui.u_User_Id
 		LEFT JOIN d_diary dd ON dp.p_Diary=dd.n_Id

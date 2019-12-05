@@ -232,13 +232,13 @@ function openTab(which){
 			async:false,
 			dataType:"Json",
 			success:function(data){
-				//diaryId，reviewer，reviewCon，reviewTime，readStatus，praiserName，praiseTitle
+				//diaryId，reviewer，reviewCon，reviewTime，readStatus，viewerName，diaryTitle
 				var res=data.result;
 				if(res.length<1){
 					$(".contents").append("暂时没有人评论你的日记喔");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].reviewer+"</a>在"+res[i].reviewTime+"评论了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].praiseTitle+"</a>");
+					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].reviewer+"</a>在"+res[i].reviewTime+"评论了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>");
 
 				}
 			}
@@ -251,7 +251,7 @@ function openTab(which){
 			async:false,
 			dataType:"Json",
 			success:function(data){
-				//type,diaryId,praiser,praiseTime,readStatus,praiserName,praiseTitle
+				//type,diaryId,praiser,praiseTime,readStatus,praiserName,diaryTitle
 				var res=data.result;
 				if(res.length<1){
 					$(".contents").append("暂时没有人给你的日记点赞喔");

@@ -85,4 +85,27 @@ public class StoreDiaryController{
     	result.setMessage("查询成功");
     	return result;
     }
+    
+    /**
+     * 5.得到我的所有被赞的消息
+     * @author LongBro
+     * 2019年12月5日
+     * 下午12:36:39
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value="getMyMessage",method=RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<HashMap<String, String>> getMyMessage(String userId){
+    	BaseResult<HashMap<String, String>> result=new BaseResult<>();
+    	if(StringUtils.isEmpty(userId)){
+    		result.setCode(110);
+    		result.setMessage("用户id不能为空");
+    		return result;
+    	}
+    	result.setResult(storeDiaryService.getMyMessage(userId));
+    	result.setCode(200);
+    	result.setMessage("查询成功");
+    	return result;
+    }
 }

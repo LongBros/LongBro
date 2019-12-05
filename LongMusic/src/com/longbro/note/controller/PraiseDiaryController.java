@@ -104,7 +104,7 @@ public class PraiseDiaryController{
     	return result;
     }
     /**
-     * 得到我的所有被赞的消息
+     * 6.得到我的所有被赞的消息
      * @author LongBro
      * 2019年12月3日
      * 下午12:40:00
