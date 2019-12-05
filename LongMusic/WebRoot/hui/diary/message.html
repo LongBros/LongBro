@@ -23,8 +23,6 @@
 <script type="text/javascript" src="../../js/jquery.js"></script>
 <script type="text/javascript" src="js/index.js"></script><!-- 获取当前登录用户 -->
 <script type="text/javascript" src="js/index1.js"></script><!-- 处理日记 -->
-<script type="text/javascript" src="js/myHome.js"></script>
-
 <script type="text/javascript" src="../../js/myjs/timeDeal.js"></script><!-- 时间处理函数 -->
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
@@ -40,8 +38,13 @@
 		background:white ;
 		margin-top: 30px;
 	}
-	
-	
+	.contents .content{
+		margin-left: 20px;
+		margin-top: 30px;
+	}
+	.content a{
+		color: blue;
+	}
 	.info{
 		color: gray;
 		font-size: 10px;
@@ -54,12 +57,13 @@
 		position:fixed;
 		float: right;
 		background:white;
-		height: 220px;
+		height: 320px;
 	}
 	.tabs .tab{
 		margin-left:20px;
 		margin-top:20px;
 		cursor: pointer;
+		height: 35px;
 	}
 	.tabs .current{
 		margin-left:20px;
@@ -150,13 +154,13 @@
 		</div>
 
 
-<div class="contents" style="height: 600px;">
+<div id="content" class="contents" style="height: 600px;">
 	
 </div>
 <div class="rights">
 	<div class="tabs">
-		<div class="current"><span onclick="openTab(0)" id="system">系统通知</span></div>
-		<div class="tab"><span onclick="openTab(1)" id="attention">关注朕</span></div>
+		<div class="tab" ><span onclick="openTab(0)" id="system">系统通知</span></div>
+		<div class="tab" style="background: red;color:white;"><span onclick="openTab(1)" id="attention">关注朕</span></div>
 		<div class="tab"><span onclick="openTab(2)" id="comment">给朕评论</span></div>
 		<div class="tab"><span onclick="openTab(3)" id="praise">给朕点赞</span></div>
 		<div class="tab"><span onclick="openTab(4)" id="msgsetting">消息设置</span></div>
@@ -203,6 +207,7 @@ function openTab(which){
 	if(which==0){//系统通知
 		
 	}else if(which==1){//关注
+		$(".contents").text("");
 		$.ajax({
 			url:"../../note/notice/getMyMessage.do?userId="+user,
 			type:"get",
@@ -210,9 +215,17 @@ function openTab(which){
 			dataType:"Json",
 			success:function(data){
 				//noticerId,noticeTime,readStatus,noticerName
+				var res=data.result;
+				if(res.length<1){
+					$(".contents").append("暂时没有人关注你喔");
+				}
+				for(var i=0;i<res.length;i++){
+					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].noticerName+"</a>在"+res[i].noticeTime+"关注了你</div>");
+				}
 			}
 		});
 	}else if(which==2){//评论
+		$(".contents").text("");
 		$.ajax({
 			url:"../../note/comment/getMyMessage.do?userId="+user,
 			type:"get",
@@ -220,9 +233,18 @@ function openTab(which){
 			dataType:"Json",
 			success:function(data){
 				//diaryId，reviewer，reviewCon，reviewTime，readStatus，praiserName，praiseTitle
+				var res=data.result;
+				if(res.length<1){
+					$(".contents").append("暂时没有人评论你的日记喔");
+				}
+				for(var i=0;i<res.length;i++){
+					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].reviewer+"</a>在"+res[i].reviewTime+"评论了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].praiseTitle+"</a>");
+
+				}
 			}
 		});
 	}else if(which==3){//点赞
+		$(".contents").text("");
 		$.ajax({
 			url:"../../note/praise/getMyMessage.do?userId="+user,
 			type:"get",
@@ -230,6 +252,13 @@ function openTab(which){
 			dataType:"Json",
 			success:function(data){
 				//type,diaryId,praiser,praiseTime,readStatus,praiserName,praiseTitle
+				var res=data.result;
+				if(res.length<1){
+					$(".contents").append("暂时没有人给你的日记点赞喔");
+				}
+				for(var i=0;i<res.length;i++){
+					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>在"+res[i].praiseTime+"赞了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].praiseTitle+"</a>");
+				}
 			}
 		});
 	}else if(which==4){//消息设置
