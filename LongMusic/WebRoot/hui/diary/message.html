@@ -34,9 +34,15 @@
 <style type="text/css">
 	.contents{
 		width: 880px;
-		margin-left: 420px;
+		margin-left: 320px;
 		background:white ;
 		margin-top: 30px;
+		margin-bottom:66px;
+		height: 1000px;
+		overflow: auto;
+	}
+	.contents::-webkit-scrollbar {
+    	display: none;
 	}
 	.contents .content{
 		margin-left: 20px;
@@ -52,18 +58,21 @@
 	}
 	.rights{
 		top: 75px;
-		left:188px;
+		left:108px;
 		width:206px;
 		position:fixed;
 		float: right;
 		background:white;
-		height: 320px;
+		height: 350px;
 	}
 	.tabs .tab{
-		margin-left:20px;
 		margin-top:20px;
 		cursor: pointer;
 		height: 35px;
+	}
+	.tabs span{
+		margin-left:40px;
+		cursor: pointer;
 	}
 	.tabs .current{
 		margin-left:20px;
@@ -154,16 +163,17 @@
 		</div>
 
 
-<div id="content" class="contents" style="height: 600px;">
+<div id="content" class="contents" style="">
 	
 </div>
 <div class="rights">
 	<div class="tabs">
-		<div class="tab" ><span onclick="openTab(0)" id="system">系统通知</span></div>
-		<div class="tab" style="background: red;color:white;"><span onclick="openTab(1)" id="attention">关注朕</span></div>
-		<div class="tab"><span onclick="openTab(2)" id="comment">给朕评论</span></div>
-		<div class="tab"><span onclick="openTab(3)" id="praise">给朕点赞</span></div>
-		<div class="tab"><span onclick="openTab(4)" id="msgsetting">消息设置</span></div>
+		<div class="tab" id="tab0" onclick="openTab(0)"><span id="system">系统通知</span></div>
+		<div class="tab" id="tab1" onclick="openTab(1)"><span id="attention">关注朕</span></div>
+		<div class="tab" id="tab2" onclick="openTab(2)"><span id="comment">给朕评论</span></div>
+		<div class="tab" id="tab3" onclick="openTab(3)"><span id="praise">给朕点赞</span></div>
+		<div class="tab" id="tab4" onclick="openTab(4)"><span id="praise">收藏我的</span></div>
+		<div class="tab" id="tab5" onclick="openTab(5)"><span id="msgsetting">消息设置</span></div>
 	</div>
 	
 </div>
@@ -201,11 +211,25 @@ $(function(){
 	if(user!=""){
 		getSetting();//加载登录用户的设置：背景、不看他、是否自动播放等
 	}
+	openTab(1);
 });
 
 function openTab(which){
+	var tab0=document.getElementById("tab0");
+	var tab1=document.getElementById("tab1");
+	var tab2=document.getElementById("tab2");
+	var tab3=document.getElementById("tab3");
+	var tab4=document.getElementById("tab4");
+	var tab5=document.getElementById("tab5");
 	if(which==0){//系统通知
-		
+		$(".contents").text("");
+		$(".contents").append("<div class='content'><center>静候此功能上线喔</center></div>");
+		tab0.style="background: red;color:white;";
+		tab1.style="background: white;color:black;";
+		tab2.style="background: white;color:black;";
+		tab3.style="background: white;color:black;";
+		tab4.style="background: white;color:black;";
+		tab5.style="background: white;color:black;";
 	}else if(which==1){//关注
 		$(".contents").text("");
 		$.ajax({
@@ -217,13 +241,19 @@ function openTab(which){
 				//noticerId,noticeTime,readStatus,noticerName
 				var res=data.result;
 				if(res.length<1){
-					$(".contents").append("暂时没有人关注你喔");
+					$(".contents").append("<div class='content'><center>暂时没有人关注你喔</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
 					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].noticerName+"</a>在"+res[i].noticeTime+"关注了你</div>");
 				}
 			}
 		});
+		tab0.style="background: white;color:black;";
+		tab1.style="background: red;color:white;";
+		tab2.style="background: white;color:black;";
+		tab3.style="background: white;color:black;";
+		tab4.style="background: white;color:black;";
+		tab5.style="background: white;color:black;";
 	}else if(which==2){//评论
 		$(".contents").text("");
 		$.ajax({
@@ -235,14 +265,20 @@ function openTab(which){
 				//diaryId，reviewer，reviewCon，reviewTime，readStatus，praiserName，praiseTitle
 				var res=data.result;
 				if(res.length<1){
-					$(".contents").append("暂时没有人评论你的日记喔");
+					$(".contents").append("<div class='content'><center>暂时没有人评论你的日记喔</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].reviewer+"</a>在"+res[i].reviewTime+"评论了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].praiseTitle+"</a>");
+					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].reviewer+"</a>在"+res[i].reviewTime+"评论了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].praiseTitle+"</a></div>");
 
 				}
 			}
 		});
+		tab0.style="background: white;color:black;";
+		tab1.style="background: white;color:black;";
+		tab2.style="background: red;color:white;";
+		tab3.style="background: white;color:black;";
+		tab4.style="background: white;color:black;";
+		tab5.style="background: white;color:black;";
 	}else if(which==3){//点赞
 		$(".contents").text("");
 		$.ajax({
@@ -254,16 +290,39 @@ function openTab(which){
 				//type,diaryId,praiser,praiseTime,readStatus,praiserName,praiseTitle
 				var res=data.result;
 				if(res.length<1){
-					$(".contents").append("暂时没有人给你的日记点赞喔");
+					$(".contents").append("<div class='content'>暂时没有人给你的日记点赞喔</div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>在"+res[i].praiseTime+"赞了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].praiseTitle+"</a>");
+					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>在"+res[i].praiseTime+"赞了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].praiseTitle+"</a></div>");
 				}
 			}
 		});
-	}else if(which==4){//消息设置
-		
+		tab0.style="background: white;color:black;";
+		tab1.style="background: white;color:black;";
+		tab2.style="background: white;color:black;";
+		tab3.style="background: red;color:white;";
+		tab4.style="background: white;color:black;";
+		tab5.style="background: white;color:black;";
+	}else if(which==4){//
+		$(".contents").text("");
+		$(".contents").append("<div class='content'><center>静候此功能上线喔</center></div>");
+		tab0.style="background: white;color:black;";
+		tab1.style="background: white;color:black;";
+		tab2.style="background: white;color:black;";
+		tab3.style="background: white;color:black;";
+		tab4.style="background: red;color:white;";
+		tab5.style="background: white;color:black;";
+	}else if(which==5){//消息设置
+		$(".contents").text("");
+		$(".contents").append("<div class='content'><center>静候此功能上线喔</center></div>");
+		tab0.style="background: white;color:black;";
+		tab1.style="background: white;color:black;";
+		tab2.style="background: white;color:black;";
+		tab3.style="background: white;color:black;";
+		tab4.style="background: white;color:black;";
+		tab5.style="background: red;color:white;";
 	}
+	
 }
 </script> 
 </body>
