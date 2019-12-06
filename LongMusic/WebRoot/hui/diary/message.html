@@ -268,7 +268,11 @@ function openTab(which){
 					$(".contents").append("<div class='content'><center>暂时没有人评论你的日记喔</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].reviewer+"</a>在"+res[i].reviewTime+"评论了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>");
+					if(res[i].reviewer=='123141414'||res[i].reviewer==''){
+						$(".contents").append("<div class='content'>本站访客(未登录用户)在"+res[i].reviewTime+"评论了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>");
+					}else{
+						$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].reviewer+"' target='_blank'>"+res[i].viewerName+"</a>在"+res[i].reviewTime+"评论了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>");
+					}
 
 				}
 			}
