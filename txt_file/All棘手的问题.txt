@@ -1,5 +1,30 @@
 41138119951015421X	18620101642	6217002440004113429
 
+12-06周五
+
+1.调用存储过程方法(以银行转介表为例)---若想得到存储过程对应的查询语句，可在存储过程尾部加上 SELECT @selectSql;
+SET @a=NULL;
+SET @b=NULL;
+SET @c=NULL;
+SET @d=NULL;
+SET @e=NULL;
+SET @f=NULL;
+SET @g='2530000022937712';
+SET @h=0;
+SET @i=100;
+SET @j=-1;
+SET @k=1;
+SET @l=null;
+
+CALL proc_report3_0_business_statistics_BankReferral(@a,@b,@c,@d,@e,@f,@g,@h,@i,@j,@k,@l);
+
+2.测试服运营原始数据表在sadmin正常，而统计表机构报了500，报的错是：[Err] 1292 - Truncated incorrect DOUBLE value: '商业贷款'
+在数据库中调用存储过程，传入sadmin的账号正常，传统计表机构的账号也是报的这个错误。
+分析后发现如下所示，下方的第二行的2、3、7没有加引号，加上引号之后就好了。但是原本2、3也没加引号就没事啊，所以太奇怪了
+if(wci.F_LOAN_TYPE ="1" or wci.F_LOAN_TYPE ="3" or wci.F_LOAN_TYPE ="4" or wci.F_LOAN_TYPE ="5" or wci.F_LOAN_TYPE ="7",if(ifnull(wci.F_BUS_LOAN_AMOUNT,"")="",0,wci.F_BUS_LOAN_AMOUNT),0) busLoanAmount,
+if(wci.F_LOAN_TYPE = "2" or wci.F_LOAN_TYPE ="3" or wci.F_LOAN_TYPE ="7",IF(IFNULL(wci.F_HFUND_LOAN_AMOUNT,"")="",0,wci.F_HFUND_LOAN_AMOUNT),0) hfundLoanAmount,
+3.银行转介表测试服正常，验收服报500的问题，没有打印错误日志，浏览器里面就能看到个null，调用存储过程也是正常的
+4.cp -rf LongMusic $(date +%Y%m%d_%H%M%S)		该Linux命令可实现将项目复制成以当前时间命名的文件
 
 11-28周四
 1.为给APP边案件添加案件进度的筛选，了解到mybatis的一个使用点。如下必须是外面单引号，里面双引号，否则会报numberFormatException
