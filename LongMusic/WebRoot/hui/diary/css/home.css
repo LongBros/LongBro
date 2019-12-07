@@ -102,3 +102,15 @@
 		margin-top: 25px;
 		font-color: blue;
 	}
+	#myDiary .notice{
+		margin-left: 30px;
+		margin-top: 15px;
+		margin-bottom: 12px;
+	}
+	#myDiary .notice a{
+		color: blue;
+	}
+	#myDiary .notice span{
+		float:right;
+		margin-right: 30px;
+	}

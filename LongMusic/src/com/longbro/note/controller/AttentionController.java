@@ -103,7 +103,7 @@ public class AttentionController{
     	return bs;
     }
     /**
-     * 得到登录用户被关注的消息
+     * 4.得到登录用户被关注的消息
      * @author LongBro
      * 2019年12月3日
      * 下午12:56:26
@@ -120,6 +120,27 @@ public class AttentionController{
     		return result;
     	}
     	result.setResult(attentionService.getMyMessage(userId));
+    	result.setCode(200);
+    	result.setMessage("查询成功");
+    	return result;
+    }
+    /**
+     * @desc 5.查询出我关注的人
+     * @author zcl
+     * @date 2019年12月7日
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value="getMyAtten",method=RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<List<HashMap<String, Object>>> getMyAtten(String userId){
+    	BaseResult<List<HashMap<String, Object>>> result=new BaseResult<>();
+    	if(StringUtils.isEmpty(userId)){
+    		result.setCode(110);
+    		result.setMessage("用户id不能为空");
+    		return result;
+    	}
+    	result.setResult(attentionService.getMyAtten(userId));;
     	result.setCode(200);
     	result.setMessage("查询成功");
     	return result;

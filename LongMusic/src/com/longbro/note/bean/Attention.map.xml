@@ -62,7 +62,7 @@
 		WHERE
 		n_Noticer=#{NNoticer} and n_Noticed=#{NNoticed};
 	</delete>
-	<!-- 2019-12-03得到某用户日记被评论的消息 -->
+	<!-- 2019-12-03得到某用户被关注的消息 -->
 	<select id="getMyMessage" parameterType="java.lang.String" resultType="java.util.HashMap">
 		select dn.n_Noticer noticerId,dn.n_Notice_Time noticeTime,dn.n_Read_Status readStatus,
 				dui.u_User_Name noticerName
@@ -72,5 +72,17 @@
 	    order by dn.n_Notice_Time desc
 	    ;
 	</select>
-	
+	<update id="setAsReaded">
+		UPDATE d_notice SET n_Read_Status=1 WHERE n_Noticed=#{_parameter} AND n_Read_Status=0;
+	</update>
+	<!-- 2019-12-07得到我关注的人 -->
+	<select id="getMyAtten" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select dn.n_Noticed noticedId,dn.n_Notice_Time noticeTime,dn.n_Read_Status readStatus,
+				dui.u_User_Name noticedName
+		from d_notice dn
+		LEFT JOIN d_user_info dui ON dn.n_Noticed=dui.u_User_Id
+	    WHERE dn.n_Noticer=#{userId}
+	    order by dn.n_Notice_Time desc
+	    ;
+	</select>
 </mapper>

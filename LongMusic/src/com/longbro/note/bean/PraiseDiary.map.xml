@@ -92,7 +92,9 @@
 		FROM d_praise dp
 		LEFT JOIN d_diary dd on dp.p_Diary=dd.n_Id
 		LEFT JOIN d_user_info dui ON dd.n_Writter=dui.u_User_Id
- 		WHERE p_Praiser=#{userId};
+ 		WHERE p_Praiser=#{userId}
+ 		order by dp.p_Praise_Time desc
+ 		;
 	</select>
 	<update id="setAsReaded">
 		UPDATE d_praise SET p_Read_Status=1 WHERE p_Praised=#{_parameter} AND p_Read_Status=0;

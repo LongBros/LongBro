@@ -1,6 +1,9 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<title>我的消息-哆啦日记</title>
+<meta name="keywords" content="哆啦日记消息页">
+<meta name="description" content="哆啦日记消息页,已登录用户可查看自己收到的消息">
 <meta charset="utf-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -28,9 +31,6 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>我的消息-哆啦日记</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
 <style type="text/css">
 	.contents{
 		width: 880px;
@@ -46,10 +46,15 @@
 	}
 	.contents .content{
 		margin-left: 20px;
-		margin-top: 30px;
+		margin-top: 10px;
+		margin-bottom: 10px;
 	}
 	.content a{
 		color: blue;
+	}
+	.content span{
+		float:right;
+		margin-right: 10px;
 	}
 	.info{
 		color: gray;
@@ -71,7 +76,7 @@
 		height: 35px;
 	}
 	.tabs span{
-		margin-left:40px;
+		margin-left:70px;
 		cursor: pointer;
 	}
 	.tabs .current{
@@ -241,12 +246,17 @@ function openTab(which){
 			success:function(data){
 				//noticerId,noticeTime,readStatus,noticerName
 				var res=data.result;
+				if(res.length>0){
+					$(".contents").append("<span></span>");
+					$(".contents").append("<div class='content'><center>共有<font color='red'>"+res.length+"</font>条关注消息</center></div>");
+				}
 				if(res.length<1){
-					$(".contents").append("<div class='content'><center>暂时没有人关注你喔</center></div>");
+					$(".contents").append("<div class='content'><center>暂时没有人关注你喔，快去发布一些吸引人的日记吧！</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].noticerName+"</a>在"+res[i].noticeTime+"关注了你</div>");
+					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].noticerName+"</a>关注了你<font color='gray' size='2px'><span>"+res[i].noticeTime+"</span></font></div><hr>");
 				}
+				
 			}
 		});
 		tab0.style="background: white;color:black;";
@@ -255,7 +265,7 @@ function openTab(which){
 		tab3.style="background: white;color:black;";
 		tab4.style="background: white;color:black;";
 		tab5.style="background: white;color:black;";
-	}else if(which==2){//评论
+	}else if(which==2){//被评论消息
 		$(".contents").text("");
 		$.ajax({
 			url:"../../note/comment/getMyMessage.do?userId="+user,
@@ -265,14 +275,17 @@ function openTab(which){
 			success:function(data){
 				//diaryId，reviewer，reviewCon，reviewTime，readStatus，viewerName，diaryTitle
 				var res=data.result;
+				if(res.length>0){
+					$(".contents").append("<div class='content'><center>共有<font color='red'>"+res.length+"</font>条评论消息</center></div>");
+				}
 				if(res.length<1){
-					$(".contents").append("<div class='content'><center>暂时没有人评论你的日记喔</center></div>");
+					$(".contents").append("<div class='content'><center>暂时没有人评论你的日记喔，快去发布一些吸引人的日记吧！</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
 					if(res[i].reviewer=='123141414'||res[i].reviewer==''){
-						$(".contents").append("<div class='content'>本站访客(未登录用户)在"+res[i].reviewTime+"评论了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>");
+						$(".contents").append("<div class='content'>本站访客(未登录用户)评论了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 					}else{
-						$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].reviewer+"' target='_blank'>"+res[i].viewerName+"</a>在"+res[i].reviewTime+"评论了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>");
+						$(".contents").append("<div class='content'><a href='author.html?author="+res[i].reviewer+"' target='_blank'>"+res[i].viewerName+"</a>评论了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 					}
 				}
 			}
@@ -283,7 +296,7 @@ function openTab(which){
 		tab3.style="background: white;color:black;";
 		tab4.style="background: white;color:black;";
 		tab5.style="background: white;color:black;";
-	}else if(which==3){//点赞
+	}else if(which==3){//被点赞消息
 		$(".contents").text("");
 		$.ajax({
 			url:"../../note/praise/getMyMessage.do?userId="+user,
@@ -293,11 +306,14 @@ function openTab(which){
 			success:function(data){
 				//type,diaryId,praiser,praiseTime,readStatus,praiserName,diaryTitle
 				var res=data.result;
+				if(res.length>0){
+					$(".contents").append("<div class='content'><center>共有<font color='red'>"+res.length+"</font>条被点赞消息</center></div>");
+				}
 				if(res.length<1){
-					$(".contents").append("<div class='content'>暂时没有人给你的日记点赞喔</div>");
+					$(".contents").append("<div class='content'>暂时没有人给你的日记点赞喔，，快去发布一些吸引人的日记吧！</div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>在"+res[i].praiseTime+"赞了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a></div>");
+					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>赞了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].praiseTime+"</span></font></div><hr>");
 				}
 			}
 		});
@@ -307,7 +323,7 @@ function openTab(which){
 		tab3.style="background: red;color:white;";
 		tab4.style="background: white;color:black;";
 		tab5.style="background: white;color:black;";
-	}else if(which==4){//
+	}else if(which==4){//被收藏消息
 		$(".contents").text("");
 		$.ajax({
 			url:"../../note/store/getMyMessage.do?userId="+user,
@@ -317,11 +333,14 @@ function openTab(which){
 			success:function(data){
 				//type,diaryId,storer,storeTime,readStatus,storerName,diaryTitle
 				var res=data.result;
+				if(res.length>0){
+					$(".contents").append("<div class='content'><center>共有<font color='red'>"+res.length+"</font>条被收藏消息</center></div>");
+				}
 				if(res.length<1){
-					$(".contents").append("<div class='content'>暂时没有人收藏你的日记喔</div>");
+					$(".contents").append("<div class='content'><center>暂时没有人收藏你的日记喔，快去发布一些吸引人的日记吧！</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].storer+"' target='_blank'>"+res[i].storerName+"</a>在"+res[i].storeTime+"收藏了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a></div>");
+					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].storer+"' target='_blank'>"+res[i].storerName+"</a>收藏了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].storeTime+"</span></font></div>");
 				}
 			}
 		});

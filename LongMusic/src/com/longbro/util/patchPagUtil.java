@@ -18,14 +18,14 @@ import java.util.List;
  */
 public class patchPagUtil {
 
-    public static String patchFile="C:/Users/Administrator/Desktop/packet/2019-12-07.txt";//补丁文件
+    public static String patchFile="C:/Users/Administrator/Desktop/packet/2019-12-071.txt";//补丁文件
       
 //    public static String classPath="D:/workspace_git/lcfex-loan/target/lcfex-loan/";//class所在路径  
     public static String classPath="D:/apache-tomcat-8.5.35/webapps/LongMusic/";//class所在路径  
       
     public static String outputPath="C:/Users/Administrator/Desktop/packet/";//生成的增量输出放路径 
       
-    public static String version="2019-12-07/";//增量包版本  
+    public static String version="2019-12-071/";//增量包版本  
     
 //    public static String proName="loan/";//项目名称
     public static String proName="/";//项目名称

@@ -27,6 +27,7 @@ import com.longbro.bean.AlarmUser;
 import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.Author;
 import com.longbro.note.bean.UserInfo;
+import com.longbro.note.service.AttentionService;
 import com.longbro.note.service.CommentDiaryService;
 import com.longbro.note.service.PraiseDiaryService;
 import com.longbro.note.service.StoreDiaryService;
@@ -51,6 +52,8 @@ public class UserInfoController{
     PraiseDiaryService praiseDiaryService;
     @Autowired
     StoreDiaryService storeDiaryService;
+    @Autowired
+    AttentionService attentionService;
     /**
      * @desc 1.根据userId获取用户信息
      * @author zcl
@@ -160,6 +163,7 @@ public class UserInfoController{
     	commentDiaryService.setAsReaded(userId);
     	praiseDiaryService.setAsReaded(userId);
     	storeDiaryService.setAsReaded(userId);
+    	attentionService.setAsReaded(userId);
     	result.setCode(200);
     	result.setMessage("已设置所有未读消息为已读");
     	result.setResult(null);

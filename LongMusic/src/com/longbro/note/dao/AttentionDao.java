@@ -37,5 +37,12 @@ public class AttentionDao extends BaseDao{
 	public List<HashMap<String, String>> getMyMessage(String userId){
 		return this.selectList(getNamespace()+".getMyMessage",userId);
 	}
+	//2019-12-07设置所有未读消息为已读
+	public void setAsReaded(String userId){
+		this.update(getNamespace()+".setAsReaded", userId);
+	}
+	public List<HashMap<String, String>> getMyAtten(String userId){
+		return this.selectList(getNamespace()+".getMyAtten",userId);
+	}
 }
 
