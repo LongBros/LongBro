@@ -50,7 +50,7 @@ function loadDiary(id){
 					title1=data.ntitle+"<span title=\"点击可播放喔\" style=\"cursor:pointer;color:red;\" onclick=\"playAudio('"+songId+"')\">▷</span><img style=\"width: 28px;height: 28px;\" src=\"../../image/picture/hot1.gif\">";
 				}
 				
-				document.title="《"+title+"》~'";
+				document.title="《"+title+"》~";
 				if(title.length>10){
 					title=title.substring(0,8)+"...";
 				}

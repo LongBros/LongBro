@@ -7,7 +7,7 @@
 		<result property="UUserId" column="u_User_Id" jdbcType="NUMERIC"/>
 		<result property="UUserSex" column="u_User_Sex" jdbcType="NUMERIC"/>
 		<result property="UCommentNum" column="u_Comment_Num" jdbcType="NUMERIC"/>
-		<result property="UPraisedNum" column="u_Praised_Num" jdbcType="NUMERIC"/>
+		<result property="blackNameList" column="u_black_namelist" jdbcType="NUMERIC"/>
 		<result property="UJoinTime" column="u_Join_Time" jdbcType="VARCHAR"/>
 		<result property="UStatus" column="u_Status" jdbcType="NUMERIC"/>
 		<result property="UBornTime" column="u_Born_Time" jdbcType="VARCHAR"/>
@@ -23,12 +23,12 @@
 	
 	<insert id="create" parameterType="com.longbro.note.bean.UserInfo">
 		INSERT INTO d_user_info
-		(u_Id,u_User_Name,u_User_Id,u_User_Sex,u_Comment_Num,u_Praised_Num,u_Join_Time,u_Status,u_Born_Time,u_Home_Song,u_autoplay_audio,u_recent_login,
+		(u_Id,u_User_Name,u_User_Id,u_User_Sex,u_Comment_Num,u_black_namelist,u_Join_Time,u_Status,u_Born_Time,u_Home_Song,u_autoplay_audio,u_recent_login,
 		u_Location,u_default_back)
 		VALUES 
 		(#{UId,jdbcType=NUMERIC}, #{UUserName,jdbcType=VARCHAR}, #{UUserId,jdbcType=NUMERIC}, 
 		#{UUserSex,jdbcType=NUMERIC}, #{UCommentNum,jdbcType=NUMERIC}, 
-		#{UPraisedNum,jdbcType=NUMERIC}, #{UJoinTime,jdbcType=VARCHAR}, 
+		#{blackNameList,jdbcType=NUMERIC}, #{UJoinTime,jdbcType=VARCHAR}, 
 		#{UStatus,jdbcType=NUMERIC}, #{UBornTime,jdbcType=VARCHAR}, 
 		#{UHomeSong,jdbcType=VARCHAR},#{autoPlay,jdbcType=NUMERIC},
 		#{lastLogin,jdbcType=VARCHAR},
@@ -37,7 +37,7 @@
 	
 	<select id="get"   parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Author">
 		SELECT u_Id UId,u_User_Name UUserName,u_User_Id UUserId,u_User_Sex UUserSex,
-		u_Comment_Num UCommentNum,u_Praised_Num UPraisedNum,u_Join_Time UJoinTime,
+		u_Comment_Num UCommentNum,u_black_namelist blackNameList,u_Join_Time UJoinTime,
 		u_Status UStatus,u_Born_Time UBornTime,u_Home_Song UHomeSong,u_Signature signature,
 		u_autoplay_audio autoPlay,u_Location location,u_default_back back,
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=#{UUserId}) likeNum,
@@ -78,8 +78,8 @@
 			<if test="UCommentNum != null">
 				u_Comment_Num=#{UCommentNum,jdbcType=NUMERIC},
 			</if>
-			<if test="UPraisedNum != null">
-				u_Praised_Num=#{UPraisedNum,jdbcType=NUMERIC},
+			<if test="blackNameList != null">
+				u_black_namelist=#{blackNameList,jdbcType=NUMERIC},
 			</if>
 			<if test="UJoinTime != null">
 				u_Join_Time=#{UJoinTime,jdbcType=VARCHAR},
@@ -155,5 +155,23 @@
 			and d.u_User_Id=#{_parameter}
 		</if>
 		;
+	</select>
+	<select id="getStatisticInfo" resultType="java.util.HashMap">
+		SELECT
+		(SELECT COUNT(1) FROM d_user_info) allUser,
+		(SELECT COUNT(1) FROM d_user_info WHERE u_Status=1) onLineUser,
+		(SELECT COUNT(1) FROM d_user_info WHERE TIMESTAMPDIFF(SECOND,u_Join_Time,SYSDATE())<![CDATA[ <= ]]>86400) oneDayUserNum,
+		(SELECT COUNT(1) FROM d_user_info WHERE DATEDIFF(SYSDATE(),u_Join_Time)<![CDATA[ <= ]]>7) oneWeekUserNum1,
+		(SELECT COUNT(1) FROM d_user_info WHERE TIMESTAMPDIFF(SECOND,u_Join_Time,SYSDATE())<![CDATA[ <= ]]>604800) oneWeekUserNum,
+		(SELECT COUNT(1) FROM d_user_info WHERE TIMESTAMPDIFF(SECOND,u_Join_Time,SYSDATE())<![CDATA[ <= ]]>2592000) oneMonthUserNum,
+		
+		(SELECT COUNT(1) FROM d_user_info WHERE u_Join_Time LIKE CONCAT('%',CURDATE(),'%')) todayUserNum,
+		
+		(SELECT COUNT(1) FROM d_diary) diaryNum,
+		(SELECT COUNT(1) FROM d_diary WHERE TIMESTAMPDIFF(SECOND,n_Time,SYSDATE())<![CDATA[ <= ]]>86400) oneDayDiaryNum,
+		(SELECT COUNT(1) FROM d_diary WHERE TIMESTAMPDIFF(SECOND,n_Time,SYSDATE())<![CDATA[ <= ]]>604800) oneWeekDiaryNum,
+		(SELECT COUNT(1) FROM d_diary WHERE TIMESTAMPDIFF(SECOND,n_Time,SYSDATE())<![CDATA[ <= ]]>2592000) oneMonthDiaryNum,
+		
+		(SELECT COUNT(1) FROM d_diary WHERE n_Time LIKE CONCAT('%',CURDATE(),'%')) todayDiaryNum;	
 	</select>
 </mapper>

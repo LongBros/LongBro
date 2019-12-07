@@ -45,5 +45,9 @@ public class UserInfoService{
 	public void updateUserInfo(UserInfo info){
 		dao.update(info);
 	}
+	//2019-12-06查询用户数、日记数量的统计信息
+	public HashMap<String,String> getStatisticInfo(){
+		return dao.getStatisticInfo();
+	}
 }
 

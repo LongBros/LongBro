@@ -44,5 +44,9 @@ public class UserInfoDao extends BaseDao<UserInfo>{
 	public List<HashMap<String, Object>> queryInteractNum(String userId){
 		return (List<HashMap<String, Object>>)this.selectList("queryInteractNum",userId);
 	}
+	//2019-12-06查询用户数、日记数量的统计信息
+	public HashMap<String,String> getStatisticInfo(){
+		return (HashMap<String,String>)this.selectOne("getStatisticInfo",null);
+	}
 }
 

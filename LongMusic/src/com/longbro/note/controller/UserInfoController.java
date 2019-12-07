@@ -245,4 +245,20 @@ public class UserInfoController{
 		user.setUUserId(Integer.parseInt(userId));
 		updateUserInfo(user);
     }
+    /**
+     * @desc 查询用户数、日记数量的统计信息
+     * @author zcl
+     * @date 2019年12月6日
+     * @return
+     */
+    @RequestMapping("getStatisticInfo")
+    @ResponseBody
+    public BaseResult<HashMap<String, String>> getStatisticInfo(){
+		BaseResult<HashMap<String, String>> result=new BaseResult<HashMap<String, String>>();
+		result.setResult(userInfoService.getStatisticInfo());
+		result.setCode(200);
+		result.setMessage("查询统计信息成功");
+		return result;
+		
+    }
 }

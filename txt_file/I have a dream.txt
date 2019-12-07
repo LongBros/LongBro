@@ -1,19 +1,7 @@
 112.74.173.44
 ZCL19952019.
 
-hui/diary/message.html
-src/com/longbro/note/bean/CommentDiary.map.xml
-src/com/longbro/note/bean/PraiseDiary.map.xml
-src/com/longbro/note/bean/StoreDiary.map.xml
-src/com/longbro/note/controller/PraiseDiaryController.java
-src/com/longbro/note/controller/StoreDiaryController.java
-src/com/longbro/note/dao/StoreDiaryDao.java
-src/com/longbro/note/service/StoreDiaryService.java
-hui/diary/author.html
-hui/diary/index.html
-hui/diary/js/index1.js
-src/com/longbro/note/bean/NoteBook.map.xml
-src/com/longbro/note/controller/NoteBookController.java
+
 
 
 <img style="width:700px;height:350px" src="http://112.74.173.44/res/images/diary/113701.jpg">

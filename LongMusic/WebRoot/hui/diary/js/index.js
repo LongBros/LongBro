@@ -181,7 +181,16 @@ function loadAuthorInfo(){
 		dataType:"Json",
 		success:function(data){
 			var sex=getSexById(data.uuserSex);
-//			document.title=document.title+data.uuserName+"'的日记~哆啦官网";
+			if(user!=author){//不是当前人时候的title显示
+				document.title="'"+document.title+data.uuserName+"'的日记~哆啦官网";
+			}else{//当前人
+				var url=document.URL+"";
+				if(url.indexOf("diary.html")!=-1){
+					document.title=document.title+"朕的日记~哆啦官网";
+				}else{
+					
+				}
+			}
 			document.getElementById("userId").innerText=author;
 			document.getElementById("userNameT").innerText=data.uuserName;
 			document.getElementById("userName").innerText=data.uuserName;

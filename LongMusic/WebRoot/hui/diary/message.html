@@ -269,7 +269,6 @@ function openTab(which){
 				}
 				for(var i=0;i<res.length;i++){
 					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].reviewer+"</a>在"+res[i].reviewTime+"评论了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>");
-
 				}
 			}
 		});
@@ -293,7 +292,7 @@ function openTab(which){
 					$(".contents").append("<div class='content'>暂时没有人给你的日记点赞喔</div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>在"+res[i].praiseTime+"赞了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].praiseTitle+"</a></div>");
+					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>在"+res[i].praiseTime+"赞了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a></div>");
 				}
 			}
 		});
@@ -305,7 +304,22 @@ function openTab(which){
 		tab5.style="background: white;color:black;";
 	}else if(which==4){//
 		$(".contents").text("");
-		$(".contents").append("<div class='content'><center>静候此功能上线喔</center></div>");
+		$.ajax({
+			url:"../../note/store/getMyMessage.do?userId="+user,
+			type:"get",
+			async:false,
+			dataType:"Json",
+			success:function(data){
+				//type,diaryId,storer,storeTime,readStatus,storerName,diaryTitle
+				var res=data.result;
+				if(res.length<1){
+					$(".contents").append("<div class='content'>暂时没有人收藏你的日记喔</div>");
+				}
+				for(var i=0;i<res.length;i++){
+					$(".contents").append("<div class='content'>用户<a href='author.html?author="+res[i].storer+"' target='_blank'>"+res[i].storerName+"</a>在"+res[i].storeTime+"收藏了你的<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a></div>");
+				}
+			}
+		});
 		tab0.style="background: white;color:black;";
 		tab1.style="background: white;color:black;";
 		tab2.style="background: white;color:black;";

@@ -152,6 +152,11 @@
 		<if test="NWritter!=null and NWritter!=''"><!-- 日记作者 -->
 			 and n_Writter=#{NWritter}
 		</if>
+		<!-- 查询排出黑名单的日记的数量此处的NBookid作当前登录用户使用 -->
+		<if test="NBookid!=null and NBookid!=''">
+			and !FIND_IN_SET(n_Writter,
+				CONCAT('\'1,',(SELECT u_black_namelist FROM d_user_info WHERE u_User_Id=#{NBookid}),',2\''))
+		</if>
 		ORDER BY n_Id desc;
 	</select>
 	<!-- 在diary.html界面使用，当前作者当前日记的上下篇切换功能	1上一篇，2下一篇 -->
