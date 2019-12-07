@@ -46,12 +46,12 @@ public class NoteBookController{
     	System.out.println("id:"+nb.getNId());
     	if(nb.getNId()==0){//无id时新增
         	noteBookService.addNote(nb);
-        	result.setMessage("日记发布成功");
+        	result.setMessage("日记发布成功，请勿重复提交");
 //        	log.info("日记发布成功");
     	}else{
         	nb.setUpdateTime(TimeUtil.time());
         	noteBookService.editDiary(nb);
-        	result.setMessage("日记修改成功");
+        	result.setMessage("日记修改成功，请勿重复提交");
 //        	log.info("日记修改成功");
     	}
     	result.setCode(200);

@@ -6,6 +6,7 @@
 var user=getCookie("userId")+"";
 var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
 loadNotice();
+var homeSongId="";
 /**
  * 1.根据是否登录设置菜单栏
  */
@@ -35,6 +36,7 @@ function getUser(){
 		document.getElementById("myHome").style.display="block";
 		document.getElementById("write").style.display="block";
 		document.getElementById("image").innerHTML=""+userNick+"";
+		document.getElementById("loginMobile").innerHTML=""+userNick+"";
 	}else{
 		document.getElementById("exit").style.display="none";
 		document.getElementById("login").style.display="block";
@@ -179,21 +181,34 @@ function loadAuthorInfo(){
 		async:false,
 		dataType:"Json",
 		success:function(data){
+			var url=document.URL+"";
 			var sex=getSexById(data.uuserSex);
 			if(user!=author){//不是当前人时候的title显示
 				document.title=""+document.title+"'"+data.uuserName+"'的日记~哆啦官网";
+				if(url.indexOf("author.html")!=-1){//别的作者的页面
+					var sid=data.uhomeSong;//家歌
+					homeSongId=sid;
+					ifAutoPlay(homeSongId);
+				}
 			}else{//当前人
-				var url=document.URL+"";
 				if(url.indexOf("diary.html")!=-1){
 					document.title=document.title+"朕的日记~哆啦官网";
-				}else{
-					
+				}else if(url.indexOf("author.html")!=-1){//我的作者页
+					document.title="朕的日记~哆啦官网";
+					var sid=data.uhomeSong;//家歌
+					homeSongId=sid;
+					ifAutoPlay(homeSongId);
+				}else if(url.indexOf("myHome.html")!=-1){//我的家园页
+					document.title="我的家园~哆啦官网";
+					var sid=data.uhomeSong;//家歌
+					homeSongId=sid;
+					ifAutoPlay(homeSongId);
 				}
 			}
 			document.getElementById("userId").innerText=author;
 			document.getElementById("userNameT").innerText=data.uuserName;
 			document.getElementById("userName").innerText=data.uuserName;
-			document.getElementById("homeSong").innerText=data.uhomeSong;
+			document.getElementById("homeSong").innerText=data.homeSongName;
 			document.getElementById("signature").innerText=data.signature;
 			document.getElementById("sex").innerText=sex;
 			document.getElementById("joinTime").innerText="加入时间："+data.ujoinTime;
@@ -307,7 +322,6 @@ function attenAuthor(){
 	});
 }
 //14.得到登录用户的一些设置
-//返回是否自动播放
 function getSetting(){
 	$.ajax({
 		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
@@ -322,7 +336,7 @@ function getSetting(){
 		}
 	});
 }
-//检测访问设备
+//15.检测访问设备
 //平台、设备和操作系统
 function monitor(){
 	//平台、设备和操作系统
@@ -337,7 +351,65 @@ function monitor(){
 	    $(".rights").text("");
 	    document.getElementById("rights").style.display="none";
 	    document.getElementById("contents").style.marginLeft="10px";
-	    document.getElementById("contents").style.width="500px";
-	    document.getElementById("diary").style.width="460px";
+	    document.getElementById("contents").style.width="400px";
+	    document.getElementById("diary").style.width="320px";
+	}
+}
+//16.播放与暂停自己或别人的家歌
+function playHomeSong(){
+	var btn=document.getElementById("playBtn");
+	if(btn.innerText=="▷"){
+		$("#playBtn").text("||");
+		playAudio(homeSongId);
+		btn.title="点击停止播放";
+	}else{
+		var song=document.getElementById("song");
+		song.src="";
+		$("#playBtn").text("▷");
+		btn.title="点击可播放喔";
+	}
+	
+}
+//17.根据登录用户对于音频的设置来处理是否播放音频
+function ifAutoPlay(songId){
+	var autoPlay=0;//1:自动播放，0、2:不播放
+	$.ajax({
+		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+			autoPlay=data.autoPlay;
+		}
+	});
+	if(autoPlay==1){//播放
+		playAudio(songId);
+	}
+}
+//18.播放用户家歌并修改为播放按钮
+function playAudio(sid){
+	var url="";
+	if(sid.substring(sid.length-5)==".html"){
+		url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
+	}else if(sid.substring(sid.length-3)==".kw"){
+		url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
+	}else if(sid.substring(sid.length-4)==".aac"||sid.substring(sid.length-4)==".m4a"||sid.substring(sid.length-4)==".mp3"){
+		url=sid;
+	}else{
+		url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
+	}
+	var song=document.getElementById("song");
+	song.src=url;
+	//修改
+	$("#playBtn").text("||");
+	var btn=document.getElementById("playBtn");
+	btn.title="点击暂停";
+}
+//手机端按钮登录
+function loginPhone(){
+	if(user!=""){
+		window.open("myHome.html", "_blank")
+	}else{
+		login_popup();
 	}
 }

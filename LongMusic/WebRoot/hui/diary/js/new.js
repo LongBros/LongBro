@@ -22,7 +22,10 @@ function writeNote(){
 	var wea=document.form.weather.value;
 	var mood=document.form.mood.value;
 	var title=document.form.title.value+"";
-	var content = ue.getContent();
+	var content=document.form.content.value+"";//手机端未使用富文本编辑器
+	if(content==""){//表示是电脑端
+		content = ue.getContent();
+	}
 	var allowcomment=document.form.allowcomment;
 	var authority=document.form.authority.value;
 	var category=document.form.category.value;

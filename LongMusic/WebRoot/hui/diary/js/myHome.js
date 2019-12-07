@@ -322,8 +322,8 @@ function loadInfo(){
 			string=string+"<span>个性签名：</span><input name='signature' value='"+data.signature+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(2)' title='点击保存'>&#xe676;</i><br>";
 			string=string+"<span>默认日记地址：</span><input name='location' value='"+data.location+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(3)' title='点击保存'>&#xe676;</i><br>";
 			//string=string+"<span>家歌选择：</span><font color='red'>"+data.uhomeSong+"</font><i class=\"Hui-iconfont\">&#xe6df;</i>(其他用户访问你的家园时会播放家歌)<br>";
-			string=string+"<span>我的黑名单(不看名单):";
-			string=string+"<span>音频自动播放：</span>";
+			string=string+"<span>我的黑名单(不看名单):~敬请期待^_^<br>";
+			string=string+"<span>音频自动播放(日记音频及用户家歌)：</span>";
 			var play=data.autoPlay;
 			var tips=new Array("弹出提示是否播放","自动播放","不自动播放");
 			for(var i=0;i<tips.length;i++){

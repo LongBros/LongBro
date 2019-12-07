@@ -1,123 +1,72 @@
-﻿<!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html>
 <head>
-<title></title>
-<meta name="keywords" content="">
-<meta name="description" content="">
 <meta charset="utf-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
 <link rel="Shortcut Icon" href="../../image/logo/dlam.jpg" />
+
 <!--[if lt IE 9]>
 <script type="text/javascript" src="lib/html5shiv.js"></script>
 <script type="text/javascript" src="lib/respond.min.js"></script>
 <![endif]-->
-<link rel="stylesheet" type="text/css" href="../../css/index1.css">
-<link rel="stylesheet" type="text/css" href="css/index.css"><!-- 回顶部 -->
-
 <link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
 <link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
-<script type="text/javascript" src="../../js/jquery.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script type="text/javascript" src="js/index1.js"></script>
-
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
+<link rel="stylesheet" type="text/css" href="../../css/index1.css">
 
+<!--/meta 作为公共模版分离出去-->
+<script type="text/javascript" src="../../js/jquery.js"></script>
+<script type="text/javascript" src="../../js/myjs/timeDeal.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/new.js"></script>
+
+<title>写新日记 - 哆啦日记</title>
+<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <style type="text/css">
-	.contents{
-		width: 55%;
-		margin-left: 420px;
-		margin-top: 30px;
-		background:white ;
+	body {
+		background-color: #e2e2e2;
 	}
-	.diarys{
+	#isphone{
+		margin-left: 20px;
 	}
-	.diary{
-		padding: 10px;
-		background-color: white;
-		padding-bottom: 5px;
-		cursor: pointer;
+	aside{
+		float: right;
 	}
-	.diary img{
+	.expre{
+		
+		margin-left: 70px;
+		margin-top: 15px;
+	}
+	.expre img{
 		width: 20px;
 		height: 24px;
 		padding: 1px;
-	}
-	.info{
-		color: gray;
-		font-size: 10px;
-	}
-	.zan{
-		float:right;
-		margin-right: 15px;
-	}
-	.rights{
-		top: 75px;
-		left:38px;
-		width:356px;
-		position:fixed;
-		float: right;
-		background:white;
-		height: 520px;
-	}
-	.rights img{
-		width: 124px;
-		height: 180px;
-		padding: 1px;
-		margin-left:20px;
-		margin-top:20px;
-		border-radius:5px;
-	}
-	.rights .perStatistic{
-		padding-left: 20px;
-		margin-top: 10px;
-		padding-bottom: 10px;
-	}
-	.rights .perInfo{
-		padding-left: 20px;
-		margin-top: 10px;
-		padding-bottom: 10px;
-	}
-	.rights .activeInfo{
-		padding-left: 20px;
-		margin-top: 20px;
-	}
-	.activeInfo span{
-		padding-left: 5px;
-	}
-	.pages{
-		vertical-align: middle;
-		text-align: center;
-		padding-top: 20px;
-		padding-bottom: 20px;
-	}
-	.pages span{
-		width:30px;
-		height:30px;
-		text-align:center;
-		line-height:30px;
-		display:inline-block;
-		background-color:#e2e2e2; 
+		/*display:none;隐藏后不占空间*/
+		/*visibility:visible;*//*隐藏后仍占空间*/
 	}
 </style>
-<body id="bodys" style="background:url(../../res/images/back/back3.jpg)">
+<body>
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
 		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="">哆啦日记</a> 
-		<a class="logo navbar-logo-m f-l mr-10 visible-xs" href="newDiary.html">写日记</a> 
+		<a class="logo navbar-logo-m f-l mr-10 visible-xs" href="index.html">首页</a> 
 			<span class="logo navbar-slogan f-l mr-10 hidden-xs">Doranote</span> 
 			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" onclick="loginPhone()" id="loginMobile">登录</a>
-				<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+			
+		<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
 			<ul class="cl">
 				<li id="homepage" style="cursor:pointer;" onclick="openNewPage('1')">首页</li>
 				<li class="dropDown dropDown_hover">
@@ -129,7 +78,7 @@
 						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
 						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
-			</li>
+				</li>
 				<li id="Hui-msg" class="dropDown right dropDown_hover"> <a href="#" title="消息"><span class="badge badge-danger" id="unReadNum"></span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> 
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" data-val="red" title="公告数目">公告<font color="red"><span id="advNum"></span></font></a></li>
@@ -139,7 +88,7 @@
 						<li><a href="javascript:;" data-val="yellow" title="点击后消息标记为已读" id="cleanBtn" style="display:none" onclick="setAsReaded()">朕已阅✔</a></li>
 						<li><a href="javascript:;" data-val="yellow" title="消息设置">设置</a></li>
 					</ul>
-				</li>
+				</li>			
 				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
@@ -185,72 +134,69 @@
 					</div>
 				</div>
 			</div>
+			
 		</div>	
 
-<div class="contents" id="contents">
-	<div class="pages" style="cursor: pointer;">
-	</div>
-	<div class="diarys" id="diarys">
-		<div class="diary" >
-			我是内容<br>
-			LongBro	2019-10-12 23:00:52 星期六 |《我又想你了》  广东省广州市
-			<div class="zan">
-				<i class="Hui-iconfont">&#xe725;</i>2000&nbsp;
-				<i class="Hui-iconfont">&#xe622;</i>66&nbsp;
-				<i class="Hui-iconfont">&#xe66d;</i>8
-			</div>
-		</div>
-	</div>
-	<div class="pages" style="cursor: pointer;">
-	</div>
-</div>
-
-<div class="rights" id="rights">
-		<img src='../../image/logo/dlam.jpg' class='touxiang'>
-		<button id="attention" onclick="attenAuthor()"></button>
-
-	<div class="perStatistic">
-		关注：<span title="她关注的人" id="careNum">0</span>&emsp;粉丝：<span title="关注她的人" id="noticedNum">0</span>&emsp;
-		喜欢：<span title="她喜欢的日记" id="likeNum">0</span>&emsp;收藏：<span title="她收藏的日记" id="storeNum">0</span><br>	
-		被阅读量：<span title="她的日记总被阅读量" id="visitedNum">0</span>&emsp;阅读量：<span title="她的阅读量" id="visitNum">0</span>&emsp;被评论数：<span title="她的日记总被评论量" id="comedNum">0</span>
-		&emsp;被赞：<span title="她的日记总被赞数量" id="praisedNum">0</span>
-	</div>
-	<hr>
-	<div class="perInfo">
-		<span id="userNameT">LongBro</span><br>
-		昵称：<span id="userName">LongBro</span><br>
-		哆啦ID：<span id="userId">88888888</span><br>
-		家歌：<span id="homeSong">四块五</span>
-		<span id="playBtn" title="点击可播放喔" style="cursor:pointer;color:red;" onclick="playHomeSong()">▷</span><br>
-		<audio id="song" src="" autoplay="autoplay" controls="controls" style="float: left;margin-left: 20px;margin-top: 10px;display:none"></audio>
+<script> 
+/* $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js',function(){  
+ alert(remote_ip_info.country);//国家  
+ alert(remote_ip_info.province);//省份  
+ alert(remote_ip_info.city);//城市  
+});   */
+</script>
+<font color="red" style="margin-left: 100px;margin-top: 10px;"><span id="tip"></span></font>
+<div id="isphone"><!-- 手机端使用，默认隐藏 -->
+	<form name="form">
+		<br>城市：<input type="text" id="location" name="location" value="广东省广州市" placeholder="请输入城市">
+	<br>天气：<input type="text" id="weather" name="weather" style="display:none" value="0">
+	<i class="Hui-iconfont" style="font-size:18px;color:pink" id="sunny" title="晴" onclick="changeWea('0')">&#xe6ae;</i><!-- 晴 -->
+				<i class="Hui-iconfont" style="font-size:18px" title="雾" id="foggy" onclick="changeWea('1')">&#xe6af;</i>
+				<i class="Hui-iconfont" style="font-size:18px" title="霾" id="hazing" onclick="changeWea('2')">&#xe6ad;</i>
+				<i class="Hui-iconfont" style="font-size:18px" title="阴" id="overcast" onclick="changeWea('3')">&#xe6b1;</i><!-- 阴 -->
+				<i class="Hui-iconfont" style="font-size:18px" title="雨" id="rainy" onclick="changeWea('4')">&#xe6b2;</i><!-- 雨 -->
+				<i class="Hui-iconfont" style="font-size:18px" title="雪" id="snowy" onclick="changeWea('5')">&#xe6b0;</i>
+	<br>心情：<input type="text" id="mood" name="mood" style="display:none" value="0">
+		<i class="Hui-iconfont" style="font-size:18px;color:pink" id="happy" onclick="changeMood('0')" title="开心">&#xe668;</i>
+				<i class="Hui-iconfont" style="font-size:18px" id="smile" onclick="changeMood('1')" title="微笑">&#xe656;</i>
+				<i class="Hui-iconfont" style="font-size:18px" id="cry" onclick="changeMood('2')" title="哭脸">&#xe688;</i>
+				<i class="Hui-iconfont" style="font-size:18px" id="angry" onclick="changeMood('3')" title="愤怒">&#xe65d;</i>
+	<br>标题：<input id="title" name="title" type="text" value="" placeholder="给你的日记加个标题吧^-^(可空)">
+	<br>内容：<div><textarea name="content" rows="6" cols="70"placeholder="在这里输入内容"></textarea></div>
+	<br>评论：(选中后日记可被评论)<input type="checkbox" id="allowcomment" checked name="allowcomment">						
+	<br>权限：<select name="authority" id="authority" >
+					<option value="0" selected="selected">完全公开</option>
+					<option value="1">自己可见</option>
+					<option value="2">登录可见</option>
+				</select>
+	<br>分类：<select name="category" id="category" >
+						<option value="0">生活日记</option>
+						<option value="1">工作笔记</option>
+						<option value="2">idea</option>
+						<option value="3">诗词(文学)</option>
+						<option value="4">深度好文</option>
+					</select>
+	<br><a onClick="writeNote();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i>发布</a>							
 		
-		性别：<span id="sex">男</span><br>
-		个性签名：<span id="signature">自先沉稳，而后爱人</span><br>
-	</div>
-	<hr>
-	<div class="activeInfo">
-		<i class="Hui-iconfont">&#xe690;</i><span id="joinTime">加入时间：</span><br>
-		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：</span><br>
-	</div>
+	</form>
 </div>
-<div class="toTop">
-	<a href="#" title="点我回顶部喔">^^</a>
-</div>
+
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
 <script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
-<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
-<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer /作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="../lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+<script type="text/javascript" src="../lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="../lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="../lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="../lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="../lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="../lib/ueditor/1.4.3/ueditor.config.js"></script> 
+<script type="text/javascript" src="../lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
+<script type="text/javascript" src="../lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
-function GetQueryString(name)
-{
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-}
+
 $(".login").on("click", login_popup),function() {
     var e = [];
     $(".modal").on("show.bs.modal",
@@ -265,19 +211,30 @@ $(".login").on("click", login_popup),function() {
         o.html(t)
     })
 } ();
-var author=GetQueryString("author");//被查看的用户
-var user=getCookie("userId")+"";//当前登录用户
-$(function(){
-	getUser();
-	loadAuthorInfo();
-	setPage(author,perPage,'');//作者页不需过滤黑名单，当前登录人不传
-	loadDiary(author,1,perPage,'');//作者页不需过滤黑名单，当前登录人不传
-	ifAttention();
-	if(user!=""){
-		getSetting();//加载登录用户的设置
-	}
-	monitor();//手机访问时隐藏左边栏目
-});
-</script> 
+getUser();
+var user=getCookie("userId")+"";
+document.getElementById("tip").innerText="欢迎使用哆啦日记网，记录你生活的点点滴滴";
+if(user==""){
+	alert("登录后方可写日记");
+	document.getElementById("tip").innerText="请先登录后再写日记！(注册功能暂未开放，欢迎联系1459892910索要账号)";
+	login_popup();
+}else{
+	setLocation(); 
+}
+var ue = UE.getEditor('editor');
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+var id=0;
+id=GetQueryString("id");
+if(id!=null&&id!=""){
+	loadDiaryById(id);
+	document.title="编辑日记-哆啦日记";
+}
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
 </body>
 </html>

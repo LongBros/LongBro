@@ -132,9 +132,10 @@
 <body id="bodys" style="background:url(../../res/images/back/back3.jpg)">
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
-		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="">哆啦日记</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">Ying</a> 
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="">哆啦日记</a> 
+		<a class="logo navbar-logo-m f-l mr-10 visible-xs" href="newDiary.html">写日记</a> 
 			<span class="logo navbar-slogan f-l mr-10 hidden-xs">Doranote</span> 
-			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" onclick="loginPhone()" id="loginMobile">登录</a>
 				<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
 			<ul class="cl">
 				<li id="homepage" style="cursor:pointer;" onclick="openNewPage('1')">首页</li>
@@ -274,8 +275,8 @@
 	</div>
 	<hr>
 	<div class="activeInfo">
-		<i class="Hui-iconfont">&#xe690;</i><span id="joinTime">加入时间：2019.09.28 11:26</span><br>
-		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：2019.09.28 11:26</span><br>
+		<i class="Hui-iconfont">&#xe690;</i><span id="joinTime">加入时间：</span><br>
+		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：</span><br>
 	</div>
 </div>
 <div class="toTop">

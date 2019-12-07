@@ -64,9 +64,10 @@
 <body>
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
-		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="">哆啦日记</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="">Ying</a> 
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="">哆啦日记</a> 
+		<a class="logo navbar-logo-m f-l mr-10 visible-xs" href="index.html">首页</a> 
 			<span class="logo navbar-slogan f-l mr-10 hidden-xs">Doranote</span> 
-			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" onclick="loginPhone()" id="loginMobile">登录</a>
 			
 		<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
 			<ul class="cl">
@@ -147,7 +148,7 @@
 });   */
 </script>
 <font color="red" style="margin-left: 100px;margin-top: 10px;"><span id="tip">您当前处于访客写日记模式，日记面临丢失风险，登录后获得所写日记的专属权！</span></font>
-<article class="page-container">
+<article class="page-container" id="notPhone">
 	<form class="form form-horizontal" name="form" id="form-article-add">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-1">城市：</label>
@@ -179,13 +180,13 @@
 				<input id="title" name="title" type="text" class="input-text" value="" placeholder="给你的日记加个标题吧^-^(可空)">
 			</div>
 		</div>
-		<!-- <div class="row cl">
+		<div class="row cl" style="display:none"><!-- 配合手机端共用一个方法 -->
 			<label class="form-label col-xs-4 col-sm-1">内容：</label>
 			<div class="formControls col-xs-8 col-sm-10">
 				<textarea rows="16" name="content" id="content" class="textarea" onkeyup="calcInput()" placeholder="说点什么吧...最少输入10个字符"></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length" id="inputNum">0</em>/2000</p>
 			</div>
-		</div> -->
+		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-1">内容：</label>
 			<div class="formControls col-xs-8 col-sm-10">
@@ -287,7 +288,7 @@ $(".login").on("click", login_popup),function() {
 } ();
 getUser();
 setLocation(); 
-
+monitor();//手机访问时隐藏左边栏目
 //alert(document.cookie)
 var user=getCookie("userId")+"";
 document.getElementById("tip").innerText="欢迎使用哆啦日记网，记录你生活的点点滴滴";
