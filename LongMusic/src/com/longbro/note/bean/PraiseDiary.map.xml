@@ -105,6 +105,8 @@
 		from d_praise dp
 		LEFT JOIN d_user_info dui ON dp.p_Praiser=dui.u_User_Id
 		LEFT JOIN d_diary dd ON dp.p_Diary=dd.n_Id
-	    WHERE dp.p_Praised=#{userId};
+	    WHERE dp.p_Praised=#{userId}
+	    order by dp.p_Praise_Time desc
+	    ;
 	</select>
 </mapper>

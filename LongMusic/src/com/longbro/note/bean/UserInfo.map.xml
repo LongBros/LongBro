@@ -35,10 +35,11 @@
 		#{location,jdbcType=VARCHAR},#{back,jdbcType=VARCHAR})
 	</insert>
 	
-	<select id="get"   parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Author">
+	<select id="get" parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Author">
 		SELECT u_Id UId,u_User_Name UUserName,u_User_Id UUserId,u_User_Sex UUserSex,
 		u_Comment_Num UCommentNum,u_black_namelist blackNameList,u_Join_Time UJoinTime,
-		u_Status UStatus,u_Born_Time UBornTime,u_Home_Song UHomeSong,u_Signature signature,
+		u_Status UStatus,u_Born_Time UBornTime,
+		u_Home_Song UHomeSong,s.songName homeSongName,u_Signature signature,
 		u_autoplay_audio autoPlay,u_Location location,u_default_back back,
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=#{UUserId}) likeNum,
 		(SELECT COUNT(1) FROM d_store WHERE s_Storer=#{UUserId}) storeNum,
@@ -46,7 +47,8 @@
 		(SELECT COUNT(1) FROM d_visit WHERE v_Visited=#{UUserId}) visitedNum,
 		(SELECT COUNT(1) FROM d_notice WHERE n_Noticer=#{UUserId}) noticeNum,
 		(SELECT COUNT(1) FROM d_notice WHERE n_Noticed=#{UUserId}) fanNum
-		FROM d_user_info 
+		FROM d_user_info dui
+		LEFT JOIN song s ON dui.u_Home_Song=s.sourceId
 		WHERE 
 		u_User_Id=#{UUserId}
 	</select>

@@ -68,7 +68,9 @@
 				dui.u_User_Name noticerName
 		from d_notice dn
 		LEFT JOIN d_user_info dui ON dn.n_Noticer=dui.u_User_Id
-	    WHERE dn.n_Noticed=#{userId};
+	    WHERE dn.n_Noticed=#{userId}
+	    order by dn.n_Notice_Time desc
+	    ;
 	</select>
 	
 </mapper>

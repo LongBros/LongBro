@@ -92,6 +92,8 @@
 		from d_store ds
 		LEFT JOIN d_user_info dui ON ds.s_Storer=dui.u_User_Id
 		LEFT JOIN d_diary dd ON ds.s_Diary=dd.n_Id
-	    WHERE ds.s_Stored=#{userId};
+	    WHERE ds.s_Stored=#{userId}
+	    order by ds.s_Store_Time desc
+	    ;
 	</select>
 </mapper>

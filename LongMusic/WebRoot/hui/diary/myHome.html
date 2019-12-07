@@ -115,7 +115,7 @@
 		</div>
 
 
-<div class="contents">
+<div class="contents" id="contents">
 	<div class="tabs">
 		&emsp;&emsp;<span onclick="loadMyDiary('1','10')" id="my">我的日记</span>
 		&emsp;&emsp;<span onclick="loadMyLove()" id="love">我的喜欢</span>
@@ -128,7 +128,7 @@
 	<div class="pages" style="cursor: pointer;">
 	</div>
 </div>
-<div class="rights">
+<div class="rights" id="rights">
 	 <img src='../../image/logo/dlam.jpg' class='touxiang'>
 	 <!-- <form action="../../note/userinfo/uploadHeadImage.do" method="post" enctype="multipart/form-data">
 		<input type="file" name="pic">
@@ -197,6 +197,7 @@ $(function(){
 	if(user!=""){
 		getSetting();//加载登录用户的设置
 	}
+	monitor();//手机访问时隐藏左边栏目
 });
 //12-02上传头像
 function uploadImg(){

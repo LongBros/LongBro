@@ -6,7 +6,6 @@
 var user=getCookie("userId")+"";
 var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
 loadNotice();
-
 /**
  * 1.根据是否登录设置菜单栏
  */
@@ -182,7 +181,7 @@ function loadAuthorInfo(){
 		success:function(data){
 			var sex=getSexById(data.uuserSex);
 			if(user!=author){//不是当前人时候的title显示
-				document.title="'"+document.title+data.uuserName+"'的日记~哆啦官网";
+				document.title=""+document.title+"'"+data.uuserName+"'的日记~哆啦官网";
 			}else{//当前人
 				var url=document.URL+"";
 				if(url.indexOf("diary.html")!=-1){
@@ -307,7 +306,7 @@ function attenAuthor(){
 		}, 
 	});
 }
-//得到登录用户的一些设置
+//14.得到登录用户的一些设置
 //返回是否自动播放
 function getSetting(){
 	$.ajax({
@@ -322,4 +321,23 @@ function getSetting(){
 			
 		}
 	});
+}
+//检测访问设备
+//平台、设备和操作系统
+function monitor(){
+	//平台、设备和操作系统
+	var system ={win : false,mac : false,xll : false};
+	//检测平台
+	var p = navigator.platform;
+	system.win = p.indexOf("Win") == 0;
+	system.mac = p.indexOf("Mac") == 0;
+	system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+	//跳转语句，如果是手机访问就自动跳转到wap.baidu.com页面
+	if(!system.win && !system.mac && !system.xll){
+	    $(".rights").text("");
+	    document.getElementById("rights").style.display="none";
+	    document.getElementById("contents").style.marginLeft="10px";
+	    document.getElementById("contents").style.width="500px";
+	    document.getElementById("diary").style.width="460px";
+	}
 }

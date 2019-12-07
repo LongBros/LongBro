@@ -343,9 +343,10 @@ function loadCom(){
 		url:"../../note/comment/getComByDiaryId.do?id="+id,
 		type:"get",
 		async:false,
-		success:function(data){
+		success:function(res){
+			var data=res.result;
 			for(var k=0;k<data.length;k++){
-				var con=data[k].ccomment;
+				var con=data[k].reviewContent;
 				con=con.replace(new RegExp("::::","gm"), ".jpg'>");
 				con=con.replace(new RegExp(":::","gm"), ".png'>");
 				con=con.replace(new RegExp("::","gm"), ".gif'>");
@@ -356,7 +357,11 @@ function loadCom(){
 				con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
 				
 				$('#comments').append("<hr>");
-				$('#comments').append("&nbsp;"+data[k].creviewTime);
+				var href="某本站访客";
+				if(data[k].reviewer!=''){
+					href="<a href='author.html?author="+data[k].reviewer+"' target='_blank'>"+data[k].reviewerName+"</a>";
+				}
+				$('#comments').append(href+"&nbsp;&nbsp;<span style='color:gray;font-size:10px;'>"+data[k].reviewTime+"</span>");
 				$('#comments').append("<br>"+con);
 			}
 			

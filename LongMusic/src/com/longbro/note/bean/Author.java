@@ -8,6 +8,7 @@ public class Author extends UserInfo{
 	private int visitedNum;//作者日记的总被阅读量
 	private int commentedNum;//作者日记的总被评论数
 	private int praisedNum;//作者日记的总被喜欢数量
+	private String homeSongName;//家歌歌名
 	public int getNoticeNum() {
 		return noticeNum;
 	}
@@ -49,6 +50,12 @@ public class Author extends UserInfo{
 	}
 	public void setPraisedNum(int praisedNum) {
 		this.praisedNum = praisedNum;
+	}
+	public String getHomeSongName() {
+		return homeSongName;
+	}
+	public void setHomeSongName(String homeSongName) {
+		this.homeSongName = homeSongName;
 	}
 	
 }

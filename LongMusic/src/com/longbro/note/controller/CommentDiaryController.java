@@ -54,9 +54,12 @@ public class CommentDiaryController{
      */
     @RequestMapping("getComByDiaryId")
     @ResponseBody
-    public List<CommentDiary> getComByDiaryId(int id){
-    	
-    	return commentDiaryService.getComByDiaryId(id);
+    public BaseResult<HashMap<String, String>> getComByDiaryId(int id){
+    	BaseResult<HashMap<String, String>> result=new BaseResult<>();
+    	result.setResult(commentDiaryService.getComByDiaryId(id));
+    	result.setCode(200);
+    	result.setMessage("查询日记评论成功");
+    	return result;
     }
     /**
      * 得到我的所有被评论的消息

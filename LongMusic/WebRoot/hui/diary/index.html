@@ -178,7 +178,7 @@
 			
 		</div>	
 
-<div class="contents">
+<div class="contents" id="contents">
 	<div class="pages" style="cursor: pointer;">
 	</div>
 	<div class="diarys" id="diarys">
@@ -196,7 +196,7 @@
 	</div>
 </div>
 
-<div class="rights">
+<div class="rights" id="rights">
 	<div class="website">
 		&emsp;哆啦日记<br>
 		哆啦日记，不仅仅是怀旧；哆啦日记，记录你生活的点点滴滴；哆啦日记，记录你生活的每一个
@@ -253,6 +253,7 @@ $(function(){
 	if(user!=""){
 		getSetting();//加载登录用户的设置
 	}
+	monitor();//手机访问时隐藏左边栏目
 });
 //打开新人榜对应新人
 function openAuthor(aid){

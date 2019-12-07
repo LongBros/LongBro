@@ -186,7 +186,7 @@
 			</div>
 		</div>	
 
-<div class="contents">
+<div class="contents" id="contents">
 	<div class="pages" style="cursor: pointer;">
 	</div>
 	<div class="diarys" id="diarys">
@@ -204,7 +204,7 @@
 	</div>
 </div>
 
-<div class="rights">
+<div class="rights" id="rights">
 		<img src='../../image/logo/dlam.jpg' class='touxiang'>
 		<button id="attention" onclick="attenAuthor()"></button>
 
@@ -272,6 +272,7 @@ $(function(){
 	if(user!=""){
 		getSetting();//加载登录用户的设置
 	}
+	monitor();//手机访问时隐藏左边栏目
 });
 </script> 
 </body>

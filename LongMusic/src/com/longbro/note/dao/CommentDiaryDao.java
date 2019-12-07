@@ -24,7 +24,7 @@ public class CommentDiaryDao extends BaseDao{
 		// TODO Auto-generated method stub
 		this.insert(getNamespace()+".create", bean);
 	}
-	public List<CommentDiary> getComByDiaryId(int id) {
+	public List<HashMap<String, String>> getComByDiaryId(int id) {
 		return this.selectList(getNamespace()+".get",id);
 	}
 	//2019-11-16设置所有未读消息为已读

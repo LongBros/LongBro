@@ -207,7 +207,7 @@
 		</div>	
 
 
-<div class="contents">
+<div class="contents" id="contents">
 	<span id="pre" style="float: left;margin-left: 20px;margin-top: 10px;"></span>
 	<span id="next" style="float: right;margin-right: 20px;margin-top: 10px;"></span>
 	<audio id="song" src="" autoplay="autoplay" controls="controls" style="float: left;margin-left: 20px;margin-top: 10px;display:none"></audio>
@@ -253,7 +253,7 @@
 		
 		</div>
 </div>
-<div class="rights">
+<div class="rights" id="rights">
 		<img src='../../image/logo/dlam.jpg' class='touxiang'>
 		<!-- 自己的账号显示上传头像按钮，别人的根据有没有关注而显示 -->
 		<button id="attention" onclick="attenAuthor()"></button>
@@ -330,6 +330,7 @@ $(function(){
 	if(user!=""){
 		getSetting();//加载登录用户的设置
 	}
+	monitor();//手机访问时隐藏左边栏目
 });
 </script> 
 </body>

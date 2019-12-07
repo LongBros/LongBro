@@ -3,6 +3,7 @@ package com.longbro.note.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gson.Gson;
 import com.longbro.note.bean.Author;
 import com.longbro.note.bean.UserInfo;
 import com.longbro.note.dao.UserInfoDao;
@@ -34,6 +35,8 @@ public class UserInfoDao extends BaseDao<UserInfo>{
 		HashMap<String,String> map=new HashMap<>();
 		map.put("acc", acc);
 		map.put("pass", pass);
+		System.out.println(">>>>>>>>>>登录信息："+new Gson().toJson(map));
+
 		return (UserInfo)this.selectOne(getNamespace()+".loginNote", map);
 	}
 	//2019-11-16查询用户未读的被赞、评论、、、数量
