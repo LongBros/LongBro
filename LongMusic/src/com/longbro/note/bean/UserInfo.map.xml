@@ -39,6 +39,7 @@
 		SELECT u_Id UId,u_User_Name UUserName,u_User_Id UUserId,u_User_Sex UUserSex,
 		u_Comment_Num UCommentNum,u_black_namelist blackNameList,u_Join_Time UJoinTime,
 		u_Status UStatus,u_Born_Time UBornTime,
+		u_recent_login lastLogin,u_Head_Image headImage,
 		u_Home_Song UHomeSong,s.songName homeSongName,u_Signature signature,
 		u_autoplay_audio autoPlay,u_Location location,u_default_back back,
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=#{UUserId}) likeNum,

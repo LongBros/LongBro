@@ -103,7 +103,15 @@ public class UserInfoController{
     public BaseResult<String> loginNote(String acc,String pass,HttpServletResponse response) throws UnsupportedEncodingException{
     	BaseResult<String> result=new BaseResult<String>();
     	UserInfo ui=userInfoService.loginNote(acc, pass);
-    	if(ui!=null){
+    	if(ui!=null){//1.设置最近登录时间2.存cookie
+        	System.out.println("查询到的登录数据"+new Gson().toJson(ui));
+        	//设置最近登录时间，直接使用ui会报数据库中编码乱码错误？
+        	UserInfo ui1=new UserInfo();
+    		ui1.setLastLogin(TimeUtil.time());
+    		ui1.setUId(ui.getUId());
+    		ui1.setUUserId(ui.getUUserId());;
+    		userInfoService.updateUserInfo(ui1);
+    		//存cookie
     		Cookie cookie=new Cookie("userId", acc);
     		cookie.setMaxAge(30*24*60*60);
     		cookie.setPath("/");

@@ -10,23 +10,23 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="Bookmark" href="/favicon.ico" >
-<link rel="Shortcut Icon" href="../../image/logo/dlam.jpg" />
-<script type="text/javascript" src="js/index.js"></script>
-<link rel="stylesheet" type="text/css" href="../../css/index1.css">
-<link rel="stylesheet" type="text/css" href="css/index.css"><!-- 回顶部 -->
+<link rel="Shortcut Icon" href="/image/logo/dlam.jpg" />
+<script type="text/javascript" src="hui/diary/js/index.js"></script>
+<link rel="stylesheet" type="text/css" href="css/index1.css">
+<link rel="stylesheet" type="text/css" href="hui/diary/css/index.css"><!-- 回顶部 -->
 <!--[if lt IE 9]>
 <script type="text/javascript" src="lib/html5shiv.js"></script>
 <script type="text/javascript" src="lib/respond.min.js"></script>
 <![endif]-->
-<link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
-<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
-<link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
-<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
-<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
-<script type="text/javascript" src="../../js/jquery.js"></script>
-<script type="text/javascript" src="js/index.js"></script><!-- 获取当前登录用户 -->
-<script type="text/javascript" src="js/index1.js"></script><!-- 处理日记 -->
-<script type="text/javascript" src="../../js/myjs/timeDeal.js"></script><!-- 时间处理函数 -->
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="hui/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/css/style.css" />
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="hui/diary/js/index.js"></script><!-- 获取当前登录用户 -->
+<script type="text/javascript" src="hui/diary/js/index1.js"></script><!-- 处理日记 -->
+<script type="text/javascript" src="js/myjs/timeDeal.js"></script><!-- 时间处理函数 -->
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
@@ -89,7 +89,7 @@
 </style>
 </head>
 
-<body id="bodys" style="background:url(../../res/images/back/back3.jpg)">
+<body id="bodys" style="background:url(res/images/back/back3.jpg)">
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
 		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/">哆啦日记</a> 
@@ -187,13 +187,13 @@
 	<a href="#" title="点我回顶部喔">^^</a>
 </div>
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
-<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
-<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="hui/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="hui/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="hui/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="hui/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="../lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+<script type="text/javascript" src="hui/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
 <script type="text/javascript">
 var user=getCookie("userId")+"";//当前登录用户
 getUser();
@@ -239,7 +239,7 @@ function openTab(which){
 	}else if(which==1){//关注
 		$(".contents").text("");
 		$.ajax({
-			url:"../../note/notice/getMyMessage.do?userId="+user,
+			url:"note/notice/getMyMessage.do?userId="+user,
 			type:"get",
 			async:false,
 			dataType:"Json",
@@ -254,7 +254,7 @@ function openTab(which){
 					$(".contents").append("<div class='content'><center>暂时没有人关注你喔，快去发布一些吸引人的日记吧！</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].noticerName+"</a>关注了你<font color='gray' size='2px'><span>"+res[i].noticeTime+"</span></font></div><hr>");
+					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].noticerName+"</a>&emsp;关注了你<font color='gray' size='2px'><span>"+res[i].noticeTime+"</span></font></div><hr>");
 				}
 				
 			}
@@ -268,7 +268,7 @@ function openTab(which){
 	}else if(which==2){//被评论消息
 		$(".contents").text("");
 		$.ajax({
-			url:"../../note/comment/getMyMessage.do?userId="+user,
+			url:"note/comment/getMyMessage.do?userId="+user,
 			type:"get",
 			async:false,
 			dataType:"Json",
@@ -285,7 +285,7 @@ function openTab(which){
 					if(res[i].reviewer=='123141414'||res[i].reviewer==''){
 						$(".contents").append("<div class='content'>本站访客(未登录用户)评论了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 					}else{
-						$(".contents").append("<div class='content'><a href='author.html?author="+res[i].reviewer+"' target='_blank'>"+res[i].viewerName+"</a>评论了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
+						$(".contents").append("<div class='content'><a href='author.html?author="+res[i].reviewer+"' target='_blank'>"+res[i].viewerName+"</a>&emsp;评论了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 					}
 				}
 			}
@@ -299,7 +299,7 @@ function openTab(which){
 	}else if(which==3){//被点赞消息
 		$(".contents").text("");
 		$.ajax({
-			url:"../../note/praise/getMyMessage.do?userId="+user,
+			url:"note/praise/getMyMessage.do?userId="+user,
 			type:"get",
 			async:false,
 			dataType:"Json",
@@ -313,7 +313,7 @@ function openTab(which){
 					$(".contents").append("<div class='content'>暂时没有人给你的日记点赞喔，，快去发布一些吸引人的日记吧！</div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>赞了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].praiseTime+"</span></font></div><hr>");
+					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>&emsp;赞了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].praiseTime+"</span></font></div><hr>");
 				}
 			}
 		});
@@ -326,7 +326,7 @@ function openTab(which){
 	}else if(which==4){//被收藏消息
 		$(".contents").text("");
 		$.ajax({
-			url:"../../note/store/getMyMessage.do?userId="+user,
+			url:"note/store/getMyMessage.do?userId="+user,
 			type:"get",
 			async:false,
 			dataType:"Json",
@@ -340,7 +340,7 @@ function openTab(which){
 					$(".contents").append("<div class='content'><center>暂时没有人收藏你的日记喔，快去发布一些吸引人的日记吧！</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].storer+"' target='_blank'>"+res[i].storerName+"</a>收藏了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].storeTime+"</span></font></div>");
+					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].storer+"' target='_blank'>"+res[i].storerName+"</a>&emsp;收藏了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].storeTime+"</span></font></div><hr>");
 				}
 			}
 		});

@@ -8,32 +8,32 @@
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="Bookmark" href="/favicon.ico" >
 <link rel="Shortcut Icon" href="/favicon.ico" />
-<link rel="Shortcut Icon" href="../../image/logo/dlam.jpg" />
+<link rel="Shortcut Icon" href="image/logo/dlam.jpg" />
 
 <!--[if lt IE 9]>
 <script type="text/javascript" src="lib/html5shiv.js"></script>
 <script type="text/javascript" src="lib/respond.min.js"></script>
 <![endif]-->
-<link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
-<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
-<link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
-<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
-<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="hui/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/css/style.css" />
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<link rel="stylesheet" type="text/css" href="../../css/index1.css">
+<link rel="stylesheet" type="text/css" href="css/index1.css">
 
 <!--/meta 作为公共模版分离出去-->
-<script type="text/javascript" src="../../js/jquery.js"></script>
-<script type="text/javascript" src="../../js/myjs/timeDeal.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script type="text/javascript" src="js/new.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/myjs/timeDeal.js"></script>
+<script type="text/javascript" src="hui/diary/js/index.js"></script>
+<script type="text/javascript" src="hui/diary/js/new.js"></script>
 
 <title>写新日记 - 哆啦日记</title>
-<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+<meta name="keywords" content="哆啦日记,写新日记">
+<meta name="description" content="哆啦日记,写新日记">
 </head>
 <style type="text/css">
 	body {
@@ -89,7 +89,7 @@
 						<li><a href="message.html" target='_blank' data-val="blue" title="获赞数目">获赞<font color="red"><span id="praiseNum"></span></font></a></li>
 						<li><a href="message.html" target='_blank' data-val="green" title="关注数目">关注<font color="red"><span id="noticeNum"></span></font></a></li>
 						<li><a href="javascript:;" data-val="yellow" title="点击后消息标记为已读" id="cleanBtn" style="display:none" onclick="setAsReaded()">朕已阅✔</a></li>
-						<li><a href="javascript:;" data-val="yellow" title="消息设置">设置</a></li>
+						<li><a href="message.html" data-val="yellow" title="消息设置">设置</a></li>
 					</ul>
 				</li>			
 				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
@@ -196,13 +196,13 @@
 		<div class="row cl">
 			<div class="formControls col-xs-8 col-sm-1"></div>
 			<div class="formControls col-xs-8 col-sm-6">
-				<img alt="嗷大喵表情" title="嗷大喵表情" style="width: 18px;height: 18px" src="../../image/expre/aodamiao/weixiao.gif" onmousedown="oocImage('0','0')">
-				<img alt="小黄脸表情" title="小黄脸表情" style="width: 18px;height: 18px" src="../../image/expre/huang/wx.gif" onmousedown="oocImage('1','0')">
-				<!-- <img alt="aru表情" title="aru表情" style="width: 18px;height: 18px" src="../../image/expre/aru/1.png" onmouseover="" onmousedown="oocImage('2')"> -->
-				<img alt="新贴吧表情" title="新贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/newtieba/a.png" onmouseover="" onmousedown="oocImage('3','0')">
-				<!--  <img alt="qq表情" title="qq表情" style="width: 18px;height: 18px" src="../../image/expre/qq/aini.gif" onmouseover="" onmousedown="oocImage('4')">-->
-				<img alt="贴吧表情" title="贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/tieba/a.png" onmouseover="" onmousedown="oocImage('5','0')">
-				<img alt="微博表情" title="微博表情" style="width: 18px;height: 18px" src="../../image/expre/weibo/aini.png" onmouseover="" onmousedown="oocImage('6','0')">
+				<img alt="嗷大喵表情" title="嗷大喵表情" style="width: 18px;height: 18px" src="image/expre/aodamiao/weixiao.gif" onmousedown="oocImage('0','0')">
+				<img alt="小黄脸表情" title="小黄脸表情" style="width: 18px;height: 18px" src="image/expre/huang/wx.gif" onmousedown="oocImage('1','0')">
+				<!-- <img alt="aru表情" title="aru表情" style="width: 18px;height: 18px" src="image/expre/aru/1.png" onmouseover="" onmousedown="oocImage('2')"> -->
+				<img alt="新贴吧表情" title="新贴吧表情" style="width: 18px;height: 18px" src="image/expre/newtieba/a.png" onmouseover="" onmousedown="oocImage('3','0')">
+				<!--  <img alt="qq表情" title="qq表情" style="width: 18px;height: 18px" src="image/expre/qq/aini.gif" onmouseover="" onmousedown="oocImage('4')">-->
+				<img alt="贴吧表情" title="贴吧表情" style="width: 18px;height: 18px" src="image/expre/tieba/a.png" onmouseover="" onmousedown="oocImage('5','0')">
+				<img alt="微博表情" title="微博表情" style="width: 18px;height: 18px" src="image/expre/weibo/aini.png" onmouseover="" onmousedown="oocImage('6','0')">
 			
 			</div>
 		</div>
@@ -256,20 +256,20 @@
 </article>
 
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
-<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script> 
-<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer /作为公共模版分离出去-->
+<script type="text/javascript" src="hui/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="hui/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="hui/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="hui/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer /作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="../lib/My97DatePicker/4.8/WdatePicker.js"></script>
-<script type="text/javascript" src="../lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
-<script type="text/javascript" src="../lib/jquery.validation/1.14.0/validate-methods.js"></script> 
-<script type="text/javascript" src="../lib/jquery.validation/1.14.0/messages_zh.js"></script>
-<script type="text/javascript" src="../lib/webuploader/0.1.5/webuploader.min.js"></script> 
-<script type="text/javascript" src="../lib/ueditor/1.4.3/ueditor.config.js"></script> 
-<script type="text/javascript" src="../lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
-<script type="text/javascript" src="../lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="hui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="hui/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="hui/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="hui/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="hui/lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="hui/lib/ueditor/1.4.3/ueditor.config.js"></script> 
+<script type="text/javascript" src="hui/lib/ueditor/1.4.3/ueditor.all.min.js"> </script> 
+<script type="text/javascript" src="hui/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
 
 $(".login").on("click", login_popup),function() {

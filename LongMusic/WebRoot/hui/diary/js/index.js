@@ -55,8 +55,10 @@ function login_popup() {
 function login(){
 	var acc=document.login_form.account_l.value;//账号，即哆啦id
 	var pass=document.login_form.password_l.value;
+//	var url="../../note/userinfo/loginNote.do?acc="+acc+"&pass="+pass;
+	var url="note/userinfo/loginNote.do?acc="+acc+"&pass="+pass;
 	$.ajax({
-		url:"../../note/userinfo/loginNote.do?acc="+acc+"&pass="+pass,
+		url:url,
 		async:true,
 		type:"POST",
 		dataType:"Json",
@@ -81,7 +83,7 @@ function openNewPage(which){
 	}else if(which=="3"){
 		window.open("new.html", "_blank")
 	}else if(which=="4"){
-		window.open("http://112.74.173.44/amaze/songsList.jsp", "_blank")
+		window.open("http://www.duola.vip/amaze/songsList.jsp", "_blank")
 	}else if(which=="5"){
 		alert("login")
 	}else if(which=="6"){
@@ -126,8 +128,10 @@ function getCookie(name){
 }
 //7.加载公告、收到的赞、关注……的数量并显示
 function loadNotice(){
+//	var url="../../note/userinfo/queryUnReadNum.do";
+	var url="note/userinfo/queryUnReadNum.do";
 	$.ajax({
-		url:"../../note/userinfo/queryUnReadNum.do",
+		url:url,
 		type:"post",
 		async:true,
 		dataType:"json",
@@ -155,8 +159,10 @@ function loadNotice(){
 }
 //8.一键设置为已读
 function setAsReaded(){
+//	var url="../../note/userinfo/setAsReaded.do";
+	var url="note/userinfo/setAsReaded.do";
 	$.ajax({
-		url:"../../note/userinfo/setAsReaded.do",
+		url:url,
 		type:"post",
 		async:true,
 		data:{
@@ -175,8 +181,10 @@ function setAsReaded(){
  * 9.2019-10-26加载作者的信息:关注信息，互动计数，基本信息，活跃信息
  */
 function loadAuthorInfo(){
+//	var url="../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+author;
+	var url="note/userinfo/getAuthorInfoByUserId.do?UUserId="+author;
 	$.ajax({
-		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+author,
+		url:url,
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -205,6 +213,7 @@ function loadAuthorInfo(){
 					ifAutoPlay(homeSongId);
 				}
 			}
+			document.getElementById("touxiang").src="image/tx/"+data.headImage+".jpg";
 			document.getElementById("userId").innerText=author;
 			document.getElementById("userNameT").innerText=data.uuserName;
 			document.getElementById("userName").innerText=data.uuserName;
@@ -212,14 +221,17 @@ function loadAuthorInfo(){
 			document.getElementById("signature").innerText=data.signature;
 			document.getElementById("sex").innerText=sex;
 			document.getElementById("joinTime").innerText="加入时间："+data.ujoinTime;
+			document.getElementById("recentLogin").innerText="最近登录："+data.lastLogin;//(data.lastLogin=="")?"":
 		}
 	});
 	setInteractNum(author);
 }
 //10.加载并设置某人的互动数量信息
 function setInteractNum(user){
+//	var url="../../note/userinfo/queryInteractNum.do";
+	var url="note/userinfo/queryInteractNum.do";
 	$.ajax({
-		url:"../../note/userinfo/queryInteractNum.do",
+		url:url,
 		type:"post",
 		async:true,
 		dataType:"json",
@@ -261,12 +273,14 @@ function getSexById(id){
 
 //12.判断当前登录用户是否已关注当前作者
 function ifAttention(){
+//	var url="../../note/notice/whetherHasNotice.do";
+	var url="note/notice/whetherHasNotice.do";
 	if(user==author){//当前登录用户查看自己时，不显示关注、已关注
 		return;
 	}
 	var ifAtt=0;//0表示未关注
 	$.ajax({
-		url:"../../note/notice/whetherHasNotice.do",
+		url:url,
 		type:"get",
 		async:false,
 		data:{
@@ -301,12 +315,12 @@ function attenAuthor(){
 	var text=attBtn.innerHTML+"";
 	var url="";//
 	if(text.indexOf("已关注")!=-1){//已关注情况取消关注
-		url="../../note/notice/cancelAtten.do";
+		url="note/notice/cancelAtten.do";
 		attBtn.innerHTML="关注<i class=\"Hui-iconfont\">&#xe716;</i>";
 		fanNum.innerText=parseInt(fanNum.innerText)-1;
 		alert("已取消关注！");
 	}else{
-		url="../../note/notice/noticeAuthor.do";
+		url="note/notice/noticeAuthor.do";
 		attBtn.innerHTML="已关注<i class=\"Hui-iconfont\">&#xe676;</i>";
 		fanNum.innerText=parseInt(fanNum.innerText)+1;
 		alert("已关注！");
@@ -323,15 +337,16 @@ function attenAuthor(){
 }
 //14.得到登录用户的一些设置
 function getSetting(){
+	var url="note/userinfo/getAuthorInfoByUserId.do?UUserId="+user;
 	$.ajax({
-		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
+		url:url,
 		type:"get",
 		async:false,
 		dataType:"Json",
 		success:function(data){
 			//设置背景
 			var body=document.getElementById("bodys");
-			body.style.background="url(../../res/images/back/"+data.back+")";
+			body.style.background="url(res/images/back/"+data.back+")";
 			
 		}
 	});
@@ -374,7 +389,7 @@ function playHomeSong(){
 function ifAutoPlay(songId){
 	var autoPlay=0;//1:自动播放，0、2:不播放
 	$.ajax({
-		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
+		url:"note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
 		type:"get",
 		async:false,
 		dataType:"Json",

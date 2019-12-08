@@ -25,7 +25,7 @@ function loadDiary(author,page,perPage,userId){
 	}
 	$("#diarys").text("");
 	$.ajax({
-		url:"../../note/diary/getDiaryBy.do",
+		url:"note/diary/getDiaryBy.do",
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -72,7 +72,7 @@ function loadDiary(author,page,perPage,userId){
 				}
 				
 				//<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;
-				$("#diarys").append("<div class=\"diary\"><img src='../../image/tx/"+data[i].headImage+".jpg' class='touxiang'><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
+				$("#diarys").append("<div class=\"diary\"><img src='image/tx/"+data[i].headImage+".jpg' class='touxiang'><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
 				+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName
 				+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
 				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>"+title+"</span>&nbsp;<span>"+(music=='1'?'<font color=\'red\' title=\'有音频喔\'>音</font>':'')+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation
@@ -157,11 +157,11 @@ function handleCon(content){
 //	con=con.replace(new RegExp("::::","gm"), ".jpg'>");
 //	con=con.replace(new RegExp(":::","gm"), ".png'>");
 //	con=con.replace(new RegExp("::","gm"), ".gif'>");
-//	con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='../../image/expre/newtieba/");
-//	con=con.replace(new RegExp("<<","gm"), "<img alt='' src='../../image/expre/tieba/");
-//	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='../../image/expre/weibo/");
-//	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='../../image/expre/huang/");
-//	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
+//	con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='image/expre/newtieba/");
+//	con=con.replace(new RegExp("<<","gm"), "<img alt='' src='image/expre/tieba/");
+//	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='image/expre/weibo/");
+//	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='image/expre/huang/");
+//	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='image/expre/aodamiao/");
 	return con;
 }
 /**
@@ -183,7 +183,7 @@ function setPage(author,perPage,userId){
 	$(".pages").text('');
 	var num=0;
 	$.ajax({
-		url:"../../note/diary/getDiaryNumBy.do",
+		url:"note/diary/getDiaryNumBy.do",
 		type:"get",
 		async:false,
 		data:{
@@ -270,7 +270,7 @@ function setPage(author,perPage,userId){
 function initUnReadMessage(){
 	
 	$.ajax({
-		url:"../../note/praise/getPraiseNum.do?PPraised=",
+		url:"note/praise/getPraiseNum.do?PPraised=",
 		type:"get",
 		async:false,
 		dataType:"text",

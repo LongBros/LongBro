@@ -48,7 +48,7 @@ function writeNote(){
 		time=formatW2(new Date()+"");
 	}
 	$.ajax({
-		url:"../../note/diary/addOrEditNote.do",
+		url:"note/diary/addOrEditNote.do",
 		type:"post",
 		async:false,
 		dataType:"Json",
@@ -117,7 +117,7 @@ function oocImage(type,from){
 	   				,"wuyu","xiaoku","xiaozheku","xihuan","yaobai","yihuo","zan"
 	   				,"zhayan","zhenjing","zhenjingku","zhuakuang");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/aodamiao/"+imgs[i]+".gif' onclick='appendValue(\"&&"+imgs[i]+"::\","+from+")'>");
+				$('#expre').append("<img alt='' src='image/expre/aodamiao/"+imgs[i]+".gif' onclick='appendValue(\"&&"+imgs[i]+"::\","+from+")'>");
 			}
 		}
 	}else if(type=='1'){
@@ -130,7 +130,7 @@ function oocImage(type,from){
 		    		   ,"jie","kun","jk","liuh","hanx","db","fend","zm","yw","xu","yun","zm"
 		    		   ,"shuai","kl","qiao","zj","ch","kb","gz","qd","huaix","zhh","yhh","hq");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/huang/"+imgs[i]+".gif' onclick='appendValue(\"&&&"+imgs[i]+"::\","+from+")'>");
+				$('#expre').append("<img alt='' src='image/expre/huang/"+imgs[i]+".gif' onclick='appendValue(\"&&&"+imgs[i]+"::\","+from+")'>");
 			}
 		}
 	}else if(type=='2'){
@@ -146,7 +146,7 @@ function oocImage(type,from){
 		    		   ,"154","155","156","157","158","159","16","160","161","162","163","164"
 		    		   ,"17","18","19","2","20");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/aru/"+imgs[i]+".png' onclick='appendValue(\"&&&"+imgs[i]+":::\","+from+")'>");
+				$('#expre').append("<img alt='' src='image/expre/aru/"+imgs[i]+".png' onclick='appendValue(\"&&&"+imgs[i]+":::\","+from+")'>");
 			}
 		}
 	}else if(type=='3'){
@@ -159,7 +159,7 @@ function oocImage(type,from){
 		    		   ,"meiguai","mianqiang","pen","qian","qianbi","ruo","shengli","shengqi","shuijiao","taikaixin","tu","tushe"
 		    		   ,"weiqu","xiaoyan","yi","yinxian","yinyue","yiwen","zhenbang");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/newtieba/"+imgs[i]+".png' onclick='appendValue(\"<<<"+imgs[i]+":::\","+from+")'>");
+				$('#expre').append("<img alt='' src='image/expre/newtieba/"+imgs[i]+".png' onclick='appendValue(\"<<<"+imgs[i]+":::\","+from+")'>");
 			}
 		}
 	}else if(type=='5'){
@@ -172,7 +172,7 @@ function oocImage(type,from){
 		    		   ,"meiguai","mianqiang","pen","qian","qianbi","ruo","shengli","shengqi","shuijiao","taikaixin","tu","tushe"
 		    		   ,"weiqu","xiaoyan","yi","yinxian","yinyue","yiwen","zhenbang");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/tieba/"+imgs[i]+".png' onclick='appendValue(\"<<"+imgs[i]+":::\","+from+")'>");
+				$('#expre').append("<img alt='' src='image/expre/tieba/"+imgs[i]+".png' onclick='appendValue(\"<<"+imgs[i]+":::\","+from+")'>");
 			}
 		}
 	}else if(type=='6'){//微博表情
@@ -189,7 +189,7 @@ function oocImage(type,from){
 		    		   "tianping","touxiao","tu","tuzi","v5","wabishi","weiqu","wu","xi","xiaoerbuyu","xiaoku","xiongmao","xixi",
 		    		   "xu","yinxian","yiwen","youhengheng","yun","yunbei","zhi","zhuakuang","zhutou","zuiyou","zuohengheng");
 			for(var i=0;i<imgs.length;i++){
-				$('#expre').append("<img alt='' src='../../image/expre/weibo/"+imgs[i]+".png' onclick='appendValue(\"&&&&"+imgs[i]+":::\","+from+")'>");
+				$('#expre').append("<img alt='' src='image/expre/weibo/"+imgs[i]+".png' onclick='appendValue(\"&&&&"+imgs[i]+":::\","+from+")'>");
 			}
 		}
 	}
@@ -230,7 +230,7 @@ function appendValue(img,from){
   */
  function loadDiaryById(id){
  	$.ajax({
- 		url:"../../note/diary/getDiaryById.do?id="+id,
+ 		url:"note/diary/getDiaryById.do?id="+id,
  		type:"get",
  		async:false,
  		dataType:"Json",
