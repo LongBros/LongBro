@@ -26,7 +26,7 @@ public class CommentDiaryService{
 		// TODO Auto-generated method stub
 		dao.create(bean);
 	}
-	public List<CommentDiary> getComByDiaryId(int id) {
+	public List<HashMap<String, String>> getComByDiaryId(int id) {
 		return dao.getComByDiaryId(id);
 	}
 	//2019-11-16设置所有未读消息为已读

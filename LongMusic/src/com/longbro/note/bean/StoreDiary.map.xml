@@ -79,7 +79,9 @@
 		FROM d_store ds
 		LEFT JOIN d_diary dd on ds.s_Diary=dd.n_Id
 		LEFT JOIN d_user_info dui ON dd.n_Writter=dui.u_User_Id
- 		WHERE s_Storer=#{userId};
+ 		WHERE s_Storer=#{userId}
+ 		order by ds.s_Store_Time desc
+ 		;
 	</select>
 	<update id="setAsReaded">
 		UPDATE d_store SET s_Read_Status=1 WHERE s_Stored=#{_parameter} AND s_Read_Status=0;
@@ -92,6 +94,8 @@
 		from d_store ds
 		LEFT JOIN d_user_info dui ON ds.s_Storer=dui.u_User_Id
 		LEFT JOIN d_diary dd ON ds.s_Diary=dd.n_Id
-	    WHERE ds.s_Stored=#{userId};
+	    WHERE ds.s_Stored=#{userId}
+	    order by ds.s_Store_Time desc
+	    ;
 	</select>
 </mapper>

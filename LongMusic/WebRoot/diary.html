@@ -1,38 +1,38 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<title>哆啦日记-不仅仅是怀旧</title>
+<meta name="keywords" content="哆啦日记日记页">
+<meta name="description" content="哆啦日记日记页">
 <meta charset="utf-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link rel="Bookmark" href="/favicon.ico" >
-<link rel="Shortcut Icon" href="../../image/logo/dlam.jpg" />
+<link rel="Shortcut Icon" href="image/logo/dlam.jpg" />
 <!--[if lt IE 9]>
 <script type="text/javascript" src="lib/html5shiv.js"></script>
 <script type="text/javascript" src="lib/respond.min.js"></script>
 <![endif]-->
-<link rel="stylesheet" type="text/css" href="../../css/index1.css">
-<link rel="stylesheet" type="text/css" href="css/index.css"><!-- 回顶部 -->
+<link rel="stylesheet" type="text/css" href="css/index1.css">
+<link rel="stylesheet" type="text/css" href="hui/diary/css/index.css"><!-- 回顶部 -->
 
-<link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
-<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
-<link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
-<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
-<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
-<script type="text/javascript" src="../../js/jquery.js"></script>
-<script type="text/javascript" src="js/index.js"></script><!-- 获取当前登录用户 -->
-<script type="text/javascript" src="../../js/myjs/timeDeal.js"></script><!-- 时间处理函数 -->
-<script type="text/javascript" src="js/new.js"></script><!-- 评论使用到 -->
-<script type="text/javascript" src="js/diary.js"></script>
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="hui/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/css/style.css" />
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="hui/diary/js/index.js"></script><!-- 获取当前登录用户 -->
+<script type="text/javascript" src="js/myjs/timeDeal.js"></script><!-- 时间处理函数 -->
+<script type="text/javascript" src="hui/diary/js/new.js"></script><!-- 评论使用到 -->
+<script type="text/javascript" src="hui/diary/js/diary.js"></script>
 
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>哆啦日记-不仅仅是怀旧</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
 </head>
 <style type="text/css">
 	.contents{
@@ -70,8 +70,8 @@
 		height: 520px;
 	}
 	.rights img{
-		width: 124px;
-		height: 180px;
+		width: 84px;
+		height: 130px;
 		padding: 1px;
 		margin-left:20px;
 		margin-top:20px;
@@ -101,11 +101,9 @@
 	}
 	.comment{
 		margin-left: 20px;
-		margin-bottom: 20px;r
+		margin-bottom: 20px;
 	}
-	
 	.expre{
-		
 		margin-left: 10px;
 		margin-top: 5px;
 	}
@@ -118,8 +116,8 @@
 	}
 	#comments{
 		background:#FFF;
-		width: 80%;
-		padding: 20px; 
+		width: 100%;
+		padding:20px; 
 		float: left;
 	}
 	#comments img{
@@ -129,12 +127,14 @@
 	}
 	
 </style>
-<body id="bodys" style="background:url(../../res/images/back/back3.jpg)">
+<body id="bodys" style="background:url(res/images/back/back3.jpg)">
 <header class="navbar-wrapper">
 	<div class="navbar navbar-fixed-top">
-		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="">哆啦日记</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">Ying</a> 
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="">哆啦日记</a> 
+		<a class="logo navbar-logo-m f-l mr-10 visible-xs" href="newDiary.html">写日记</a> 
 			<span class="logo navbar-slogan f-l mr-10 hidden-xs">Doranote</span> 
-			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" onclick="loginPhone()" id="loginMobile">登录</a>
+				<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="index.html">首页</a>
 				<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
 			<ul class="cl">
 				<li id="homepage" style="cursor:pointer;" onclick="openNewPage('1')">首页</li>
@@ -155,7 +155,7 @@
 						<li><a href="message.html" target='_blank' data-val="blue" title="获赞数目">获赞<font color="red"><span id="praiseNum"></span></font></a></li>
 						<li><a href="message.html" target='_blank' data-val="green" title="关注数目">关注<font color="red"><span id="noticeNum"></span></font></a></li>
 						<li><a href="javascript:;" data-val="yellow" id="cleanBtn" title="点击后消息标记为已读" style="display:none" onclick="setAsReaded()">朕已阅✔</a></li>
-						<li><a href="javascript:;" data-val="yellow" title="消息设置">设置</a></li>
+						<li><a href="message.html" data-val="yellow" title="消息设置">设置</a></li>
 					</ul>
 				</li>
 				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
@@ -207,7 +207,7 @@
 		</div>	
 
 
-<div class="contents">
+<div class="contents" id="contents">
 	<span id="pre" style="float: left;margin-left: 20px;margin-top: 10px;"></span>
 	<span id="next" style="float: right;margin-right: 20px;margin-top: 10px;"></span>
 	<audio id="song" src="" autoplay="autoplay" controls="controls" style="float: left;margin-left: 20px;margin-top: 10px;display:none"></audio>
@@ -231,13 +231,13 @@
 		</div>
 		<div class="row cl">
 			<div class="formControls col-xs-8 col-sm-6">
-				<img alt="嗷大喵表情" title="嗷大喵表情" style="width: 18px;height: 18px" src="../../image/expre/aodamiao/weixiao.gif" onmousedown="oocImage('0','1')">
-				<img alt="小黄脸表情" title="小黄脸表情" style="width: 18px;height: 18px" src="../../image/expre/huang/wx.gif" onmouseover="closeImgHu()" onmousedown="oocImage('1','1')">
-				<!-- <img alt="aru表情" title="aru表情" style="width: 18px;height: 18px" src="../../image/expre/aru/1.png" onmouseover="" onmousedown="oocImage('2')"> -->
-				<img alt="新贴吧表情" title="新贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/newtieba/a.png" onmouseover="" onmousedown="oocImage('3','1')">
-				<!--  <img alt="qq表情" title="qq表情" style="width: 18px;height: 18px" src="../../image/expre/qq/aini.gif" onmouseover="" onmousedown="oocImage('4')">-->
-				<img alt="贴吧表情" title="贴吧表情" style="width: 18px;height: 18px" src="../../image/expre/tieba/a.png" onmouseover="" onmousedown="oocImage('5','1')">
-				<img alt="微博表情" title="微博表情" style="width: 18px;height: 18px" src="../../image/expre/weibo/aini.png" onmouseover="" onmousedown="oocImage('6','1')">
+				<img alt="嗷大喵表情" title="嗷大喵表情" style="width: 18px;height: 18px" src="image/expre/aodamiao/weixiao.gif" onmousedown="oocImage('0','1')">
+				<img alt="小黄脸表情" title="小黄脸表情" style="width: 18px;height: 18px" src="image/expre/huang/wx.gif" onmouseover="closeImgHu()" onmousedown="oocImage('1','1')">
+				<!-- <img alt="aru表情" title="aru表情" style="width: 18px;height: 18px" src="image/expre/aru/1.png" onmouseover="" onmousedown="oocImage('2')"> -->
+				<img alt="新贴吧表情" title="新贴吧表情" style="width: 18px;height: 18px" src="image/expre/newtieba/a.png" onmouseover="" onmousedown="oocImage('3','1')">
+				<!--  <img alt="qq表情" title="qq表情" style="width: 18px;height: 18px" src="image/expre/qq/aini.gif" onmouseover="" onmousedown="oocImage('4')">-->
+				<img alt="贴吧表情" title="贴吧表情" style="width: 18px;height: 18px" src="image/expre/tieba/a.png" onmouseover="" onmousedown="oocImage('5','1')">
+				<img alt="微博表情" title="微博表情" style="width: 18px;height: 18px" src="image/expre/weibo/aini.png" onmouseover="" onmousedown="oocImage('6','1')">
 			
 			</div>
 			<div class="expre" id="expre" style="width: 200px">
@@ -248,13 +248,13 @@
 		
 	</div>
 	<!-- 评论 -->
-		<div id="comments">
-			
+	<div id="comments">
 		
-		</div>
+	
+	</div>
 </div>
-<div class="rights">
-		<img src='../../image/logo/dlam.jpg' class='touxiang'>
+<div class="rights" id="rights">
+		<img src='image/logo/dlam.jpg' id="touxiang" class='touxiang'>
 		<!-- 自己的账号显示上传头像按钮，别人的根据有没有关注而显示 -->
 		<button id="attention" onclick="attenAuthor()"></button>
 	<div class="perStatistic">
@@ -274,21 +274,21 @@
 	</div>
 	<hr>
 	<div class="activeInfo">
-		<i class="Hui-iconfont">&#xe690;</i><span id="joinTime">加入时间：2019.09.28 11:26</span><br>
-		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：2019.09.28 11:26</span><br>
+		<i class="Hui-iconfont">&#xe690;</i><span id="joinTime">加入时间：</span><br>
+		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：</span><br>
 	</div>
 </div>
 <div class="toTop">
 	<a href="#" title="点我回顶部喔">^^</a>
 </div>
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
-<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
-<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="hui/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="hui/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="hui/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="hui/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="../lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+<script type="text/javascript" src="hui/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
 <script type="text/javascript">
 function GetQueryString(name)
 {
@@ -330,6 +330,7 @@ $(function(){
 	if(user!=""){
 		getSetting();//加载登录用户的设置
 	}
+	monitor();//手机访问时隐藏左边栏目
 });
 </script> 
 </body>

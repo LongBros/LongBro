@@ -6,7 +6,7 @@
 var user=getCookie("userId")+"";
 var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
 loadNotice();
-
+var homeSongId="";
 /**
  * 1.根据是否登录设置菜单栏
  */
@@ -36,6 +36,7 @@ function getUser(){
 		document.getElementById("myHome").style.display="block";
 		document.getElementById("write").style.display="block";
 		document.getElementById("image").innerHTML=""+userNick+"";
+		document.getElementById("loginMobile").innerHTML=""+userNick+"";
 	}else{
 		document.getElementById("exit").style.display="none";
 		document.getElementById("login").style.display="block";
@@ -54,8 +55,10 @@ function login_popup() {
 function login(){
 	var acc=document.login_form.account_l.value;//账号，即哆啦id
 	var pass=document.login_form.password_l.value;
+//	var url="../../note/userinfo/loginNote.do?acc="+acc+"&pass="+pass;
+	var url="note/userinfo/loginNote.do?acc="+acc+"&pass="+pass;
 	$.ajax({
-		url:"../../note/userinfo/loginNote.do?acc="+acc+"&pass="+pass,
+		url:url,
 		async:true,
 		type:"POST",
 		dataType:"Json",
@@ -80,7 +83,7 @@ function openNewPage(which){
 	}else if(which=="3"){
 		window.open("new.html", "_blank")
 	}else if(which=="4"){
-		window.open("http://112.74.173.44/amaze/songsList.jsp", "_blank")
+		window.open("http://www.duola.vip/amaze/songsList.jsp", "_blank")
 	}else if(which=="5"){
 		alert("login")
 	}else if(which=="6"){
@@ -125,8 +128,10 @@ function getCookie(name){
 }
 //7.加载公告、收到的赞、关注……的数量并显示
 function loadNotice(){
+//	var url="../../note/userinfo/queryUnReadNum.do";
+	var url="note/userinfo/queryUnReadNum.do";
 	$.ajax({
-		url:"../../note/userinfo/queryUnReadNum.do",
+		url:url,
 		type:"post",
 		async:true,
 		dataType:"json",
@@ -154,8 +159,10 @@ function loadNotice(){
 }
 //8.一键设置为已读
 function setAsReaded(){
+//	var url="../../note/userinfo/setAsReaded.do";
+	var url="note/userinfo/setAsReaded.do";
 	$.ajax({
-		url:"../../note/userinfo/setAsReaded.do",
+		url:url,
 		type:"post",
 		async:true,
 		data:{
@@ -174,29 +181,57 @@ function setAsReaded(){
  * 9.2019-10-26加载作者的信息:关注信息，互动计数，基本信息，活跃信息
  */
 function loadAuthorInfo(){
+//	var url="../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+author;
+	var url="note/userinfo/getAuthorInfoByUserId.do?UUserId="+author;
 	$.ajax({
-		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+author,
+		url:url,
 		type:"get",
 		async:false,
 		dataType:"Json",
 		success:function(data){
+			var url=document.URL+"";
 			var sex=getSexById(data.uuserSex);
-//			document.title=document.title+data.uuserName+"'的日记~哆啦官网";
+			if(user!=author){//不是当前人时候的title显示
+				document.title=""+document.title+"'"+data.uuserName+"'的日记~哆啦官网";
+				if(url.indexOf("author.html")!=-1){//别的作者的页面
+					var sid=data.uhomeSong;//家歌
+					homeSongId=sid;
+					ifAutoPlay(homeSongId);
+				}
+			}else{//当前人
+				if(url.indexOf("diary.html")!=-1){
+					document.title=document.title+"朕的日记~哆啦官网";
+				}else if(url.indexOf("author.html")!=-1){//我的作者页
+					document.title="朕的日记~哆啦官网";
+					var sid=data.uhomeSong;//家歌
+					homeSongId=sid;
+					ifAutoPlay(homeSongId);
+				}else if(url.indexOf("myHome.html")!=-1){//我的家园页
+					document.title="我的家园~哆啦官网";
+					var sid=data.uhomeSong;//家歌
+					homeSongId=sid;
+					ifAutoPlay(homeSongId);
+				}
+			}
+			document.getElementById("touxiang").src="image/tx/"+data.headImage+".jpg";
 			document.getElementById("userId").innerText=author;
 			document.getElementById("userNameT").innerText=data.uuserName;
 			document.getElementById("userName").innerText=data.uuserName;
-			document.getElementById("homeSong").innerText=data.uhomeSong;
+			document.getElementById("homeSong").innerText=data.homeSongName;
 			document.getElementById("signature").innerText=data.signature;
 			document.getElementById("sex").innerText=sex;
 			document.getElementById("joinTime").innerText="加入时间："+data.ujoinTime;
+			document.getElementById("recentLogin").innerText="最近登录："+data.lastLogin;//(data.lastLogin=="")?"":
 		}
 	});
 	setInteractNum(author);
 }
 //10.加载并设置某人的互动数量信息
 function setInteractNum(user){
+//	var url="../../note/userinfo/queryInteractNum.do";
+	var url="note/userinfo/queryInteractNum.do";
 	$.ajax({
-		url:"../../note/userinfo/queryInteractNum.do",
+		url:url,
 		type:"post",
 		async:true,
 		dataType:"json",
@@ -238,12 +273,14 @@ function getSexById(id){
 
 //12.判断当前登录用户是否已关注当前作者
 function ifAttention(){
+//	var url="../../note/notice/whetherHasNotice.do";
+	var url="note/notice/whetherHasNotice.do";
 	if(user==author){//当前登录用户查看自己时，不显示关注、已关注
 		return;
 	}
 	var ifAtt=0;//0表示未关注
 	$.ajax({
-		url:"../../note/notice/whetherHasNotice.do",
+		url:url,
 		type:"get",
 		async:false,
 		data:{
@@ -278,12 +315,12 @@ function attenAuthor(){
 	var text=attBtn.innerHTML+"";
 	var url="";//
 	if(text.indexOf("已关注")!=-1){//已关注情况取消关注
-		url="../../note/notice/cancelAtten.do";
+		url="note/notice/cancelAtten.do";
 		attBtn.innerHTML="关注<i class=\"Hui-iconfont\">&#xe716;</i>";
 		fanNum.innerText=parseInt(fanNum.innerText)-1;
 		alert("已取消关注！");
 	}else{
-		url="../../note/notice/noticeAuthor.do";
+		url="note/notice/noticeAuthor.do";
 		attBtn.innerHTML="已关注<i class=\"Hui-iconfont\">&#xe676;</i>";
 		fanNum.innerText=parseInt(fanNum.innerText)+1;
 		alert("已关注！");
@@ -298,19 +335,96 @@ function attenAuthor(){
 		}, 
 	});
 }
-//得到登录用户的一些设置
-//返回是否自动播放
+//14.得到登录用户的一些设置
 function getSetting(){
+	var url="note/userinfo/getAuthorInfoByUserId.do?UUserId="+user;
 	$.ajax({
-		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
+		url:url,
 		type:"get",
 		async:false,
 		dataType:"Json",
 		success:function(data){
 			//设置背景
 			var body=document.getElementById("bodys");
-			body.style.background="url(../../res/images/back/"+data.back+")";
+			body.style.background="url(res/images/back/"+data.back+")";
 			
 		}
 	});
+}
+//15.检测访问设备
+//平台、设备和操作系统
+function monitor(){
+	//平台、设备和操作系统
+	var system ={win : false,mac : false,xll : false};
+	//检测平台
+	var p = navigator.platform;
+	system.win = p.indexOf("Win") == 0;
+	system.mac = p.indexOf("Mac") == 0;
+	system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+	//跳转语句，如果是手机访问就自动跳转到wap.baidu.com页面
+	if(!system.win && !system.mac && !system.xll){
+	    $(".rights").text("");
+	    document.getElementById("rights").style.display="none";
+	    document.getElementById("contents").style.marginLeft="10px";
+	    document.getElementById("contents").style.width="400px";
+	    document.getElementById("diary").style.width="320px";
+	}
+}
+//16.播放与暂停自己或别人的家歌
+function playHomeSong(){
+	var btn=document.getElementById("playBtn");
+	if(btn.innerText=="▷"){
+		$("#playBtn").text("||");
+		playAudio(homeSongId);
+		btn.title="点击停止播放";
+	}else{
+		var song=document.getElementById("song");
+		song.src="";
+		$("#playBtn").text("▷");
+		btn.title="点击可播放喔";
+	}
+	
+}
+//17.根据登录用户对于音频的设置来处理是否播放音频
+function ifAutoPlay(songId){
+	var autoPlay=0;//1:自动播放，0、2:不播放
+	$.ajax({
+		url:"note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+			autoPlay=data.autoPlay;
+		}
+	});
+	if(autoPlay==1){//播放
+		playAudio(songId);
+	}
+}
+//18.播放用户家歌并修改为播放按钮
+function playAudio(sid){
+	var url="";
+	if(sid.substring(sid.length-5)==".html"){
+		url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
+	}else if(sid.substring(sid.length-3)==".kw"){
+		url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
+	}else if(sid.substring(sid.length-4)==".aac"||sid.substring(sid.length-4)==".m4a"||sid.substring(sid.length-4)==".mp3"){
+		url=sid;
+	}else{
+		url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
+	}
+	var song=document.getElementById("song");
+	song.src=url;
+	//修改
+	$("#playBtn").text("||");
+	var btn=document.getElementById("playBtn");
+	btn.title="点击暂停";
+}
+//手机端按钮登录
+function loginPhone(){
+	if(user!=""){
+		window.open("myHome.html", "_blank")
+	}else{
+		login_popup();
+	}
 }

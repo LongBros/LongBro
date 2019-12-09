@@ -15,7 +15,7 @@ public class UserInfo{
 	protected Integer UUserId; //系统生成的8位id
 	protected Integer UUserSex; //性别
 	protected Integer UCommentNum; //总被评论数量
-	protected Integer UPraisedNum; //总被赞数量
+	protected String blackNameList; //黑名单
 	protected String UJoinTime; //加入哆啦日记网时间
 	protected Integer UStatus; //在线状态(1:在线，0:离线)
 	protected String UBornTime; //出生时间
@@ -77,21 +77,17 @@ public class UserInfo{
 	public Integer getUCommentNum() {
 		return this.UCommentNum;
 	}
-	public void setUPraisedNum(Integer UPraisedNum) {
-		this.UPraisedNum = UPraisedNum;
-	}
-	
-	/**
-	 * 返回 总被赞数量
-	 * @return
-	 */
-	public Integer getUPraisedNum() {
-		return this.UPraisedNum;
-	}
+
 	public void setUJoinTime(String UJoinTime) {
 		this.UJoinTime = UJoinTime;
 	}
 	
+	public String getBlackNameList() {
+		return blackNameList;
+	}
+	public void setBlackNameList(String blackNameList) {
+		this.blackNameList = blackNameList;
+	}
 	/**
 	 * 返回 加入哆啦日记网时间
 	 * @return

@@ -38,8 +38,8 @@
 		height: 520px;
 	}
 	.rights img{
-		width: 124px;
-		height: 180px;
+		width: 84px;
+		height: 130px;
 		padding: 1px;
 		margin-left:20px;
 		margin-top:20px;
@@ -101,4 +101,16 @@
 		margin-left: 25px;
 		margin-top: 25px;
 		font-color: blue;
+	}
+	#myDiary .notice{
+		margin-left: 30px;
+		margin-top: 15px;
+		margin-bottom: 12px;
+	}
+	#myDiary .notice a{
+		color: blue;
+	}
+	#myDiary .notice span{
+		float:right;
+		margin-right: 30px;
 	}

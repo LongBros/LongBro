@@ -2,7 +2,7 @@ function setPage1(author,perPage){
 	$(".pages").text('');
 	var num=0;
 	$.ajax({
-		url:"../../note/diary/getDiaryNumBy.do",
+		url:"note/diary/getDiaryNumBy.do",
 		type:"get",
 		async:false,
 		data:{
@@ -90,10 +90,11 @@ function loadMyDiary(page,perPage){
 	document.getElementById("love").style.color="black";
 	document.getElementById("store").style.color="black";
 	document.getElementById("setting").style.color="black";
+	document.getElementById("attention").style.color="black";
 	var au="0,1,2";//完全公开的
 	//$("#myDiary").text("");
 	$.ajax({
-		url:"../../note/diary/getDiaryBy.do",
+		url:"note/diary/getDiaryBy.do",
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -158,9 +159,9 @@ function loadMyLove(){
 	document.getElementById("love").style.color="red";
 	document.getElementById("store").style.color="black";
 	document.getElementById("setting").style.color="black";
-
+	document.getElementById("attention").style.color="black";
 	$.ajax({
-		url:"../../note/praise/getMyLikeDiary.do?userId="+user,
+		url:"note/praise/getMyLikeDiary.do?userId="+user,
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -179,10 +180,12 @@ function loadMyLove(){
 				if(title.length>10){
 					title=title.substring(0,8)+"...";
 				}
-				$("#myDiary").append("<div class=\"diary\" title='"+res[i].likeTime+"喜欢'><img src='../../image/tx/"+res[i].headImg+".jpg' class='touxiang'><span onclick='openOther(0,"+res[i].id+")'>"+con+"</span><br>"
+				//分类
+				var cate=getCateById(res[i].cate);
+				$("#myDiary").append("<div class=\"diary\" title='"+res[i].likeTime+"喜欢'><img src='image/tx/"+res[i].headImg+".jpg' class='touxiang'><span onclick='openOther(0,"+res[i].id+")'>"+con+"</span><br>"
 						+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+res[i].writter+"\")'>"+res[i].u_User_Name
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+res[i].time
-						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+res[i].cate+"&nbsp;:<span title='"+res[i].title+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+res[i].loc
+						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+res[i].title+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+res[i].loc
 						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+res[i].visitNum+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+res[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+res[i].praiseNum
 						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
 						+"</div><hr width='880px'>");
@@ -204,9 +207,9 @@ function loadMyStore(){
 	document.getElementById("love").style.color="black";
 	document.getElementById("store").style.color="red";
 	document.getElementById("setting").style.color="black";
-
+	document.getElementById("attention").style.color="black";
 	$.ajax({
-		url:"../../note/store/getMyStoreDiary.do?userId="+user,
+		url:"note/store/getMyStoreDiary.do?userId="+user,
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -225,10 +228,12 @@ function loadMyStore(){
 				if(title.length>10){
 					title=title.substring(0,8)+"...";
 				}
-				$("#myDiary").append("<div class=\"diary\" title='"+res[i].storeTime+"收藏'><img src='../../image/tx/"+res[i].headImg+".jpg' class='touxiang'><span onclick='openOther(0,"+res[i].id+")'>"+con+"</span><br>"
+				//分类
+				var cate=getCateById(res[i].cate);
+				$("#myDiary").append("<div class=\"diary\" title='"+res[i].storeTime+"收藏'><img src='image/tx/"+res[i].headImg+".jpg' class='touxiang'><span onclick='openOther(0,"+res[i].id+")'>"+con+"</span><br>"
 						+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+res[i].writter+"\")'>"+res[i].u_User_Name
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+res[i].time
-						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+res[i].cate+"&nbsp;:<span title='"+res[i].title+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+res[i].loc
+						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+res[i].title+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+res[i].loc
 						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+res[i].visitNum+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+res[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+res[i].praiseNum
 						+"</span>&nbsp;&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
 						+"</div><hr width='880px'>");
@@ -254,7 +259,7 @@ function delDiary(id){
 		return;
 	}
 	$.ajax({
-		url:"../../note/diary/addOrEditNote.do",
+		url:"note/diary/addOrEditNote.do",
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -280,7 +285,7 @@ function openSetting(){
 	document.getElementById("love").style.color="black";
 	document.getElementById("store").style.color="black";
 	document.getElementById("setting").style.color="red";
-	
+	document.getElementById("attention").style.color="black";
 	loadInfo();//加载出作者信息以供编辑
 	$("#myDiary").append("<span>背景选择：</span>");
 	/* $("#myDiary").append("<a onclick='setBack()'>设置当前背景为默认朕的背景</a>"); */
@@ -295,7 +300,7 @@ function loadAllBack(){
 		if(i%5==0){
 			$("#myDiary").append("<br>");
 		}
-		$("#myDiary").append("<img src='../../res/images/back/"+array[i]+"' title='点击即可设置当前\r背景为朕的背景^_^' class='backDemo' onclick='setBackground(\""+array[i]+"\")'>");
+		$("#myDiary").append("<img src='res/images/back/"+array[i]+"' title='点击即可设置当前\r背景为朕的背景^_^' class='backDemo' onclick='setBackground(\""+array[i]+"\")'>");
 	}
 	
 }
@@ -305,14 +310,14 @@ function loadAllBack(){
  */
 function setBackground(which){
 	var body=document.getElementById("bodys");
-	body.style.background="url(../../res/images/back/"+which+")";
+	body.style.background="url(res/images/back/"+which+")";
 	saveInfo(4,which);//保存背景设置至数据库
 }
 //加载作者信息
 function loadInfo(){
 	//加载出作者信息以供编辑
 	$.ajax({
-		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+author,
+		url:"note/userinfo/getAuthorInfoByUserId.do?UUserId="+author,
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -322,7 +327,8 @@ function loadInfo(){
 			string=string+"<span>个性签名：</span><input name='signature' value='"+data.signature+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(2)' title='点击保存'>&#xe676;</i><br>";
 			string=string+"<span>默认日记地址：</span><input name='location' value='"+data.location+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(3)' title='点击保存'>&#xe676;</i><br>";
 			//string=string+"<span>家歌选择：</span><font color='red'>"+data.uhomeSong+"</font><i class=\"Hui-iconfont\">&#xe6df;</i>(其他用户访问你的家园时会播放家歌)<br>";
-			string=string+"<span>音频自动播放：</span>";
+			string=string+"<span>我的黑名单(不看名单):~敬请期待^_^<br>";
+			string=string+"<span>音频自动播放(日记音频及用户家歌)：</span>";
 			var play=data.autoPlay;
 			var tips=new Array("弹出提示是否播放","自动播放","不自动播放");
 			for(var i=0;i<tips.length;i++){
@@ -347,7 +353,7 @@ function loadInfo(){
  */
 function saveInfo(which,value){
 	var t=which+"";
-	var url="../../note/userinfo/updateUserInfo.do?UUserId="+author;
+	var url="note/userinfo/updateUserInfo.do?UUserId="+author;
 	if(t=="1"){//昵称
 		url=url+"&UUserName="+document.info.nickName.value;
 	}else if(t=="2"){//个性签名
@@ -370,6 +376,40 @@ function saveInfo(which,value){
 				alert(res.message);
 			}else{
 				alert("修改失败");
+			}
+		}
+	});
+}
+/**
+ * 加载我关注的人
+ */
+function loadMyAtten(){
+	$("#myDiary").text('');
+	$(".pages").text('');
+	document.getElementById("my").style.color="black";
+	document.getElementById("love").style.color="black";
+	document.getElementById("store").style.color="black";
+	document.getElementById("setting").style.color="black";
+	document.getElementById("attention").style.color="red";
+	$.ajax({
+		url:"note/notice/getMyAtten.do?userId="+user,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(res){
+			if(res.code==200){
+				var data=res.result;
+				if(data.length<1){
+					$("#myDiary").append("<center>你还没有关注别人呢，快去关注你喜欢的人吧！</center>");
+				}else{
+					$("#myDiary").append("<center>你共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
+				}
+				for(var i=0;i<data.length;i++){
+					$("#myDiary").append("<div class='notice'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					
+				}
+			}else{
+				alert("查询失败");
 			}
 		}
 	});

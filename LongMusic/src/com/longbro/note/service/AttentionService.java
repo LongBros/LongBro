@@ -39,5 +39,13 @@ public class AttentionService{
 	public List<HashMap<String, String>> getMyMessage(String userId){
 		return dao.getMyMessage(userId);
 	}
+	//2019-12-07设置所有未读消息为已读
+	public void setAsReaded(String userId){
+		dao.setAsReaded(userId);
+	}
+	//2019-12-07查询出我关注的人
+	public List<HashMap<String, String>> getMyAtten(String userId){
+		return dao.getMyAtten(userId);
+	}
 }
 

@@ -25,7 +25,7 @@ function loadDiary(author,page,perPage,userId){
 	}
 	$("#diarys").text("");
 	$.ajax({
-		url:"../../note/diary/getDiaryBy.do",
+		url:"note/diary/getDiaryBy.do",
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -66,14 +66,20 @@ function loadDiary(author,page,perPage,userId){
 				if(data[i].nSongId!=null&&data[i].nSongId!=''){
 					music=1;//有音频
 				}
+				var com="";
+				if(data[i].nallowComment==0){//允许评论的才显示评论图标
+					com="&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>";
+				}
+				
 				//<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;
-				$("#diarys").append("<div class=\"diary\"><img src='../../image/tx/"+data[i].headImage+".jpg' class='touxiang'><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
+				$("#diarys").append("<div class=\"diary\"><img src='image/tx/"+data[i].headImage+".jpg' class='touxiang'><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
 				+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName
 				+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
 				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>"+title+"</span>&nbsp;<span>"+(music=='1'?'<font color=\'red\' title=\'有音频喔\'>音</font>':'')+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation
-				+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
-				+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum+"</span></div></div>"
-				+"</div><hr width='740px'>");
+				+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum+com+"&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
+				+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum
+				+"</span>&nbsp;<i class=\"Hui-iconfont\" title='不看他' onclick='addToUnlike(\""+data[i].nwritter+"\",\""+data[i].userName+"\")'>&#xe68b;</i></div></div>"
+				+"</div><hr width='100%'>");//740px
 			}
 		}
 	});
@@ -151,11 +157,11 @@ function handleCon(content){
 //	con=con.replace(new RegExp("::::","gm"), ".jpg'>");
 //	con=con.replace(new RegExp(":::","gm"), ".png'>");
 //	con=con.replace(new RegExp("::","gm"), ".gif'>");
-//	con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='../../image/expre/newtieba/");
-//	con=con.replace(new RegExp("<<","gm"), "<img alt='' src='../../image/expre/tieba/");
-//	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='../../image/expre/weibo/");
-//	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='../../image/expre/huang/");
-//	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
+//	con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='image/expre/newtieba/");
+//	con=con.replace(new RegExp("<<","gm"), "<img alt='' src='image/expre/tieba/");
+//	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='image/expre/weibo/");
+//	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='image/expre/huang/");
+//	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='image/expre/aodamiao/");
 	return con;
 }
 /**
@@ -177,11 +183,12 @@ function setPage(author,perPage,userId){
 	$(".pages").text('');
 	var num=0;
 	$.ajax({
-		url:"../../note/diary/getDiaryNumBy.do",
+		url:"note/diary/getDiaryNumBy.do",
 		type:"get",
 		async:false,
 		data:{
-			NWritter:author
+			NWritter:author,
+			NBookid:userId//此处的NBookid作当前登录用户使用
 		},
 		dataType:"text",
 		success:function(data){
@@ -247,7 +254,7 @@ function setPage(author,perPage,userId){
 		$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+(curPage+1)+"','"+perPage+"','"+userId+"')\">→</span>&emsp;")
 		$(".pages").append("<span onclick=\"loadDiary('"+author+"','"+page+"','"+perPage+"','"+userId+"')\">尾</span>&emsp;")
 	}
-	if(page>5){//多于5页显示下拉选择页码功能
+	/*if(page>5){//多于5页显示下拉选择页码功能
 		var pagesC="";
 		pagesC+="<select name='selPage' οnchange=\"loadDiary('"+author+"',options[selectedIndex].value,'"+perPage+"','"+userId+"')\">";
 		for(var i=1;i<=page;i++){
@@ -255,7 +262,7 @@ function setPage(author,perPage,userId){
 		}
 		pagesC+="</select>";
 		$(".pages").append(pagesC);
-	}
+	}*/
 }
 /**
  * 9.2019-10-26	加载当前登录用户有多少未读喜欢、收藏、被关注等消息
@@ -263,7 +270,7 @@ function setPage(author,perPage,userId){
 function initUnReadMessage(){
 	
 	$.ajax({
-		url:"../../note/praise/getPraiseNum.do?PPraised=",
+		url:"note/praise/getPraiseNum.do?PPraised=",
 		type:"get",
 		async:false,
 		dataType:"text",
@@ -280,6 +287,9 @@ function setPer(pernum){
 	perPage=pernum;
 	setPage(author,perPage);
 	loadDiary(author,curPage,perPage);
+}
+function addToUnlike(userId1,userName1){
+	alert("开发中，敬请期待！无法将“"+userName1+"”加入不看列表")
 }
 $(function(){
 	 $("select[name='qualifications']").change(function(){

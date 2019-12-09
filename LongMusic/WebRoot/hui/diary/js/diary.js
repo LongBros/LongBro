@@ -27,7 +27,7 @@ function myselfinfo(){
 function loadDiary(id){
 	$("#diary").text("");
 	$.ajax({
-		url:"../../note/diary/getDiaryById.do?id="+id,
+		url:"note/diary/getDiaryById.do?id="+id,
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -47,10 +47,10 @@ function loadDiary(id){
 					title1=data.ntitle+"";
 				}else{
 					ifAutoPlay(songId);
-					title1=data.ntitle+"<span title=\"点击可播放喔\" style=\"cursor:pointer;color:red;\" onclick=\"playAudio('"+songId+"')\">▷</span><img style=\"width: 28px;height: 28px;\" src=\"../../image/picture/hot1.gif\">";
+					title1=data.ntitle+"<span title=\"点击可播放喔\" style=\"cursor:pointer;color:red;\" onclick=\"playAudio('"+songId+"')\">▷</span><img style=\"width: 28px;height: 28px;\" src=\"image/picture/hot1.gif\">";
 				}
 				
-				document.title="《"+title+"》~'";
+				document.title="《"+title+"》~";
 				if(title.length>10){
 					title=title.substring(0,8)+"...";
 				}
@@ -101,17 +101,17 @@ function getCateById(id){
  * @returns
  */
 function handleCon(content){
-	var con="&emsp;&emsp;"+content;
+	var con=""+content;//&emsp;&emsp;
 	con=con.replace(new RegExp("&amp;","gm"), "&");
 	con=con.replace(new RegExp("&lt;","gm"), "<");
 	con=con.replace(new RegExp("::::","gm"), ".jpg'>");
 	con=con.replace(new RegExp(":::","gm"), ".png'>");
 	con=con.replace(new RegExp("::","gm"), ".gif'>");
-	con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='../../image/expre/newtieba/");
-	con=con.replace(new RegExp("<<","gm"), "<img alt='' src='../../image/expre/tieba/");
-	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='../../image/expre/weibo/");
-	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='../../image/expre/huang/");
-	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
+	con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='image/expre/newtieba/");
+	con=con.replace(new RegExp("<<","gm"), "<img alt='' src='image/expre/tieba/");
+	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='image/expre/weibo/");
+	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='image/expre/huang/");
+	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='image/expre/aodamiao/");
 	//修改“古诗网”内容的img
 	con=con.replace(new RegExp("uploads/allimg","gm"), "http://www.exam58.com/uploads/allimg");
 	return con.replace(new RegExp("<br>","gm"), "<br>&emsp;&emsp;");
@@ -132,7 +132,7 @@ function setIcon(id){
 	var praise=0;//该篇日记当前登录人是否已点赞
 	var store=0;//该篇日记当前登录人是否已收藏
 	$.ajax({
-		url:"../../note/praise/getPraise.do",
+		url:"note/praise/getPraise.do",
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -147,7 +147,7 @@ function setIcon(id){
 		}
 	});
 	$.ajax({
-		url:"../../note/store/getStore.do",
+		url:"note/store/getStore.do",
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -192,7 +192,7 @@ function praise(){
 	var pNum=document.getElementById("praiseNum1");
 	if(pra.title=="点赞"){
 		$.ajax({
-			url:"../../note/praise/praiseDiary.do",
+			url:"note/praise/praiseDiary.do",
 			type:"get",
 			async:false,
 			dataType:"text",
@@ -211,7 +211,7 @@ function praise(){
 		pNum.innerText=parseInt(pNum.innerText)+1;
 	}else{
 		$.ajax({
-			url:"../../note/praise/removePraiseDiary.do",
+			url:"note/praise/removePraiseDiary.do",
 			type:"get",
 			async:false,
 			dataType:"text",
@@ -241,7 +241,7 @@ function store(){
 	var sNum=document.getElementById("storeNum1");
 	if(st.title=="收藏"){
 		$.ajax({
-			url:"../../note/store/storeDiary.do",
+			url:"note/store/storeDiary.do",
 			type:"get",
 			async:false,
 			dataType:"text",
@@ -260,7 +260,7 @@ function store(){
 		sNum.innerText=parseInt(sNum.innerText)+1;
 	}else{
 		$.ajax({
-			url:"../../note/store/removeStoreDiary.do",
+			url:"note/store/removeStoreDiary.do",
 			type:"get",
 			async:false,
 			dataType:"text",
@@ -284,7 +284,7 @@ function store(){
  */
 function getBeforeAndNextId(){
 	$.ajax({
-		url:"../../note/diary/getBeforeAndNextId.do?author="+author+"&id="+id,
+		url:"note/diary/getBeforeAndNextId.do?author="+author+"&id="+id,
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -319,7 +319,7 @@ function submit_comment(){
 //	alert(id);//当前被评论日记的id
 //	alert(author);//被评论日记的作者
 	$.ajax({
-		url:"../../note/comment/commentDiary.do",
+		url:"note/comment/commentDiary.do",
 		type:"get",
 		async:false,
 		data:{
@@ -329,7 +329,7 @@ function submit_comment(){
 			CReviewed:author
 		},
 		success:function(){
-			
+			alert("评论成功，请勿重复提交！");
 		}
 	});
 	loadCom();
@@ -340,23 +340,31 @@ function submit_comment(){
 function loadCom(){
 	$('#comments').text("");
 	$.ajax({
-		url:"../../note/comment/getComByDiaryId.do?id="+id,
+		url:"note/comment/getComByDiaryId.do?id="+id,
 		type:"get",
 		async:false,
-		success:function(data){
+		success:function(res){
+			var data=res.result;
+			if(data.length<1){
+				$('#comments').append("<center>嗨，留下你的神评呗^_^，一楼属于你哒</center>");
+			}
 			for(var k=0;k<data.length;k++){
-				var con=data[k].ccomment;
+				var con=data[k].reviewContent;
 				con=con.replace(new RegExp("::::","gm"), ".jpg'>");
 				con=con.replace(new RegExp(":::","gm"), ".png'>");
 				con=con.replace(new RegExp("::","gm"), ".gif'>");
-				con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='../../image/expre/newtieba/");
-				con=con.replace(new RegExp("<<","gm"), "<img alt='' src='../../image/expre/tieba/");
-				con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='../../image/expre/weibo/");
-				con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='../../image/expre/huang/");
-				con=con.replace(new RegExp("&&","gm"),"<img alt='' src='../../image/expre/aodamiao/");
+				con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='image/expre/newtieba/");
+				con=con.replace(new RegExp("<<","gm"), "<img alt='' src='image/expre/tieba/");
+				con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='image/expre/weibo/");
+				con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='image/expre/huang/");
+				con=con.replace(new RegExp("&&","gm"),"<img alt='' src='image/expre/aodamiao/");
 				
 				$('#comments').append("<hr>");
-				$('#comments').append("&nbsp;"+data[k].creviewTime);
+				var href="某本站访客";
+				if(data[k].reviewer!=''){
+					href="<a href='author.html?author="+data[k].reviewer+"' target='_blank'>"+data[k].reviewerName+"</a>";
+				}
+				$('#comments').append(href+"&nbsp;&nbsp;<span style='color:gray;font-size:10px;'>"+data[k].reviewTime+"</span>");
 				$('#comments').append("<br>"+con);
 			}
 			
@@ -394,7 +402,7 @@ function ifLogin(){
 function ifAutoPlay(songId){
 	var autoPlay=0;//0:提示，1:自动播放，2:不播放
 	$.ajax({
-		url:"../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
+		url:"note/userinfo/getAuthorInfoByUserId.do?UUserId="+user,
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -415,7 +423,7 @@ function ifAutoPlay(songId){
 function addVisitRecord(id){
 	var user=getCookie("userId")+"";
 	$.ajax({
-		url:"../../note/visit/addVisitRecord.do",
+		url:"note/visit/addVisitRecord.do",
 		type:"get",
 		async:false,
 		data:{

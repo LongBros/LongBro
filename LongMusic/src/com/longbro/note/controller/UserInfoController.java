@@ -27,6 +27,7 @@ import com.longbro.bean.AlarmUser;
 import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.Author;
 import com.longbro.note.bean.UserInfo;
+import com.longbro.note.service.AttentionService;
 import com.longbro.note.service.CommentDiaryService;
 import com.longbro.note.service.PraiseDiaryService;
 import com.longbro.note.service.StoreDiaryService;
@@ -51,6 +52,8 @@ public class UserInfoController{
     PraiseDiaryService praiseDiaryService;
     @Autowired
     StoreDiaryService storeDiaryService;
+    @Autowired
+    AttentionService attentionService;
     /**
      * @desc 1.根据userId获取用户信息
      * @author zcl
@@ -100,7 +103,15 @@ public class UserInfoController{
     public BaseResult<String> loginNote(String acc,String pass,HttpServletResponse response) throws UnsupportedEncodingException{
     	BaseResult<String> result=new BaseResult<String>();
     	UserInfo ui=userInfoService.loginNote(acc, pass);
-    	if(ui!=null){
+    	if(ui!=null){//1.设置最近登录时间2.存cookie
+        	System.out.println("查询到的登录数据"+new Gson().toJson(ui));
+        	//设置最近登录时间，直接使用ui会报数据库中编码乱码错误？
+        	UserInfo ui1=new UserInfo();
+    		ui1.setLastLogin(TimeUtil.time());
+    		ui1.setUId(ui.getUId());
+    		ui1.setUUserId(ui.getUUserId());;
+    		userInfoService.updateUserInfo(ui1);
+    		//存cookie
     		Cookie cookie=new Cookie("userId", acc);
     		cookie.setMaxAge(30*24*60*60);
     		cookie.setPath("/");
@@ -160,6 +171,7 @@ public class UserInfoController{
     	commentDiaryService.setAsReaded(userId);
     	praiseDiaryService.setAsReaded(userId);
     	storeDiaryService.setAsReaded(userId);
+    	attentionService.setAsReaded(userId);
     	result.setCode(200);
     	result.setMessage("已设置所有未读消息为已读");
     	result.setResult(null);
@@ -244,5 +256,21 @@ public class UserInfoController{
 		user.setHeadImage(pname);
 		user.setUUserId(Integer.parseInt(userId));
 		updateUserInfo(user);
+    }
+    /**
+     * @desc 查询用户数、日记数量的统计信息
+     * @author zcl
+     * @date 2019年12月6日
+     * @return
+     */
+    @RequestMapping("getStatisticInfo")
+    @ResponseBody
+    public BaseResult<HashMap<String, String>> getStatisticInfo(){
+		BaseResult<HashMap<String, String>> result=new BaseResult<HashMap<String, String>>();
+		result.setResult(userInfoService.getStatisticInfo());
+		result.setCode(200);
+		result.setMessage("查询统计信息成功");
+		return result;
+		
     }
 }

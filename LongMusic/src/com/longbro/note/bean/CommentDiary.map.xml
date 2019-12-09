@@ -18,10 +18,13 @@
 		(#{CId,jdbcType=NUMERIC}, #{CReviewedDiary,jdbcType=VARCHAR}, #{CComment,jdbcType=VARCHAR}, #{CReviewer,jdbcType=VARCHAR}, #{CReviewed,jdbcType=VARCHAR}, #{CReviewTime,jdbcType=VARCHAR}, #{CReadStatus,jdbcType=NUMERIC})
 	</insert>
 	
-	<select id="get"   parameterType="java.lang.Integer" resultMap="CommentDiary">
-		SELECT * FROM d_comment 
+	<select id="get"   parameterType="java.lang.Integer" resultType="java.util.HashMap">
+		SELECT dc.c_Id reviewId,dc.c_Reviewed_Diary reviewedDiary,dc.c_Comment reviewContent,dc.c_Reviewer reviewer,
+			 dc.c_Reviewed reviewed,dc.c_Review_Time reviewTime,dc.c_Read_Status readStatus,dui.u_User_Name reviewerName
+		FROM d_comment dc
+		LEFT JOIN d_user_info dui on dc.c_Reviewer=dui.u_User_Id
 		WHERE 
-		c_Reviewed_Diary=#{id} order by c_Review_Time desc;
+		dc.c_Reviewed_Diary=#{id} order by dc.c_Review_Time desc;
 	</select>
 	
 	<select id="query" parameterType="java.util.Map" resultMap="CommentDiary">
@@ -81,6 +84,8 @@
 		from d_comment dc
 		LEFT JOIN d_user_info dui ON dc.c_Reviewer=dui.u_User_Id
 		LEFT JOIN d_diary dd ON dc.c_Reviewed_Diary=dd.n_Id
-	    WHERE dc.c_Reviewed=#{userId};
+	    WHERE dc.c_Reviewed=#{userId}
+	    order by dc.c_Review_Time desc
+	    ;
 	</select>
 </mapper>
