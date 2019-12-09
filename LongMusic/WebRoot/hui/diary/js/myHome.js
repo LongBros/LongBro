@@ -1,3 +1,8 @@
+/**
+ * 1.设置分页
+ * @param author
+ * @param perPage
+ */
 function setPage1(author,perPage){
 	$(".pages").text('');
 	var num=0;
@@ -74,12 +79,20 @@ function setPage1(author,perPage){
 	}
 	
 }
+/**
+ * 2.设置每页多少篇
+ * @param pernum
+ */
 function setPer1(pernum){
 	perPage=pernum;
 	setPage1(author,perPage);
 	loadMyDiary(curPage,perPage);
 }
-//加载我的日记
+/**
+ * 3.加载我的日记
+ * @param page
+ * @param perPage
+ */
 function loadMyDiary(page,perPage){
 	$("#myDiary").text('');
 	if(user==""){
@@ -147,7 +160,9 @@ function loadMyDiary(page,perPage){
 	perPage=parseInt(perPage);
 	setPage1(user,perPage);
 }
-//加载我喜欢的
+/**
+ * 4.加载我喜欢的
+ */
 function loadMyLove(){
 	$("#myDiary").text('');
 	$(".pages").text('');
@@ -195,7 +210,9 @@ function loadMyLove(){
 		}
 	});
 }
-//加载我收藏的
+/**
+ * 5.加载我收藏的
+ */
 function loadMyStore(){
 	$("#myDiary").text('');
 	$(".pages").text('');
@@ -243,16 +260,28 @@ function loadMyStore(){
 		}
 	});
 }
-//加载我看过的
+/**
+ * 6.加载我看过的
+ */
 function loadMyFeet(){
 	
 }
-//编辑日记
+/**
+ * 7.编辑日记
+ * @param id
+ */
 function editDiary(id){
-	//window.location="new.html?id="+id;
-	window.open("new.html?id="+id,"_blank");
+	if(isPhone()){
+		window.open("newDiary.html?id="+id,"_blank");
+	}else{
+		//window.location="new.html?id="+id;
+		window.open("new.html?id="+id,"_blank");
+	}
 }
-//删除日记
+/**
+ * 8.删除日记
+ * @param id
+ */
 function delDiary(id){
 	var r=confirm("确认删除？");
 	if(r==false){
@@ -273,11 +302,16 @@ function delDiary(id){
 		}
 	});
 }
-//日记置顶
+/**
+ * 9.日记置顶
+ */
 function diaryToTop(){
 	alert("不好意思喔，开发中…敬请期待。^_^")
 }
-//12-01打开设置tab
+/**
+ * 10.
+ * 12-01打开设置tab
+ */
 function openSetting(){
 	$("#myDiary").text('');
 	$(".pages").text('');
@@ -291,7 +325,10 @@ function openSetting(){
 	/* $("#myDiary").append("<a onclick='setBack()'>设置当前背景为默认朕的背景</a>"); */
 	loadAllBack();
 }
-//12-01 加载所有的背景图
+/**
+ * 11.
+ * 12-01 加载所有的背景图
+ */
 function loadAllBack(){
 	var array=new Array("back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg"
 			,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png"
@@ -306,14 +343,16 @@ function loadAllBack(){
 }
 
 /**
- * 设置背景
+ *12. 设置背景
  */
 function setBackground(which){
 	var body=document.getElementById("bodys");
 	body.style.background="url(res/images/back/"+which+")";
 	saveInfo(4,which);//保存背景设置至数据库
 }
-//加载作者信息
+/**
+ * 13.加载作者信息
+ */
 function loadInfo(){
 	//加载出作者信息以供编辑
 	$.ajax({
@@ -348,7 +387,7 @@ function loadInfo(){
     saveInfo(5,value);
 }); */
 /**
- * 保存信息
+ * 14.保存信息
  * 1-昵称，2-个性签名，3-默认地址，4-背景图(结合value参数)
  */
 function saveInfo(which,value){
@@ -381,7 +420,7 @@ function saveInfo(which,value){
 	});
 }
 /**
- * 加载我关注的人
+ * 15.加载我关注的人
  */
 function loadMyAtten(){
 	$("#myDiary").text('');
@@ -413,4 +452,23 @@ function loadMyAtten(){
 			}
 		}
 	});
+}
+/**
+ * 16.检测访问设备，手机返回true，其他返回false
+ * 平台、设备和操作系统
+ * @returns {Boolean}
+ */
+function isPhone(){
+	//平台、设备和操作系统
+	var system ={win : false,mac : false,xll : false};
+	//检测平台
+	var p = navigator.platform;
+	system.win = p.indexOf("Win") == 0;
+	system.mac = p.indexOf("Mac") == 0;
+	system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+	//跳转语句，如果是手机访问就自动跳转到wap.baidu.com页面
+	if(!system.win && !system.mac && !system.xll){//手机访问
+	    return true;
+	}
+	return false;
 }

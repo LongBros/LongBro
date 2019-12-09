@@ -69,6 +69,9 @@ function writeNote(){
 			alert(res.message)
 		}
 	});
+	if(id!=null&&id!=""){//编辑日记时，updateTime在java中定义
+		window.open("diary.html?id="+id,"_self");
+	}
 }
 //2.天气切换函数
 function changeWea(which){
@@ -259,12 +262,34 @@ function appendValue(img,from){
  				document.getElementById("authority").value=data.nauthority;
 // 				$('#location').text(loc);
 // 				$('#title').text(title);
- 				ue.ready(function() {//必须加上此行
- 					ue.setContent(con);
- 				});
- 				//document.form.content.value=con;
+ 				if(!isPhone()){//电脑端
+ 					ue.ready(function() {//必须加上此行
+ 	 					ue.setContent(con);
+ 	 				});
+ 				}else{//手机端
+ 	 				document.form.content.value=con;
+ 				}
  		}
  	});
+ }
+ /**
+  * 16.检测访问设备，手机返回true，其他返回false
+  * 平台、设备和操作系统
+  * @returns {Boolean}
+  */
+ function isPhone(){
+ 	//平台、设备和操作系统
+ 	var system ={win : false,mac : false,xll : false};
+ 	//检测平台
+ 	var p = navigator.platform;
+ 	system.win = p.indexOf("Win") == 0;
+ 	system.mac = p.indexOf("Mac") == 0;
+ 	system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+ 	//跳转语句，如果是手机访问就自动跳转到wap.baidu.com页面
+ 	if(!system.win && !system.mac && !system.xll){//手机访问
+ 	    return true;
+ 	}
+ 	return false;
  }
  /***************************************
  *为什么在appendValue函数中可直接使用ue.setContent，无需ue.ready，而loadDiaryById中必须要
