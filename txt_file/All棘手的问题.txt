@@ -23,7 +23,8 @@ CALL proc_report3_0_business_statistics_BankReferral(@a,@b,@c,@d,@e,@f,@g,@h,@i,
 分析后发现如下所示，下方的第二行的2、3、7没有加引号，加上引号之后就好了。但是原本2、3也没加引号就没事啊，所以太奇怪了
 if(wci.F_LOAN_TYPE ="1" or wci.F_LOAN_TYPE ="3" or wci.F_LOAN_TYPE ="4" or wci.F_LOAN_TYPE ="5" or wci.F_LOAN_TYPE ="7",if(ifnull(wci.F_BUS_LOAN_AMOUNT,"")="",0,wci.F_BUS_LOAN_AMOUNT),0) busLoanAmount,
 if(wci.F_LOAN_TYPE = "2" or wci.F_LOAN_TYPE ="3" or wci.F_LOAN_TYPE ="7",IF(IFNULL(wci.F_HFUND_LOAN_AMOUNT,"")="",0,wci.F_HFUND_LOAN_AMOUNT),0) hfundLoanAmount,
-3.银行转介表测试服正常，验收服报500的问题，没有打印错误日志，浏览器里面就能看到个null，调用存储过程也是正常的
+3.银行转介表测试服正常，验收服报500的问题，没有打印错误日志，浏览器里面就能看到个null，调用存储过程也是正常的---后来在本地连了验收服务器，发现是有些案件的部门名称为空导致的
+  这个问题之前是出现过的。
 4.cp -rf LongMusic $(date +%Y%m%d_%H%M%S)		该Linux命令可实现将项目复制成以当前时间命名的文件
 
 11-28周四
