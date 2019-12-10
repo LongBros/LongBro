@@ -288,8 +288,20 @@ function setPer(pernum){
 	setPage(author,perPage);
 	loadDiary(author,curPage,perPage);
 }
-function addToUnlike(userId1,userName1){
-	alert("开发中，敬请期待！无法将“"+userName1+"”加入不看列表")
+function addToUnlike(userId){
+	alert("开发中，敬请期待！无法将“"+userName1+"”加入不看列表");
+	//user:当前登录用户,userId:待移除用户
+	$.ajax({
+		url:"note/userinfo/addToOrRemoveFromList.do?type=0&user="+user+"&userId="+userId,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(res){
+			if(res.code==200){
+				
+			}
+		}
+	});
 }
 $(function(){
 	 $("select[name='qualifications']").change(function(){

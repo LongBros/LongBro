@@ -9,6 +9,7 @@ public class Author extends UserInfo{
 	private int commentedNum;//作者日记的总被评论数
 	private int praisedNum;//作者日记的总被喜欢数量
 	private String homeSongName;//家歌歌名
+	private String blackNames;//blackNameList是黑名单id，这个是黑名单用户名
 	public int getNoticeNum() {
 		return noticeNum;
 	}
@@ -56,6 +57,12 @@ public class Author extends UserInfo{
 	}
 	public void setHomeSongName(String homeSongName) {
 		this.homeSongName = homeSongName;
+	}
+	public String getBlackNames() {
+		return blackNames;
+	}
+	public void setBlackNames(String blackNames) {
+		this.blackNames = blackNames;
 	}
 	
 }

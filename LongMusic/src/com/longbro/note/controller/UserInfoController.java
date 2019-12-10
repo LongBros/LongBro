@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -214,7 +215,7 @@ public class UserInfoController{
     	return result;
 	}
     /**
-     * @desc 上传头像
+     * @desc 8.上传头像
      * @author zcl
      * @date 2019年12月2日
      * @param request
@@ -258,7 +259,7 @@ public class UserInfoController{
 		updateUserInfo(user);
     }
     /**
-     * @desc 查询用户数、日记数量的统计信息
+     * @desc 9.查询用户数、日记数量的统计信息
      * @author zcl
      * @date 2019年12月6日
      * @return
@@ -272,5 +273,48 @@ public class UserInfoController{
 		result.setMessage("查询统计信息成功");
 		return result;
 		
+    }
+    /**
+     * 10.添加某人至不看名单，或从不看名单移出某人
+     * @author LongBro
+     * 2019年12月10日
+     * 下午7:19:58
+     * @param type	type=0添加至黑名单，1移出黑名单
+     * @param user
+     * @param userId
+     * @return
+     */
+    @RequestMapping("addToOrRemoveFromList")
+    @ResponseBody
+    public BaseResult<HashMap<String, String>> addToOrRemoveFromList(int type,int user,String userId){
+    	//user:当前登录用户,userId:待移除用户
+    	BaseResult<HashMap<String, String>> result=new BaseResult<HashMap<String, String>>();
+    	if(StringUtils.isEmpty(user+"")||StringUtils.isEmpty(userId)){
+    		result.setCode(110);
+    		result.setMessage("缺少必传参数");
+    		return result;
+    	}
+    	UserInfo userinfo=userInfoService.get(user);
+    	
+    	String blackIds=userinfo.getBlackNameList();//获取用户黑名单
+    	if(type==0){
+        	blackIds=blackIds+","+userId;
+    		result.setMessage("已添加至不看名单");
+    	}else if(type==1){//移出黑名单
+    		if(!StringUtils.isEmpty(blackIds)){//黑名单中没有人
+        		if(blackIds.contains(userId+",")){//该id不在最后一个
+                	blackIds=blackIds.replace(userId+",","");
+            	}else{
+            		blackIds=blackIds.replace(","+userId,"");
+            	}
+        		result.setMessage("已移出不看名单");
+        	}
+    		result.setMessage("该用户不在你的不看名单中");
+
+    	}
+    	userinfo.setBlackNameList(blackIds);
+    	userInfoService.updateUserInfo(userinfo);
+    	result.setCode(200);
+		return result;
     }
 }

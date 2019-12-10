@@ -181,8 +181,9 @@
 	<select id="getDiaryByTable" parameterType="java.lang.String" resultType="java.util.HashMap">
 		select * from ${_parameter} 
 		where 1=1
-		<if test='_parameter=="song"'>
+		<if test='_parameter=="song"'><!-- 12-10改为只得到网易云音乐的 -->
 			and status=0
+			and website='网易云音乐'
 		</if>
 		<if test='_parameter=="poem"'>
 			and p_Status=0
