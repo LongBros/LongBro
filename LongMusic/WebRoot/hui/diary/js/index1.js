@@ -70,7 +70,10 @@ function loadDiary(author,page,perPage,userId){
 				if(data[i].nallowComment==0){//允许评论的才显示评论图标
 					com="&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>";
 				}
-				
+				var nsh="";
+				if((data[i].nwritter+"")!=(user+"")){//对别人才显示不看他
+					nsh="&nbsp;<i class=\"Hui-iconfont\" title='不看他' onclick='addToUnlike(\""+data[i].nwritter+"\",\""+data[i].userName+"\")'>&#xe68b;</i>";
+				}
 				//<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;
 				$("#diarys").append("<div class=\"diary\"><img src='image/tx/"+data[i].headImage+".jpg' class='touxiang'><span onclick='openOther(0,"+data[i].nid+")'>"+con+"</span><br>"
 				+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName
@@ -78,7 +81,7 @@ function loadDiary(author,page,perPage,userId){
 				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>"+title+"</span>&nbsp;<span>"+(music=='1'?'<font color=\'red\' title=\'有音频喔\'>音</font>':'')+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data[i].nlocation
 				+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum+com+"&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
 				+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum
-				+"</span>&nbsp;<i class=\"Hui-iconfont\" title='不看他' onclick='addToUnlike(\""+data[i].nwritter+"\",\""+data[i].userName+"\")'>&#xe68b;</i></div></div>"
+				+"</span>"+nsh+"</div></div>"
 				+"</div><hr width='100%'>");//740px
 			}
 		}
@@ -202,7 +205,7 @@ function setPage(author,perPage,userId){
 		page=parseInt(num/perPage)+1;
 	}
 	var value=new Array("10","20","30","40");
-	var sel="<select onchange='setPer(options[selectedIndex].value)'>";
+	var sel="<select onchange='setPer("+userId+",options[selectedIndex].value)'>";
 	for(var i=0;i<value.length;i++){
 		if(value[i]==perPage){
 			sel=sel+"<option value='"+value[i]+"' selected>每页"+value[i]+"篇</option>";
@@ -283,14 +286,17 @@ function initUnReadMessage(){
  * 10.选择每页数量时自动设置页码
  * @param pernum
  */
-function setPer(pernum){
+function setPer(userId,pernum){
 	perPage=pernum;
-	setPage(author,perPage);
-	loadDiary(author,curPage,perPage);
+	setPage(author,perPage,userId);
+	loadDiary(author,curPage,perPage,userId);
 }
-function addToUnlike(userId){
-	alert("开发中，敬请期待！无法将“"+userName1+"”加入不看列表");
+function addToUnlike(userId,userName){
 	//user:当前登录用户,userId:待移除用户
+	var r=window.confirm("确定添加‘"+userName+"’至不看列表？");
+	if(r==false){
+		return;
+	}
 	$.ajax({
 		url:"note/userinfo/addToOrRemoveFromList.do?type=0&user="+user+"&userId="+userId,
 		type:"get",
@@ -298,10 +304,11 @@ function addToUnlike(userId){
 		dataType:"Json",
 		success:function(res){
 			if(res.code==200){
-				
+				alert(res.message);
 			}
 		}
 	});
+	window.open(document.URL,"_self");
 }
 $(function(){
 	 $("select[name='qualifications']").change(function(){

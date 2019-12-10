@@ -107,11 +107,11 @@ public class UserInfoController{
     	if(ui!=null){//1.设置最近登录时间2.存cookie
         	System.out.println("查询到的登录数据"+new Gson().toJson(ui));
         	//设置最近登录时间，直接使用ui会报数据库中编码乱码错误？
-        	UserInfo ui1=new UserInfo();
-    		ui1.setLastLogin(TimeUtil.time());
-    		ui1.setUId(ui.getUId());
-    		ui1.setUUserId(ui.getUUserId());;
-    		userInfoService.updateUserInfo(ui1);
+//        	UserInfo ui1=new UserInfo();
+    		ui.setLastLogin(TimeUtil.time());
+//    		ui1.setUId(ui.getUId());
+//    		ui1.setUUserId(ui.getUUserId());;
+    		userInfoService.updateUserInfo(ui);
     		//存cookie
     		Cookie cookie=new Cookie("userId", acc);
     		cookie.setMaxAge(30*24*60*60);
@@ -308,8 +308,9 @@ public class UserInfoController{
             		blackIds=blackIds.replace(","+userId,"");
             	}
         		result.setMessage("已移出不看名单");
+        	}else{
+        		result.setMessage("该用户不在你的不看名单中");
         	}
-    		result.setMessage("该用户不在你的不看名单中");
 
     	}
     	userinfo.setBlackNameList(blackIds);

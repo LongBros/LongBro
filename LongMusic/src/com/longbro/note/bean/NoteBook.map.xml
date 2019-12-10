@@ -145,7 +145,8 @@
 		;
 	</select>
 	<select id="getDiaryNumBy" parameterType="com.longbro.note.bean.NoteBook" resultType="java.lang.Integer">
-		select count(1) from d_diary where 1=1 and n_Authority=0
+		select count(1) from d_diary 
+		where 1=1 and find_in_set(n_Authority,'0,2')
 		<if test="NType!=null and NType!=''"><!-- 日记分类 -->
 			 and n_Type =#{NType}
 		</if>

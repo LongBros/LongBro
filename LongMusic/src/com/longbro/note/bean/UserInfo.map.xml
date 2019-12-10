@@ -97,19 +97,19 @@
 				u_Born_Time=#{UBornTime,jdbcType=VARCHAR},
 			</if>
 			<if test="UHomeSong != null">
-				u_Home_Song=#{UHomeSong,jdbcType=VARCHAR}
+				u_Home_Song=#{UHomeSong,jdbcType=VARCHAR},
 			</if>
 			<if test="autoPlay != null">
-				u_autoplay_audio=#{autoPlay,jdbcType=VARCHAR}
+				u_autoplay_audio=#{autoPlay,jdbcType=VARCHAR},
 			</if>
 			<if test="signature != null">
-				u_Signature=#{signature,jdbcType=VARCHAR}
+				u_Signature=#{signature,jdbcType=VARCHAR},
 			</if>
 			<if test="lastLogin != null">
-				u_recent_login=#{lastLogin,jdbcType=VARCHAR}
+				u_recent_login=#{lastLogin,jdbcType=VARCHAR},
 			</if>
 			<if test="location != null">
-				u_Location=#{location,jdbcType=VARCHAR}
+				u_Location=#{location,jdbcType=VARCHAR},
 			</if>
 			<if test="back != null">
 				u_default_back=#{back,jdbcType=VARCHAR}
