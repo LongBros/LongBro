@@ -4,20 +4,8 @@ db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&charac
 db.username=mysqlrd
 db.password=123456
 
-
- LongMusic/WebRoot/author.html
-        modified:   LongMusic/WebRoot/diary.html
-        modified:   LongMusic/WebRoot/hui/diary/js/index1.js
-        modified:   LongMusic/WebRoot/hui/diary/js/myHome.js
-        modified:   LongMusic/WebRoot/index.html
-        modified:   LongMusic/WebRoot/message.html
-        modified:   LongMusic/WebRoot/myHome.html
-        modified:   LongMusic/WebRoot/new.html
-        modified:   LongMusic/WebRoot/newDiary.html
-        modified:   LongMusic/src/com/longbro/note/bean/Author.java
-        modified:   LongMusic/src/com/longbro/note/bean/NoteBook.map.xml
-        modified:   LongMusic/src/com/longbro/note/bean/UserInfo.map.xml
-        modified:   LongMusic/src/com/longbro/note/controller/UserInfoController.java
+统计表机构
+2530000022937712
 
 
 

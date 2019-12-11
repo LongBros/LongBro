@@ -372,8 +372,8 @@ function loadInfo(){
 			string=string+"<span>默认日记地址：</span><input name='location' value='"+data.location+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(3)' title='点击保存'>&#xe676;</i><br>";
 			//string=string+"<span>家歌选择：</span><font color='red'>"+data.uhomeSong+"</font><i class=\"Hui-iconfont\">&#xe6df;</i>(其他用户访问你的家园时会播放家歌)<br>";
 			string=string+"<span>我的黑名单(不看名单，点击可移出):";
-			for(var i=1;i<blackIds.length;i++){
-				string=string+"<a onclick='removeFromList(\""+blackIds[i]+"\",\""+blacks[i-1]+"\")' style='color:red'>"+blacks[i-1]+"</a>&emsp;&emsp;";
+			for(var i=0;i<blackIds.length;i++){
+				string=string+"<a onclick='removeFromList(\""+blackIds[i]+"\",\""+blacks[i]+"\")' style='color:red'>"+blacks[i]+"</a>&emsp;&emsp;";
 			}
 			string=string+"</span><br>";
 			string=string+"<span>音频自动播放(日记音频及用户家歌)：</span>";
@@ -485,9 +485,9 @@ function isPhone(){
  * 17.将userId移出不看他列表
  * @param userId
  */
-function removeFromList(userId)
+function removeFromList(userId,userName)
 {
-	var r=window.confirm("确定从不看列表移出‘"+userId+"’？");
+	var r=window.confirm("确定从不看列表移出‘"+userName+"’？");
 	if(r==false){
 		return;
 	}

@@ -167,7 +167,6 @@ public class NoteBookController{
 			NoteBook nb=new NoteBook();
 			nb.setNWritter(account+"");
 			nb.setNTime(TimeUtil.getToday()+" "+TimeUtil.genRandomTime());
-			nb.setNLocation("河南省邓州市");
 			nb.setNAuthority(0);//所有人可见
 			nb.setNType(3);
 			nb.setNAllowComment(0);//允许评论
@@ -178,11 +177,12 @@ public class NoteBookController{
 				nb.setNTitle(map.get("songName")+"-"+map.get("singer"));
 				nb.setNContent(map.get("lyric")+"");
 				nb.setnSongId(map.get("sourceId")+"");
+				nb.setNLocation("河南省平顶山市");
 				idd=map.get("id")+"";
 			}else{//古诗
 				nb.setNTitle(map.get("p_Name")+"-"+map.get("p_Poet"));
 				nb.setNContent(map.get("p_PoemCons")+"");
-				System.out.println(map.get("p_Id"));
+				nb.setNLocation("河南省邓州市");
 				idd=map.get("p_Id")+"";
 			}
 			noteBookService.addNote(nb);//插入笔记

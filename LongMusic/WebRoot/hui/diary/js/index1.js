@@ -293,7 +293,7 @@ function setPer(userId,pernum){
 }
 function addToUnlike(userId,userName){
 	//user:当前登录用户,userId:待移除用户
-	var r=window.confirm("确定添加‘"+userName+"’至不看列表？");
+	var r=window.confirm("确定添加‘"+userName+"’至不看列表？(添加后在首页不会显示他的文章)");
 	if(r==false){
 		return;
 	}

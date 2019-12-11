@@ -48,8 +48,9 @@
 		(SELECT COUNT(1) FROM d_visit WHERE v_Visited=#{UUserId}) visitedNum,
 		(SELECT COUNT(1) FROM d_notice WHERE n_Noticer=#{UUserId}) noticeNum,
 		(SELECT COUNT(1) FROM d_notice WHERE n_Noticed=#{UUserId}) fanNum,
-		u_black_namelist blackNameList,
+		<!-- u_black_namelist blackNameList, 12-11取消此写法，ID和name都使用以下可以一一对应-->
 		<!-- 12-10添加黑名单的name -->
+		(SELECT GROUP_CONCAT(u_User_Id) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_namelist)) blackNameList,
 		(SELECT GROUP_CONCAT(u_User_Name) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_namelist)) blackNames
 		FROM d_user_info dui
 		LEFT JOIN song s ON dui.u_Home_Song=s.sourceId

@@ -297,9 +297,18 @@ public class UserInfoController{
     	UserInfo userinfo=userInfoService.get(user);
     	
     	String blackIds=userinfo.getBlackNameList();//获取用户黑名单
-    	if(type==0){
-        	blackIds=blackIds+","+userId;
-    		result.setMessage("已添加至不看名单");
+    	if(type==0){//添加至黑名单
+    		if(!StringUtils.isEmpty(blackIds)){//黑名单中有人
+    			if(blackIds.contains(userId)){
+    				result.setMessage("此作者已在你的不看名单中");
+        		}else{
+        			blackIds=blackIds+","+userId;
+                	result.setMessage("已添加至不看名单");
+        		}
+    		}else{
+            	blackIds=blackIds+","+userId;
+            	result.setMessage("已添加至不看名单");
+    		}
     	}else if(type==1){//移出黑名单
     		if(!StringUtils.isEmpty(blackIds)){//黑名单中没有人
         		if(blackIds.contains(userId+",")){//该id不在最后一个
