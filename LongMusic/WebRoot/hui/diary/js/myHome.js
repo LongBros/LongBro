@@ -3,7 +3,7 @@
  * @param author
  * @param perPage
  */
-function setPage1(author,perPage){
+function setPage1(perPage){
 	$(".pages").text('');
 	var num=0;
 	$.ajax({
@@ -11,7 +11,8 @@ function setPage1(author,perPage){
 		type:"get",
 		async:false,
 		data:{
-			NWritter:author
+			NWritter:author,
+			NLocation:"0,1,2"//做权限使用
 		},
 		dataType:"text",
 		success:function(data){
@@ -40,24 +41,24 @@ function setPage1(author,perPage){
 		$(".pages").append("&nbsp;共"+num+"篇日记&nbsp;");
 	}
 	if(curPage!=1){
-		$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','1','"+perPage+"')\">首</span>&emsp;")
-		$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+(curPage-1)+"','"+perPage+"')\">←</span>&emsp;");
+		$(".pages").append("<span onclick=\"loadMyDiary('1','"+perPage+"')\">首</span>&emsp;")
+		$(".pages").append("<span onclick=\"loadMyDiary('"+(curPage-1)+"','"+perPage+"')\">《</span>&emsp;");
 	}
 	if(page>5){//多于5页，只显示5页
 		if(curPage>page-5){//当前页码大于总页码-5，输出后六页
 			for(var i=page-4;i<=page;i++){
 	              if(i==curPage){
-	  				   $(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+	  				   $(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
 		          }else{
-					   $(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+					   $(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
 	         	  }
 	        }
 		}else{//当前页码小于总页码-6，输出当前页码后的六页
             for(var i=curPage;i<curPage+5;i++){
                 if(i==curPage){
-	  				   $(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+	  				   $(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
                 }else{
-					   $(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+					   $(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
                 }
             }
          }
@@ -66,16 +67,16 @@ function setPage1(author,perPage){
 		if(page!=1){//只有一页无需显示页码
 			for(var i=1;i<=page;i++){
 				if(curPage==i){
-					$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+					$(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
 				}else{
-					$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+					$(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
 				}
 			}
 		}
 	}
 	if(curPage+1<=page){//＜＞
-		$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+(curPage+1)+"','"+perPage+"')\">→</span>&emsp;")
-		$(".pages").append("<span onclick=\"loadMyDiary('"+author+"','"+page+"','"+perPage+"')\">尾</span>&emsp;")
+		$(".pages").append("<span onclick=\"loadMyDiary('"+(curPage+1)+"','"+perPage+"')\">》</span>&emsp;")
+		$(".pages").append("<span onclick=\"loadMyDiary('"+page+"','"+perPage+"')\">尾</span>&emsp;")
 	}
 	
 }
@@ -85,7 +86,7 @@ function setPage1(author,perPage){
  */
 function setPer1(pernum){
 	perPage=pernum;
-	setPage1(author,perPage);
+	setPage1(perPage);
 	loadMyDiary(curPage,perPage);
 }
 /**
@@ -104,7 +105,7 @@ function loadMyDiary(page,perPage){
 	document.getElementById("store").style.color="black";
 	document.getElementById("setting").style.color="black";
 	document.getElementById("attention").style.color="black";
-	var au="0,1,2";//完全公开的
+	var au="0,1,2";//0完全公开,1自己可见,2登录可见
 	//$("#myDiary").text("");
 	$.ajax({
 		url:"note/diary/getDiaryBy.do",
@@ -158,7 +159,7 @@ function loadMyDiary(page,perPage){
 	});
 	curPage=parseInt(page);
 	perPage=parseInt(perPage);
-	setPage1(user,perPage);
+	setPage1(perPage);
 }
 /**
  * 4.加载我喜欢的
@@ -298,15 +299,30 @@ function delDiary(id){
 		},
 		success:function(res){
 			alert("日记已删除");
-			loadMyDiary(author,curPage,perPage);
+			loadMyDiary(curPage,perPage);
 		}
 	});
 }
 /**
  * 9.日记置顶
  */
-function diaryToTop(){
-	alert("不好意思喔，开发中…敬请期待。^_^")
+function diaryToTop(id){
+	//alert("不好意思喔，开发中…敬请期待。^_^");
+	$.ajax({
+		url:"note/diary/addOrEditNote.do",
+		type:"post",
+		async:false,
+		dataType:"Json",
+		data:{
+			NId:id,
+			nUserTop:"1"
+		},
+		success:function(res){
+			if(res.code==200){
+				alert("置顶成功");
+			}
+		}
+	});
 }
 /**
  * 10.
@@ -330,9 +346,9 @@ function openSetting(){
  * 12-01 加载所有的背景图
  */
 function loadAllBack(){
-	var array=new Array("back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg"
+	var array=new Array("back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg"
 			,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png"
-			,"back0.gif","back1.gif");
+			,"back0.gif","back1.gif","back2.gif");
 	for(var i=0;i<array.length;i++){
 		if(i%5==0){
 			$("#myDiary").append("<br>");
@@ -372,8 +388,12 @@ function loadInfo(){
 			string=string+"<span>默认日记地址：</span><input name='location' value='"+data.location+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(3)' title='点击保存'>&#xe676;</i><br>";
 			//string=string+"<span>家歌选择：</span><font color='red'>"+data.uhomeSong+"</font><i class=\"Hui-iconfont\">&#xe6df;</i>(其他用户访问你的家园时会播放家歌)<br>";
 			string=string+"<span>我的黑名单(不看名单，点击可移出):";
-			for(var i=0;i<blackIds.length;i++){
-				string=string+"<a onclick='removeFromList(\""+blackIds[i]+"\",\""+blacks[i]+"\")' style='color:red'>"+blacks[i]+"</a>&emsp;&emsp;";
+//			for(var i=0;i<blackIds.length;i++){
+//				string=string+"<a onclick='removeFromList(\""+blackIds[i]+"\",\""+blacks[i]+"\")' style='color:red'>"+blacks[i]+"</a>&emsp;&emsp;";
+//			}
+			//另一种for循环
+			for(var key in blackIds){
+				string=string+"<a onclick='removeFromList(\""+blackIds[key]+"\",\""+blacks[key]+"\")' style='color:red'>"+blacks[key]+"</a>&emsp;&emsp;";
 			}
 			string=string+"</span><br>";
 			string=string+"<span>音频自动播放(日记音频及用户家歌)：</span>";

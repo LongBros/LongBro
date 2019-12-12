@@ -184,13 +184,7 @@
 	</div>
 	<div class="diarys" id="diarys">
 		<div class="diary" >
-			我是内容<br>
-			LongBro	2019-10-12 23:00:52 星期六 |《我又想你了》  广东省广州市
-			<div class="zan">
-				<i class="Hui-iconfont">&#xe725;</i>2000&nbsp;
-				<i class="Hui-iconfont">&#xe622;</i>66&nbsp;
-				<i class="Hui-iconfont">&#xe66d;</i>8
-			</div>
+			如果长时间加载不出来，还请刷新一下，给你带来的不便还请见谅。<br>
 		</div>
 	</div>
 	<div class="pages" style="cursor: pointer;">
@@ -254,7 +248,7 @@ $(function(){
 	loadDiary('','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
 	setPage('',perPage,user);//根据日记数量设置分页，参数为作者
 	if(user!=""){
-		getSetting();//加载登录用户的设置
+		getSetting(user);//加载登录用户的设置
 	}
 	monitor();//手机访问时隐藏左边栏目
 });

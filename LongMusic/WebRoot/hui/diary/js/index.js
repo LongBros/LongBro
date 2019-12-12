@@ -222,6 +222,8 @@ function loadAuthorInfo(){
 			document.getElementById("sex").innerText=sex;
 			document.getElementById("joinTime").innerText="加入时间："+data.ujoinTime;
 			document.getElementById("recentLogin").innerText="最近登录："+data.lastLogin;//(data.lastLogin=="")?"":
+			var body=document.getElementById("bodys");
+			body.style.background="url(res/images/back/"+data.back+")";
 		}
 	});
 	setInteractNum(author);
@@ -336,8 +338,8 @@ function attenAuthor(){
 	});
 }
 //14.得到登录用户的一些设置
-function getSetting(){
-	var url="note/userinfo/getAuthorInfoByUserId.do?UUserId="+user;
+function getSetting(userId){
+	var url="note/userinfo/getAuthorInfoByUserId.do?UUserId="+userId;
 	$.ajax({
 		url:url,
 		type:"get",

@@ -215,7 +215,7 @@ var author=user;//loadAuthorInfo()函数中需要author
 
 $(function(){
 	if(user!=""){
-		getSetting();//加载登录用户的设置：背景、不看他、是否自动播放等
+		getSetting(user);//加载登录用户的设置：背景、不看他、是否自动播放等
 	}
 	openTab(1);
 });

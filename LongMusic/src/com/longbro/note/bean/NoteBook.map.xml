@@ -15,6 +15,9 @@
 		<result property="NAllowComment" column="n_AllowComment" jdbcType="NUMERIC"/>
 		<result property="nAuthority" column="n_Authority" jdbcType="NUMERIC"/>
 		<result property="nSongId" column="n_song_id" jdbcType="VARCHAR"/>
+		<result property="nTop" column="n_top" jdbcType="NUMERIC"/>
+		<result property="nUserTop" column="n_user_top" jdbcType="NUMERIC"/>
+		<result property="updateTime" column="n_update_time" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.longbro.note.bean.NoteBook">
@@ -94,6 +97,12 @@
 			<if test="nAuthority != null">
 				n_Authority=#{nAuthority,jdbcType=NUMERIC},
 			</if>
+			<if test="nTop != null">
+				n_top=#{nTop,jdbcType=NUMERIC},
+			</if>
+			<if test="nUserTop != null">
+				n_user_top=#{nUserTop,jdbcType=NUMERIC},
+			</if>
 			<if test="updateTime != null">
 				n_update_time=#{updateTime,jdbcType=VARCHAR},
 			</if>
@@ -111,7 +120,7 @@
 		select * from d_diary 
 		ORDER BY n_Time DESC,n_Id DESC LIMIT #{page},10 
 	</select>
-	<select id="getDiaryBy" parameterType="com.longbro.note.bean.NoteBook" resultType="com.longbro.note.bean.Diary">
+	<select id="getDiaryBy" resultType="com.longbro.note.bean.Diary">
 		select 
 		d.n_top nTop,d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
 		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
@@ -138,7 +147,11 @@
 			and !FIND_IN_SET(n_Writter,
 				CONCAT('\'1,',(SELECT u_black_namelist FROM d_user_info WHERE u_User_Id=#{user}),',2\''))
 		</if>
-		ORDER BY n_top desc,n_Time DESC,n_Id DESC
+		ORDER BY n_top desc,
+		<if test="author!=null and author!=''"><!-- 在作者页和我的家园页，用户置顶生效 -->
+			n_user_top desc,
+		</if>
+		n_Time DESC,n_Id DESC
 		<if test="page!=null and page!=''">
 			LIMIT ${page},${perPage} 
 		</if>
@@ -146,7 +159,7 @@
 	</select>
 	<select id="getDiaryNumBy" parameterType="com.longbro.note.bean.NoteBook" resultType="java.lang.Integer">
 		select count(1) from d_diary 
-		where 1=1 and find_in_set(n_Authority,'0,2')
+		where 1=1
 		<if test="NType!=null and NType!=''"><!-- 日记分类 -->
 			 and n_Type =#{NType}
 		</if>
@@ -157,6 +170,10 @@
 		<if test="NBookid!=null and NBookid!=''">
 			and !FIND_IN_SET(n_Writter,
 				CONCAT('\'1,',(SELECT u_black_namelist FROM d_user_info WHERE u_User_Id=#{NBookid}),',2\''))
+		</if>
+		<!-- 12-12此处的NLocation做要查看的权限使用，比如：个人页使用的0,1,2表示查询完全公开、自己可见、登录可见的日记数量 -->
+		<if test="NLocation!=null and NLocation!=''">
+			 and find_in_set(n_Authority,#{NLocation})
 		</if>
 		ORDER BY n_Id desc;
 	</select>

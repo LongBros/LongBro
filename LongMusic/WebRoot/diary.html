@@ -327,9 +327,10 @@ $(function(){
 	getBeforeAndNextId();
 	loadCom();//加载评论
 	ifAttention();
+	//12-12日记页和作者页定为相关作者的背景
 	if(user!=""){
-		getSetting();//加载登录用户的设置
-	}
+		getSetting(author);//加载登录用户的设置
+	} 
 	monitor();//手机访问时隐藏左边栏目
 });
 </script> 

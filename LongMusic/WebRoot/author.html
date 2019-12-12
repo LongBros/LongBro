@@ -274,9 +274,10 @@ $(function(){
 	setPage(author,perPage,'');//作者页不需过滤黑名单，当前登录人不传
 	loadDiary(author,1,perPage,'');//作者页不需过滤黑名单，当前登录人不传
 	ifAttention();
+	//12-12日记页和作者页定为相关作者的背景
 	if(user!=""){
-		getSetting();//加载登录用户的设置
-	}
+		getSetting(author);//加载用户的设置
+	} 
 	monitor();//手机访问时隐藏左边栏目
 });
 </script> 
