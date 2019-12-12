@@ -141,6 +141,12 @@ function loadMyDiary(page,perPage){
 				var wea=getWeaById(data[i].nweather);
 				//分类
 				var cate=getCateById(data[i].ntype);
+				var top=data[i].nUserTop;
+				if(top){
+					top="<span style='color:#c88326' onclick='diaryToTop("+data[i].nid+",\"0\")'>取消置顶</span>";
+				}else{
+					top="<span style='color:blue' onclick='diaryToTop("+data[i].nid+",\"1\")'>置顶</span>";
+				}
 				$("#myDiary").append("<div class=\"diary\">&nbsp;<span class='diaryTitle' title='"+data[i].ntitle
 				+"' style='color:black;font-size:18px;' onclick='openOther(0,"+data[i].nid+")'>"+title+"</span><br><span onclick='openOther(0,"+data[i].nid+")' style='color:gray'>"+con+"</span><br>"
 						+"<div class='info'>"
@@ -149,9 +155,9 @@ function loadMyDiary(page,perPage){
 						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum
 						+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
 						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum
-						+"</span>&nbsp;<span style='color:red' onclick='editDiary("+data[i].nid
-						+")'>编辑</span>&nbsp;<span style='color:red' onclick='delDiary("+data[i].nid
-						+")'>删除</span>&nbsp;<span style='color:red' onclick='diaryToTop("+data[i].nid+")'>置顶</span></div></div>"
+						+"</span>&nbsp;<span style='color:#c88326' onclick='editDiary("+data[i].nid
+						+")'>编辑</span>&nbsp;<span style='color:#c88326' onclick='delDiary("+data[i].nid
+						+")'>删除</span>&nbsp;"+top+"</div></div>"
 						+"</div><hr width='880px'>");
 			}
 
@@ -306,7 +312,7 @@ function delDiary(id){
 /**
  * 9.日记置顶
  */
-function diaryToTop(id){
+function diaryToTop(id,which){
 	//alert("不好意思喔，开发中…敬请期待。^_^");
 	$.ajax({
 		url:"note/diary/addOrEditNote.do",
@@ -315,14 +321,19 @@ function diaryToTop(id){
 		dataType:"Json",
 		data:{
 			NId:id,
-			nUserTop:"1"
+			nUserTop:which
 		},
 		success:function(res){
 			if(res.code==200){
-				alert("置顶成功");
+				if(which==1){
+					alert("置顶成功");
+				}else if(which==0){
+					alert("已取消置顶");
+				}
 			}
 		}
 	});
+	loadMyDiary(1,10);
 }
 /**
  * 10.
