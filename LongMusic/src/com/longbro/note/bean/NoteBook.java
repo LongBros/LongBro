@@ -24,6 +24,7 @@ public class NoteBook{
 	protected Integer nAuthority; 
 	protected String nSongId;
 	protected Integer nTop; 
+	protected Integer nUserTop;
 	protected String updateTime;
 	public Integer getNId() {
 		return this.NId;
@@ -154,6 +155,13 @@ public class NoteBook{
 	}
 	public void setnTop(Integer nTop) {
 		this.nTop = nTop;
+	}
+	
+	public Integer getnUserTop() {
+		return nUserTop;
+	}
+	public void setnUserTop(Integer nUserTop) {
+		this.nUserTop = nUserTop;
 	}
 	public String getUpdateTime() {
 		return updateTime;

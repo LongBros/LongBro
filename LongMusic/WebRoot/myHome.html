@@ -201,9 +201,9 @@ $(function(){
 	var perPage=10;//当前一页展示日记数量
 	loadMyDiary(curPage,perPage);
 
-	setPage1(author,perPage);
+	setPage1(perPage);
 	if(user!=""){
-		getSetting();//加载登录用户的设置
+		getSetting(user);//加载登录用户的设置
 	}
 	monitor();//手机访问时隐藏左边栏目
 });

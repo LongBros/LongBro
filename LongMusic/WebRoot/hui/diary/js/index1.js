@@ -185,13 +185,18 @@ function openOther(type,value){
 function setPage(author,perPage,userId){
 	$(".pages").text('');
 	var num=0;
+	var au="0";//完全公开的
+	if(user!=null){//登录用户可看到完全公开和登录可见的
+		au="0,2";
+	}
 	$.ajax({
 		url:"note/diary/getDiaryNumBy.do",
 		type:"get",
 		async:false,
 		data:{
 			NWritter:author,
-			NBookid:userId//此处的NBookid作当前登录用户使用
+			NBookid:userId,//此处的NBookid作当前登录用户使用
+			NLocation:au//12-12做权限使用
 		},
 		dataType:"text",
 		success:function(data){
