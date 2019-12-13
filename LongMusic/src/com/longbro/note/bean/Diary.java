@@ -16,6 +16,7 @@ public class Diary extends NoteBook{
 	private int critiNum;//批评数量
 	private int storeNum;//收藏数量
 	private int commentNum;//评论数量
+	private int wordSize;//日记内容字数		12-13新增，统计方法 1.数据库查询，弊端是包含了HTML标签 2.Java程序统计，弊端是增加查询时间
 	
 	public String getUserName() {
 		return userName;
@@ -58,6 +59,12 @@ public class Diary extends NoteBook{
 	}
 	public void setHeadImage(String headImage) {
 		this.headImage = headImage;
+	}
+	public int getWordSize() {
+		return wordSize;
+	}
+	public void setWordSize(int wordSize) {
+		this.wordSize = wordSize;
 	}
 	
 }

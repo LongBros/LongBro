@@ -23,6 +23,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class TimeUtil {
 	static long oneday=1*24*60*60*1000;//一天的毫秒数
+	static long onehour=60*60*1000;//一小时的毫秒数
+	static long onemin=60*1000;//一分钟的毫秒数
+	static long onesec=1000;//一分钟的毫秒数
 	static SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	static SimpleDateFormat sdfD=new SimpleDateFormat("yyyy-MM-dd");
 	public static void main(String[] args) {
@@ -67,7 +70,7 @@ public class TimeUtil {
 	 * @date 2019年9月22日
 	 * @return
 	 */
-	public static String getMonth(){
+	public static String getThisMonth(){
 		return time().substring(0, 7);
 	}
 	/**
@@ -184,5 +187,83 @@ public class TimeUtil {
 			return m+"";
 		}
 	}
-	
+	/**
+	 * 10.得到上月：例：2019-12的上月是2019-11
+	 * @author LongBro
+	 * 2019年12月13日
+	 * 下午4:28:00
+	 * @return
+	 */
+	public static String getLastMonth(){
+		int mon=Integer.parseInt(getThisMonth().substring(5, 7));
+		if(mon==1){
+			mon=12;
+		}else{
+			mon--;
+		}
+		return getThisMonth().substring(0, 5)+mon;
+	}
+	/**
+	 * 11.得到当前年，例：2019
+	 * @author LongBro
+	 * 2019年12月13日
+	 * 下午4:31:15
+	 * @return
+	 */
+	public static String getThisYear(){
+		return getThisMonth().substring(0,4);
+	}
+	/**
+	 * 12.得到上一年，例：2018
+	 * @author LongBro
+	 * 2019年12月13日
+	 * 下午4:32:16
+	 * @return
+	 */
+	public static String getLastYear(){
+		return (Integer.parseInt(getThisYear())-1)+"";
+	}
+	/**
+	 * 13.返回几分钟之前或几秒钟之前的时间
+	 * @author LongBro
+	 * 2019年12月13日
+	 * 下午4:57:39
+	 * @param t 数字
+	 * @param w 类型：0：分，1：秒
+	 * @return
+	 */
+	public static String getBefore(int t,int w){
+		if(w==0){
+			return sdf.format(new Date(System.currentTimeMillis()-t*onemin));
+		}
+		return sdf.format(new Date(System.currentTimeMillis()-t*onesec));
+	}  
+	/**
+	 * ~分钟之前、
+	 * 今天、昨天、本月~日、上月~日、今年~月~日、去年~月~日
+	 * 例：今天 10:43:14 星期五、昨天 10:43:14 星期五、本月09日 22:31:28 星期一、上月21日 21:36:46 星期四、今年12月28日 14:25:27 星期五、去年12月28日 14:25:27 星期五
+	 * @author LongBro
+	 * 2019年12月13日
+	 * 下午4:07:02
+	 */
+	public static String timeConvert(String time){
+		if(time.contains("今天")){//今天 10:43:14 星期五
+			return getToday()+" "+time.substring(3);
+		}else if(time.contains("昨天")){//昨天 10:43:14 星期五
+			return getYesterday()+" "+time.substring(3);
+		}else if(time.contains("本月")){//本月09日 22:31:28 星期一
+			return getThisMonth()+"-"+time.substring(2,4)+" "+time.substring(6);
+		}else if(time.contains("上月")){//上月21日 21:36:46 星期四
+			return getLastMonth()+"-"+time.substring(2,4)+" "+time.substring(6);
+		}else if(time.contains("今年")){
+			return getThisYear()+"-"+time.substring(2,4)+"-"+time.substring(5,7)+time.substring(8);
+		}else if(time.contains("去年")){//去年12月28日 14:25:27 星期五
+			return getLastYear()+"-"+time.substring(2,4)+"-"+time.substring(5,7)+time.substring(8);
+		}else if(time.contains("分钟之前")){//20 分钟之前，年月日固定
+			return getBefore(Integer.parseInt(time.substring(0,1)), 0);
+		}else if(time.contains("秒")){//20秒分钟之前，年月日固定
+			return getBefore(Integer.parseInt(time.substring(0,1)), 1);
+		}
+		return "";
+	}
 }

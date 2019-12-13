@@ -18,9 +18,9 @@ import java.util.List;
  * @author:huasi_lin
  * @date:2018年3月22日上午9:51:28
  */
-public class PatchUtil {
+public class MyPatchUtil {
 
-    public static String patchFile = "C:\\Users\\pc\\Desktop\\packet\\2019-12-131.txt";//补丁文件:记录更新文件的项目路径，如:src/main/java/com/redxun/sys/core/controller/SysAccountFormController.java
+    public static String patchFile = "C:\\Users\\pc\\Desktop\\packet\\2019-12-13.txt";//补丁文件:记录更新文件的项目路径，如:src/main/java/com/redxun/sys/core/controller/SysAccountFormController.java
 
 //    public static String classPath="D:/alc201910171/lcfex-mortgageBusiness/target/lcfex-mortgageBusiness/";//class所在路径:从WEB-INF开始
     public static String classPath="D:\\apache-tomcat-8.5.38\\webapps\\lcfex-mortgageBusiness\\";//class所在路径:从WEB-INF开始
