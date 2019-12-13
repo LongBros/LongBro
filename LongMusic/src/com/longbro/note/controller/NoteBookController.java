@@ -19,6 +19,7 @@ import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.Diary;
 import com.longbro.note.bean.NoteBook;
 import com.longbro.note.service.NoteBookService;
+import com.longbro.util.SpideLapuda;
 import com.longbro.util.TimeUtil;
 /**
  * 笔记本控制器
@@ -145,7 +146,6 @@ public class NoteBookController{
      * @date 2019年11月30日
      */
     public void genDiary(){
-
     	int num=noteBookService.ifHasGen(TimeUtil.getToday(), "66666666");
     	if(num>0){//今日已生成过
         	System.out.println("今日已生成过");
@@ -191,5 +191,24 @@ public class NoteBookController{
 	    	System.out.println(">>>>>>>>>>>>>已生成今日"+account+"的日记为第"+idd);
 
 		}
+    }
+    /**
+     * 庆兔兔日记每日录入
+     * @author LongBro
+     * 2019年12月13日
+     * 下午3:03:56
+     * @param id
+     */
+    @RequestMapping(value="spideLapuda",method=RequestMethod.GET)
+    @ResponseBody
+    public void spideLapuda(int id){
+    	HashMap<String, String> map=SpideLapuda.spideLapuda(id);
+    	NoteBook nb=new NoteBook();
+    	nb.setNWritter("65313340");
+    	nb.setNTitle(map.get("title"));
+    	nb.setNContent(map.get("content"));
+    	nb.setNTime(map.get("time").substring(0, 10)+" "+TimeUtil.genRandomTime());
+    	nb.setNLocation("兔子窝");
+    	noteBookService.addNote(nb);
     }
 }
