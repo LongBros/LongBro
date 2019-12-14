@@ -46,6 +46,8 @@ public class NoteBookController{
     	BaseResult result=new BaseResult<>();
     	System.out.println("id:"+nb.getNId());
     	if(nb.getNId()==0){//无id时新增
+    		nb.setnTop(0);
+    		nb.setnUserTop(0);
         	noteBookService.addNote(nb);
         	result.setMessage("日记发布成功，请勿重复提交");
 //        	log.info("日记发布成功");
@@ -172,6 +174,8 @@ public class NoteBookController{
 			nb.setNAllowComment(0);//允许评论
 			nb.setNWeather(0);
 			nb.setNMood(0);
+			nb.setnTop(0);
+			nb.setnUserTop(0);
 			System.out.println(">>>>>>>>>>>>>用户"+account+"今日被使用的内容的实体为"+new Gson().toJson(map));
 			if(account==88888888){//歌曲
 				nb.setNTitle(map.get("songName")+"-"+map.get("singer"));
@@ -193,7 +197,7 @@ public class NoteBookController{
 		}
     }
     /**
-     * 庆兔兔日记每日录入
+     * 8.庆兔兔日记每日录入
      * @author LongBro
      * 2019年12月13日
      * 下午3:03:56
@@ -201,14 +205,31 @@ public class NoteBookController{
      */
     @RequestMapping(value="spideLapuda",method=RequestMethod.GET)
     @ResponseBody
-    public void spideLapuda(int id){
+    public BaseResult spideLapuda(int id){
+    	BaseResult result=new BaseResult<>();
+    	if(StringUtils.isEmpty(id+"")){
+    		result.setCode(100);
+    		result.setMessage("待爬取的日记id不能为空");
+    		return result;
+    	}
     	HashMap<String, String> map=SpideLapuda.spideLapuda(id);
     	NoteBook nb=new NoteBook();
     	nb.setNWritter("65313340");
+    	nb.setNType(0);
     	nb.setNTitle(map.get("title"));
     	nb.setNContent(map.get("content"));
     	nb.setNTime(map.get("time").substring(0, 10)+" "+TimeUtil.genRandomTime());
     	nb.setNLocation("兔子窝");
+    	nb.setNWeather(0);
+    	nb.setNMood(0);
+    	nb.setNAllowComment(0);
+    	nb.setNAuthority(0);
+    	nb.setnTop(0);
+    	nb.setnUserTop(0);
     	noteBookService.addNote(nb);
+    	result.setCode(200);
+    	result.setMessage("爬取庆兔兔日记成功");
+    	result.setResult(map.get("title"));
+    	return result;
     }
 }

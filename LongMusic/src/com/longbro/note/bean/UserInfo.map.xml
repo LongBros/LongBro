@@ -23,7 +23,8 @@
 	
 	<insert id="create" parameterType="com.longbro.note.bean.UserInfo">
 		INSERT INTO d_user_info
-		(u_Id,u_User_Name,u_User_Id,u_User_Sex,u_Comment_Num,u_black_namelist,u_Join_Time,u_Status,u_Born_Time,u_Home_Song,u_autoplay_audio,u_recent_login,
+		(u_Id,u_User_Name,u_User_Id,u_User_Sex,u_Comment_Num,u_black_namelist,u_Join_Time,u_Status,u_Born_Time,u_Home_Song,u_autoplay_audio,
+		u_recent_login,u_Head_Image,u_Password,
 		u_Location,u_default_back)
 		VALUES 
 		(#{UId,jdbcType=NUMERIC}, #{UUserName,jdbcType=VARCHAR}, #{UUserId,jdbcType=NUMERIC}, 
@@ -31,7 +32,8 @@
 		#{blackNameList,jdbcType=NUMERIC}, #{UJoinTime,jdbcType=VARCHAR}, 
 		#{UStatus,jdbcType=NUMERIC}, #{UBornTime,jdbcType=VARCHAR}, 
 		#{UHomeSong,jdbcType=VARCHAR},#{autoPlay,jdbcType=NUMERIC},
-		#{lastLogin,jdbcType=VARCHAR},
+		#{lastLogin,jdbcType=VARCHAR},#{headImage,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
 		#{location,jdbcType=VARCHAR},#{back,jdbcType=VARCHAR})
 	</insert>
 	

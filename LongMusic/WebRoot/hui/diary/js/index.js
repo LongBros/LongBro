@@ -192,7 +192,7 @@ function loadAuthorInfo(){
 			var url=document.URL+"";
 			var sex=getSexById(data.uuserSex);
 			if(user!=author){//不是当前人时候的title显示
-				document.title=""+document.title+"'"+data.uuserName+"'的日记~哆啦官网";
+				document.title=""+document.title+"'"+data.uuserName+"'的日记~哆啦日记";
 				if(url.indexOf("author.html")!=-1){//别的作者的页面
 					var sid=data.uhomeSong;//家歌
 					homeSongId=sid;
@@ -200,14 +200,14 @@ function loadAuthorInfo(){
 				}
 			}else{//当前人
 				if(url.indexOf("diary.html")!=-1){
-					document.title=document.title+"朕的日记~哆啦官网";
+					document.title=document.title+"朕的日记~哆啦日记";
 				}else if(url.indexOf("author.html")!=-1){//我的作者页
-					document.title="朕的日记~哆啦官网";
+					document.title="朕的日记~哆啦日记";
 					var sid=data.uhomeSong;//家歌
 					homeSongId=sid;
 					ifAutoPlay(homeSongId);
 				}else if(url.indexOf("myHome.html")!=-1){//我的家园页
-					document.title="我的家园~哆啦官网";
+					document.title="我的家园~哆啦日记";
 					var sid=data.uhomeSong;//家歌
 					homeSongId=sid;
 					ifAutoPlay(homeSongId);
@@ -422,11 +422,66 @@ function playAudio(sid){
 	var btn=document.getElementById("playBtn");
 	btn.title="点击暂停";
 }
-//手机端按钮登录
+//19.手机端按钮登录
 function loginPhone(){
 	if(user!=""){
 		window.open("myHome.html", "_blank")
 	}else{
 		login_popup();
 	}
+}
+/**
+ * 20.切换登录和注册
+ * @param type
+ */
+function loginOrRegister(type){
+	if(type=="0"){//显示登录框
+		document.getElementById("loginBox").style.display="inline-block";
+		document.getElementById("registerBox").style.display="none";
+	}else if(type=="1"){//显示注册框
+		alert("注册需要输入哆啦id，用户名，密码。其中哆啦id可为空，为空后系统会随机为你分配，用户名和密码不能为空。哆啦id和密码是登录凭证");
+		document.getElementById("loginBox").style.display="none";
+		document.getElementById("registerBox").style.display="inline-block";
+	}
+}
+/**
+ * 注册账号
+ */
+function register(){
+	var doraId=document.register_form.dora_r.value+"";//账号，即哆啦id
+	var userName=document.register_form.userName_r.value+"";
+	var pass=document.register_form.password_r.value+"";
+	if(userName.length<4||userName.length>15){
+		alert("用户名字数应在4和15之间");
+		return;
+	}
+	if(pass.length<3||pass.length>15){
+		alert("密码字数应在3和15之间");
+		return;
+	}
+	if(doraId.length>0&&(doraId.length!==8||isNaN(doraId))){
+		alert("哆啦id需要为8位阿拉伯数字，你也可以不输入由系统为你分配");
+		return;
+	}
+	var url="note/userinfo/register.do";
+	$.ajax({
+		url:url,
+		async:false,
+		type:"POST",
+		data:{
+			doraId:doraId,
+			userName:userName,
+			password:pass
+		},
+		dataType:"Json",
+		success:function(data){
+			if(data.code=="200"){
+				alert(data.message);
+				window.open("index.html");
+			}else{
+				alert(data.message)
+			}
+
+		}
+	});
 }

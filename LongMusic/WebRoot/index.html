@@ -154,21 +154,36 @@
 					<div class="col-right">
 						<div class="modal-header">
 							<button type="button" id="login_close" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-							<h4 class="modal-title" id="loginModalLabel" style="font-size: 18px;">登录</h4>
+							<h4 class="modal-title" id="loginModalLabel" style="font-size: 18px;"><span onclick="loginOrRegister(0)">登录</span>&emsp;&emsp;<span onclick="loginOrRegister(1)">注册</span></h4>
 						</div>
 						<div class="modal-body">
 							<section class="box-login v5-input-txt" id="box-login">
-								<form id="login_form" name="login_form" action="" method="post" autocomplete="off">
-									
+								<div id="loginBox">
+									<form id="login_form" name="login_form" action="" method="post" autocomplete="off">
 									<ul>
-										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入邮箱账号/手机号" type="text"></li>
+										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入哆啦id" type="text"></li>
 										<li class="form-group"><input class="form-control" id="id_password_l" name="password_l" placeholder="请输入密码" type="password"></li>
 									</ul>
-								</form>
-								<p class="good-tips marginB10"><a id="btnForgetpsw" class="fr">忘记密码？</a>还没有账号？<a href="javascript:;" onclick="alert('注册功能暂未开放，联系QQ：1459892910获取账号')" target="_blank" id="btnRegister">立即注册</a></p>
-								<div class="login-box marginB10">
-									<button id="login_btn" type="button" onclick="login()" class="btn btn-micv5 btn-block globalLogin">登录</button>
-									<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+									</form>
+									<p class="good-tips marginB10"><a id="btnForgetpsw" class="fr"><!-- 忘记密码？ --></a>还没有账号？<a href="javascript:;" onclick="loginOrRegister(1)" target="_blank" id="btnRegister">立即注册</a></p>
+									 <div class="login-box marginB10">
+										<button id="login_btn" type="button" onclick="login()" class="btn btn-micv5 btn-block globalLogin">登录</button>
+										<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+									</div>
+								</div>
+								<div id="registerBox" style="display:none">
+									<form id="register_form" name="register_form" action="" method="post" autocomplete="off">
+										
+										<ul>
+											<li class="form-group"><input class="form-control" id="id_dora_r" maxlength="8" name="dora_r" placeholder="请输入哆啦id(为空时随机生成)" type="text"></li>
+											<li class="form-group"><input class="form-control" id="id_userName_r" maxlength="20" name="userName_r" placeholder="请输入用户名" type="text"></li>
+											<li class="form-group"><input class="form-control" id="id_password_r" name="password_r" placeholder="请输入密码" type="password"></li>
+										</ul>
+									</form>
+									<div class="login-box marginB10">
+										<button id="login_btn" type="button" onclick="register()" class="btn btn-micv5 btn-block globalLogin">注册</button>
+										<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+									</div>
 								</div>
 <!-- 								<div class="threeLogin"><span>其他方式登录</span><a class="nqq" href="javascript:;"></a><a class="nwx" href="javascript:;"></a><a class="nwb"></a></div>
  -->							</section>
@@ -213,6 +228,7 @@
 		<font style="color: black;font-size:20px;">8.</font><span onclick="openAuthor('5211314')">哆啦小子</span><br>
 		<font style="color: black;font-size:20px;">9.</font><span onclick="openAuthor('15577347')">Yigongzi</span><br>
 		<font style="color: black;font-size:20px;">10.</font><span onclick="openAuthor('20191208')">Forevermore</span><br>
+		<font style="color: black;font-size:20px;">11.</font><span onclick="openAuthor('65313340')">一只小兔几</span><br>
 	</div>
 </div>
 <div class="toTop">

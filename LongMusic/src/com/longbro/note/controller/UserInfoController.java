@@ -83,11 +83,11 @@ public class UserInfoController{
     	if(ui!=null){//该用户id已存在，需重新生成
     		genUserId(source);
     	}
-    	ui=new UserInfo();
-    	ui.setUUserId(Integer.parseInt(userId));
-    	ui.setUJoinTime(TimeUtil.time());
+//    	ui=new UserInfo();
+//    	ui.setUUserId(Integer.parseInt(userId));
+//    	ui.setUJoinTime(TimeUtil.time());
 //    	au.setSource(source);
-    	userInfoService.create(ui);
+//    	userInfoService.create(ui);
     	return userId;
     }
     /**
@@ -326,5 +326,67 @@ public class UserInfoController{
     	userInfoService.updateUserInfo(userinfo);
     	result.setCode(200);
 		return result;
+    }
+    /**
+     * 
+     * @desc 
+     * @author zcl
+     * @throws UnsupportedEncodingException 
+     * @date 2019年12月14日
+     */
+    @RequestMapping("register")
+    @ResponseBody
+    public BaseResult<String> register(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+    	BaseResult<String> result=new BaseResult<String>();
+    	String doraId=request.getParameter("doraId");//哆啦id
+    	String userName=request.getParameter("userName");//用户名
+    	String password=request.getParameter("password");//密码
+    	if(StringUtils.isEmpty(doraId)){//为空则随机生成
+    		doraId=genUserId("");
+    	}else{//校验用户输入哆啦id是否已存在
+        	UserInfo ui=userInfoService.get(Integer.parseInt(doraId));
+        	if(ui!=null){//该用户id已存在，需重新生成
+        		result.setCode(100);
+        		result.setMessage("你输入的哆啦id已存在，请重新输入或不填由系统为你随机生成");
+        		return result;
+        	}
+    	}
+    	UserInfo ui=new UserInfo();
+    	ui.setUUserId(Integer.parseInt(doraId));
+    	ui.setUUserName(userName);
+    	ui.setPassword(password);
+    	ui.setLocation("");
+    	ui.setSignature("");
+    	ui.setHeadImage("dlam1");
+    	ui.setUHomeSong("482386133");
+    	ui.setAutoPlay(0);
+    	ui.setBack("back5.png");
+    	ui.setBlackNameList("66666666,12345678,20080226,15577347,96664270,54343391,88007770,65313340");
+    	ui.setUUserSex(0);
+    	ui.setUJoinTime(TimeUtil.time());
+    	ui.setLastLogin(TimeUtil.time());
+    	userInfoService.create(ui);
+    	
+    	//存cookie
+		Cookie cookie=new Cookie("userId", doraId);
+		cookie.setMaxAge(30*24*60*60);
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		
+		userName=URLEncoder.encode(userName, "utf-8");
+		Cookie cookie1=new Cookie("userNick", userName);
+		cookie1.setMaxAge(30*24*60*60);
+		cookie1.setPath("/");
+		response.addCookie(cookie1);
+		
+		Cookie cookie2=new Cookie("userAddr", "");
+		cookie2.setMaxAge(30*24*60*60);
+		cookie2.setPath("/");
+		response.addCookie(cookie2);
+    	
+    	result.setCode(200);
+    	result.setMessage("注册成功，系统已为你自动登录,请牢记你的账户，哆啦id为"+doraId);
+    	result.setResult(doraId);
+    	return result;
     }
 }
