@@ -18,12 +18,14 @@
 		<result property="nTop" column="n_top" jdbcType="NUMERIC"/>
 		<result property="nUserTop" column="n_user_top" jdbcType="NUMERIC"/>
 		<result property="updateTime" column="n_update_time" jdbcType="VARCHAR"/>
+		<result property="nWriteDevice" column="n_write_device" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.longbro.note.bean.NoteBook">
 		INSERT INTO d_diary
 		(n_Type,n_BookId,n_Writter,n_Title,n_Content,n_Time,n_Weather,
-		n_Mood,n_Location,n_AllowComment,n_Authority,n_song_id,n_top,n_user_top)
+		n_Mood,n_Location,n_AllowComment,n_Authority,n_song_id,n_top,n_user_top,
+		n_write_device)
 		VALUES 
 		(#{NType,jdbcType=NUMERIC}, #{NBookid,jdbcType=NUMERIC}, 
 		#{NWritter,jdbcType=VARCHAR}, #{NTitle,jdbcType=VARCHAR}, 
@@ -31,7 +33,8 @@
 		#{NWeather,jdbcType=NUMERIC}, #{NMood,jdbcType=NUMERIC}, 
 		#{NLocation,jdbcType=VARCHAR},#{NAllowComment,jdbcType=NUMERIC},
 		#{NAuthority,jdbcType=NUMERIC},#{nSongId,jdbcType=VARCHAR},
-		#{nTop,jdbcType=NUMERIC},#{nUserTop,jdbcType=NUMERIC})
+		#{nTop,jdbcType=NUMERIC},#{nUserTop,jdbcType=NUMERIC},
+		#{nWriteDevice,jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="get" parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Diary">
@@ -39,7 +42,7 @@
 		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
 		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
 		d.n_Authority nAuthority,d.n_song_id nSongId,
-		n_top nTop,n_user_top nUserTop,
+		n_top nTop,n_user_top nUserTop,n_write_device nWriteDevice,
 		di.u_User_Name userName,di.u_Head_Image headImage,
 		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
 		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
@@ -129,7 +132,7 @@
 		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
 		d.n_Authority nAuthority,d.n_song_id nSongId,di.u_User_Name userName,
 		di.u_Head_Image headImage,n_top nTop,n_user_top nUserTop,
-		CHAR_LENGTH(d.n_Content) wordSize,
+		CHAR_LENGTH(d.n_Content) wordSize,n_write_device nWriteDevice,
 		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
 		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
 		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,

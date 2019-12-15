@@ -477,7 +477,7 @@ function register(){
 		success:function(data){
 			if(data.code=="200"){
 				alert(data.message);
-				window.open("index.html");
+				window.open("index.html","_self");
 			}else{
 				alert(data.message)
 			}

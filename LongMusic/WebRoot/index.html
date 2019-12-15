@@ -3,7 +3,7 @@
 <head>
 <title>哆啦日记-记录你生活的点点滴滴</title>
 <meta name="keywords" content="哆啦日记首页,哆啦日记-不仅仅是怀旧">
-<meta name="description" content="哆啦日记,是一个以记录生活、工作、心情等为主题的网站,记录形式主要以文本、音频为主;它不仅仅是怀旧,更想为你记录你生活的点点滴滴">
+<meta name="description" content="哆啦日记,是一个以记录生活、工作、心情等为主题的网站,记录形式主要以文本、音频为主;它不仅仅是怀旧,更想为你记录你生活的点点滴滴。哆啦日记，做全网最有意思的日记记录网站。">
 <meta charset="utf-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -48,6 +48,12 @@
 		padding-bottom: 5px;
 		cursor: pointer;
 	}
+	.diary a{
+		
+	}
+	.diary a:hover{
+		text-decoration: none;
+	}
 	.diary img{
 		width: 20px;
 		height: 24px;
@@ -66,6 +72,10 @@
 		position:fixed;
 		float: right;
 		background:white;
+		overflow: scroll;
+	}
+	.rights::-webkit-scrollbar {
+    	display: none;
 	}
 	.website{
 		margin-left: 10px;
@@ -98,6 +108,22 @@
 		line-height:30px;
 		display:inline-block;
 		background-color:#e2e2e2; 
+	}
+	/*顶部横幅及小喇叭*/
+	.banner{
+		height: 20px;
+		margin-top:20px;
+		margin-left:10px; 
+		color: blue;
+	}
+	/*小喇叭图片*/
+	.banner img{
+		width: 18px;
+		height: 18px;
+	}
+	/*小喇叭广播文本*/
+	.banner span{
+		color: red;
 	}
 </style>
 <body id="bodys" style="background:url(res/images/back/back3.jpg)">
@@ -207,8 +233,14 @@
 </div>
 
 <div class="rights" id="rights">
+	<div class="banner">
+	<img src="image/trumpet.png">&nbsp;
+	<span id="word">
+	注册功能已于12月14日上线，欢迎各位朋友前来注册。
+	</span>
+</div>
+<br>
 	<div class="website">
-		&emsp;哆啦日记<br>
 		哆啦日记，不仅仅是怀旧；哆啦日记，记录你生活的点点滴滴；哆啦日记，记录你生活的每一个
 		小细节！<br>www.duola.vip<br><br>
 	</div>
@@ -217,7 +249,6 @@
 		今日笔记：88<br>总日记数：8888888<br><br>
 	</div> -->
 	<div class="newer" style="cursor: pointer;overflow: auto;">
-		&emsp;新人榜<br>
 		<span style="color: red;font-size:20px;">1.</span><span onclick="openAuthor('1314521')">LongBros</span><br>
 		<font style="color: green;font-size:20px;">2.</font><span onclick="openAuthor('12345678')">FatLuo</span><br>
 		<font style="color: cyan;font-size:20px;">3.</font><span onclick="openAuthor('88888888')">歌词网</span><br>

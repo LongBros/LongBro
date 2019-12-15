@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -205,8 +206,21 @@ public class UserInfoController{
      */
     @RequestMapping("updateUserInfo")
     @ResponseBody
-    public BaseResult<List<HashMap<String, Object>>> updateUserInfo(UserInfo info){
+    public BaseResult<List<HashMap<String, Object>>> updateUserInfo(HttpServletResponse response,UserInfo info){
 		BaseResult<List<HashMap<String, Object>>> result=new BaseResult<List<HashMap<String, Object>>>();
+		if(StringUtils.isNotEmpty(info.getLocation())){//12-15修改地址后同时修改cookie
+			Cookie cookie=new Cookie("userAddr",info.getLocation());
+			cookie.setMaxAge(30*24*60*60);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+		}
+		if(StringUtils.isNotEmpty(info.getUUserName())){
+			Cookie cookie=new Cookie("userNick", info.getUUserName());
+			cookie.setMaxAge(30*24*60*60);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+		}
+		
 		userInfoService.updateUserInfo(info);
 		result.setCode(200);
     	result.setMessage("信息保存成功");
@@ -223,7 +237,7 @@ public class UserInfoController{
      */
     @RequestMapping(value="uploadHeadImage",method=RequestMethod.POST)
     @ResponseBody
-    public void uploadHeadImage(HttpServletRequest request) throws Exception{
+    public void uploadHeadImage(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		 String pname="";
 		 String userId="";
 		 System.out.println(request.getParameter("userId"));
@@ -256,7 +270,7 @@ public class UserInfoController{
 		UserInfo user=new UserInfo();
 		user.setHeadImage(pname);
 		user.setUUserId(Integer.parseInt(userId));
-		updateUserInfo(user);
+		updateUserInfo(response,user);
     }
     /**
      * @desc 9.查询用户数、日记数量的统计信息
@@ -357,11 +371,14 @@ public class UserInfoController{
     	ui.setPassword(password);
     	ui.setLocation("");
     	ui.setSignature("");
+    	//随机生成家歌和背景
+    	int hs=new Random().nextInt(Strings.id.length);
+    	int hi=new Random().nextInt(Strings.backs.length);
     	ui.setHeadImage("dlam1");
-    	ui.setUHomeSong("482386133");
+    	ui.setUHomeSong(Strings.id[hs]);
     	ui.setAutoPlay(0);
-    	ui.setBack("back5.png");
-    	ui.setBlackNameList("66666666,12345678,20080226,15577347,96664270,54343391,88007770,65313340");
+    	ui.setBack(Strings.backs[hi]);
+    	ui.setBlackNameList("66666666,12345678,15577347,96664270,54343391,88007770,65313340");
     	ui.setUUserSex(0);
     	ui.setUJoinTime(TimeUtil.time());
     	ui.setLastLogin(TimeUtil.time());
@@ -379,7 +396,7 @@ public class UserInfoController{
 		cookie1.setPath("/");
 		response.addCookie(cookie1);
 		
-		Cookie cookie2=new Cookie("userAddr", "");
+		Cookie cookie2=new Cookie("userAddr", "诗和远方");
 		cookie2.setMaxAge(30*24*60*60);
 		cookie2.setPath("/");
 		response.addCookie(cookie2);

@@ -52,7 +52,7 @@ function loadDiary(author,page,perPage,userId){
 				}else{
 					title="《"+title+"》";
 				}
-				if(data[i].nTop==1){
+				if(data[i].nTop==1){//站长置顶
 					title=title+"<font color='red'>(置顶)</font>"
 				}
 				var userName=data[i].userName;
@@ -70,8 +70,9 @@ function loadDiary(author,page,perPage,userId){
 				if(data[i].nallowComment==0){//允许评论的才显示评论图标
 					com="&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>";
 				}
+				//未登录所有日记不显示不看他按钮,已登录自己的日记不显示不看他按钮
 				var nsh="";
-				if((data[i].nwritter+"")!=(user+"")){//对别人才显示不看他
+				if((data[i].nwritter+"")!=(user+"")&&user!=""){
 					nsh="&nbsp;<i class=\"Hui-iconfont\" title='不看他' onclick='addToUnlike(\""+data[i].nwritter+"\",\""+data[i].userName+"\")'>&#xe68b;</i>";
 				}
 				var top="";
@@ -83,8 +84,9 @@ function loadDiary(author,page,perPage,userId){
 					loc=loc.substring(0,6)+"..."
 				}
 				var wordSize=data[i].wordSize;
-				//<i class=\"Hui-iconfont\">&#xe66e;</i>22&nbsp;
-				$("#diarys").append("<div class=\"diary\"><img src='image/tx/"+data[i].headImage+".jpg' class='touxiang'><span onclick='openOther(0,"+data[i].nid+")' title='该篇日记共计"+wordSize+"字(包含格式所占字符)'>"+con+"</span><br>"
+				//onclick='openOther(0,"+data[i].nid+")'
+				$("#diarys").append("<div class=\"diary\"><img src='image/tx/"+data[i].headImage
+				+".jpg' class='touxiang'><a href=\"diary.html?id="+data[i].nid+"\"  title='该篇日记共计"+wordSize+"字(包含格式所占字符)'>"+con+"</a><br>"
 				+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName
 				+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
 				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>"+title+"</span>&nbsp;<span>"+(music=='1'?'<font color=\'red\' title=\'有音频喔\'>('+wordSize+'字)音</font>':'<font color=\'red\'>('+wordSize+'字)</font>')+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i><span title='"+data[i].nlocation+"'>"+loc
@@ -166,14 +168,9 @@ function handleCon(content){
 	//var reg3=/<(?!img|p|/p).*?>/g;//保留img、p标签
 	var con=content+"";
 	con=con.replace(reg, "");
-//	con=con.replace(new RegExp("::::","gm"), ".jpg'>");
-//	con=con.replace(new RegExp(":::","gm"), ".png'>");
-//	con=con.replace(new RegExp("::","gm"), ".gif'>");
-//	con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='image/expre/newtieba/");
-//	con=con.replace(new RegExp("<<","gm"), "<img alt='' src='image/expre/tieba/");
-//	con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='image/expre/weibo/");
-//	con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='image/expre/huang/");
-//	con=con.replace(new RegExp("&&","gm"),"<img alt='' src='image/expre/aodamiao/");
+	con=con.replace(new RegExp(":","gm"), "");
+	con=con.replace(new RegExp("<","gm"), "");
+	con=con.replace(new RegExp("&","gm"), "");
 	return con;
 }
 /**

@@ -147,8 +147,9 @@ function loadMyDiary(page,perPage){
 				}else{
 					top="<span style='color:blue' onclick='diaryToTop("+data[i].nid+",\"1\")'>置顶</span>";
 				}
-				$("#myDiary").append("<div class=\"diary\">&nbsp;<span class='diaryTitle' title='"+data[i].ntitle
-				+"' style='color:black;font-size:18px;' onclick='openOther(0,"+data[i].nid+")'>"+title+"</span><br><span onclick='openOther(0,"+data[i].nid+")' style='color:gray'>"+con+"</span><br>"
+				$("#myDiary").append(
+						"<div class=\"diary\">&nbsp;<span class='diaryTitle' title='"+data[i].ntitle
+						+"' style='color:black;font-size:18px;' onclick='openOther(0,"+data[i].nid+")'>"+title+"</span><br><span onclick='openOther(0,"+data[i].nid+")' style='color:gray'>"+con+"</span><br>"
 						+"<div class='info'>"
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime+"&emsp;"+lock+"&emsp;心情："+mood+"&emsp;&emsp;天气："+wea
 						+"&emsp;分类："+cate+"&emsp;"
@@ -296,7 +297,7 @@ function delDiary(id){
 	}
 	$.ajax({
 		url:"note/diary/addOrEditNote.do",
-		type:"get",
+		type:"POST",
 		async:false,
 		dataType:"Json",
 		data:{
@@ -398,7 +399,9 @@ function loadInfo(){
 			string=string+"<span>个性签名：</span><input name='signature' value='"+data.signature+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(2)' title='点击保存'>&#xe676;</i><br>";
 			string=string+"<span>默认日记地址：</span><input name='location' value='"+data.location+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(3)' title='点击保存'>&#xe676;</i><br>";
 			//string=string+"<span>家歌选择：</span><font color='red'>"+data.uhomeSong+"</font><i class=\"Hui-iconfont\">&#xe6df;</i>(其他用户访问你的家园时会播放家歌)<br>";
-			string=string+"<span>我的黑名单(不看名单，点击可移出):";
+			string=string+"<span>首页显示日记字数:<input type='radio' name='wordsize' onchange='' value='' checked='true'>显示</input>";
+			string=string+"<input type='radio' name='wordsize' onchange='' value=''>隐藏</input>";
+			string=string+"<br><span>我的黑名单(不看名单，点击可移出):";
 //			for(var i=0;i<blackIds.length;i++){
 //				string=string+"<a onclick='removeFromList(\""+blackIds[i]+"\",\""+blacks[i]+"\")' style='color:red'>"+blacks[i]+"</a>&emsp;&emsp;";
 //			}

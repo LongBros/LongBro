@@ -26,6 +26,7 @@ public class NoteBook{
 	protected Integer nTop; 
 	protected Integer nUserTop;
 	protected String updateTime;
+	protected String nWriteDevice;//2019-12-14写日记所用设备
 	public Integer getNId() {
 		return this.NId;
 	}
@@ -168,6 +169,12 @@ public class NoteBook{
 	}
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
+	}
+	public String getnWriteDevice() {
+		return nWriteDevice;
+	}
+	public void setnWriteDevice(String nWriteDevice) {
+		this.nWriteDevice = nWriteDevice;
 	}
 	
 }
