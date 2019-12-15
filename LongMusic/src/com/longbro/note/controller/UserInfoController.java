@@ -206,19 +206,20 @@ public class UserInfoController{
      * @date 2019年12月1日
      * @param info
      * @return
+     * @throws UnsupportedEncodingException 
      */
     @RequestMapping("updateUserInfo")
     @ResponseBody
-    public BaseResult<List<HashMap<String, Object>>> updateUserInfo(HttpServletResponse response,UserInfo info){
+    public BaseResult<List<HashMap<String, Object>>> updateUserInfo(HttpServletResponse response,UserInfo info) throws UnsupportedEncodingException{
 		BaseResult<List<HashMap<String, Object>>> result=new BaseResult<List<HashMap<String, Object>>>();
 		if(StringUtils.isNotEmpty(info.getLocation())){//12-15修改地址后同时修改cookie
-			Cookie cookie=new Cookie("userAddr",info.getLocation());
+			Cookie cookie=new Cookie("userAddr",URLEncoder.encode(info.getLocation(), "utf-8"));
 			cookie.setMaxAge(30*24*60*60);
 			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
 		if(StringUtils.isNotEmpty(info.getUUserName())){
-			Cookie cookie=new Cookie("userNick", info.getUUserName());
+			Cookie cookie=new Cookie("userNick", URLEncoder.encode(info.getUUserName()));
 			cookie.setMaxAge(30*24*60*60);
 			cookie.setPath("/");
 			response.addCookie(cookie);
@@ -399,7 +400,7 @@ public class UserInfoController{
 		cookie1.setPath("/");
 		response.addCookie(cookie1);
 		
-		Cookie cookie2=new Cookie("userAddr", "诗和远方");
+		Cookie cookie2=new Cookie("userAddr", URLEncoder.encode("诗和远方", "utf-8"));
 		cookie2.setMaxAge(30*24*60*60);
 		cookie2.setPath("/");
 		response.addCookie(cookie2);

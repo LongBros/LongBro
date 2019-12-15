@@ -53,7 +53,8 @@
 		<!-- u_black_namelist blackNameList, 12-11取消此写法，ID和name都使用以下可以一一对应-->
 		<!-- 12-10添加黑名单的name -->
 		(SELECT GROUP_CONCAT(u_User_Id) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_namelist)) blackNameList,
-		(SELECT GROUP_CONCAT(u_User_Name) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_namelist)) blackNames
+		(SELECT GROUP_CONCAT(u_User_Name) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_namelist)) blackNames,
+		(SELECT COUNT(DISTINCT LEFT(n_Time,10)) FROM d_diary WHERE n_Writter=#{UUserId}) diaryDayNum
 		FROM d_user_info dui
 		LEFT JOIN song s ON dui.u_Home_Song=s.sourceId
 		WHERE 

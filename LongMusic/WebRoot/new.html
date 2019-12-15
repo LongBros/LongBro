@@ -303,14 +303,14 @@ $(".login").on("click", login_popup),function() {
     })
 } ();
 getUser();
-//setLocation(); 
+setLocation(); 
 monitor();//手机访问时隐藏左边栏目
-alert(document.cookie)
+//(document.cookie)
 var user=getCookie("userId")+"";
 document.getElementById("tip").innerText="欢迎使用哆啦日记网，记录你生活的点点滴滴";
 if(user==""){
 	alert("登录后方可写日记");
-	document.getElementById("tip").innerText="请先登录后再写日记！(注册功能暂未开放，欢迎联系1459892910索要账号)";
+	document.getElementById("tip").innerText="请先登录后再写日记！(如未注册，请先注册，注册后会自动登录)";
 	login_popup();
 }
 var ue = UE.getEditor('editor');

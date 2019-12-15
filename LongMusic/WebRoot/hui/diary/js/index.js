@@ -215,13 +215,57 @@ function loadAuthorInfo(){
 			}
 			document.getElementById("touxiang").src="image/tx/"+data.headImage+".jpg";
 			document.getElementById("userId").innerText=author;
-			document.getElementById("userNameT").innerText=data.uuserName;
+			/*document.getElementById("userNameT").innerText=data.uuserName;*/
 			document.getElementById("userName").innerText=data.uuserName;
 			document.getElementById("homeSong").innerText=data.homeSongName;
 			document.getElementById("signature").innerText=data.signature;
 			document.getElementById("sex").innerText=sex;
 			document.getElementById("joinTime").innerText="加入时间："+data.ujoinTime;
 			document.getElementById("recentLogin").innerText="最近登录："+data.lastLogin;//(data.lastLogin=="")?"":
+			var num=parseInt(data.dayNum+"");
+			var text="";
+			var n=4;//级别幅度，如一个太阳=4个月亮，一个月亮=4个星星
+			if(num==0){
+				text="未写过日记呢";
+			}else{
+				if(num/n<=1){//少于4天，显示星星
+//					text=getHtml(num,"star");
+					text="<img src='image/star.png' style='width:16px;height:16px'>"+num;
+				}else{
+					if(num/(n*n)<=1){//小于16天，显示月亮和星星
+//						text=getHtml(parseInt(num/n),"moon")+getHtml(num%n,"star");
+						text="<img src='image/moon.png' style='width:16px;height:16px'>"+parseInt(num/n);
+						if(num%n>0){
+							text=text+"<img src='image/star.png' style='width:16px;height:16px'>"+num%n;
+						}
+					}else{
+						if(num/(n*n*n)<=1){//小于64天，显示太阳、月亮和星星、例17
+//							text=getHtml(parseInt(num/(n*n)),"sun")+getHtml(parseInt((num%(n*n))/n),"moon")+getHtml((num%(n*n))%n,"star");
+							text="<img src='image/sun.png' style='width:16px;height:16px'>"+parseInt(num/(n*n));
+							if(parseInt((num%(n*n))/n)>0){
+								text=text+"<img src='image/moon.png' style='width:16px;height:16px'>"+parseInt((num%(n*n))/n);
+							}
+							if((num%(n*n))%n>0){
+								text=text+"<img src='image/star.png' style='width:16px;height:16px'>"+(num%(n*n))%n;
+							}
+						}else{
+//							text=getHtml(parseInt(num/(n*n*n)),"crown")+getHtml(parseInt((num%(n*n*n))/(n*n)),"sun")+getHtml(parseInt(((num%(n*n*n))%(n*n))/n),"moon")+getHtml(((num%(n*n*n))%(n*n))%n,"star");
+							text="<img src='image/crown.png' style='width:16px;height:16px'>"+parseInt(num/(n*n*n));
+							if(parseInt((num%(n*n*n))/(n*n))>0){
+								text=text+"<img src='image/sun.png' style='width:16px;height:16px'>"+parseInt((num%(n*n*n))/(n*n));
+							}
+							if(parseInt(((num%(n*n*n))%(n*n))/n)>0){
+								text=text+"<img src='image/moon.png' style='width:16px;height:16px'>"+parseInt(((num%(n*n*n))%(n*n))/n);
+							}
+							if(((num%(n*n*n))%(n*n))%n>0){
+								text=text+"<img src='image/star.png' style='width:16px;height:16px'>"+((num%(n*n*n))%(n*n))%n;
+							}
+						}
+					}
+				}
+			}
+			document.getElementById("diaryDayNum").innerHTML="写日记天数："+text;
+			document.getElementById("diaryDayNum").title="累积写日记"+num+"天，\r图解：星星=1天，月亮="+n+"天，太阳="+n*n+"天，皇冠="+n*n*n+"天";
 			var body=document.getElementById("bodys");
 			body.style.background="url(res/images/back/"+data.back+")";
 		}
@@ -445,7 +489,7 @@ function loginOrRegister(type){
 	}
 }
 /**
- * 注册账号
+ * 21.注册账号
  */
 function register(){
 	var doraId=document.register_form.dora_r.value+"";//账号，即哆啦id
@@ -484,4 +528,18 @@ function register(){
 
 		}
 	});
+}
+/**
+ * 根据数量和类型返回对应HTML
+ * @param num	4个
+ * @param type  星星
+ * @returns {String}
+ */
+function getHtml(num,type){
+	num=parseInt(num);
+	var text="";
+	for(var i=0;i<num;i++){
+		text=text+"<img src='image/"+type+".png' style='width:16px;height:16px'>";
+	}
+	return text;
 }

@@ -327,7 +327,7 @@ function fillMyGit(){
 //18.底部栏功能切换
 function tabOnItem(which){
 	if(which=="0"){//每日一句
-		window.open("http://112.74.173.44/LongBlog/msgboard.jsp", "_blank");
+		window.open("/LongBlog/msgboard.jsp", "_blank");
 	}else if(which=="1"){//用户使用指南
 		window.open("setting.html","_blank");
 	}else if(which=="2"){//赞赏支持
@@ -340,9 +340,9 @@ function tabOnItem(which){
 			document.getElementById("sponsor").style.color="black";
 		}
 	}else if(which=="3"){//联系作者
-		window.open("http://112.74.173.44/LongVideos/toast.jsp","_blank");
+		window.open("/LongVideos/toast.jsp","_blank");
 	}else if(which=="4"){//赞助记录
-		window.open("http://112.74.173.44/LongBlog/sponsor/showSponsor.jsp","_blank");
+		window.open("/LongBlog/sponsor/showSponsor.jsp","_blank");
 	}else if(which=="5"){//赞助记录
 		var statistic=document.getElementById("randomSen");
 		$.ajax({
