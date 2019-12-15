@@ -1,6 +1,7 @@
 package com.longbro.note.controller;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -135,12 +136,24 @@ public class NoteBookController{
      * @date 2019年11月3日
      * @param id	当前日记id
      * @param author当前日记的作者
+     * @param user根据当前登录用户是否为空来判定是否可查看未登录用户不能看的日记
      */
     @RequestMapping(value="getBeforeAndNextId",method=RequestMethod.GET)
     @ResponseBody
-    public List<HashMap<String,Object>> getBeforeAndNextId(int id,String author){
+    public List<HashMap<String,Object>> getBeforeAndNextId(int id,String author,String user){
 //    	log.info("开始查询当前笔记的上下篇");
-    	return noteBookService.getBeforeAndNextId(id, author);
+    	Map<String,Object> map=new HashMap<>();
+		map.put("author", author);
+		map.put("id", id);
+		String authority="0";
+		if(StringUtils.isNotEmpty(user)){//登录用户
+			authority="0,2";
+			if(author.equals(user)){
+				authority="0,1,2";
+			}
+		}
+		map.put("authority", authority);
+    	return noteBookService.getBeforeAndNextId(map);
     }
     /**
      * @desc 7.每天随机生成歌词网和古诗网的日记

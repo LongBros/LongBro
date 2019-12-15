@@ -285,7 +285,7 @@ function store(){
  */
 function getBeforeAndNextId(){
 	$.ajax({
-		url:"note/diary/getBeforeAndNextId.do?author="+author+"&id="+id,
+		url:"note/diary/getBeforeAndNextId.do?author="+author+"&id="+id+"&user="+user,
 		type:"get",
 		async:false,
 		dataType:"Json",

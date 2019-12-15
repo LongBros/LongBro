@@ -303,9 +303,9 @@ $(".login").on("click", login_popup),function() {
     })
 } ();
 getUser();
-setLocation(); 
+//setLocation(); 
 monitor();//手机访问时隐藏左边栏目
-//alert(document.cookie)
+alert(document.cookie)
 var user=getCookie("userId")+"";
 document.getElementById("tip").innerText="欢迎使用哆啦日记网，记录你生活的点点滴滴";
 if(user==""){

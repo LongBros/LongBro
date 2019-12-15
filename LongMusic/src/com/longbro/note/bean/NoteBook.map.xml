@@ -187,11 +187,23 @@
 	<!-- 在diary.html界面使用，当前作者当前日记的上下篇切换功能	1上一篇，2下一篇 -->
 	<select id="getBeforeAndNextId" parameterType="java.util.Map" resultType="java.util.Map">
 		(SELECT n_Id id,n_Title title,1 as t FROM d_diary 
-		WHERE n_Writter=#{author} and n_Authority=0 AND n_Id&lt;#{id} 
+		WHERE n_Writter=#{author} and find_in_set(n_Authority,#{authority})
+		<!-- <if test="user!=null and user!=''">登录用户
+			and find_in_set(n_Authority,'0,2')
+		</if>
+		<if test="user==author">登录用户与作者一样，可查看包括自己可见的上下篇
+			and find_in_set(n_Authority,'0,1,2')
+		</if>
+		<if test="user==null or user==''">未登录用户
+			and find_in_set(n_Authority,'0')
+		</if> -->
+		AND n_Id&lt;#{id} 
 		ORDER BY n_Id DESC LIMIT 0,1 )
 		UNION 
 		(SELECT n_Id id,n_Title title,2 as t FROM d_diary 
-		WHERE n_Writter=#{author} and n_Authority=0 AND n_Id&gt;#{id}
+		WHERE n_Writter=#{author} 
+		and find_in_set(n_Authority,#{authority})
+		 AND n_Id&gt;#{id}
 		 LIMIT 0,1 );
 	</select>
 	<select id="getMyDiary">

@@ -38,10 +38,7 @@ public class NoteBookDao extends BaseDao{
 		// TODO Auto-generated method stub
 		return (List<Diary>)this.selectList(pre+"getDiaryBy", map);
 	}
-	public List<HashMap<String,Object>> getBeforeAndNextId(int id,String author){
-		Map<String,Object> map=new HashMap<>();
-		map.put("author", author);
-		map.put("id", id);
+	public List<HashMap<String,Object>> getBeforeAndNextId(Map<String,Object> map){
 		return (List<HashMap<String,Object>>)this.selectList(pre+"getBeforeAndNextId", map);
 	}
 	//2019-11-24编辑日记

@@ -127,6 +127,9 @@ public class UserInfoController{
     		response.addCookie(cookie1);
     		
     		String uLocation=ui.getLocation();
+    		if(StringUtils.isEmpty(uLocation)){
+    			uLocation="诗和远方";
+    		}
     		uLocation=URLEncoder.encode(uLocation, "utf-8");
     		Cookie cookie2=new Cookie("userAddr", uLocation);
     		cookie2.setMaxAge(30*24*60*60);
