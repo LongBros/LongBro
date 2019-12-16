@@ -1,8 +1,44 @@
 41138119951016421X	18620101642	6217002440004113429
+*************
 
 412902197305064278
 
+2019-12-16周一
+1.运营原始数据表中身份证号、手机号等敏感信息脱敏，原本采用将最后面的数据使用以下sql。后来发现了个问题，就是某些身份证号字段可能不止一个身份证，
+可以有多个，这个时候要多个脱敏显示，而不是只显示一个脱敏其他不显示。刚开始一直在想怎么把多个用sql的subString_index函数拆分，越想越觉得这个函数
+难以实现。后来灵机一动，因为最后面的身份证号是在前面通过groupConcat拼接起来的，去在这个拼接的地方直接脱敏后再拼接就完美解决问题了。唯一的缺点
+就是略显麻烦，有二十多个地方地方需要改(2000多行的sql)
 
+--直接修改查询出来的结果
+if(ifnull(owner_id,"")="","",concat(left(owner_id,5),"***************"))
+
+concat(left(owner_id,5),"***************")
+
+
+
+concat(left(owner_phone,3),"*****",right(owner_phone,3))
+
+
+if(ifnull(main_lender_id,"")="","",concat(left(main_lender_id,5),"***************"))
+concat(left(main_lender_id,5),"***************")
+
+
+
+if(ifnull(second_lender_id,"")="","",concat(left(second_lender_id,5),"***************"))
+
+4/5/8/4
+
+
+
+--修改查询过程中的数据
+concat(left(sb.F_PHONE,3),"*****",right(sb.F_PHONE,3))
+
+if(ifnull(sb.F_PHONE,"")="","",concat(left(sb.F_PHONE,3),"*****",right(sb.F_PHONE,3)))
+
+
+concat(left(sb.F_ORGANIZATION_PHONE,3),"*****",right(sb.F_ORGANIZATION_PHONE,3))
+
+if(ifnull(sb.F_ORGANIZATION_PHONE,"")="","",concat(left(sb.F_ORGANIZATION_PHONE,3),"*****",right(sb.F_ORGANIZATION_PHONE,3)))
 
 2019-12-09周一
 1.银行转介表总宗数与我司+银行宗数不相等问题
