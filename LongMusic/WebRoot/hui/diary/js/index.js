@@ -228,18 +228,18 @@ function loadAuthorInfo(){
 			if(num==0){
 				text="未写过日记呢";
 			}else{
-				if(num/n<=1){//少于4天，显示星星
+				if(num/n<1){//少于4天，显示星星
 //					text=getHtml(num,"star");
 					text="<img src='image/star.png' style='width:16px;height:16px'>"+num;
 				}else{
-					if(num/(n*n)<=1){//小于16天，显示月亮和星星
+					if(num/(n*n)<1){//小于16天，显示月亮和星星
 //						text=getHtml(parseInt(num/n),"moon")+getHtml(num%n,"star");
 						text="<img src='image/moon.png' style='width:16px;height:16px'>"+parseInt(num/n);
 						if(num%n>0){
 							text=text+"<img src='image/star.png' style='width:16px;height:16px'>"+num%n;
 						}
 					}else{
-						if(num/(n*n*n)<=1){//小于64天，显示太阳、月亮和星星、例17
+						if(num/(n*n*n)<1){//小于64天，显示太阳、月亮和星星、例17
 //							text=getHtml(parseInt(num/(n*n)),"sun")+getHtml(parseInt((num%(n*n))/n),"moon")+getHtml((num%(n*n))%n,"star");
 							text="<img src='image/sun.png' style='width:16px;height:16px'>"+parseInt(num/(n*n));
 							if(parseInt((num%(n*n))/n)>0){
@@ -264,8 +264,8 @@ function loadAuthorInfo(){
 					}
 				}
 			}
-			document.getElementById("diaryDayNum").innerHTML="写日记天数："+text;
-			document.getElementById("diaryDayNum").title="累积写日记"+num+"天，\r图解：星星=1天，月亮="+n+"天，太阳="+n*n+"天，皇冠="+n*n*n+"天";
+			document.getElementById("diaryDayNum").innerHTML="累计天数："+text;
+			document.getElementById("diaryDayNum").title="累积写日记"+num+"天\r图解：星星=1天，月亮="+n+"天，太阳="+n*n+"天，皇冠="+n*n*n+"天";
 			var body=document.getElementById("bodys");
 			body.style.background="url(res/images/back/"+data.back+")";
 		}

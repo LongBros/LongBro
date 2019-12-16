@@ -108,7 +108,8 @@ public class NoteBookController{
     @RequestMapping(value="getDiaryBy",method=RequestMethod.GET)
     @ResponseBody
     public List<Diary> getDiaryBy(HttpServletRequest request){
-    	genDiary();
+    	genDiary();//生成歌词网和古诗网的日记
+    	
 //    	log.info("开始加载笔记");
     	int per=10;
     	HashMap<String, String> map=new HashMap<>();
@@ -130,8 +131,7 @@ public class NoteBookController{
     	return noteBookService.getDiaryBy(map);
     }
     /**
-     * 6.得到和当前日记同作者的上一篇和下一篇日记的ID
-     * @desc 
+     * @desc 6.得到和当前日记同作者的上一篇和下一篇日记的ID
      * @author zcl
      * @date 2019年11月3日
      * @param id	当前日记id
@@ -156,13 +156,32 @@ public class NoteBookController{
     	return noteBookService.getBeforeAndNextId(map);
     }
     /**
-     * @desc 7.每天随机生成歌词网和古诗网的日记
+     * @desc 7.每天随机生成歌词网和古诗网的日记，爬取庆兔兔日记
      * @author zcl
      * @date 2019年11月30日
      */
     public void genDiary(){
+    	//凌晨六点前十一点后不执行该方法
+		/*if(TimeUtil.getNowHour()>11||TimeUtil.getNowHour()<6){
+			return;
+    	}*/
+		if(TimeUtil.getNowHour()>11){//十一点后不执行该方法
+			return;
+    	}
+    	int num1=noteBookService.ifHasGen(TimeUtil.getToday(), "65313340");
+    	if(num1==0){//庆兔兔日记今日未爬取过
+    		int diaryId=0;
+    		for(int i=0;i<4;i++){
+    			diaryId=SpideLapuda.spideIndex(i);//从首页获取庆兔兔日记id
+    			if(diaryId!=0){
+    	    		spideLapuda(diaryId);
+    				break;
+    			}
+    		}
+    	}
+    	
     	int num=noteBookService.ifHasGen(TimeUtil.getToday(), "66666666");
-    	if(num>0){//今日已生成过
+    	if(num>0){//古诗网今日已生成过
         	System.out.println("今日已生成过");
     		return;
     	}

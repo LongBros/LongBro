@@ -34,9 +34,48 @@ public class SpideLapuda {
 //			System.out.println(TimeUtil.timeConvert(s));
 //			
 //		}
-		spideDiary();
+		int diaryId=0;
+		for(int i=0;i<15;i++){
+			diaryId=spideIndex(i);
+			if(diaryId!=0){
+				break;
+			}
+		}
+		System.out.println(diaryId);
 //		getIds();
 //		setDate();
+	}
+	/**
+	 * @desc 爬取首页，
+	 * @author zcl
+	 * @date 2019年12月16日
+	 * @return
+	 */
+	public static Integer spideIndex(int page){
+		HashMap<String, String> map=new HashMap<String, String>();
+		int diaryId=0;
+		Document doc;
+		try{
+			String url="http://www.lapuda.org/diary/page"+page+"/";
+			doc = Jsoup.connect(url).get();
+//			System.out.println(doc);
+			Elements es3=doc.getElementsByClass("meta");
+			for(Element e:es3){		
+				System.out.println(page+"---------------------");
+				String s=e.toString();
+				String a[]=s.split("<a href=");
+				String author=a[1].substring(a[1].indexOf(">")+1, a[1].indexOf("</a>"));
+				String id=a[a.length-1].substring(8,a[a.length-1].indexOf("title")-3);
+				if("kfzwqxzy".equals(author)){
+					diaryId=Integer.parseInt(id);
+				}
+//				System.out.println(author);
+//				System.out.println(id);
+			}
+		}catch(Exception e){
+			
+		}
+		return diaryId;
 	}
 	/**
 	 * 为日记设置日期，适用于每天写日记的账号---庆兔兔

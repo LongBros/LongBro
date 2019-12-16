@@ -30,11 +30,12 @@ public class TimeUtil {
 	static SimpleDateFormat sdfD=new SimpleDateFormat("yyyy-MM-dd");
 	public static void main(String[] args) {
 //		System.out.print(getCWeek());
-		long c=System.currentTimeMillis();
-		long oneday=1*24*60*60*1000;//一天的毫秒数
-		System.out.println(sdf.format(new Date(c-oneday)));//一天前
-		System.out.println(sdf.format(new Date(c-oneday*7)));//一周前
-		System.out.println(sdf.format(new Date(c-oneday*30)));//一月前
+//		long c=System.currentTimeMillis();
+//		long oneday=1*24*60*60*1000;//一天的毫秒数
+//		System.out.println(sdf.format(new Date(c-oneday)));//一天前
+//		System.out.println(sdf.format(new Date(c-oneday*7)));//一周前
+//		System.out.println(sdf.format(new Date(c-oneday*30)));//一月前
+//		System.out.println(getNowHour());
 	}
 	
 	public static String driver="com.mysql.jdbc.Driver";
@@ -239,7 +240,7 @@ public class TimeUtil {
 		return sdf.format(new Date(System.currentTimeMillis()-t*onesec));
 	}  
 	/**
-	 * ~分钟之前、
+	 * 14.~分钟之前、
 	 * 今天、昨天、本月~日、上月~日、今年~月~日、去年~月~日
 	 * 例：今天 10:43:14 星期五、昨天 10:43:14 星期五、本月09日 22:31:28 星期一、上月21日 21:36:46 星期四、今年12月28日 14:25:27 星期五、去年12月28日 14:25:27 星期五
 	 * @author LongBro
@@ -265,5 +266,14 @@ public class TimeUtil {
 			return getBefore(Integer.parseInt(time.substring(0,1)), 1);
 		}
 		return "";
+	}
+	/**
+	 * @desc 15.得到当前小时
+	 * @author zcl
+	 * @date 2019年12月16日
+	 * @return
+	 */
+	public static int getNowHour(){
+		return Integer.parseInt(time().substring(11, 13));
 	}
 }

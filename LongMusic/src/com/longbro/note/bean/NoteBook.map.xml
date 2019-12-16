@@ -41,7 +41,7 @@
 		select d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
 		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
 		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
-		d.n_Authority nAuthority,d.n_song_id nSongId,
+		d.n_Authority nAuthority,d.n_song_id nSongId,n_update_time updateTime,
 		n_top nTop,n_user_top nUserTop,n_write_device nWriteDevice,
 		di.u_User_Name userName,di.u_Head_Image headImage,
 		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,

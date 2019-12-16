@@ -119,7 +119,7 @@
 								<div id="loginBox">
 									<form id="login_form" name="login_form" action="" method="post" autocomplete="off">
 									<ul>
-										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入哆啦id" type="text"></li>
+										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入哆啦id" type="text"></li><br>
 										<li class="form-group"><input class="form-control" id="id_password_l" name="password_l" placeholder="请输入密码" type="password"></li>
 									</ul>
 									</form>
@@ -133,8 +133,8 @@
 									<form id="register_form" name="register_form" action="" method="post" autocomplete="off">
 										
 										<ul>
-											<li class="form-group"><input class="form-control" id="id_dora_r" maxlength="8" name="dora_r" placeholder="请输入哆啦id(为空时随机生成)" type="text"></li>
-											<li class="form-group"><input class="form-control" id="id_userName_r" maxlength="20" name="userName_r" placeholder="请输入用户名" type="text"></li>
+											<li class="form-group"><input class="form-control" id="id_dora_r" maxlength="8" name="dora_r" placeholder="请输入哆啦id(为空时随机生成)" type="text"></li><br>
+											<li class="form-group"><input class="form-control" id="id_userName_r" maxlength="20" name="userName_r" placeholder="请输入用户名" type="text"></li><br>
 											<li class="form-group"><input class="form-control" id="id_password_r" name="password_r" placeholder="请输入密码" type="password"></li>
 										</ul>
 									</form>
@@ -232,7 +232,7 @@ var user=getCookie("userId")+"";
 document.getElementById("tip").innerText="欢迎使用哆啦日记网，记录你生活的点点滴滴";
 if(user==""){
 	alert("登录后方可写日记");
-	document.getElementById("tip").innerText="请先登录后再写日记！(注册功能暂未开放，欢迎联系1459892910索要账号)";
+	document.getElementById("tip").innerText="请先登录后再写日记！";
 	login_popup();
 }else{
 	setLocation(); 
