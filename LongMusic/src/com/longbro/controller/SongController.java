@@ -138,7 +138,7 @@ public class SongController {
 		return list;
 	}
 	/**
-	 * 根据歌词搜索歌曲
+	 * 5.根据歌词搜索歌曲
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年8月5日
@@ -154,7 +154,7 @@ public class SongController {
 		return list;
 	}
 	/**
-	 * 强力搜索功能-根据关键词同时搜索歌曲名、歌手、歌词
+	 * 6.强力搜索功能-根据关键词同时搜索歌曲名、歌手、歌词
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年8月5日
@@ -177,7 +177,7 @@ public class SongController {
 		return ls;
 	}
 	/**
-	 * 5.根据id搜索歌曲
+	 * 7.根据id搜索歌曲
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年5月4日
@@ -194,7 +194,7 @@ public class SongController {
 		return song;
 	}
 	/**
-	 * @desc 6.编辑歌曲
+	 * @desc 8.编辑歌曲
 	 * @author zcl
 	 * @date 2019年5月4日
 	 * @param request
@@ -224,7 +224,7 @@ public class SongController {
 		return;
 	}
 	/**
-	 * 7.根据播放列表中的id批量查询歌曲
+	 * 9.根据播放列表中的id批量查询歌曲
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年5月4日
@@ -255,7 +255,7 @@ public class SongController {
 		return list;
 	}
 	/**
-	 * 8.查询热播榜
+	 * 10.查询热播榜
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年8月25日
@@ -271,7 +271,7 @@ public class SongController {
 		return list;
 	}
 	/**
-	 * 9.查询今日、昨日、本周、本月、一日内、一周内、一月内……录入歌曲的数量
+	 * 11.查询今日、昨日、本周、本月、一日内、一周内、一月内……录入歌曲的数量
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年9月20日
@@ -314,7 +314,7 @@ public class SongController {
 		return service.findSongNumBy(time);
 	}
 	/**
-	 * @desc 10.查询所有的歌手
+	 * @desc 12.查询所有的歌手
 	 * @author zcl
 	 * @date 2019年11月23日
 	 * @return
@@ -326,7 +326,7 @@ public class SongController {
 		return ss; 
 	}
 	/**
-	 * @desc 11.根据资源id得到资源信息
+	 * @desc 13.根据资源id得到资源信息
 	 * @author zcl
 	 * @date 2019年10月4日
 	 * @param sourceId

@@ -1,6 +1,7 @@
 package com.longbro.note.service;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,8 @@ public class NoteBookService{
 		// TODO Auto-generated method stub
 		return dao.getDiaryBy(map);
 	}
-	public List<HashMap<String,Object>> getBeforeAndNextId(int id,String author){
-		return dao.getBeforeAndNextId(id, author);
+	public List<HashMap<String,Object>> getBeforeAndNextId(Map<String,Object> map){
+		return dao.getBeforeAndNextId(map);
 	}
 	public void editDiary(NoteBook nb){
 		dao.editDiary(nb);

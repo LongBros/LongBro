@@ -50,7 +50,7 @@
 </head>
 <body style="background-image: " id="body"> 
 	<div>
-		<span class="logo"><a href="http://112.74.173.44/LongVideos">哆啦小闹铃</a></span>
+		<span class="logo"><a href="http://www.duola.vip/index0.jsp">哆啦小闹铃</a></span>
 		<!-- <span class="topmenu" title="温馨提示" onmouseover="showTips()" onmouseout="hideTips()">?</span>
 		<span class="topmenu" onclick="notice()" title="通知"><i class="Hui-iconfont" style="font-size:18px">&#xe62f;</i></span>
 		<span class="topmenu" onclick="copyLink()" title="复制并分享"><i class="Hui-iconfont" style="font-size:18px">&#xe6aa;</i></span>
@@ -107,7 +107,7 @@
 		
 		<div id="time"></div>
 	 </center>
-	 <%
+	 <%-- <%
 	 	if(!MachineAccount.ifHasGen()){
 			int machines[]={66666666,88888888};
 			for(int account:machines){
@@ -116,7 +116,7 @@
 		}else{
 			System.out.println("当日已生成过！");
 		}
-	 %>
+	 %> --%>
     <audio id="song" src="" autoplay></audio>
     <script type="text/javascript">
 		var hour=new Array();
@@ -145,7 +145,7 @@
 				<dd><a href="amaze/songsList.jsp" target="_blank">553Music</a></dd>
 				<dd><a href="/LongVideos" target="_blank">553影院</a></dd>
 				<dd><a href="/LongBlog" target="_blank">LongBro博客</a></dd>
-				<dd><a href="index.jsp" target="_blank">哆拉音乐</a></dd>
+				<dd><a href="http://www.duola.vip/index.html" target="_blank">哆拉日记</a></dd>
 				<dd><a href="hui" target="_blank">LongBro工具</a></dd>
 				<dd><a href="mini/myAccount.html" target="_blank">Mini账单</a></dd>
 			</dl>
@@ -181,7 +181,7 @@
 			<span onclick="tabOnItem('3')" title="给作者留下你的珍贵性建议">留言作者</span>&emsp;|&emsp;
 			<span onclick="tabOnItem('5')">哆啦统计</span><img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif">
 		</div>
-		<span style="margin-right:50px;padding-top:8px;font-size: 15px;float: right;" onclick="mini.alert('域名正在备案进行中，暂无法使用域名访问网站！带来的不便还请见谅')">www.duola.vip © 2018~2020	&emsp;|&emsp;豫ICP备16023798号-1</span>
+		<span style="margin-right:50px;padding-top:8px;font-size: 15px;float: right;"><a href="http://www.duola.vip" style="text-decoration: none">www.duola.vip</a> © 2018~2020	&emsp;|&emsp;<a href="http://www.duola.vip" style="text-decoration: none">豫ICP备19043404号-1</a></span>
 	</div>
 </body>
 </html>

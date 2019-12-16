@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -83,11 +84,11 @@ public class UserInfoController{
     	if(ui!=null){//该用户id已存在，需重新生成
     		genUserId(source);
     	}
-    	ui=new UserInfo();
-    	ui.setUUserId(Integer.parseInt(userId));
-    	ui.setUJoinTime(TimeUtil.time());
+//    	ui=new UserInfo();
+//    	ui.setUUserId(Integer.parseInt(userId));
+//    	ui.setUJoinTime(TimeUtil.time());
 //    	au.setSource(source);
-    	userInfoService.create(ui);
+//    	userInfoService.create(ui);
     	return userId;
     }
     /**
@@ -126,6 +127,9 @@ public class UserInfoController{
     		response.addCookie(cookie1);
     		
     		String uLocation=ui.getLocation();
+    		if(StringUtils.isEmpty(uLocation)){
+    			uLocation="诗和远方";
+    		}
     		uLocation=URLEncoder.encode(uLocation, "utf-8");
     		Cookie cookie2=new Cookie("userAddr", uLocation);
     		cookie2.setMaxAge(30*24*60*60);
@@ -202,11 +206,25 @@ public class UserInfoController{
      * @date 2019年12月1日
      * @param info
      * @return
+     * @throws UnsupportedEncodingException 
      */
     @RequestMapping("updateUserInfo")
     @ResponseBody
-    public BaseResult<List<HashMap<String, Object>>> updateUserInfo(UserInfo info){
+    public BaseResult<List<HashMap<String, Object>>> updateUserInfo(HttpServletResponse response,UserInfo info) throws UnsupportedEncodingException{
 		BaseResult<List<HashMap<String, Object>>> result=new BaseResult<List<HashMap<String, Object>>>();
+		if(StringUtils.isNotEmpty(info.getLocation())){//12-15修改地址后同时修改cookie
+			Cookie cookie=new Cookie("userAddr",URLEncoder.encode(info.getLocation(), "utf-8"));
+			cookie.setMaxAge(30*24*60*60);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+		}
+		if(StringUtils.isNotEmpty(info.getUUserName())){
+			Cookie cookie=new Cookie("userNick", URLEncoder.encode(info.getUUserName()));
+			cookie.setMaxAge(30*24*60*60);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+		}
+		
 		userInfoService.updateUserInfo(info);
 		result.setCode(200);
     	result.setMessage("信息保存成功");
@@ -223,7 +241,7 @@ public class UserInfoController{
      */
     @RequestMapping(value="uploadHeadImage",method=RequestMethod.POST)
     @ResponseBody
-    public void uploadHeadImage(HttpServletRequest request) throws Exception{
+    public void uploadHeadImage(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		 String pname="";
 		 String userId="";
 		 System.out.println(request.getParameter("userId"));
@@ -256,7 +274,7 @@ public class UserInfoController{
 		UserInfo user=new UserInfo();
 		user.setHeadImage(pname);
 		user.setUUserId(Integer.parseInt(userId));
-		updateUserInfo(user);
+		updateUserInfo(response,user);
     }
     /**
      * @desc 9.查询用户数、日记数量的统计信息
@@ -326,5 +344,70 @@ public class UserInfoController{
     	userInfoService.updateUserInfo(userinfo);
     	result.setCode(200);
 		return result;
+    }
+    /**
+     * 
+     * @desc 
+     * @author zcl
+     * @throws UnsupportedEncodingException 
+     * @date 2019年12月14日
+     */
+    @RequestMapping("register")
+    @ResponseBody
+    public BaseResult<String> register(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
+    	BaseResult<String> result=new BaseResult<String>();
+    	String doraId=request.getParameter("doraId");//哆啦id
+    	String userName=request.getParameter("userName");//用户名
+    	String password=request.getParameter("password");//密码
+    	if(StringUtils.isEmpty(doraId)){//为空则随机生成
+    		doraId=genUserId("");
+    	}else{//校验用户输入哆啦id是否已存在
+        	UserInfo ui=userInfoService.get(Integer.parseInt(doraId));
+        	if(ui!=null){//该用户id已存在，需重新生成
+        		result.setCode(100);
+        		result.setMessage("你输入的哆啦id已存在，请重新输入或不填由系统为你随机生成");
+        		return result;
+        	}
+    	}
+    	UserInfo ui=new UserInfo();
+    	ui.setUUserId(Integer.parseInt(doraId));
+    	ui.setUUserName(userName);
+    	ui.setPassword(password);
+    	ui.setLocation("");
+    	ui.setSignature("");
+    	//随机生成家歌和背景
+    	int hs=new Random().nextInt(Strings.id.length);
+    	int hi=new Random().nextInt(Strings.backs.length);
+    	ui.setHeadImage("dlam1");
+    	ui.setUHomeSong(Strings.id[hs]);
+    	ui.setAutoPlay(0);
+    	ui.setBack(Strings.backs[hi]);
+    	ui.setBlackNameList("66666666,12345678,15577347,96664270,54343391,88007770,65313340");
+    	ui.setUUserSex(0);
+    	ui.setUJoinTime(TimeUtil.time());
+    	ui.setLastLogin(TimeUtil.time());
+    	userInfoService.create(ui);
+    	
+    	//存cookie
+		Cookie cookie=new Cookie("userId", doraId);
+		cookie.setMaxAge(30*24*60*60);
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		
+		userName=URLEncoder.encode(userName, "utf-8");
+		Cookie cookie1=new Cookie("userNick", userName);
+		cookie1.setMaxAge(30*24*60*60);
+		cookie1.setPath("/");
+		response.addCookie(cookie1);
+		
+		Cookie cookie2=new Cookie("userAddr", URLEncoder.encode("诗和远方", "utf-8"));
+		cookie2.setMaxAge(30*24*60*60);
+		cookie2.setPath("/");
+		response.addCookie(cookie2);
+    	
+    	result.setCode(200);
+    	result.setMessage("注册成功，系统已为你自动登录,请牢记你的账户，哆啦id为"+doraId);
+    	result.setResult(doraId);
+    	return result;
     }
 }

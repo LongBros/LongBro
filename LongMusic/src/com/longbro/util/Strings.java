@@ -207,4 +207,8 @@ public class Strings {
 		}
 		return c;
 	}
+	public static String backs[]={"back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg"
+		,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png"
+		,"back0.gif","back1.gif","back2.gif"};
+	
 }

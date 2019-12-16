@@ -192,7 +192,7 @@ function loadAuthorInfo(){
 			var url=document.URL+"";
 			var sex=getSexById(data.uuserSex);
 			if(user!=author){//不是当前人时候的title显示
-				document.title=""+document.title+"'"+data.uuserName+"'的日记~哆啦官网";
+				document.title=""+document.title+"'"+data.uuserName+"'的日记~哆啦日记";
 				if(url.indexOf("author.html")!=-1){//别的作者的页面
 					var sid=data.uhomeSong;//家歌
 					homeSongId=sid;
@@ -200,14 +200,14 @@ function loadAuthorInfo(){
 				}
 			}else{//当前人
 				if(url.indexOf("diary.html")!=-1){
-					document.title=document.title+"朕的日记~哆啦官网";
+					document.title=document.title+"朕的日记~哆啦日记";
 				}else if(url.indexOf("author.html")!=-1){//我的作者页
-					document.title="朕的日记~哆啦官网";
+					document.title="朕的日记~哆啦日记";
 					var sid=data.uhomeSong;//家歌
 					homeSongId=sid;
 					ifAutoPlay(homeSongId);
 				}else if(url.indexOf("myHome.html")!=-1){//我的家园页
-					document.title="我的家园~哆啦官网";
+					document.title="我的家园~哆啦日记";
 					var sid=data.uhomeSong;//家歌
 					homeSongId=sid;
 					ifAutoPlay(homeSongId);
@@ -215,13 +215,57 @@ function loadAuthorInfo(){
 			}
 			document.getElementById("touxiang").src="image/tx/"+data.headImage+".jpg";
 			document.getElementById("userId").innerText=author;
-			document.getElementById("userNameT").innerText=data.uuserName;
+			/*document.getElementById("userNameT").innerText=data.uuserName;*/
 			document.getElementById("userName").innerText=data.uuserName;
 			document.getElementById("homeSong").innerText=data.homeSongName;
 			document.getElementById("signature").innerText=data.signature;
 			document.getElementById("sex").innerText=sex;
 			document.getElementById("joinTime").innerText="加入时间："+data.ujoinTime;
 			document.getElementById("recentLogin").innerText="最近登录："+data.lastLogin;//(data.lastLogin=="")?"":
+			var num=parseInt(data.dayNum+"");
+			var text="";
+			var n=4;//级别幅度，如一个太阳=4个月亮，一个月亮=4个星星
+			if(num==0){
+				text="未写过日记呢";
+			}else{
+				if(num/n<=1){//少于4天，显示星星
+//					text=getHtml(num,"star");
+					text="<img src='image/star.png' style='width:16px;height:16px'>"+num;
+				}else{
+					if(num/(n*n)<=1){//小于16天，显示月亮和星星
+//						text=getHtml(parseInt(num/n),"moon")+getHtml(num%n,"star");
+						text="<img src='image/moon.png' style='width:16px;height:16px'>"+parseInt(num/n);
+						if(num%n>0){
+							text=text+"<img src='image/star.png' style='width:16px;height:16px'>"+num%n;
+						}
+					}else{
+						if(num/(n*n*n)<=1){//小于64天，显示太阳、月亮和星星、例17
+//							text=getHtml(parseInt(num/(n*n)),"sun")+getHtml(parseInt((num%(n*n))/n),"moon")+getHtml((num%(n*n))%n,"star");
+							text="<img src='image/sun.png' style='width:16px;height:16px'>"+parseInt(num/(n*n));
+							if(parseInt((num%(n*n))/n)>0){
+								text=text+"<img src='image/moon.png' style='width:16px;height:16px'>"+parseInt((num%(n*n))/n);
+							}
+							if((num%(n*n))%n>0){
+								text=text+"<img src='image/star.png' style='width:16px;height:16px'>"+(num%(n*n))%n;
+							}
+						}else{
+//							text=getHtml(parseInt(num/(n*n*n)),"crown")+getHtml(parseInt((num%(n*n*n))/(n*n)),"sun")+getHtml(parseInt(((num%(n*n*n))%(n*n))/n),"moon")+getHtml(((num%(n*n*n))%(n*n))%n,"star");
+							text="<img src='image/crown.png' style='width:16px;height:16px'>"+parseInt(num/(n*n*n));
+							if(parseInt((num%(n*n*n))/(n*n))>0){
+								text=text+"<img src='image/sun.png' style='width:16px;height:16px'>"+parseInt((num%(n*n*n))/(n*n));
+							}
+							if(parseInt(((num%(n*n*n))%(n*n))/n)>0){
+								text=text+"<img src='image/moon.png' style='width:16px;height:16px'>"+parseInt(((num%(n*n*n))%(n*n))/n);
+							}
+							if(((num%(n*n*n))%(n*n))%n>0){
+								text=text+"<img src='image/star.png' style='width:16px;height:16px'>"+((num%(n*n*n))%(n*n))%n;
+							}
+						}
+					}
+				}
+			}
+			document.getElementById("diaryDayNum").innerHTML="写日记天数："+text;
+			document.getElementById("diaryDayNum").title="累积写日记"+num+"天，\r图解：星星=1天，月亮="+n+"天，太阳="+n*n+"天，皇冠="+n*n*n+"天";
 			var body=document.getElementById("bodys");
 			body.style.background="url(res/images/back/"+data.back+")";
 		}
@@ -422,11 +466,80 @@ function playAudio(sid){
 	var btn=document.getElementById("playBtn");
 	btn.title="点击暂停";
 }
-//手机端按钮登录
+//19.手机端按钮登录
 function loginPhone(){
 	if(user!=""){
 		window.open("myHome.html", "_blank")
 	}else{
 		login_popup();
 	}
+}
+/**
+ * 20.切换登录和注册
+ * @param type
+ */
+function loginOrRegister(type){
+	if(type=="0"){//显示登录框
+		document.getElementById("loginBox").style.display="inline-block";
+		document.getElementById("registerBox").style.display="none";
+	}else if(type=="1"){//显示注册框
+		alert("注册需要输入哆啦id，用户名，密码。其中哆啦id可为空，为空后系统会随机为你分配，用户名和密码不能为空。哆啦id和密码是登录凭证");
+		document.getElementById("loginBox").style.display="none";
+		document.getElementById("registerBox").style.display="inline-block";
+	}
+}
+/**
+ * 21.注册账号
+ */
+function register(){
+	var doraId=document.register_form.dora_r.value+"";//账号，即哆啦id
+	var userName=document.register_form.userName_r.value+"";
+	var pass=document.register_form.password_r.value+"";
+	if(userName.length<4||userName.length>15){
+		alert("用户名字数应在4和15之间");
+		return;
+	}
+	if(pass.length<3||pass.length>15){
+		alert("密码字数应在3和15之间");
+		return;
+	}
+	if(doraId.length>0&&(doraId.length!==8||isNaN(doraId))){
+		alert("哆啦id需要为8位阿拉伯数字，你也可以不输入由系统为你分配");
+		return;
+	}
+	var url="note/userinfo/register.do";
+	$.ajax({
+		url:url,
+		async:false,
+		type:"POST",
+		data:{
+			doraId:doraId,
+			userName:userName,
+			password:pass
+		},
+		dataType:"Json",
+		success:function(data){
+			if(data.code=="200"){
+				alert(data.message);
+				window.open("index.html","_self");
+			}else{
+				alert(data.message)
+			}
+
+		}
+	});
+}
+/**
+ * 根据数量和类型返回对应HTML
+ * @param num	4个
+ * @param type  星星
+ * @returns {String}
+ */
+function getHtml(num,type){
+	num=parseInt(num);
+	var text="";
+	for(var i=0;i<num;i++){
+		text=text+"<img src='image/"+type+".png' style='width:16px;height:16px'>";
+	}
+	return text;
 }

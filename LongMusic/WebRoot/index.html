@@ -3,7 +3,7 @@
 <head>
 <title>哆啦日记-记录你生活的点点滴滴</title>
 <meta name="keywords" content="哆啦日记首页,哆啦日记-不仅仅是怀旧">
-<meta name="description" content="哆啦日记,是一个以记录生活、工作、心情等为主题的网站,记录形式主要以文本、音频为主;它不仅仅是怀旧,更想为你记录你生活的点点滴滴">
+<meta name="description" content="哆啦日记,是一个以记录生活、工作、心情等为主题的网站,记录形式主要以文本、音频为主;它不仅仅是怀旧,更想为你记录你生活的点点滴滴。哆啦日记，做全网最有意思的日记记录网站。">
 <meta charset="utf-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -48,6 +48,12 @@
 		padding-bottom: 5px;
 		cursor: pointer;
 	}
+	.diary a{
+		
+	}
+	.diary a:hover{
+		text-decoration: none;
+	}
 	.diary img{
 		width: 20px;
 		height: 24px;
@@ -66,6 +72,10 @@
 		position:fixed;
 		float: right;
 		background:white;
+		overflow: scroll;
+	}
+	.rights::-webkit-scrollbar {
+    	display: none;
 	}
 	.website{
 		margin-left: 10px;
@@ -99,6 +109,22 @@
 		display:inline-block;
 		background-color:#e2e2e2; 
 	}
+	/*顶部横幅及小喇叭*/
+	.banner{
+		height: 20px;
+		margin-top:20px;
+		margin-left:10px; 
+		color: blue;
+	}
+	/*小喇叭图片*/
+	.banner img{
+		width: 18px;
+		height: 18px;
+	}
+	/*小喇叭广播文本*/
+	.banner span{
+		color: red;
+	}
 </style>
 <body id="bodys" style="background:url(res/images/back/back3.jpg)">
 <header class="navbar-wrapper">
@@ -116,6 +142,7 @@
 						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
 						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
 						<li><a href="javascript:;" id="alarm" style="" onClick="openNewPage('4')">553Music</a></li>
+						<li><a href="http://112.74.173.44/LongMusic/index0.jsp" target="_blank">哆啦闹铃</a></li>
 						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
 						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
@@ -154,21 +181,36 @@
 					<div class="col-right">
 						<div class="modal-header">
 							<button type="button" id="login_close" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-							<h4 class="modal-title" id="loginModalLabel" style="font-size: 18px;">登录</h4>
+							<h4 class="modal-title" id="loginModalLabel" style="font-size: 18px;"><span onclick="loginOrRegister(0)">登录</span>&emsp;&emsp;<span onclick="loginOrRegister(1)">注册</span></h4>
 						</div>
 						<div class="modal-body">
 							<section class="box-login v5-input-txt" id="box-login">
-								<form id="login_form" name="login_form" action="" method="post" autocomplete="off">
-									
+								<div id="loginBox">
+									<form id="login_form" name="login_form" action="" method="post" autocomplete="off">
 									<ul>
-										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入邮箱账号/手机号" type="text"></li>
+										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入哆啦id" type="text"></li>
 										<li class="form-group"><input class="form-control" id="id_password_l" name="password_l" placeholder="请输入密码" type="password"></li>
 									</ul>
-								</form>
-								<p class="good-tips marginB10"><a id="btnForgetpsw" class="fr">忘记密码？</a>还没有账号？<a href="javascript:;" onclick="alert('注册功能暂未开放，联系QQ：1459892910获取账号')" target="_blank" id="btnRegister">立即注册</a></p>
-								<div class="login-box marginB10">
-									<button id="login_btn" type="button" onclick="login()" class="btn btn-micv5 btn-block globalLogin">登录</button>
-									<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+									</form>
+									<p class="good-tips marginB10"><a id="btnForgetpsw" class="fr"><!-- 忘记密码？ --></a>还没有账号？<a href="javascript:;" onclick="loginOrRegister(1)" target="_blank" id="btnRegister">立即注册</a></p>
+									 <div class="login-box marginB10">
+										<button id="login_btn" type="button" onclick="login()" class="btn btn-micv5 btn-block globalLogin">登录</button>
+										<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+									</div>
+								</div>
+								<div id="registerBox" style="display:none">
+									<form id="register_form" name="register_form" action="" method="post" autocomplete="off">
+										
+										<ul>
+											<li class="form-group"><input class="form-control" id="id_dora_r" maxlength="8" name="dora_r" placeholder="请输入哆啦id(为空时随机生成)" type="text"></li>
+											<li class="form-group"><input class="form-control" id="id_userName_r" maxlength="20" name="userName_r" placeholder="请输入用户名" type="text"></li>
+											<li class="form-group"><input class="form-control" id="id_password_r" name="password_r" placeholder="请输入密码" type="password"></li>
+										</ul>
+									</form>
+									<div class="login-box marginB10">
+										<button id="login_btn" type="button" onclick="register()" class="btn btn-micv5 btn-block globalLogin">注册</button>
+										<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+									</div>
 								</div>
 <!-- 								<div class="threeLogin"><span>其他方式登录</span><a class="nqq" href="javascript:;"></a><a class="nwx" href="javascript:;"></a><a class="nwb"></a></div>
  -->							</section>
@@ -192,8 +234,14 @@
 </div>
 
 <div class="rights" id="rights">
+	<div class="banner">
+	<img src="image/trumpet.png">&nbsp;
+	<span id="word">
+	注册功能已于12月14日上线，欢迎各位朋友前来注册。
+	</span>
+</div>
+<br>
 	<div class="website">
-		&emsp;哆啦日记<br>
 		哆啦日记，不仅仅是怀旧；哆啦日记，记录你生活的点点滴滴；哆啦日记，记录你生活的每一个
 		小细节！<br>www.duola.vip<br><br>
 	</div>
@@ -202,7 +250,6 @@
 		今日笔记：88<br>总日记数：8888888<br><br>
 	</div> -->
 	<div class="newer" style="cursor: pointer;overflow: auto;">
-		&emsp;新人榜<br>
 		<span style="color: red;font-size:20px;">1.</span><span onclick="openAuthor('1314521')">LongBros</span><br>
 		<font style="color: green;font-size:20px;">2.</font><span onclick="openAuthor('12345678')">FatLuo</span><br>
 		<font style="color: cyan;font-size:20px;">3.</font><span onclick="openAuthor('88888888')">歌词网</span><br>
@@ -213,6 +260,7 @@
 		<font style="color: black;font-size:20px;">8.</font><span onclick="openAuthor('5211314')">哆啦小子</span><br>
 		<font style="color: black;font-size:20px;">9.</font><span onclick="openAuthor('15577347')">Yigongzi</span><br>
 		<font style="color: black;font-size:20px;">10.</font><span onclick="openAuthor('20191208')">Forevermore</span><br>
+		<font style="color: black;font-size:20px;">11.</font><span onclick="openAuthor('65313340')">一只小兔几</span><br>
 	</div>
 </div>
 <div class="toTop">

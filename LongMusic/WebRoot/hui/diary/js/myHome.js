@@ -141,17 +141,24 @@ function loadMyDiary(page,perPage){
 				var wea=getWeaById(data[i].nweather);
 				//分类
 				var cate=getCateById(data[i].ntype);
-				$("#myDiary").append("<div class=\"diary\">&nbsp;<span class='diaryTitle' title='"+data[i].ntitle
-				+"' style='color:black;font-size:18px;' onclick='openOther(0,"+data[i].nid+")'>"+title+"</span><br><span onclick='openOther(0,"+data[i].nid+")' style='color:gray'>"+con+"</span><br>"
+				var top=data[i].nUserTop;
+				if(top){
+					top="<span style='color:#c88326' onclick='diaryToTop("+data[i].nid+",\"0\")'>取消置顶</span>";
+				}else{
+					top="<span style='color:blue' onclick='diaryToTop("+data[i].nid+",\"1\")'>置顶</span>";
+				}
+				$("#myDiary").append(
+						"<div class=\"diary\">&nbsp;<span class='diaryTitle' title='"+data[i].ntitle
+						+"' style='color:black;font-size:18px;' onclick='openOther(0,"+data[i].nid+")'>"+title+"</span><br><span onclick='openOther(0,"+data[i].nid+")' style='color:gray'>"+con+"</span><br>"
 						+"<div class='info'>"
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime+"&emsp;"+lock+"&emsp;心情："+mood+"&emsp;&emsp;天气："+wea
 						+"&emsp;分类："+cate+"&emsp;"
 						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum
 						+"&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
 						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum
-						+"</span>&nbsp;<span style='color:red' onclick='editDiary("+data[i].nid
-						+")'>编辑</span>&nbsp;<span style='color:red' onclick='delDiary("+data[i].nid
-						+")'>删除</span>&nbsp;<span style='color:red' onclick='diaryToTop("+data[i].nid+")'>置顶</span></div></div>"
+						+"</span>&nbsp;<span style='color:#c88326' onclick='editDiary("+data[i].nid
+						+")'>编辑</span>&nbsp;<span style='color:#c88326' onclick='delDiary("+data[i].nid
+						+")'>删除</span>&nbsp;"+top+"</div></div>"
 						+"</div><hr width='880px'>");
 			}
 
@@ -290,7 +297,7 @@ function delDiary(id){
 	}
 	$.ajax({
 		url:"note/diary/addOrEditNote.do",
-		type:"get",
+		type:"POST",
 		async:false,
 		dataType:"Json",
 		data:{
@@ -306,7 +313,7 @@ function delDiary(id){
 /**
  * 9.日记置顶
  */
-function diaryToTop(id){
+function diaryToTop(id,which){
 	//alert("不好意思喔，开发中…敬请期待。^_^");
 	$.ajax({
 		url:"note/diary/addOrEditNote.do",
@@ -315,14 +322,19 @@ function diaryToTop(id){
 		dataType:"Json",
 		data:{
 			NId:id,
-			nUserTop:"1"
+			nUserTop:which
 		},
 		success:function(res){
 			if(res.code==200){
-				alert("置顶成功");
+				if(which==1){
+					alert("置顶成功");
+				}else if(which==0){
+					alert("已取消置顶");
+				}
 			}
 		}
 	});
+	loadMyDiary(1,10);
 }
 /**
  * 10.
@@ -387,7 +399,9 @@ function loadInfo(){
 			string=string+"<span>个性签名：</span><input name='signature' value='"+data.signature+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(2)' title='点击保存'>&#xe676;</i><br>";
 			string=string+"<span>默认日记地址：</span><input name='location' value='"+data.location+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(3)' title='点击保存'>&#xe676;</i><br>";
 			//string=string+"<span>家歌选择：</span><font color='red'>"+data.uhomeSong+"</font><i class=\"Hui-iconfont\">&#xe6df;</i>(其他用户访问你的家园时会播放家歌)<br>";
-			string=string+"<span>我的黑名单(不看名单，点击可移出):";
+			string=string+"<span>首页显示日记字数:<input type='radio' name='wordsize' onchange='' value='' checked='true'>显示</input>";
+			string=string+"<input type='radio' name='wordsize' onchange='' value=''>隐藏</input>";
+			string=string+"<br><span>我的黑名单(不看名单，点击可移出):";
 //			for(var i=0;i<blackIds.length;i++){
 //				string=string+"<a onclick='removeFromList(\""+blackIds[i]+"\",\""+blacks[i]+"\")' style='color:red'>"+blacks[i]+"</a>&emsp;&emsp;";
 //			}

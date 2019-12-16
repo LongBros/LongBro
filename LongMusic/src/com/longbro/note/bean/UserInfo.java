@@ -14,7 +14,7 @@ public class UserInfo{
 	protected String UUserName; //用户名
 	protected Integer UUserId; //系统生成的8位id
 	protected Integer UUserSex; //性别
-	protected Integer UCommentNum; //总被评论数量
+	protected Integer uShowWordnum; //12-14日记列表是否显示日记字数
 	protected String blackNameList; //黑名单
 	protected String UJoinTime; //加入哆啦日记网时间
 	protected Integer UStatus; //在线状态(1:在线，0:离线)
@@ -66,18 +66,13 @@ public class UserInfo{
 	public Integer getUUserSex() {
 		return this.UUserSex;
 	}
-	public void setUCommentNum(Integer UCommentNum) {
-		this.UCommentNum = UCommentNum;
-	}
 	
-	/**
-	 * 返回 总被评论数量
-	 * @return
-	 */
-	public Integer getUCommentNum() {
-		return this.UCommentNum;
+	public Integer getuShowWordnum() {
+		return uShowWordnum;
 	}
-
+	public void setuShowWordnum(Integer uShowWordnum) {
+		this.uShowWordnum = uShowWordnum;
+	}
 	public void setUJoinTime(String UJoinTime) {
 		this.UJoinTime = UJoinTime;
 	}
