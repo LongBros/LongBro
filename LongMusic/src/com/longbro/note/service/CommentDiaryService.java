@@ -37,5 +37,9 @@ public class CommentDiaryService{
 	public List<HashMap<String, String>> getMyMessage(String userId){
 		return dao.getMyMessage(userId);
 	}
+	//2019-12-17得到我的所有评论
+	public List<HashMap<String, String>> getMyComment(String userId){
+		return dao.getMyComment(userId);
+	}
 }
 

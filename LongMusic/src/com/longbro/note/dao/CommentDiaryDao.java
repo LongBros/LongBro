@@ -35,5 +35,10 @@ public class CommentDiaryDao extends BaseDao{
 	public List<HashMap<String, String>> getMyMessage(String userId){
 		return this.selectList(getNamespace()+".getMyMessage",userId);
 	}
+	//2019-12-17得到我的所有评论
+	public List<HashMap<String, String>> getMyComment(String userId){
+		return this.selectList(getNamespace()+".getMyComment",userId);
+	}
+	
 }
 

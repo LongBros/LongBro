@@ -62,7 +62,7 @@ public class CommentDiaryController{
     	return result;
     }
     /**
-     * 得到我的所有被评论的消息
+     * 3.得到我的所有被评论的消息
      * @author LongBro
      * 2019年12月3日
      * 下午12:47:38
@@ -79,6 +79,28 @@ public class CommentDiaryController{
     		return result;
     	}
     	result.setResult(commentDiaryService.getMyMessage(userId));
+    	result.setCode(200);
+    	result.setMessage("查询成功");
+    	return result;
+    }
+    /**
+     * 4.得到登录人评论的信息
+     * @author LongBro
+     * 2019年12月17日
+     * 下午12:56:03
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value="getMyComment",method=RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<HashMap<String, String>> getMyComment(String userId){
+    	BaseResult<HashMap<String, String>> result=new BaseResult<>();
+    	if(StringUtils.isEmpty(userId)){
+    		result.setCode(110);
+    		result.setMessage("用户id不能为空");
+    		return result;
+    	}
+    	result.setResult(commentDiaryService.getMyComment(userId));
     	result.setCode(200);
     	result.setMessage("查询成功");
     	return result;

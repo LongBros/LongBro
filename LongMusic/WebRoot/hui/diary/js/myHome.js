@@ -105,6 +105,8 @@ function loadMyDiary(page,perPage){
 	document.getElementById("store").style.color="black";
 	document.getElementById("setting").style.color="black";
 	document.getElementById("attention").style.color="black";
+	document.getElementById("fans").style.color="black";
+	document.getElementById("comment").style.color="black";
 	var au="0,1,2";//0完全公开,1自己可见,2登录可见
 	//$("#myDiary").text("");
 	$.ajax({
@@ -183,6 +185,8 @@ function loadMyLove(){
 	document.getElementById("store").style.color="black";
 	document.getElementById("setting").style.color="black";
 	document.getElementById("attention").style.color="black";
+	document.getElementById("fans").style.color="black";
+	document.getElementById("comment").style.color="black";
 	$.ajax({
 		url:"note/praise/getMyLikeDiary.do?userId="+user,
 		type:"get",
@@ -233,6 +237,8 @@ function loadMyStore(){
 	document.getElementById("store").style.color="red";
 	document.getElementById("setting").style.color="black";
 	document.getElementById("attention").style.color="black";
+	document.getElementById("fans").style.color="black";
+	document.getElementById("comment").style.color="black";
 	$.ajax({
 		url:"note/store/getMyStoreDiary.do?userId="+user,
 		type:"get",
@@ -348,6 +354,8 @@ function openSetting(){
 	document.getElementById("store").style.color="black";
 	document.getElementById("setting").style.color="red";
 	document.getElementById("attention").style.color="black";
+	document.getElementById("fans").style.color="black";
+	document.getElementById("comment").style.color="black";
 	loadInfo();//加载出作者信息以供编辑
 	$("#myDiary").append("<span>背景选择：</span>");
 	/* $("#myDiary").append("<a onclick='setBack()'>设置当前背景为默认朕的背景</a>"); */
@@ -472,7 +480,9 @@ function loadMyAtten(){
 	document.getElementById("love").style.color="black";
 	document.getElementById("store").style.color="black";
 	document.getElementById("setting").style.color="black";
+	document.getElementById("fans").style.color="black";
 	document.getElementById("attention").style.color="red";
+	document.getElementById("comment").style.color="black";
 	$.ajax({
 		url:"note/notice/getMyAtten.do?userId="+user,
 		type:"get",
@@ -535,6 +545,75 @@ function removeFromList(userId,userName)
 			if(res.code==200){
 				alert(res.message);
 			    openSetting();
+			}
+		}
+	});
+}
+/**
+ * 17.加载当前登录人的评论
+ */
+function loadMyCom(){
+	$("#myDiary").text('');
+	$(".pages").text('');
+	document.getElementById("my").style.color="black";
+	document.getElementById("love").style.color="black";
+	document.getElementById("store").style.color="black";
+	document.getElementById("setting").style.color="black";
+	document.getElementById("attention").style.color="black";
+	document.getElementById("fans").style.color="black";
+	document.getElementById("comment").style.color="red";
+	$.ajax({
+		url:"note/comment/getMyComment.do?userId="+user,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(data){
+			//diaryId，reviewer，reviewCon，reviewTime，readStatus，viewerName，diaryTitle
+			var res=data.result;
+			if(res.length>0){
+				$("#myDiary").append("<div class='notice'><center>共有<font color='red'>"+res.length+"</font>条评论消息</center></div>");
+			}
+			if(res.length<1){
+				$("#myDiary").append("<div class='notice'><center>你还没有评论过别人的日记喔，快去评论别人的日记吧！</center></div>");
+			}
+			for(var i=0;i<res.length;i++){
+				$("#myDiary").append("<div class='notice'>你评论了<a href='author.html?author="+res[i].reviewed+"' target='_blank'>"+res[i].viewedName+"</a>&emsp;的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
+			}
+		}
+	});
+}
+/**
+ * 18.加载当前登录人的粉丝
+ */
+function loadMyFans(){
+	$("#myDiary").text('');
+	$(".pages").text('');
+	document.getElementById("my").style.color="black";
+	document.getElementById("love").style.color="black";
+	document.getElementById("store").style.color="black";
+	document.getElementById("setting").style.color="black";
+	document.getElementById("attention").style.color="black";
+	document.getElementById("fans").style.color="red";
+	document.getElementById("comment").style.color="black";
+	$.ajax({
+		url:"note/notice/getMyMessage.do?userId="+user,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(res){
+			if(res.code==200){
+				var data=res.result;
+				if(data.length<1){
+					$("#myDiary").append("<center>还没有人关注你呢，快去找喜欢你的人关注你吧！</center>");
+				}else{
+					$("#myDiary").append("<center>共<font color='red' size='2px'>"+data.length+"</font>个小伙伴关注了你</center>");
+				}
+				for(var i=0;i<data.length;i++){
+					$("#myDiary").append("<div class='notice'><a href='author.html?author="+data[i].noticerId+"' target='_blank'>"+data[i].noticerName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					
+				}
+			}else{
+				alert("查询失败");
 			}
 		}
 	});
