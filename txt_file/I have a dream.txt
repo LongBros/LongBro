@@ -8,13 +8,7 @@ db.password=123456
 2530000022937712
 
 
-hui/diary/js/myHome.js
-message.html
-myHome.html
-src/com/longbro/note/bean/CommentDiary.map.xml
-src/com/longbro/note/controller/CommentDiaryController.java
-src/com/longbro/note/dao/CommentDiaryDao.java
-src/com/longbro/note/service/CommentDiaryService.java
+
 
 
 

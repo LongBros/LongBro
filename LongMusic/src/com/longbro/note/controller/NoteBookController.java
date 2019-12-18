@@ -245,6 +245,12 @@ public class NoteBookController{
     		return result;
     	}
     	HashMap<String, String> map=SpideLapuda.spideLapuda(id);
+    	String time=map.get("time").substring(0, 10);
+    	if(!time.equals(TimeUtil.getToday())){
+    		result.setCode(100);
+    		result.setMessage("不是当日的日记");
+    		return result;
+    	}
     	NoteBook nb=new NoteBook();
     	nb.setNWritter("65313340");
     	nb.setNType(0);

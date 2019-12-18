@@ -278,7 +278,10 @@ function loadMyStore(){
  * 6.加载我看过的
  */
 function loadMyFeet(){
-	
+	if(user==""){
+		alert("请登录");
+		return;
+	}
 }
 /**
  * 7.编辑日记
@@ -476,6 +479,10 @@ function saveInfo(which,value){
 function loadMyAtten(){
 	$("#myDiary").text('');
 	$(".pages").text('');
+	if(user==""){
+		alert("请登录");
+		return;
+	}
 	document.getElementById("my").style.color="black";
 	document.getElementById("love").style.color="black";
 	document.getElementById("store").style.color="black";
@@ -555,6 +562,10 @@ function removeFromList(userId,userName)
 function loadMyCom(){
 	$("#myDiary").text('');
 	$(".pages").text('');
+	if(user==""){
+		alert("请登录");
+		return;
+	}
 	document.getElementById("my").style.color="black";
 	document.getElementById("love").style.color="black";
 	document.getElementById("store").style.color="black";
@@ -568,7 +579,6 @@ function loadMyCom(){
 		async:false,
 		dataType:"Json",
 		success:function(data){
-			//diaryId，reviewer，reviewCon，reviewTime，readStatus，viewerName，diaryTitle
 			var res=data.result;
 			if(res.length>0){
 				$("#myDiary").append("<div class='notice'><center>共有<font color='red'>"+res.length+"</font>条评论消息</center></div>");
@@ -588,6 +598,10 @@ function loadMyCom(){
 function loadMyFans(){
 	$("#myDiary").text('');
 	$(".pages").text('');
+	if(user==""){
+		alert("请登录");
+		return;
+	}
 	document.getElementById("my").style.color="black";
 	document.getElementById("love").style.color="black";
 	document.getElementById("store").style.color="black";

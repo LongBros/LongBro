@@ -69,7 +69,12 @@ function loadDiary(id){
 						+"<div class='content'>"+con+"</div>"
 
 						);
+				var updTime=data.updateTime+"";
+				if(updTime.length>5){
+					$("#diary").append("<span style='float:right;margin-right:28px;'>文章于<font color='red'>"+updTime+"</font>被更新</span><br>");
+				}
 				$("#diary").append("<br>&emsp;&emsp;&emsp;<span>本文链接：<font color='blue'>"+document.URL+"</font>，主人公：<a href='author.html?author="+author+"' style='color:red'>"+data.userName+"</a>，如需分享请注明出处，谢谢喜欢！</span><br>");
+
 				if(data.nallowComment==1){//不允许评论
 					$("#comment").text("");
 				}
