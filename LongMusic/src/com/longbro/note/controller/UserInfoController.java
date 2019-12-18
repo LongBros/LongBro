@@ -346,8 +346,7 @@ public class UserInfoController{
 		return result;
     }
     /**
-     * 
-     * @desc 
+     * @desc 11.注册
      * @author zcl
      * @throws UnsupportedEncodingException 
      * @date 2019年12月14日

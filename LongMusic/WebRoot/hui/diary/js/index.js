@@ -7,6 +7,7 @@ var user=getCookie("userId")+"";
 var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
 loadNotice();
 var homeSongId="";
+var show=0;
 /**
  * 1.根据是否登录设置菜单栏
  */
@@ -390,10 +391,15 @@ function getSetting(userId){
 		async:false,
 		dataType:"Json",
 		success:function(data){
-			//设置背景
-			var body=document.getElementById("bodys");
-			body.style.background="url(res/images/back/"+data.back+")";
-			
+			//设置背景、是否显示日记字数
+			if(user==userId){//首页、我的家园页时使用
+				var body=document.getElementById("bodys");
+				body.style.background="url(res/images/back/"+data.back+")";
+				show=data.uShowWordnum;
+			}else{//
+				var body=document.getElementById("bodys");
+				body.style.background="url(res/images/back/"+data.back+")";
+			}
 		}
 	});
 }
