@@ -392,11 +392,11 @@ function getSetting(userId){
 		dataType:"Json",
 		success:function(data){
 			//设置背景、是否显示日记字数
-			if(user==userId){//首页、我的家园页时使用
+			if(user==userId){//各个页均使用，在首页、我的家园页均生效，在作者页会用下方else覆盖掉背景设置显示对应作者的背景
 				var body=document.getElementById("bodys");
 				body.style.background="url(res/images/back/"+data.back+")";
 				show=data.uShowWordnum;
-			}else{//
+			}else{//仅作者页使用，在上方if下面再执行以修改背景为作者的背景
 				var body=document.getElementById("bodys");
 				body.style.background="url(res/images/back/"+data.back+")";
 			}

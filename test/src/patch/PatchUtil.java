@@ -27,7 +27,7 @@ public class PatchUtil {
 
     public static String outputPath = "C:/Users/pc/Desktop/packet/";//生成的增量输出存放路径
 
-    public static String version = "2019-12-171";//增量包版本:以当前日期作为版本号
+    public static String version = "2019-12-191";//增量包版本:以当前日期作为版本号
 
     public static String proName="/";//项目名称
 
