@@ -381,6 +381,7 @@ public class UserInfoController{
     	ui.setUHomeSong(Strings.id[hs]);
     	ui.setAutoPlay(0);
     	ui.setBack(Strings.backs[hi]);
+    	//						古诗网      FatLuo   Yigongzi JinYong  MoYan		LuXun	 一只小兔几
     	ui.setBlackNameList("66666666,12345678,15577347,96664270,54343391,88007770,65313340");
     	ui.setUUserSex(0);
     	ui.setUJoinTime(TimeUtil.time());

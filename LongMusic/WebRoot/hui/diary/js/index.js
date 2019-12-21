@@ -225,22 +225,22 @@ function loadAuthorInfo(){
 			document.getElementById("recentLogin").innerText="最近登录："+data.lastLogin;//(data.lastLogin=="")?"":
 			var num=parseInt(data.dayNum+"");
 			var text="";
-			var n=4;//级别幅度，如一个太阳=4个月亮，一个月亮=4个星星
+			var n=7;//级别幅度，如一个太阳=4个月亮，一个月亮=4个星星
 			if(num==0){
 				text="未写过日记呢";
 			}else{
-				if(num/n<1){//少于4天，显示星星
+				if(num/n<1){//少于n天，显示星星
 //					text=getHtml(num,"star");
 					text="<img src='image/star.png' style='width:16px;height:16px'>"+num;
 				}else{
-					if(num/(n*n)<1){//小于16天，显示月亮和星星
+					if(num/(n*n)<1){//小于n*n天，显示月亮和星星
 //						text=getHtml(parseInt(num/n),"moon")+getHtml(num%n,"star");
 						text="<img src='image/moon.png' style='width:16px;height:16px'>"+parseInt(num/n);
 						if(num%n>0){
 							text=text+"<img src='image/star.png' style='width:16px;height:16px'>"+num%n;
 						}
 					}else{
-						if(num/(n*n*n)<1){//小于64天，显示太阳、月亮和星星、例17
+						if(num/(n*n*n)<1){//小于n*n*n天，显示太阳、月亮和星星、例17
 //							text=getHtml(parseInt(num/(n*n)),"sun")+getHtml(parseInt((num%(n*n))/n),"moon")+getHtml((num%(n*n))%n,"star");
 							text="<img src='image/sun.png' style='width:16px;height:16px'>"+parseInt(num/(n*n));
 							if(parseInt((num%(n*n))/n)>0){
@@ -392,11 +392,11 @@ function getSetting(userId){
 		dataType:"Json",
 		success:function(data){
 			//设置背景、是否显示日记字数
-			if(user==userId){//首页、我的家园页时使用
+			if(user==userId){//各个页均使用，在首页、我的家园页均生效，在作者页会用下方else覆盖掉背景设置显示对应作者的背景
 				var body=document.getElementById("bodys");
 				body.style.background="url(res/images/back/"+data.back+")";
 				show=data.uShowWordnum;
-			}else{//
+			}else{//仅作者页使用，在上方if下面再执行以修改背景为作者的背景
 				var body=document.getElementById("bodys");
 				body.style.background="url(res/images/back/"+data.back+")";
 			}
@@ -536,7 +536,7 @@ function register(){
 	});
 }
 /**
- * 根据数量和类型返回对应HTML
+ * 22.根据数量和类型返回对应HTML
  * @param num	4个
  * @param type  星星
  * @returns {String}

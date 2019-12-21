@@ -80,6 +80,15 @@ public class UserInfo{
 	public String getBlackNameList() {
 		return blackNameList;
 	}
+	/**
+	 * 默认黑名单
+	 * 66666666,12345678,15577347,96664270,54343391,88007770,65313340
+	 * 古诗网		FatLuo	 Yigongzi JinYong  MoYan	LuXun	 一只小兔几
+	 * @author LongBro
+	 * 2019年12月20日
+	 * 下午6:23:35
+	 * @return
+	 */
 	public void setBlackNameList(String blackNameList) {
 		this.blackNameList = blackNameList;
 	}
