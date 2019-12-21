@@ -143,6 +143,7 @@
 						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
 						<li><a href="javascript:;" id="alarm" style="" onClick="openNewPage('4')">553Music</a></li>
 						<li><a href="http://112.74.173.44/LongMusic/index0.jsp" target="_blank">哆啦闹铃</a></li>
+						<li><a href="http://blog.duola.vip/msgboard.jsp" target="_blank">每日一句</a></li>
 						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
 						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
@@ -293,11 +294,12 @@ $(".login").on("click", login_popup),function() {
 var author='';
 var user=getCookie("userId")+"";//当前登录用户
 $(function(){
-	loadDiary('','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
-	setPage('',perPage,user);//根据日记数量设置分页，参数为作者
-	if(user!=""){
+	if(user!=""){//需放到加载日记之前，以实现是否显示日记字数的设定
 		getSetting(user);//加载登录用户的设置
 	}
+	loadDiary('','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
+	setPage('',perPage,user);//根据日记数量设置分页，参数为作者
+	
 	monitor();//手机访问时隐藏左边栏目
 });
 //打开新人榜对应新人

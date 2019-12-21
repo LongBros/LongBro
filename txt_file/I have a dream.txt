@@ -7,11 +7,6 @@ db.password=123456
 统计表机构
 2530000022937712
 
-
-
-
-
-
 <img style="width:700px;height:350px" src="http://112.74.173.44/res/images/diary/113701.jpg">
 
 1459892910		

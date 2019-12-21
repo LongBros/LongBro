@@ -400,8 +400,9 @@ function loadInfo(){
 		async:false,
 		dataType:"Json",
 		success:function(data){
-			var sex=getSexById(data.uuserSex);
-
+			var sex=data.uuserSex+"";//性别：1男，2女
+			var showNum=data.uShowWordnum+"";//是否显示日记字数
+			
 			var blackNameIds=data.blackNameList+"";//用户id
 			var blackIds=blackNameIds.split(",");
 			var blackNames=data.blackNames+"";//用户名
@@ -409,9 +410,29 @@ function loadInfo(){
 			var string="<form name='info'><span>昵称：</span><input name='nickName' value='"+data.uuserName+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(1)' title='点击保存'>&#xe676;</i><br>";
 			string=string+"<span>个性签名：</span><input name='signature' value='"+data.signature+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(2)' title='点击保存'>&#xe676;</i><br>";
 			string=string+"<span>默认日记地址：</span><input name='location' value='"+data.location+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(3)' title='点击保存'>&#xe676;</i><br>";
+			
+			if(sex=="1"){
+				string=string+"<span>性别:<input type='radio' onchange='saveInfo(7,1)' name='sex' checked='true'>男</input>";
+				string=string+"<input type='radio' onchange='saveInfo(7,0)' name='sex'>女</input></span><br>";
+			}else if(sex=="0"){
+				string=string+"<span>性别:<input type='radio' onchange='saveInfo(7,1)' name='sex'>男</input>";
+				string=string+"<input type='radio' onchange='saveInfo(7,0)' name='sex' checked='true'>女</input></span><br>";
+			}else{
+				string=string+"<span>性别:<input type='radio' onchange='saveInfo(7,1)' name='sex'>男</input>";
+				string=string+"<input type='radio' onchange='saveInfo(7,0)' name='sex'>女</input></span><br>";
+			}
+			
 			//string=string+"<span>家歌选择：</span><font color='red'>"+data.uhomeSong+"</font><i class=\"Hui-iconfont\">&#xe6df;</i>(其他用户访问你的家园时会播放家歌)<br>";
-			string=string+"<span>首页显示日记字数:<input type='radio' name='wordsize' onchange='' value='' checked='true'>显示</input>";
-			string=string+"<input type='radio' name='wordsize' onchange='' value=''>隐藏</input>";
+			if(showNum=="1"){
+				string=string+"<span>首页显示日记字数:<input type='radio' onchange='saveInfo(6,1)' name='wordsize' value='' checked='true'>显示</input>";
+				string=string+"<input type='radio' onchange='saveInfo(6,0)' name='wordsize' value=''>隐藏</input></span>";
+			}else if(showNum=="0"){
+				string=string+"<span>首页显示日记字数:<input type='radio' onchange='saveInfo(6,1)' name='wordsize' value=''>显示</input>";
+				string=string+"<input type='radio' onchange='saveInfo(6,0)' name='wordsize' value='' checked='true'>隐藏</input></span>";
+			}else{
+				string=string+"<span>首页显示日记字数:<input type='radio' onchange='saveInfo(6,1)' name='wordsize' value=''>显示</input>";
+				string=string+"<input type='radio' onchange='saveInfo(6,0)' name='wordsize' value=''>隐藏</input></span>";
+			}
 			string=string+"<br><span>我的黑名单(不看名单，点击可移出):";
 //			for(var i=0;i<blackIds.length;i++){
 //				string=string+"<a onclick='removeFromList(\""+blackIds[i]+"\",\""+blacks[i]+"\")' style='color:red'>"+blacks[i]+"</a>&emsp;&emsp;";
@@ -457,6 +478,10 @@ function saveInfo(which,value){
 		url=url+"&back="+value;
 	}else if(t=="5"){//是否自动播放
 		url=url+"&autoPlay="+value;
+	}else if(t=="6"){//日记列表是否显示日记字数~0：隐藏，1：显示
+		url=url+"&uShowWordnum="+value;
+	}else if(t=="7"){//用户性别~0：女，1：男
+		url=url+"&UUserSex="+value;
 	}
 	
 	$.ajax({
