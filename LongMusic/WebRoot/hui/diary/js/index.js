@@ -7,7 +7,8 @@ var user=getCookie("userId")+"";
 var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
 loadNotice();
 var homeSongId="";
-var show=0;
+var show=0;//显示日记字数
+var perPageNum=0;//显示日记篇数
 /**
  * 1.根据是否登录设置菜单栏
  */
@@ -396,6 +397,7 @@ function getSetting(userId){
 				var body=document.getElementById("bodys");
 				body.style.background="url(res/images/back/"+data.back+")";
 				show=data.uShowWordnum;
+				perPageNum=data.perpageNum;
 			}else{//仅作者页使用，在上方if下面再执行以修改背景为作者的背景
 				var body=document.getElementById("bodys");
 				body.style.background="url(res/images/back/"+data.back+")";

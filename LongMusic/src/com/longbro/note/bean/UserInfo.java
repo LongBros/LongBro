@@ -27,6 +27,7 @@ public class UserInfo{
 	private Integer autoPlay;//自动播放带音频日记的音频(0:提示，1:自动播放，2:不播放) 
 	private String lastLogin;//最近登录
 	private String back;//网站背景2019-12-01
+	protected Integer perpageNum; //12-21默认每页加载多少篇(0：显示下拉列表，1：显示）
 	public Integer getUId() {
 		return this.UId;
 	}
@@ -174,5 +175,12 @@ public class UserInfo{
 	public void setBack(String back) {
 		this.back = back;
 	}
+	public Integer getPerpageNum() {
+		return perpageNum;
+	}
+	public void setPerpageNum(Integer perpageNum) {
+		this.perpageNum = perpageNum;
+	}
+	
 	
 }

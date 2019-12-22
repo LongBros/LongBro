@@ -402,6 +402,7 @@ function loadInfo(){
 		success:function(data){
 			var sex=data.uuserSex+"";//性别：1男，2女
 			var showNum=data.uShowWordnum+"";//是否显示日记字数
+			var perpageNum=data.perpageNum+"";//
 			
 			var blackNameIds=data.blackNameList+"";//用户id
 			var blackIds=blackNameIds.split(",");
@@ -433,6 +434,19 @@ function loadInfo(){
 				string=string+"<span>首页显示日记字数:<input type='radio' onchange='saveInfo(6,1)' name='wordsize' value=''>显示</input>";
 				string=string+"<input type='radio' onchange='saveInfo(6,0)' name='wordsize' value=''>隐藏</input></span>";
 			}
+			
+//			每页加载日记篇数设置
+			var per=new Array("0","10","20","30","40","50");
+			string=string+"<br><span>每页加载日记篇数：<select onchange='saveInfo(8,options[selectedIndex].value)'>";
+			for(var i in per){
+				if(per[i]==perpageNum){
+					string=string+"<option value='"+per[i]+"' selected>&emsp;"+per[i]+"&emsp;</option>";
+				}else{
+					string=string+"<option value='"+per[i]+"'>&emsp;"+per[i]+"&emsp;</option>";
+				}
+			}
+			string=string+"</select>&emsp;(0表示显示下拉列表,可切换每页篇数)</span>";
+			
 			string=string+"<br><span>我的黑名单(不看名单，点击可移出):";
 //			for(var i=0;i<blackIds.length;i++){
 //				string=string+"<a onclick='removeFromList(\""+blackIds[i]+"\",\""+blacks[i]+"\")' style='color:red'>"+blacks[i]+"</a>&emsp;&emsp;";
@@ -482,6 +496,8 @@ function saveInfo(which,value){
 		url=url+"&uShowWordnum="+value;
 	}else if(t=="7"){//用户性别~0：女，1：男
 		url=url+"&UUserSex="+value;
+	}else if(t=="8"){//每页加载日记篇数
+		url=url+"&perpageNum="+value;
 	}
 	
 	$.ajax({
