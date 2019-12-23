@@ -1,5 +1,5 @@
 var curPage=1;//当前页码
-var perPage=10;//当前一页展示日记数量
+//var perPage=10;//当前一页展示日记数量
 var user=getCookie("userId")+"";
 /*1.个人信息*/
 function myselfinfo(){
@@ -20,7 +20,7 @@ function myselfinfo(){
 */
 function loadDiary(author,page,perPage,userId){
 	var au="0";//完全公开的
-	if(user!=null){//登录用户可看到完全公开和登录可见的
+	if(user!=null&&user!=''){//登录用户可看到完全公开和登录可见的
 		au="0,2";
 	}
 	$("#diarys").text("");
@@ -196,7 +196,7 @@ function setPage(author,perPage,userId){
 	$(".pages").text('');
 	var num=0;
 	var au="0";//完全公开的
-	if(user!=null){//登录用户可看到完全公开和登录可见的
+	if(user!=null&&user!=''){//登录用户可看到完全公开和登录可见的
 		au="0,2";
 	}
 	$.ajax({
@@ -219,18 +219,23 @@ function setPage(author,perPage,userId){
 	}else{//不可整除的话，页码数为总日记数除以10加1
 		page=parseInt(num/perPage)+1;
 	}
-	var value=new Array("10","20","30","40");
-	var sel="<select onchange='setPer("+userId+",options[selectedIndex].value)'>";
-	for(var i=0;i<value.length;i++){
-		if(value[i]==perPage){
-			sel=sel+"<option value='"+value[i]+"' selected>每页"+value[i]+"篇</option>";
-		}else{
-			sel=sel+"<option value='"+value[i]+"'>每页"+value[i]+"篇</option>";
+	if(perPageNum=="0"){
+		var value=new Array("10","20","30","40");
+		var sel="<select onchange='setPer("+userId+",options[selectedIndex].value)'>";
+		for(var i=0;i<value.length;i++){
+			if(value[i]==perPage){
+				sel=sel+"<option value='"+value[i]+"' selected>每页"+value[i]+"篇</option>";
+			}else{
+				sel=sel+"<option value='"+value[i]+"'>每页"+value[i]+"篇</option>";
+			}
 		}
+		sel=sel+"</select>";
+		$(".pages").append(sel);
+	}else{
+		$(".pages").append("每页"+perPage+"篇");
 	}
-	sel=sel+"</select>";
 	if(num>10){
-		$(".pages").append(sel+"&nbsp;共"+num+"篇日记&nbsp;"+curPage+"/"+page+"&emsp;");
+		$(".pages").append("&nbsp;共"+num+"篇日记&nbsp;"+curPage+"/"+page+"&emsp;");
 	}else{//只有10篇无需显示选择每页多少篇
 		$(".pages").append("&nbsp;共"+num+"篇日记&nbsp;");
 	}

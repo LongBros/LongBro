@@ -287,12 +287,16 @@ $(".login").on("click", login_popup),function() {
 } ();
 var author=GetQueryString("author");//被查看的用户
 var user=getCookie("userId")+"";//当前登录用户
+var perPageNum=0;//显示日记篇数
 $(function(){
 	getUser();
 	loadAuthorInfo();
 	if(user!=""){
 		getSetting(user);//加载用户的设置
-	} 
+	}
+	if(perPageNum!="0"){
+		perPage=perPageNum;
+	}
 	setPage(author,perPage,'');//作者页不需过滤黑名单，当前登录人不传
 	loadDiary(author,1,perPage,'');//作者页不需过滤黑名单，当前登录人不传
 	ifAttention();
