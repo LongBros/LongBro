@@ -7,7 +7,7 @@ var user=getCookie("userId")+"";
 var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
 loadNotice();
 var homeSongId="";
-var show=0;//显示日记字数
+var show=1;//显示日记字数
 var perPageNum=0;//显示日记篇数
 /**
  * 1.根据是否登录设置菜单栏
@@ -355,7 +355,8 @@ function ifAttention(){
  */
 function attenAuthor(){
 	if(user==""){
-		alert("请先登录！");
+		alert("关注失败，请先登录！");
+		login_popup();
 		return;
 	}
 	var attBtn=document.getElementById("attention");

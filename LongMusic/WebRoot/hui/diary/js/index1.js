@@ -18,7 +18,7 @@ function myselfinfo(){
  * 2.根据页码加载日记--用于首页和作者页
  * @param 作者	页码
 */
-function loadDiary(author,page,perPage,userId){
+function loadDiary(from,author,page,perPage,userId){
 	var au="0";//完全公开的
 	if(user!=null&&user!=''){//登录用户可看到完全公开和登录可见的
 		au="0,2";
@@ -87,12 +87,15 @@ function loadDiary(author,page,perPage,userId){
 				if(show==1){
 					wordSize="("+data[i].wordSize+"字)";
 				}
-				
+				var tx="";
+				var au="";
+				if(from=="index"){//首页列表中显示头像和作者
+					tx="<img src='image/tx/"+data[i].headImage+".jpg' class='touxiang'>";
+					au="<i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+				}
 				//onclick='openOther(0,"+data[i].nid+")'
-				$("#diarys").append("<div class=\"diary\"><img src='image/tx/"+data[i].headImage
-				+".jpg' class='touxiang'><a href=\"diary.html?id="+data[i].nid+"\"  title='该篇日记共计"+wordSize+"字(包含格式所占字符)'>"+con+"</a><br>"
-				+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName
-				+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
+				$("#diarys").append("<div class=\"diary\">"+tx+"<a href=\"diary.html?id="+data[i].nid+"\"  title='该篇日记共计"+wordSize+"字(包含格式所占字符)'>"+con+"</a><br>"
+				+"<div class='info'>"+au+"<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
 				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>"+title+"</span>&nbsp;<span>"+(music=='1'?'<font color=\'red\' title=\'有音频喔\'>'+wordSize+'音</font>':'<font color=\'red\'>'+wordSize+'</font>')+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i><span title='"+data[i].nlocation+"'>"+loc
 				+"</span><div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum+com+"&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
 				+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum

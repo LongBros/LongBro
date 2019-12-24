@@ -190,7 +190,8 @@ function setIcon(id){
  */
 function praise(){
 	if(!ifLogin()){
-		alert("请先登录");
+		alert("点赞失败，请先登录");
+		login_popup();
 		return;
 	}
 	var user=getCookie("userId")+"";
@@ -239,7 +240,8 @@ function praise(){
  */
 function store(){
 	if(!ifLogin()){
-		alert("请先登录");
+		alert("收藏失败，请先登录");
+		login_popup();
 		return;
 	}
 	var user=getCookie("userId")+"";

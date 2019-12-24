@@ -293,7 +293,8 @@ $(".login").on("click", login_popup),function() {
 } ();
 var author='';
 var user=getCookie("userId")+"";//当前登录用户
-var perPageNum=0;//显示日记篇数
+var perPageNum=0;//已登录用户设置的显示日记篇数
+var perPage=10;//默认每页显示日记篇数
 $(function(){
 	if(user!=""){//需放到加载日记之前，以实现是否显示日记字数的设定
 		getSetting(user);//加载登录用户的设置
@@ -301,7 +302,7 @@ $(function(){
 	if(perPageNum!="0"){
 		perPage=perPageNum;
 	}
-	loadDiary('','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
+	loadDiary('index','','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
 	setPage('',perPage,user);//根据日记数量设置分页，参数为作者
 	
 	monitor();//手机访问时隐藏左边栏目

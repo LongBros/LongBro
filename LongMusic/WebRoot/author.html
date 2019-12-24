@@ -287,7 +287,8 @@ $(".login").on("click", login_popup),function() {
 } ();
 var author=GetQueryString("author");//被查看的用户
 var user=getCookie("userId")+"";//当前登录用户
-var perPageNum=0;//显示日记篇数
+var perPageNum=0;//已登录用户设置的显示日记篇数
+var perPage=10;//默认每页显示日记篇数
 $(function(){
 	getUser();
 	loadAuthorInfo();
@@ -298,7 +299,7 @@ $(function(){
 		perPage=perPageNum;
 	}
 	setPage(author,perPage,'');//作者页不需过滤黑名单，当前登录人不传
-	loadDiary(author,1,perPage,'');//作者页不需过滤黑名单，当前登录人不传
+	loadDiary('author',author,1,perPage,'');//作者页不需过滤黑名单，当前登录人不传
 	ifAttention();
 	//12-12日记页和作者页定为相关作者的背景
 	if(author!=""){
