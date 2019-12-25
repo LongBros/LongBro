@@ -303,7 +303,7 @@ $(function(){
 		perPage=perPageNum;
 	}
 	loadDiary('index','','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
-	setPage('',perPage,user);//根据日记数量设置分页，参数为作者
+	setPage('index','',perPage,user);//根据日记数量设置分页，参数为作者
 	
 	monitor();//手机访问时隐藏左边栏目
 });

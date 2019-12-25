@@ -298,7 +298,7 @@ $(function(){
 	if(perPageNum!="0"){
 		perPage=perPageNum;
 	}
-	setPage(author,perPage,'');//作者页不需过滤黑名单，当前登录人不传
+	setPage('author',author,perPage,'');//作者页不需过滤黑名单，当前登录人不传
 	loadDiary('author',author,1,perPage,'');//作者页不需过滤黑名单，当前登录人不传
 	ifAttention();
 	//12-12日记页和作者页定为相关作者的背景
