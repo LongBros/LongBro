@@ -1,0 +1,706 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    
+    <meta charset="utf-8" />
+    
+    <meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="author" content="lapuda.org" />
+    <link rel="shortcut icon" href="/img/favicon.png?lapuda" />
+    
+    <meta name="description" content="拉普达,世界不停转,你藏在其中...,拉普达日记,日记本,网络日记本,网络日记,免费日记,日记,在线日记本,小清新日记本,简单清新的日记博客小站" />
+    
+    
+    <meta name="keywords" content="拉普达日记,日记本,网络日记本,网络日记,免费日记,日记,在线日记本,小清新日记本,简单清新的日记博客小站" />
+    
+    
+<title>kfzwqxzy的日记本 - 拉普达</title>
+
+    
+    <style type="text/css">
+    /*https://www.bing.com/az/hprichbg/rb/GareSaintLazare_ZH-CN6611772290_1920x1080.jpg,https://www.bing.com/az/hprichbg/rb/CabodeGata_ZH-CN12858688851_1920x1080.jpg*/
+    #wrapper_del{opacity:1;background-image:url("https://www.bing.com/az/hprichbg/rb/ShenandoahNP_ZH-CN9981989975_1920x1080.jpg");height:100%;background-repeat:no-repeat;background-attachment:fixed;}
+    </style>
+    <link rel="stylesheet" href="/css/lib.css?yougam">
+    <link rel="stylesheet" type="text/css" href="/font/css/font-awesome.min.css?yougam" />
+    <link rel="stylesheet" href="/css/app.css?lapuda">
+    <link rel="stylesheet" href="/css/timeline.css?lapuda"/>
+    
+    
+    <!–[if lt IE 9]>   
+    <script type="text/javascript" src="/js/html5shiv.js?yougam"></script>   
+    <![endif]–>  
+    <script type="text/javascript" src="/js/lib.js?yougam"></script>
+    <script type="text/javascript" src="/js/app.js?lapuda"></script>
+    
+
+         
+    
+
+         
+    
+</head>
+
+
+<body id="front">
+    
+    <div id="wrapper">
+        <nav id="navbar" class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="logo" href="/"><img src="/img/logo.png?yougam"></a>
+        </div>
+
+        
+
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            
+             
+            <ul class="nav navbar-nav navbar-right navbar-menu">
+                        <li>
+                            <a href="/">首页</a>
+                        </li>
+                        
+                        <li class="active">
+                            <a href="/user/LongBro/diarys">日记本</a>
+                        </li>
+                        
+                        
+                        
+                
+                        <li>
+                            <a href="/notifications/">
+                                <i class="icon-bell" title="通知"></i>
+                            </a>
+                        </li>
+                        <li role="presentation" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="/user/LongBro/">
+                              LongBro<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+	                                <li><a href="/diary/new/">写新日记</a></li>
+                                    <li><a href="/user/LongBro/">我的小窝</a></li>
+                                    <li><a href="/settings/profile/">个人设置</a></li>
+                                
+	                                <li role="presentation" class="divider"></li>
+	                                <li><a href="/signout/">注销登录</a></li>
+                            </ul>
+                        </li>
+               
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<script>
+    $(document).ready(
+        function() { 
+            $(document).scroll(function() {
+                if($(this).scrollTop()<220) { $('#navbar').removeClass('navbar-alp'); 
+                } else {
+                    $('#navbar').addClass('navbar-alp'); 
+                }
+            });
+        }
+    );
+</script>
+
+        
+<div id="main" class="container">
+    <div id="content" class="user-page">
+        <div class="row">
+            
+                        
+            <div class="col-md-3">
+                <div class="box">
+                    <div style="min-height:220px;" class="text-center">
+                        
+                        <a href="/user/kfzwqxzy/" class="avatar">
+                        
+                            
+                                <img class="huge" src="/9060/741806e3a72f7099e4ec205c124d10fa1cda0b286fc6deb0.jpg" style="margin:10px;">
+                            
+                        </a>
+                        
+                    </div>
+                    
+                        <div class="info">
+                            
+                                <p>昵称:<strong>kfzwqxzy</strong></p>
+                            
+                            <p>性别:<strong>保密</strong>
+                            </p>
+                            
+                                <p>这家伙很懒，连个签名都不想写！</p>
+                            
+                        </div>
+                    
+
+                
+
+                    <div class="detail">
+                        <ul class="list-unstyled">
+                        
+                        
+                        
+                        
+                            <li>
+                                <i class="icon-time"></i>加入时间 2019.01.19 08:42
+                            </li>
+                        
+                        
+                            <li>
+                                <i class="icon-time"></i>最近登录 2019.12.13 06:53
+                            </li>
+                        
+                        </ul>
+                        <span class="clearfix"></span>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="col-md-9">
+                <div class="box gray">
+	                <div class="cell breadcrumb first">
+	                    <a href="/user/kfzwqxzy/"><i class="icon-user"></i></a> ? <a href="/user/kfzwqxzy/">kfzwqxzy</a><i class="divider icon-angle-right"></i>日记
+	                </div>
+                    
+                    	<div class="cell post-list">
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/77450/">
+                                       
+                                         
+                                            2697-二零一八年十一月二日星期五多云21℃~9℃客厅早晨温度20℃ PM2.5-83
+庆兔兔今天没有上学。
+外婆说：“庆兔兔起来就肚子疼，庆兔兔说自己头昏，爸爸没有送庆兔兔上学。”
+我问：“庆兔兔太辛苦了，生活没有规律，一天到晚就是看书做作业，能够不生病吗。”
+外婆说：“天冷了，夜里可能他们也没有看看庆兔兔有没有盖被子。”
+今天我起床躺下已经基本上不用手撑着了。
+但是我今天的感觉不是很好，肚子...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.07.18 10:05</span>
+                                    ?《
+                                    <a href="/diary/77450/">
+                                       
+                                         
+                                            《庆兔兔日记》2697庆兔兔肚...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 3</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/77377/">
+                                       
+                                         
+                                            2696-二零一八年十一月一日星期四多云23℃~12℃客厅早晨温度20℃ PM2.5-71
+早上起来我把两条腿放在床边，我只是用手轻轻地扶着床就坐了起来。
+伤口还是一种肿胀的感觉，伤口并没有感到有剧烈的疼痛。
+但是我还是十分小心，因为起来的时间越长，我站起来的时候伤口就可能有剧烈的疼痛，我走路也变得小心翼翼。
+我坐在电脑跟前写日记会严格控制时间，我的大部分时间还是以平躺着为主。
+外婆买菜回来了
+外...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.07.17 10:17</span>
+                                    ?《
+                                    <a href="/diary/77377/">
+                                       
+                                         
+                                            《庆兔兔日记》2696又和别人...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 8</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/77306/">
+                                       
+                                         
+                                            2695-二零一八年十月三十一日星期三多云转晴天25℃~12℃客厅早晨温度20℃ PM2.5-61
+今天我坐下去站起来虽然还有用手撑着，其实不用手扶着保持身体的平衡，我已经可以独立起卧了。
+走路伤口还是有绷紧的感觉，但是起来时间长了，坐的时间长了，起来走路伤口还是有一点疼痛的感觉。
+姨妈说：“医生说了，你还是要多躺一会，不要一直在走路坐着。”
+我回到家就想起来我的电脑，我就会继续补写我的日记。
+外...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.07.16 09:28</span>
+                                    ?《
+                                    <a href="/diary/77306/">
+                                       
+                                         
+                                            《庆兔兔日记》2695帮着姨妈...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 6</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/77221/">
+                                       
+                                         
+                                            2694-二零一八年十月三十日星期二多云24℃~11℃客厅早晨温度20℃ PM2.5-61
+我很生气，我是舍不得庆小兔，庆小兔那么小的年纪，庆小兔还没有学会说几个字。
+庆小兔很多事情都不明白，很多事情庆小兔还不能表达出来。
+妈妈却要坚持把庆小兔送到托托班去。
+你表达不出来，所谓的托托班老师就可能不知道庆小兔想干什么，老师要求的就是言必信行必果，何况这些托托班其实就是一些家庭创收的来源，他们不需要什...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.07.15 08:32</span>
+                                    ?《
+                                    <a href="/diary/77221/">
+                                       
+                                         
+                                            《庆兔兔日记》2694妈妈要接...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 1</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/77176/">
+                                       
+                                         
+                                            2691-二零一八年十月二十七日星期六多云20℃~11℃客厅早晨温度19℃ PM2.5-67
+早上查房刚刚结束，护士推着操作车来了。
+门口的两个病患都挂起吊瓶，护士走到我的跟前，护士看了一下操作车处方单说：“怎么没有你的输液药呢？我去值班室查一下。”
+很快护士回来了。
+护士说：“爷爷，是没有你的处方，可能是医生忘了给你开药了。爷爷你不要急，我一会就去给你问一下。”
+我也有一点奇怪，第一床的病患和我...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.07.14 09:59</span>
+                                    ?《
+                                    <a href="/diary/77176/">
+                                       
+                                         
+                                            《庆兔兔日记》2691小九不敢...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 5</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/77175/">
+                                       
+                                         
+                                            2693-二零一八年十月二十九日星期一多云26℃~12℃客厅早晨温度20℃ PM2.5-57
+姨妈早早地推来一辆轮椅。
+我说：“我好像可以走回去了，现在就是坐下来站起来还有一点护疼，今天走路好像不是感觉不舒服了。”
+姨妈说：“刚刚手术没有几天，万一把伤口拉裂开了怎么办。”
+医生来查房了。
+主任说：“今天你还要做一个CT，我们最后确认一下，做完CT你就可以回家了，回家好好的静养几天，然后再到医院来把...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.07.14 09:52</span>
+                                    ?《
+                                    <a href="/diary/77175/">
+                                       
+                                         
+                                            《庆兔兔日记》2693妈妈要送...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 2</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/77119/">
+                                       
+                                         
+                                            2692-二零一八年十月二十八日星期日多云转晴天25℃~13℃客厅早晨温度19℃ PM2.5-62
+转眼间已经来到医院四天了。
+查房，主任说：“你在这里再呆上一天，明天你就可以出院了。”
+躺在病床上，宜昌市仁和医院，一天天一年年的往事历历在目。
+我的身体很好，但是我还是不时地进到医院找医生。每一个人都希望无病无灾，人吃五谷杂粮，人一辈子不可能不生一次病。
+我很少感冒发烧，但是莫名其妙的病症，让我几...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.07.13 09:47</span>
+                                    ?《
+                                    <a href="/diary/77119/">
+                                       
+                                         
+                                            《庆兔兔日记》2692中国已经...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 4</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/77057/">
+                                       
+                                         
+                                            2690-二零一八年十月二十六日星期五多云转晴天22℃~19℃客厅早晨温度19℃ PM2.5-60
+我被引到了手术室门口，随着电动大门的打开，手术室里面一片深绿，有一点阴森的感觉。空荡荡的大厅，后边是一个个手术室的大门。
+医生引我来到二号手术室，手术室的医生护士热情有加。
+一个护士指着旁边的高个子的护士说：“这个是我们的护士长，今天护士长专门过来给你坐镇的。”
+一个医生说：“你的小姑娘两个儿子都说...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.07.12 10:14</span>
+                                    ?《
+                                    <a href="/diary/77057/">
+                                       
+                                         
+                                            《庆兔兔日记》2690手术第一...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 2</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/77000/">
+                                       
+                                         
+                                            2689-二零一八年十月二十五日星期四多云转阴天21℃~15℃客厅早晨温度18℃ PM2.5-65
+我不想来的医院，但是人吃五谷杂粮不可能不生病，何况我们一天天地老起来，身上的器官零部件都已经慢慢地老化，一天不和医院打交道只是一个梦想，一辈子不吃药不打针也是天方夜谭。
+今天早早地就来到医院，量体重，测血压，计量心跳，做心电图，抽血化验，X光照片，拍彩超，一上午一会功夫就过去了。
+当我接到X光底片的...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.07.11 10:08</span>
+                                    ?《
+                                    <a href="/diary/77000/">
+                                       
+                                         
+                                            《庆兔兔日记》2689小九会骑...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 3</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/76927/">
+                                       
+                                         
+                                            当六个月以后我去打开20181027小九打蚊子这篇日记的时候，电脑显示的是确少快捷方式，原来的文档变成了快捷方式，快捷方式指向我的一个空白日记的目录里，而快捷方式所指的这篇日记已经无影无踪。
+去年我定期保存的文档，我前几天刚刚删除，自然这一篇日记也就消失在茫茫大海里，也就没有了《庆兔兔日记》2687小九打蚊子这篇日记了。
+日记就是流逝的记忆，日记就是移动的过去。
+月亮还有圆缺，书本也会有缺页少字，...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.07.10 09:37</span>
+                                    ?《
+                                    <a href="/diary/76927/">
+                                       
+                                         
+                                            《庆兔兔日记》2688小九有一...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 3</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    	</div>
+
+						
+			            <div class="cell last low">
+			                <ul class='pager'><li class='previous'><a href='/user/kfzwqxzy/diarys/lastest/page14/'>上一页</a></li><li class="pager-nums">15 / 33</li><li class='next'><a href='/user/kfzwqxzy/diarys/lastest/page16/'>下一页</a></li></ul>
+			            </div>
+			            
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+    
+
+    <footer id="footer">
+    <div class="container footer-wrap">
+        <div class="content col-md-12">
+            <p>
+                <span style="margin-right:1em;">
+                    <a href="/"> <strong>拉普达</strong>
+                    </a>
+                </span>
+                
+                    
+                        
+                            <span style="margin-right:1em;">
+                                <a href="/page/about/"> <strong>about</strong>
+                                </a>
+                            </span>
+                        
+                    
+                
+            </p>
+            <ul class="cell" style="border:0;">
+                <li>
+					<span><a href="/" target="_blank" title="拉普达">Copyright</a> ?2015~2016 <a href="http://www.lapuda.org" rel="nofollow" target="_blank" title="β-Studio">β-Studio</a></span>
+                    <span style="margin-right:1em;"> ? 24 Route ? v1.0.6</span>
+					
+                   
+                </li>
+                <li>
+                    <span>
+								
+                                        
+										<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258448463'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1258448463%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+										<a href="/" >粤ICP备16028005号-1</a>
+								
+
+								
+                    </span>
+                </li>
+            </ul>
+            
+            <div id="backtop" class="hidden backtop" title="Back to Top">
+                <strong class="hidden">返回顶部</strong>
+            </div>
+            <script>
+                    $(document).ready(
+                    function() { $(document).scroll(function() { if($(this).scrollTop()>720) { $('#backtop').removeClass('hidden'); }
+                            else { $('#backtop').addClass('hidden'); }
+                        }
+                        );
+                        $('#backtop').click(function() { $('body, html').animate( { scrollTop: 0 }
+                        ); return false; }
+                        )
+                    window.console&&window.console.info('Copyright 2016 拉普达'); }
+                    );
+            </script>
+        </div>
+
+    </div>
+</footer>
+</body>
+
+
+</html>
