@@ -242,7 +242,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	  </div>
 	  		<center>
 	  	  	<%
-	  	  	for(int i=1;i<=14;i++){
+	  	  	for(int i=1;i<=15;i++){
           		out.write("<a onclick='querySongs("+i+")'>&emsp;"+i+"</a>");
           	}
 	  	  	  %> 

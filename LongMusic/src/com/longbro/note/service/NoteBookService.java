@@ -58,5 +58,13 @@ public class NoteBookService{
 	public void alterUseStatus(String table,String time,String id){
 		dao.alterUseStatus(table, time, id);
 	}
+	//12-25随机推荐n篇日记
+	public List<Diary> randomRecommend(String ids){
+		return dao.randomRecommend(ids);
+	}
+	//12-26关注的人的最新n篇日记
+	public List<Diary> noticeUserDiary(String user,Integer n){
+		return dao.noticeUserDiary(user,n);
+	}
 }
 

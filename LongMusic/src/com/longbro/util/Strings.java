@@ -183,10 +183,10 @@ public class Strings {
 		}
 	}
 	public static void main(String[] args) {
-		for(int i=0;i<10;i++){
-			System.out.println(allotNum(8));
-		}
-//		System.out.println(Math.pow(10, 8));
+//		for(int i=0;i<10;i++){
+//			System.out.println(allotNum(8));
+//		}
+		System.out.println(genNumber(10,3000));
 		
 		//计算10的八次方
 		
@@ -210,5 +210,22 @@ public class Strings {
 	public static String backs[]={"back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg"
 		,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png"
 		,"back0.gif","back1.gif","back2.gif"};
+	/**
+	 * @desc 随机生成n个max以内的正整数
+	 * @author zcl
+	 * @date 2019年12月25日
+	 * @param n
+	 * @param max
+	 * @return
+	 */
+	public static String genNumber(int n,int max){
+		String s="";
+		for(int i=0;i<n;i++){
+			s=s+new Random().nextInt(max)+",";
+		}
+		s=s.substring(0,s.length()-1);
+		return s;
+		
+	}
 	
 }

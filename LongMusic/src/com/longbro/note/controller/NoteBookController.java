@@ -21,6 +21,7 @@ import com.longbro.note.bean.Diary;
 import com.longbro.note.bean.NoteBook;
 import com.longbro.note.service.NoteBookService;
 import com.longbro.util.SpideLapuda;
+import com.longbro.util.Strings;
 import com.longbro.util.TimeUtil;
 /**
  * 笔记本控制器
@@ -268,6 +269,39 @@ public class NoteBookController{
     	result.setCode(200);
     	result.setMessage("爬取庆兔兔日记成功");
     	result.setResult(map.get("title"));
+    	return result;
+    }
+    /**
+     * @desc 9.随机推荐n篇日记
+     * @author zcl
+     * @date 2019年12月25日
+     * @return
+     */
+    @RequestMapping(value="randomRecommend",method=RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<List<Diary>> randomRecommend(int n){
+    	BaseResult<List<Diary>> result=new BaseResult<>();
+    	String s=Strings.genNumber(10, 3000);
+    	List<Diary> list=noteBookService.randomRecommend(s);
+    	result.setCode(200);
+    	result.setMessage("已随机推荐"+n+"篇日记");
+    	result.setResult(list);
+    	return result;
+    }
+    /**
+     * @desc 10.关注的人的最新n篇日记
+     * @author zcl
+     * @date 2019年12月26日
+     * @return
+     */
+    @RequestMapping(value="noticeUserDiary",method=RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<List<Diary>> noticeUserDiary(String user,int n){
+    	BaseResult<List<Diary>> result=new BaseResult<>();
+    	List<Diary> list=noteBookService.noticeUserDiary(user,n);
+    	result.setCode(200);
+    	result.setMessage("已加载你关注用户的"+n+"篇日记");
+    	result.setResult(list);
     	return result;
     }
 }

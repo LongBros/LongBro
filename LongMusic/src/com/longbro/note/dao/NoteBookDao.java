@@ -63,5 +63,16 @@ public class NoteBookDao extends BaseDao{
 		map.put("id", id+"");
 		this.update(pre+"alterUseStatus", map);
 	}
+	//12-25随机推荐n篇日记
+	public List<Diary> randomRecommend(String ids){
+		return this.selectList(pre+"randomRecommend",ids);
+	}
+	//12-26关注的人的最新n篇日记
+	public List<Diary> noticeUserDiary(String user,Integer n){
+		HashMap<String, Object> map=new HashMap<>();
+		map.put("user", user);
+		map.put("n", n);
+		return this.selectList(pre+"noticeUserDiary",map);
+	}
 }
 

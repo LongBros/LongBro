@@ -39,6 +39,13 @@
 		margin-top: 30px;
 		background:white ;
 	}
+	.tabs{
+		padding-top: 10px;
+		cursor:pointer;
+	}
+	.tabs span{
+		padding-left: 66px;
+	}
 	.diarys{
 	}
 	
@@ -223,6 +230,11 @@
 		</div>	
 
 <div class="contents" id="contents">
+	<div class="tabs">
+		<span id="recommend" onclick="switchTab(0)">推荐</span>
+		<span id="notice" onclick="switchTab(1)">关注</span>
+		<span id="time" onclick="switchTab(2)">时间轴</span>
+	</div>
 	<div class="pages" style="cursor: pointer;">
 	</div>
 	<div class="diarys" id="diarys">
@@ -311,6 +323,7 @@ function openAuthor(aid){
 	window.location="author.html?author="+aid;
 	//window.open("myHome.html", "_blank")
 }
+
 </script> 
 </body>
 </html>
