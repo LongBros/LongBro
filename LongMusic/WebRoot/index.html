@@ -231,8 +231,8 @@
 
 <div class="contents" id="contents">
 	<div class="tabs">
-		<span id="recommend" onclick="switchTab(0)">推荐</span>
-		<span id="notice" onclick="switchTab(1)">关注</span>
+		<span id="recommend" onclick="switchTab(0)" title="随机推荐几篇日记">推荐</span>
+		<span id="notice" onclick="switchTab(1)" title="你关注的人的最新10篇日记">关注</span>
 		<span id="time" onclick="switchTab(2)">时间轴</span>
 	</div>
 	<div class="pages" style="cursor: pointer;">
@@ -314,9 +314,9 @@ $(function(){
 	if(perPageNum!="0"){
 		perPage=perPageNum;
 	}
-	loadDiary('index','','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
+	//loadDiary('index','','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
 	setPage('index','',perPage,user);//根据日记数量设置分页，参数为作者
-	
+	switchTab(0);
 	monitor();//手机访问时隐藏左边栏目
 });
 //打开新人榜对应新人

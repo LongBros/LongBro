@@ -281,7 +281,7 @@ public class NoteBookController{
     @ResponseBody
     public BaseResult<List<Diary>> randomRecommend(int n){
     	BaseResult<List<Diary>> result=new BaseResult<>();
-    	String s=Strings.genNumber(10, 3000);
+    	String s=Strings.genNumber(n, 3000);
     	List<Diary> list=noteBookService.randomRecommend(s);
     	result.setCode(200);
     	result.setMessage("已随机推荐"+n+"篇日记");

@@ -492,7 +492,7 @@ function loginOrRegister(type){
 		document.getElementById("loginBox").style.display="inline-block";
 		document.getElementById("registerBox").style.display="none";
 	}else if(type=="1"){//显示注册框
-		alert("注册需要输入哆啦id，用户名，密码。其中哆啦id可为空，为空后系统会随机为你分配，用户名和密码不能为空。哆啦id和密码是登录凭证");
+		alert("注册需要输入8位哆啦id，用户名，密码。\r其中哆啦id可为空，为空后系统会随机为你分配，用户名和密码不能为空。\r哆啦id和密码是登录凭证");
 		document.getElementById("loginBox").style.display="none";
 		document.getElementById("registerBox").style.display="inline-block";
 	}

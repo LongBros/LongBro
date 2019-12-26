@@ -252,7 +252,7 @@
 		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum
 		 from d_diary d
 		 left join d_user_info di on d.n_Writter=di.u_User_Id
-		WHERE find_in_set(n_Id,#{ids});
+		WHERE  1=1 and find_in_set(n_Authority,'0,2') and find_in_set(n_Id,#{ids});
 	</select>
 	<!-- 12-25随机推荐n篇日记 -->
 	<select id="noticeUserDiary" parameterType="java.util.HashMap" resultType="com.longbro.note.bean.Diary">
@@ -268,7 +268,9 @@
 		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum
 		 from d_diary d
 		 left join d_user_info di on d.n_Writter=di.u_User_Id
-			LEFT JOIN d_notice dn ON dn.n_Noticed=d.n_Writter
-		WHERE dn.n_Noticer=#{user} ORDER BY d.n_Time DESC LIMIT 0,#{n};
+		LEFT JOIN d_notice dn ON dn.n_Noticed=d.n_Writter
+		WHERE 1=1 and find_in_set(n_Authority,'0,2') 
+				  and dn.n_Noticer=#{user} 
+		ORDER BY d.n_Time DESC LIMIT 0,#{n};
 	</select>
 </mapper>

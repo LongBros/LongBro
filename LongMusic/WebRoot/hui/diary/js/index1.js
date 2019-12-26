@@ -338,6 +338,7 @@ function addToUnlike(userId,userName){
 	});
 	window.open(document.URL,"_self");
 }
+//12.切换tab-推荐、关注、时间轴
 function switchTab(which){
 	if(which==0){//推荐
 		document.getElementById("recommend").style.color="red";
@@ -348,24 +349,122 @@ function switchTab(which){
 		document.getElementById("recommend").style.color="black";
 		document.getElementById("notice").style.color="red";
 		document.getElementById("time").style.color="black";
+		openNotice();
 	}else if(which==2){//时间轴
 		document.getElementById("recommend").style.color="black";
 		document.getElementById("notice").style.color="black";
 		document.getElementById("time").style.color="red";
+		loadDiary('index','','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
 	}
 	
 }
+//13.打开推荐
 function openRecommend(){
 	$("#diarys").text("");
+	$(".pages").text('');
 	$.ajax({
 		url:"note/diary/randomRecommend.do",
 		type:"get",
 		async:false,
 		dataType:"Json",
 		data:{
+			n:20
+		},
+		success:function(res){
+			var data=res.result;
+			$("#diarys").append("<center>哆啦小子使尽浑身解数，为你随机推荐了"+data.length+"篇日记^_^</center>");
+			for(var i=0;i<data.length;i++){
+				//处理内容和标题
+				var title=data[i].ntitle+"";
+				var con=handleCon(data[i].ncontent);
+				console.log(con);
+
+				if(con.length>250){
+					con=con.substring(0,250)+"......";
+				}
+				
+				if(title.length>10){
+					title="《"+title.substring(0,8)+"...》";
+				}else{
+					title="《"+title+"》";
+				}
+				if(data[i].nTop==1){//站长置顶
+					title=title+"<font color='red'>(置顶)</font>"
+				}
+				var userName=data[i].userName;
+				if(user==data[i].nwritter){//当前登录人的日记特殊显示作者
+					userName="<font color='red'>"+data[i].userName+"(朕)</font>";
+				}
+				//分类
+				var cate=getCateById(data[i].ntype);
+				//是否有音频
+				var music=0;//默认无音频
+				if(data[i].nSongId!=null&&data[i].nSongId!=''){
+					music=1;//有音频
+				}
+				var com="";
+				if(data[i].nallowComment==0){//允许评论的才显示评论图标
+					com="&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"+data[i].commentNum+"</span>";
+				}
+				//未登录所有日记不显示不看他按钮,已登录自己的日记不显示不看他按钮
+				var nsh="";
+				if((data[i].nwritter+"")!=(user+"")&&user!=""){
+					nsh="&nbsp;<i class=\"Hui-iconfont\" title='不看他' onclick='addToUnlike(\""+data[i].nwritter+"\",\""+data[i].userName+"\")'>&#xe68b;</i>";
+				}
+				var top="";
+				if(data[i].nUserTop==1){//用户置顶
+					top=top+"<font color='#c88326'>(顶)</font>"
+				}
+				var loc=data[i].nlocation+"";
+				if(loc.length>6){
+					loc=loc.substring(0,6)+"..."
+				}
+				var wordSize="";
+				if(show==1){
+					wordSize="("+data[i].wordSize+"字)";
+				}
+				
+				//onclick='openOther(0,"+data[i].nid+")'
+				$("#diarys").append("<div class=\"diary\"><img src='image/tx/"+data[i].headImage
+				+".jpg' class='touxiang'><a href=\"diary.html?id="+data[i].nid+"\"  title='该篇日记共计"+wordSize+"字(包含格式所占字符)'>"+con+"</a><br>"
+				+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName
+				+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
+				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>"+title+"</span>&nbsp;<span>"+(music=='1'?'<font color=\'red\' title=\'有音频喔\'>'+wordSize+'音</font>':'<font color=\'red\'>'+wordSize+'</font>')+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i><span title='"+data[i].nlocation+"'>"+loc
+				+"</span><div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum+com+"&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
+				+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum
+				+"</span>"+nsh+top+"</div></div>"
+				+"</div><hr width='100%'>");//740px
+			}
+		}
+	});
+}
+//14.打开关注用户
+function openNotice(){
+	$("#diarys").text("");
+	$(".pages").text('');
+	if(user==""){
+		alert("请先登录");
+		$("#diarys").append("<center>登录后方可查看关注用户的日记喔，快快登录吧^_^</center>");
+		login_popup();
+		return;
+	}
+	
+	$.ajax({
+		url:"note/diary/noticeUserDiary.do",
+		type:"get",
+		async:false,
+		dataType:"Json",
+		data:{
+			user:user,
 			n:10
 		},
-		success:function(data){
+		success:function(res){
+			var data=res.result;
+			if(data.length==0){
+				$("#diarys").append("<center>这个星球没有日记呢，可能原因：你还没有关注别人，或者你关注的人还没发布日记，去多关注点朋友吧^_^</center>");
+			}else{
+				$("#diarys").append("<center>哆啦小子使尽浑身解数，为你加载了"+data.length+"篇你关注的人的日记^_^</center>");
+			}
 			for(var i=0;i<data.length;i++){
 				//处理内容和标题
 				var title=data[i].ntitle+"";
