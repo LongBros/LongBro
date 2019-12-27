@@ -394,7 +394,7 @@ function playAudio(sid){
 	}else{
 		url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
 	}
-	var song=document.getElementById("song");
+	var song=document.getElementById("audio");
 	song.src=url;
 	song.style.display="inline-block";
 }

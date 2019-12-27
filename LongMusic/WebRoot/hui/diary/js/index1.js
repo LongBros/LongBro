@@ -37,6 +37,7 @@ function loadDiary(from,author,page,perPage,userId){
 			user:userId
 		},
 		success:function(data){
+			$("#diarys").append("<hr width='100%'>");
 			for(var i=0;i<data.length;i++){
 				//处理内容和标题
 				var title=data[i].ntitle+"";
@@ -372,7 +373,7 @@ function openRecommend(){
 		},
 		success:function(res){
 			var data=res.result;
-			$("#diarys").append("<center>哆啦小子使尽浑身解数，为你随机推荐了"+data.length+"篇日记^_^</center>");
+			$("#diarys").append("<center>哆啦小子使尽浑身解数，为你随机推荐了"+data.length+"篇日记^_^</center><hr width='100%'>");
 			for(var i=0;i<data.length;i++){
 				//处理内容和标题
 				var title=data[i].ntitle+"";
@@ -463,7 +464,7 @@ function openNotice(){
 			if(data.length==0){
 				$("#diarys").append("<center>这个星球没有日记呢，可能原因：你还没有关注别人，或者你关注的人还没发布日记，去多关注点朋友吧^_^</center>");
 			}else{
-				$("#diarys").append("<center>哆啦小子使尽浑身解数，为你加载了"+data.length+"篇你关注的人的日记^_^</center>");
+				$("#diarys").append("<center>哆啦小子使尽浑身解数，为你加载了"+data.length+"篇你关注的人的日记^_^</center><hr width='100%'>");
 			}
 			for(var i=0;i<data.length;i++){
 				//处理内容和标题

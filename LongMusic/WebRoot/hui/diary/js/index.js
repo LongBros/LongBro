@@ -433,7 +433,7 @@ function playHomeSong(){
 		playAudio(homeSongId);
 		btn.title="点击停止播放";
 	}else{
-		var song=document.getElementById("song");
+		var song=document.getElementById("audio");
 		song.src="";
 		$("#playBtn").text("▷");
 		btn.title="点击可播放喔";
@@ -468,7 +468,7 @@ function playAudio(sid){
 	}else{
 		url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
 	}
-	var song=document.getElementById("song");
+	var song=document.getElementById("audio");
 	song.src=url;
 	//修改
 	$("#playBtn").text("||");
