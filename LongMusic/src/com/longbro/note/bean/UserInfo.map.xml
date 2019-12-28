@@ -26,7 +26,7 @@
 		INSERT INTO d_user_info
 		(u_Id,u_User_Name,u_User_Id,u_User_Sex,u_show_wordnum,u_black_namelist,u_Join_Time,u_Status,u_Born_Time,u_Home_Song,u_autoplay_audio,
 		u_recent_login,u_Head_Image,u_Password,
-		u_Location,u_default_back)
+		u_Location,u_default_back,u_inviter)
 		VALUES 
 		(#{UId,jdbcType=NUMERIC}, #{UUserName,jdbcType=VARCHAR}, #{UUserId,jdbcType=NUMERIC}, 
 		#{UUserSex,jdbcType=NUMERIC}, #{uShowWordnum,jdbcType=NUMERIC}, 
@@ -35,7 +35,7 @@
 		#{UHomeSong,jdbcType=VARCHAR},#{autoPlay,jdbcType=NUMERIC},
 		#{lastLogin,jdbcType=VARCHAR},#{headImage,jdbcType=VARCHAR},
 		#{password,jdbcType=VARCHAR},
-		#{location,jdbcType=VARCHAR},#{back,jdbcType=VARCHAR})
+		#{location,jdbcType=VARCHAR},#{back,jdbcType=VARCHAR},#{inviter,jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="get" parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Author">
@@ -120,7 +120,19 @@
 				u_default_back=#{back,jdbcType=VARCHAR},
 			</if>
 			<if test="perpageNum != null">
-				u_perpage_num=#{perpageNum,jdbcType=NUMERIC}
+				u_perpage_num=#{perpageNum,jdbcType=NUMERIC},
+			</if>
+			<if test="inviter != null">
+				u_inviter=#{inviter,jdbcType=NUMERIC},
+			</if>
+			<if test="showWhichTab != null">
+				u_show_tab=#{showWhichTab,jdbcType=NUMERIC},
+			</if>
+			<if test="showPlayer != null">
+				u_show_player=#{showPlayer,jdbcType=NUMERIC},
+			</if>
+			<if test="textEditor != null">
+				u_text_editor=#{textEditor,jdbcType=NUMERIC}
 			</if>
 		</set>
 		WHERE

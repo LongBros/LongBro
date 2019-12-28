@@ -29,6 +29,7 @@ function writeNote(){
 	var allowcomment=document.form.allowcomment;
 	var authority=document.form.authority.value;
 	var category=document.form.category.value;
+	var sourceId=document.form.sourceId.value;//12-28添加音乐选择
 	if(title.length<1){//标题为空时，使用时间作为标题
 		title=formatW2(new Date()+"");
 	}
@@ -65,7 +66,8 @@ function writeNote(){
 			NAllowComment:com,
 			nAuthority:authority,
 			NTime:time,
-			nWriteDevice:device
+			nWriteDevice:device,
+			nSongId:sourceId
 		},
 		success:function(res){
 			alert(res.message)
@@ -262,6 +264,16 @@ function appendValue(img,from){
  					document.getElementById("allowcomment").checked=false;
  				} 	 			
  				document.getElementById("authority").value=data.nauthority;
+ 				var sid=data.nSongId+"";
+ 				if(data.nSongId){//有音乐则回显
+ 					document.getElementById("sourceId").value=data.nSongId;
+ 					if(sid.length<30){
+ 						document.getElementById("songName").value=getSongNameBySId(data.nSongId);
+ 					}else{
+ 						document.getElementById("songName").value="非歌曲音频资源";
+ 					}
+ 				}
+ 				
 // 				$('#location').text(loc);
 // 				$('#title').text(title);
  				if(!isPhone()){//电脑端
@@ -293,6 +305,104 @@ function appendValue(img,from){
  	}
  	return false;
  }
+ 
+ //17.打开音乐搜索框
+ function openMusic(){
+	var sea=document.getElementById("searchSong");
+	sea.style.display="inline-block";
+}
+ //18.关闭音乐搜索框
+function closeSearch(){
+	var sea=document.getElementById("searchSong");
+	sea.style.display="none";
+}
+//19.搜索框变动时搜索歌曲
+function searchMusic(){
+	var key=document.getElementById("key").value+"";
+	if(key==""){
+		return;
+	}
+	$.ajax({
+		type:"Get",
+		async:false,
+		url:"querySongs.do?key="+key,
+		dataType:"json",
+		success:function(data){
+			var len=data.length;
+			if(len==0){
+				return;
+			}
+			if(len>10){
+				len=10;
+			}
+			document.getElementById("songsList").innerHTML="<center>共搜索到<font color='red'>"+(data.length)+"</font>首歌曲(点击歌名试听)";
+
+			for(var k=0;k<len;k++){
+				//特殊显示搜索关键字
+				var name=data[k].songName+"";
+				var na=data[k].songName+"";
+				if(na.length>9){
+					na=na.substring(0, 9)+"...";
+				}
+				na=na.replace(key, "<font color='red'>"+key+"</font>")
+				var url="";//源网址
+				var sid=data[k].sourceId+"";//网址标识部分
+				if(sid.substring(sid.length-5)==".html"){
+					url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
+				}else if(sid.substring(sid.length-3)==".kw"){
+					url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
+				}else if(sid.substring(sid.length-4)==".mp3"){
+					url=sid;
+				}else{
+					url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
+				}
+				$('#songsList').append("<br>&emsp;"+(k+1)+".<a onclick='playSong(\""+url+"\")'>"+na+"</a>&emsp;&emsp;<a onclick='chooseSong(\""+sid+"\",\""+name+"\")'>选择</a>");
+			}
+			$('#songsList').append("<br><br>列表最多展示10首歌曲，");
+			$('#songsList').append("若搜不到你想选择的歌曲，可联系站长添加");
+		}
+	});
+}
+/**
+ *20.试听歌曲 
+ */
+function playSong(url){
+	var p=document.getElementById("audio");
+	p.setAttribute("src", url);
+	p.play();//播放
+}
+/**
+ *21.选择歌曲
+ */
+function chooseSong(sid,name){
+	document.getElementById("sourceId").value=sid;
+	document.getElementById("songName").value=name;
+}
+/**
+ *22.清空所选歌曲
+ */
+function clearSong(){
+	document.getElementById("sourceId").value="";
+	document.getElementById("songName").value="";
+}
+/**
+ * 23.根据歌曲id得到歌曲名
+ * @param id
+ * @returns {String}
+ */
+function getSongNameBySId(sourceId){
+	var name="";
+	$.ajax({
+		type:"Get",
+		async:false,
+		url:"querySongBySId.do?sourceId="+sourceId,
+		dataType:"Json",
+		success:function(data){
+			name=data.songName+"-"+data.singer;
+		}
+	});
+	return name;
+}
  //以下定义内容导致此文件中所有函数失效
 // var browser={
 //		versions:function(){

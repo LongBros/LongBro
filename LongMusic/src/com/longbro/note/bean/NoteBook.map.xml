@@ -108,6 +108,9 @@
 			<if test="nUserTop != null">
 				n_user_top=#{nUserTop,jdbcType=NUMERIC},
 			</if>
+			<if test="nSongId != null">
+				n_song_id=#{nSongId,jdbcType=VARCHAR},
+			</if>
 			<if test="updateTime != null">
 				n_update_time=#{updateTime,jdbcType=VARCHAR},
 			</if>
@@ -245,6 +248,7 @@
 		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
 		d.n_Authority nAuthority,d.n_song_id nSongId,n_update_time updateTime,
 		n_top nTop,n_user_top nUserTop,n_write_device nWriteDevice,
+		CHAR_LENGTH(d.n_Content) wordSize,
 		di.u_User_Name userName,di.u_Head_Image headImage,
 		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
 		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
@@ -261,6 +265,7 @@
 		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
 		d.n_Authority nAuthority,d.n_song_id nSongId,n_update_time updateTime,
 		n_top nTop,n_user_top nUserTop,n_write_device nWriteDevice,
+		CHAR_LENGTH(d.n_Content) wordSize,
 		di.u_User_Name userName,di.u_Head_Image headImage,
 		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
 		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,

@@ -28,6 +28,10 @@ public class UserInfo{
 	private String lastLogin;//最近登录
 	private String back;//网站背景2019-12-01
 	protected Integer perpageNum; //12-21默认每页加载多少篇(0：显示下拉列表，1：显示）
+	private Integer inviter;//12-27	邀请者哆啦id
+	private Integer showWhichTab;//12-27首页默认加载tab(0:推荐，1:关注，2:时间轴)
+	private Integer showPlayer;//u_show_player是否在播放歌曲的时候显示播放器(0：不显示，1：显示)
+	private Integer	textEditor;//写日记使用的编辑器(0：百度文本编辑器，1：普通文本区)
 	public Integer getUId() {
 		return this.UId;
 	}
@@ -181,6 +185,29 @@ public class UserInfo{
 	public void setPerpageNum(Integer perpageNum) {
 		this.perpageNum = perpageNum;
 	}
-	
+	public Integer getInviter() {
+		return inviter;
+	}
+	public void setInviter(Integer inviter) {
+		this.inviter = inviter;
+	}
+	public Integer getShowWhichTab() {
+		return showWhichTab;
+	}
+	public void setShowWhichTab(Integer showWhichTab) {
+		this.showWhichTab = showWhichTab;
+	}
+	public Integer getShowPlayer() {
+		return showPlayer;
+	}
+	public void setShowPlayer(Integer showPlayer) {
+		this.showPlayer = showPlayer;
+	}
+	public Integer getTextEditor() {
+		return textEditor;
+	}
+	public void setTextEditor(Integer textEditor) {
+		this.textEditor = textEditor;
+	}
 	
 }
