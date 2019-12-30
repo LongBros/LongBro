@@ -81,24 +81,22 @@ function writeNote(){
 function changeWea(which){
 	var weas=new Array("sunny","foggy","hazing","overcast","rainy","snowy");
 	for(var i=0;i<6;i++){
-		var wea=document.getElementById(weas[i]);
 		if((i+"")==which){//特殊显示
-			wea.style.color="pink";
+			$("#"+weas[i]+"").css("color","pink");
 		}else{
-			wea.style.color="black";
+			$("#"+weas[i]+"").css("color","black");
 		}
 	}
 	document.form.weather.value=which;
 }
 //3.心情切换函数
 function changeMood(which){
-	var weas=new Array("happy","smile","cry","angry");
+	var moods=new Array("happy","smile","cry","angry");
 	for(var i=0;i<4;i++){
-		var wea=document.getElementById(weas[i]);
 		if((i+"")==which){//特殊显示
-			wea.style.color="pink";
+			$("#"+moods[i]+"").css("color","pink");
 		}else{
-			wea.style.color="black";
+			$("#"+moods[i]+"").css("color","black");
 		}
 	}
 	document.form.mood.value=which;
@@ -308,17 +306,16 @@ function appendValue(img,from){
  
  //17.打开音乐搜索框
  function openMusic(){
-	var sea=document.getElementById("searchSong");
-	sea.style.display="inline-block";
+	$("#searchSong").css("display","inline-block");
 }
  //18.关闭音乐搜索框
 function closeSearch(){
-	var sea=document.getElementById("searchSong");
-	sea.style.display="none";
+	$("#searchSong").css("display","none");
 }
 //19.搜索框变动时搜索歌曲
 function searchMusic(){
-	var key=document.getElementById("key").value+"";
+//	var key=document.getElementById("key").value+"";
+	var key=$("#key").val();
 	if(key==""){
 		return;
 	}
@@ -375,15 +372,33 @@ function playSong(url){
  *21.选择歌曲
  */
 function chooseSong(sid,name){
-	document.getElementById("sourceId").value=sid;
-	document.getElementById("songName").value=name;
+	$("#sourceId").val(sid);
+	$("#songName").val(name);
+	//clearBtn而不是cleanBtn，后者已被清空所有消息定义id
+	$("#clearBtn").css("display","inline-block");
 }
 /**
- *22.清空所选歌曲
+ *22.清空所选歌曲~jQuery与纯js
  */
-function clearSong(){
+$(function(){
+	$("#clearBtn").click(function(){
+		$("#sourceId").val("");
+		$("#songName").val("");
+		$("#clearBtn").css("display","none");
+	});
+})
+//纯js写法	需在HTML中加上onClick="clearSong();" 
+/*function clearSong(){
 	document.getElementById("sourceId").value="";
 	document.getElementById("songName").value="";
+	document.getElementById("clearBtn").style.display="none";
+}*/
+function clearSong(){
+	$("#sourceId").val("");
+	$("#songName").val("");
+//	document.getElementById("sourceId").value="";
+//	document.getElementById("songName").value="";
+	$("#clearBtn").css("display","none");
 }
 /**
  * 23.根据歌曲id得到歌曲名

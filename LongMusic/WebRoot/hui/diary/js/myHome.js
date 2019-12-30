@@ -399,7 +399,8 @@ function loadInfo(){
 		type:"get",
 		async:false,
 		dataType:"Json",
-		success:function(data){
+		success:function(res){
+			var data=res.result;
 			var sex=data.uuserSex+"";//性别：1男，2女
 			var showNum=data.uShowWordnum+"";//是否显示日记字数
 			var perpageNum=data.perpageNum+"";//

@@ -414,7 +414,8 @@ function ifAutoPlay(songId){
 		type:"get",
 		async:false,
 		dataType:"Json",
-		success:function(data){
+		success:function(res){
+			var data=res.result;
 			autoPlay=data.autoPlay;
 		}
 	});
