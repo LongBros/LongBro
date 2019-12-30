@@ -445,3 +445,28 @@ function addVisitRecord(id){
 		}
 	});
 }
+//17.@函数--登录用户方可使用
+function callFriend(){
+	$.ajax({
+		url:"note/notice/getMyAtten.do?userId="+user,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(res){
+			if(res.code==200){
+				var data=res.result;
+				if(data.length<1){
+					alert("只能@你关注的人喔，请先去关注后再来@啦");
+				}else{
+					$("#myDiary").append("<center>你共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
+				}
+				for(var i=0;i<data.length;i++){
+					$("#myDiary").append("<div class='notice'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					
+				}
+			}else{
+				alert("查询失败");
+			}
+		}
+	});
+}
