@@ -197,7 +197,8 @@
 		<div class="tab" id="tab2" onclick="openTab(2)"><span id="comment">给我评论</span></div>
 		<div class="tab" id="tab3" onclick="openTab(3)"><span id="praise">给我点赞</span></div>
 		<div class="tab" id="tab4" onclick="openTab(4)"><span id="praise">收藏我的</span></div>
-		<div class="tab" id="tab5" onclick="openTab(5)"><span id="msgsetting">消息设置</span></div>
+		<div class="tab" id="tab4" onclick="openTab(5)"><span id="@">@我的</span></div>
+		<div class="tab" id="tab5" onclick="openTab(6)"><span id="msgsetting">消息设置</span></div>
 	</div>
 	
 </div>
@@ -368,9 +369,16 @@ function openTab(which){
 		tab3.style="background: white;color:black;";
 		tab4.style="background: red;color:white;";
 		tab5.style="background: white;color:black;";
-	}else if(which==5){//消息设置
+	}else if(which=5){//@我的
+		
+	}else if(which=6){//消息设置
 		$(".contents").text("");
-		$(".contents").append("<div class='content'><center>静候此功能上线喔</center></div>");
+		$(".contents").append("<div class='content'>");
+		$(".contents").append("<span>关注消息提醒设置</span><input type='checkbox' id='attenRemind' checked name='attenRemind'><hr>");
+		$(".contents").append("<span>获赞消息提醒设置</span><input type='checkbox' id='praiseRemind' checked name='praiseRemind'><hr>");
+		$(".contents").append("<span>被收藏消息提醒设置</span><input type='checkbox' id='storeRemind' checked name='storeRemind'><hr>");
+		$(".contents").append("<span>被评论消息提醒设置</span><input type='checkbox' id='commentRemind' checked name='commentRemind'><hr>");
+		$(".contents").append("</div><hr>");
 		tab0.style="background: white;color:black;";
 		tab1.style="background: white;color:black;";
 		tab2.style="background: white;color:black;";
