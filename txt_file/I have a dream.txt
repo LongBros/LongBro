@@ -5,6 +5,10 @@ db.username=mysqlrd
 db.password=123456
 
 
+1.消息设置、添加系统通知
+2.写日记或评论时可@
+
+
 cp -rf LongMusic $(date +%Y%m%d_%H%M%S)
 
 
