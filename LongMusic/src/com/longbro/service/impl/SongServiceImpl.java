@@ -74,4 +74,9 @@ public class SongServiceImpl implements SongService{
 		// TODO Auto-generated method stub
 		return dao.queryAllSinger();
 	}
+	@Override
+	public List<Song> strongQuerySongs(String key) {
+		// TODO Auto-generated method stub
+		return dao.strongQuerySongs(key);
+	}
 }

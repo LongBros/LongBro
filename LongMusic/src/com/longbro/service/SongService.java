@@ -21,6 +21,6 @@ public interface SongService {
 	public List<Song> queryHotSongs(int num);
 	public Integer findSongNumBy(String inputTime);//2019-09-20
 	public ArrayList<String> queryAllSinger();//2019-09-28
-
+	public List<Song> strongQuerySongs(String key);//12-31
 
 }

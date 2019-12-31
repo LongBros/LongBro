@@ -102,4 +102,10 @@
 	<select id="queryAllSinger" resultType="java.util.HashMap">
 		SELECT DISTINCT singer FROM song;
 	</select>
+	
+	<select id="strongQuerySongs" resultType="java.util.HashMap">
+		SELECT *,1 AS match_type FROM song WHERE songName like concat ('%',#{_parameter},'%')
+		UNION SELECT *,2 AS match_type FROM song WHERE singer like concat ('%',#{_parameter},'%')
+		UNION SELECT *,3 AS match_type FROM song WHERE lyric like concat ('%',#{_parameter},'%') ;
+	</select>
 </mapper>

@@ -82,4 +82,9 @@ public class SongDaoImpl extends BaseDao implements SongDao{
 		// TODO Auto-generated method stub
 		return (ArrayList<String>)this.selectList(pre+"queryAllSinger");
 	}
+	@Override
+	public List<Song> strongQuerySongs(String key) {
+		List<Song> list=(List<Song>)this.selectList(pre+"strongQuerySongs",key);
+		return list;
+	}
 }

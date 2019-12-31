@@ -154,7 +154,7 @@ public class SongController {
 		return list;
 	}
 	/**
-	 * 6.强力搜索功能-根据关键词同时搜索歌曲名、歌手、歌词
+	 * 6.强力搜索功能-根据关键词同时搜索歌曲名、歌手、歌词~分别使用三条sql查询
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年8月5日
@@ -337,5 +337,22 @@ public class SongController {
 	public Song querySongBySId(String sourceId){
 		Song song=service.querySongBySId(sourceId);
 		return song;
+	}
+	/**
+	 * 14.强力搜索功能2-根据关键词同时搜索歌曲名、歌手、歌词~合并为一条sql查询
+	 * @author LongBro
+	 * 2019年12月31日
+	 * 下午5:48:04
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping (value="strongQuerySongs2",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Song> strongQuerySongs2(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException
+	{	
+		List<Song> ls=service.strongQuerySongs(request.getParameter("key"));
+		return ls;
 	}
 }
