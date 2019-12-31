@@ -65,8 +65,23 @@ public class UserInfoController{
      */
     @RequestMapping("getAuthorInfoByUserId")
     @ResponseBody
-    public Author getAuthorInfoByUserId(int UUserId){
-    	return userInfoService.get(UUserId);
+    public BaseResult<String> getAuthorInfoByUserId(int UUserId){
+    	BaseResult<String> result=new BaseResult<String>();
+    	if(UUserId<1000000){
+    		result.setCode(100);
+    		result.setMessage("哆啦id不正确");
+    		return result;
+    	}
+    	Author au=userInfoService.get(UUserId);
+    	if(au!=null){
+    		result.setCode(200);
+        	result.setMessage("根据哆啦id查询用户成功");
+        	result.setResult(au);
+    	}else{
+    		result.setCode(100);
+    		result.setMessage("未匹配到输入的哆啦id");
+    	}
+    	return result;
     }
     /**
      * 2.注册用户
@@ -358,6 +373,7 @@ public class UserInfoController{
     	String doraId=request.getParameter("doraId");//哆啦id
     	String userName=request.getParameter("userName");//用户名
     	String password=request.getParameter("password");//密码
+    	String inviter=request.getParameter("inviter");//密码
     	if(StringUtils.isEmpty(doraId)){//为空则随机生成
     		doraId=genUserId("");
     	}else{//校验用户输入哆啦id是否已存在
@@ -372,6 +388,7 @@ public class UserInfoController{
     	ui.setUUserId(Integer.parseInt(doraId));
     	ui.setUUserName(userName);
     	ui.setPassword(password);
+    	ui.setInviter(Integer.parseInt(inviter));
     	ui.setLocation("");
     	ui.setSignature("");
     	//随机生成家歌和背景

@@ -1,7 +1,3 @@
-/***************************************************************
- * 1.根据是否登录设置菜单栏2.弹出登录框3.登录校验4.打开新页面5.设置添加cookie
- * 6.得到name的value7.加载公告、收到的赞、关注……的数量并显示8.一键设置为已读
- ****************************************************************/
 
 var user=getCookie("userId")+"";
 var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
@@ -57,7 +53,6 @@ function login_popup() {
 function login(){
 	var acc=document.login_form.account_l.value;//账号，即哆啦id
 	var pass=document.login_form.password_l.value;
-//	var url="../../note/userinfo/loginNote.do?acc="+acc+"&pass="+pass;
 	var url="note/userinfo/loginNote.do?acc="+acc+"&pass="+pass;
 	$.ajax({
 		url:url,
@@ -130,7 +125,6 @@ function getCookie(name){
 }
 //7.加载公告、收到的赞、关注……的数量并显示
 function loadNotice(){
-//	var url="../../note/userinfo/queryUnReadNum.do";
 	var url="note/userinfo/queryUnReadNum.do";
 	$.ajax({
 		url:url,
@@ -161,7 +155,6 @@ function loadNotice(){
 }
 //8.一键设置为已读
 function setAsReaded(){
-//	var url="../../note/userinfo/setAsReaded.do";
 	var url="note/userinfo/setAsReaded.do";
 	$.ajax({
 		url:url,
@@ -183,18 +176,18 @@ function setAsReaded(){
  * 9.2019-10-26加载作者的信息:关注信息，互动计数，基本信息，活跃信息
  */
 function loadAuthorInfo(){
-//	var url="../../note/userinfo/getAuthorInfoByUserId.do?UUserId="+author;
 	var url="note/userinfo/getAuthorInfoByUserId.do?UUserId="+author;
 	$.ajax({
 		url:url,
 		type:"get",
 		async:false,
 		dataType:"Json",
-		success:function(data){
+		success:function(res){
+			var data=res.result;
 			var url=document.URL+"";
 			var sex=getSexById(data.uuserSex);
 			if(user!=author){//不是当前人时候的title显示
-				document.title=""+document.title+"'"+data.uuserName+"'的日记~哆啦日记";
+				document.title=""+document.title+"'"+data.uuserName+"'的日记~哆啦网";
 				if(url.indexOf("author.html")!=-1){//别的作者的页面
 					var sid=data.uhomeSong;//家歌
 					homeSongId=sid;
@@ -202,14 +195,14 @@ function loadAuthorInfo(){
 				}
 			}else{//当前人
 				if(url.indexOf("diary.html")!=-1){
-					document.title=document.title+"朕的日记~哆啦日记";
+					document.title=document.title+"朕的日记~哆啦网";
 				}else if(url.indexOf("author.html")!=-1){//我的作者页
-					document.title="朕的日记~哆啦日记";
+					document.title="朕的日记~哆啦网";
 					var sid=data.uhomeSong;//家歌
 					homeSongId=sid;
 					ifAutoPlay(homeSongId);
 				}else if(url.indexOf("myHome.html")!=-1){//我的家园页
-					document.title="我的家园~哆啦日记";
+					document.title="我的家园~哆啦网";
 					var sid=data.uhomeSong;//家歌
 					homeSongId=sid;
 					ifAutoPlay(homeSongId);
@@ -276,7 +269,6 @@ function loadAuthorInfo(){
 }
 //10.加载并设置某人的互动数量信息
 function setInteractNum(user){
-//	var url="../../note/userinfo/queryInteractNum.do";
 	var url="note/userinfo/queryInteractNum.do";
 	$.ajax({
 		url:url,
@@ -321,7 +313,6 @@ function getSexById(id){
 
 //12.判断当前登录用户是否已关注当前作者
 function ifAttention(){
-//	var url="../../note/notice/whetherHasNotice.do";
 	var url="note/notice/whetherHasNotice.do";
 	if(user==author){//当前登录用户查看自己时，不显示关注、已关注
 		return;
@@ -392,7 +383,8 @@ function getSetting(userId){
 		type:"get",
 		async:false,
 		dataType:"Json",
-		success:function(data){
+		success:function(res){
+			var data=res.result;
 			//设置背景、是否显示日记字数
 			if(user==userId){//各个页均使用，在首页、我的家园页均生效，在作者页会用下方else覆盖掉背景设置显示对应作者的背景
 				var body=document.getElementById("bodys");
@@ -448,7 +440,8 @@ function ifAutoPlay(songId){
 		type:"get",
 		async:false,
 		dataType:"Json",
-		success:function(data){
+		success:function(res){
+			var data=res.result;
 			autoPlay=data.autoPlay;
 		}
 	});
@@ -492,7 +485,7 @@ function loginOrRegister(type){
 		document.getElementById("loginBox").style.display="inline-block";
 		document.getElementById("registerBox").style.display="none";
 	}else if(type=="1"){//显示注册框
-		alert("注册需要输入8位哆啦id，用户名，密码。\r其中哆啦id可为空，为空后系统会随机为你分配，用户名和密码不能为空。\r哆啦id和密码是登录凭证");
+		alert("注册需要输入8位哆啦id，用户名，密码、邀请码(邀请者哆啦ID)。\r其中哆啦id和邀请码可为空，哆啦id为空后系统会随机为你分配，用户名和密码不能为空。\r哆啦id和密码是登录凭证");
 		document.getElementById("loginBox").style.display="none";
 		document.getElementById("registerBox").style.display="inline-block";
 	}
@@ -504,6 +497,7 @@ function register(){
 	var doraId=document.register_form.dora_r.value+"";//账号，即哆啦id
 	var userName=document.register_form.userName_r.value+"";
 	var pass=document.register_form.password_r.value+"";
+	var inviter=document.register_form.inviter_r.value+"";
 	if(userName.length<4||userName.length>15){
 		alert("用户名字数应在4和15之间");
 		return;
@@ -516,6 +510,24 @@ function register(){
 		alert("哆啦id需要为8位阿拉伯数字，你也可以不输入由系统为你分配");
 		return;
 	}
+	if(inviter.length>0){//如果输入邀请码，判断所输入是否正确
+		var re=0;//是否返回
+		$.ajax({
+			url:"note/userinfo/getAuthorInfoByUserId.do?UUserId="+inviter,
+			type:"get",
+			async:false,
+			dataType:"Json",
+			success:function(res){
+				if(res.code==100){
+					alert("你输入的邀请码有误，需为邀请者哆啦id，请重新输入或置空");
+					re=1;
+				}
+			}
+		});
+		if(re==1){
+			return;
+		}
+	}
 	var url="note/userinfo/register.do";
 	$.ajax({
 		url:url,
@@ -524,7 +536,8 @@ function register(){
 		data:{
 			doraId:doraId,
 			userName:userName,
-			password:pass
+			password:pass,
+			inviter:inviter
 		},
 		dataType:"Json",
 		success:function(data){
@@ -552,3 +565,7 @@ function getHtml(num,type){
 	}
 	return text;
 }
+/***************************************************************
+ * 1.根据是否登录设置菜单栏2.弹出登录框3.登录校验4.打开新页面5.设置添加cookie
+ * 6.得到name的value7.加载公告、收到的赞、关注……的数量并显示8.一键设置为已读
+ ****************************************************************/

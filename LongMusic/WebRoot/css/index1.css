@@ -60,8 +60,8 @@ body{
 #iconDivMain1{width:0 !important;height:0 !important}
 #div_company_mini{right:0 !important}
 #loginModal .modal-content{border-radius:0}
-#loginModal .col-left{width:225px;height:319px;background:url(../image/back/back28.jpg) 0 -717px no-repeat}
-#loginModal .col-right{width:313px;height:319px;color:#b2b2b2}
+#loginModal .col-left{width:225px;height:359px;background:url(../image/back/back28.jpg) 0 -717px no-repeat}
+#loginModal .col-right{width:313px;height:359px;color:#b2b2b2}
 #loginModal .form-group{margin-bottom:10px}
 #loginModal .modal-body{height:263px}
 #loginModal #btnRegister{color:#ff9600}
