@@ -4,6 +4,17 @@ db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&charac
 db.username=mysqlrd
 db.password=123456
 
+LongMusic/src/com/longbro/bean/song.xml
+LongMusic/src/com/longbro/controller/SongController.java
+LongMusic/src/com/longbro/dao/SongDao.java
+LongMusic/src/com/longbro/dao/impl/SongDaoImpl.java
+LongMusic/src/com/longbro/service/SongService.java
+LongMusic/src/com/longbro/service/impl/SongServiceImpl.java
+
+
+1.消息设置、添加系统通知
+2.写日记或评论时可@
+
 
 cp -rf LongMusic $(date +%Y%m%d_%H%M%S)
 
