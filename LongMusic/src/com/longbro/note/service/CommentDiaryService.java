@@ -22,9 +22,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommentDiaryService{
 	@Autowired CommentDiaryDao dao;
-	public void create(CommentDiary bean) {
+	public int create(CommentDiary bean) {
 		// TODO Auto-generated method stub
-		dao.create(bean);
+		return dao.create(bean);
 	}
 	public List<HashMap<String, String>> getComByDiaryId(int id) {
 		return dao.getComByDiaryId(id);

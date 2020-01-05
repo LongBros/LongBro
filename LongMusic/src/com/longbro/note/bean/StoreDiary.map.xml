@@ -86,11 +86,11 @@
 	<update id="setAsReaded">
 		UPDATE d_store SET s_Read_Status=1 WHERE s_Stored=#{_parameter} AND s_Read_Status=0;
 	</update>
-	<!--2019-12-05 得到某用户日记被喜欢的消息 -->
+	<!--2019-12-05 得到某用户日记被收藏的消息 -->
 	<select id="getMyMessage" parameterType="java.lang.String" resultType="java.util.HashMap">
 		select ds.s_Type type,ds.s_Diary diaryId,ds.s_Storer storer,
 				ds.s_Store_Time storeTime,ds.s_Read_Status readStatus,
-				dui.u_User_Name storerName,dd.n_Title diaryTitle
+				dui.u_User_Name storerName,dui.u_Head_Image headImg,dd.n_Title diaryTitle
 		from d_store ds
 		LEFT JOIN d_user_info dui ON ds.s_Storer=dui.u_User_Id
 		LEFT JOIN d_diary dd ON ds.s_Diary=dd.n_Id

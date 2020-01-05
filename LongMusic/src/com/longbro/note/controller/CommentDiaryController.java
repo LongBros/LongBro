@@ -39,11 +39,15 @@ public class CommentDiaryController{
      */
     @RequestMapping("commentDiary")
     @ResponseBody
-    public void commentDiary(CommentDiary cd){
+    public BaseResult<Integer> commentDiary(CommentDiary cd){
+    	BaseResult<Integer> bs=new BaseResult<>();
     	String time=TimeUtil.time();
     	cd.setCReviewTime(time);
     	cd.setCReadStatus(0);
-    	commentDiaryService.create(cd);
+    	bs.setCode(200);
+    	bs.setMessage("评论成功，请勿重复提交！");
+    	bs.setResult(commentDiaryService.create(cd));
+    	return bs;
     }
     /**
      * @desc 2.得到某日记的所有评论

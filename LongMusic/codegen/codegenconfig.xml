@@ -17,7 +17,7 @@
         <template id="controller" path="controller.ftl" />
     </templates>
 
-    <files baseDir="D:\aaaaaaa\LongBro\LongMusic\src">
+    <files baseDir="D:\aaaaaaa\LongBro\MyProject\LongMusic\src">
         <file refTemplate="mapping" filename="{class}.map.xml" dir="{system}\{domain}\{package}\bean"
               sub="true" override="true"/>
         <file refTemplate="dao" filename="{class}Dao.java" dir="{system}\{domain}\{package}\dao" sub="true"  override="true"/>
@@ -28,8 +28,8 @@
             dir="{system}\{domain}\{package}\controller" sub="false" override="true"/>
        
    </files>
-    <table tableName="d_notice">
-        <variable name="class" value="Attention" />
+    <table tableName="d_at_record">
+        <variable name="class" value="Call" />
         <variable name="package" value="note" />
     </table>
 </config>

@@ -63,6 +63,11 @@
 		float:right;
 		margin-right: 10px;
 	}
+	.content img{
+		width: 24px;
+		height: 28px;
+		margin-right: 10px;
+	}
 	.info{
 		color: gray;
 		font-size: 10px;
@@ -271,7 +276,7 @@ function openTab(which){
 					$(".contents").append("<div class='content'><center>暂时没有人关注你喔，快去发布一些吸引人的日记吧！</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].noticerName+"</a>&emsp;关注了你<font color='gray' size='2px'><span>"+res[i].noticeTime+"</span></font></div><hr>");
+					$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].noticerName+"</a>&emsp;关注了你<font color='gray' size='2px'><span>"+res[i].noticeTime+"</span></font></div><hr>");
 				}
 				
 			}
@@ -293,10 +298,15 @@ function openTab(which){
 					$(".contents").append("<div class='content'><center>暂时没有人评论你的日记喔，快去发布一些吸引人的日记吧！</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
+					var con=res[i].reviewCon+"";
+					
+					if(con.length>10){
+						con=con.substring(0,7)+"...";
+					}
 					if(res[i].reviewer=='123141414'||res[i].reviewer==''){
-						$(".contents").append("<div class='content'>本站访客(未登录用户)评论了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
+						$(".contents").append("<div class='content'>本站访客(未登录用户)评论了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>&emsp;<font style='color:gray;font-size:5px;'>"+con+"</font><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 					}else{
-						$(".contents").append("<div class='content'><a href='author.html?author="+res[i].reviewer+"' target='_blank'>"+res[i].viewerName+"</a>&emsp;评论了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
+						$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].reviewer+"' target='_blank'>"+res[i].viewerName+"</a>&emsp;评论了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>&emsp;"+con+"<font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 					}
 				}
 			}
@@ -318,7 +328,7 @@ function openTab(which){
 					$(".contents").append("<div class='content'>暂时没有人给你的日记点赞喔，，快去发布一些吸引人的日记吧！</div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>&emsp;赞了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].praiseTime+"</span></font></div><hr>");
+					$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>&emsp;赞了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].praiseTime+"</span></font></div><hr>");
 				}
 			}
 		});
@@ -339,7 +349,7 @@ function openTab(which){
 					$(".contents").append("<div class='content'><center>暂时没有人收藏你的日记喔，快去发布一些吸引人的日记吧！</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].storer+"' target='_blank'>"+res[i].storerName+"</a>&emsp;收藏了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].storeTime+"</span></font></div><hr>");
+					$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].storer+"' target='_blank'>"+res[i].storerName+"</a>&emsp;收藏了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].storeTime+"</span></font></div><hr>");
 				}
 			}
 		});

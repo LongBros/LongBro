@@ -257,14 +257,20 @@
 				<!--  <img alt="qq表情" title="qq表情" style="width: 18px;height: 18px" src="image/expre/qq/aini.gif" onmouseover="" onmousedown="oocImage('4')">-->
 				<img alt="贴吧表情" title="贴吧表情" style="width: 18px;height: 18px" src="image/expre/tieba/a.png" onmouseover="" onmousedown="oocImage('5','1')">
 				<img alt="微博表情" title="微博表情" style="width: 18px;height: 18px" src="image/expre/weibo/aini.png" onmouseover="" onmousedown="oocImage('6','1')">
-				<span onclick="callFriend()">@</span>
+				<span onclick="callFriend()">@</span>&emsp;<span title="@的朋友以此为准" id="calledFri"></span>
 			</div>
 			<div class="expre" id="expre" style="width: 200px">
 				
 			</div>
 
 		</div>
-		
+		<div id="searchSong" style="cursor:pointer;position:fixed;overflow:scroll;background:#3CBC8D;right:150px;top:200px;width:240px;height:350px;display: none">
+			<span onclick="closeSearch()" style="color:black;margin-left: 210px;">X</span>
+			<input id="key" name="key" type="text" oninput="searchMusic()" placeholder="搜索你想@的用户">
+			<div id="myAtten">
+				<br><br><br><br>
+			</div>
+		</div>
 	</div>
 	<!-- 评论 -->
 	<div id="comments">

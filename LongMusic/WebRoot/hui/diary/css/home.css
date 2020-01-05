@@ -114,3 +114,8 @@
 		float:right;
 		margin-right: 30px;
 	}
+	#myDiary .notice img{
+		width: 30px;
+		height: 34px;
+		margin-right: 5px;
+	}

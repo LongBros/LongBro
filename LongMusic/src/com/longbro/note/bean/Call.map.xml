@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.Call">
+	<resultMap id="Call" type="com.longbro.note.bean.Call">
+		<id property="AId" column="a_id" jdbcType="NUMERIC"/>
+		<result property="AType" column="a_type" jdbcType="NUMERIC"/>
+		<result property="ADiary" column="a_diary" jdbcType="VARCHAR"/>
+		<result property="AAtorUser" column="a_ator_user" jdbcType="VARCHAR"/>
+		<result property="AAtedUser" column="a_ated_user" jdbcType="VARCHAR"/>
+		<result property="AAtTime" column="a_at_Time" jdbcType="VARCHAR"/>
+		<result property="AReadStatus" column="a_read_status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.Call">
+		INSERT INTO d_at_record
+		(a_id,a_type,a_diary,a_ator_user,a_ated_user,a_at_Time,a_read_status)
+		VALUES 
+		(#{AId,jdbcType=NUMERIC}, #{AType,jdbcType=NUMERIC}, #{ADiary,jdbcType=VARCHAR}, #{AAtorUser,jdbcType=VARCHAR}, #{AAtedUser,jdbcType=VARCHAR}, #{AAtTime,jdbcType=VARCHAR}, #{AReadStatus,jdbcType=NUMERIC})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="Call">
+		SELECT * FROM d_at_record 
+		WHERE 
+		a_id=#{AId}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="Call">
+		SELECT * FROM d_at_record
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY a_id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.Call">
+		UPDATE d_at_record
+        <set>
+			<if test="AType != null">
+				a_type=#{AType,jdbcType=NUMERIC},
+			</if>
+			<if test="ADiary != null">
+				a_diary=#{ADiary,jdbcType=VARCHAR},
+			</if>
+			<if test="AAtorUser != null">
+				a_ator_user=#{AAtorUser,jdbcType=VARCHAR},
+			</if>
+			<if test="AAtedUser != null">
+				a_ated_user=#{AAtedUser,jdbcType=VARCHAR},
+			</if>
+			<if test="AAtTime != null">
+				a_at_Time=#{AAtTime,jdbcType=VARCHAR},
+			</if>
+			<if test="AReadStatus != null">
+				a_read_status=#{AReadStatus,jdbcType=NUMERIC}
+			</if>
+		</set>
+		WHERE
+		a_id=#{AId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM d_at_record 
+		WHERE
+		a_id=#{AId}
+	</delete>
+	
+	
+</mapper>
