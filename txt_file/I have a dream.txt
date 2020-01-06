@@ -4,6 +4,13 @@ db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&charac
 db.username=mysqlrd
 db.password=123456
 
+良策APP端开发接口
+参与业务系统第二、三期优化项
+参与报表3.0业务支持几大报表的优化与开发
+负责银行服务费模块的设计与开发
+负责业务系统四期优化项
+负责APP与BPM相互打通的设计与开发
+
 LongMusic/src/com/longbro/bean/song.xml
 LongMusic/src/com/longbro/controller/SongController.java
 LongMusic/src/com/longbro/dao/SongDao.java
