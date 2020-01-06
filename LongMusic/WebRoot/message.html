@@ -49,11 +49,23 @@
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
+	.contents span{
+		margin-left: 20px;
+		padding-top: 20px;
+	}
+	.contents input{
+		margin-left: 120px;
+	}
 	.content a{
 		color: blue;
 	}
 	.content span{
 		float:right;
+		margin-right: 10px;
+	}
+	.content img{
+		width: 24px;
+		height: 28px;
 		margin-right: 10px;
 	}
 	.info{
@@ -182,8 +194,9 @@
 		<div class="tab" id="tab1" onclick="openTab(1)"><span id="attention">关注朕</span></div>
 		<div class="tab" id="tab2" onclick="openTab(2)"><span id="comment">给我评论</span></div>
 		<div class="tab" id="tab3" onclick="openTab(3)"><span id="praise">给我点赞</span></div>
-		<div class="tab" id="tab4" onclick="openTab(5)"><span id="@">@我的</span></div>
-		<div class="tab" id="tab5" onclick="openTab(6)"><span id="msgsetting">消息设置</span></div>
+		<div class="tab" id="tab4" onclick="openTab(4)"><span id="store">收藏我的</span></div>
+		<div class="tab" id="tab5" onclick="openTab(5)"><span id="at">@我的</span></div>
+		<div class="tab" id="tab6" onclick="openTab(6)"><span id="msgsetting">消息设置</span></div>
 	</div>
 	
 </div>
@@ -231,21 +244,20 @@ $(function(){
 });
 
 function openTab(which){
-	var tab0=document.getElementById("tab0");
-	var tab1=document.getElementById("tab1");
-	var tab2=document.getElementById("tab2");
-	var tab3=document.getElementById("tab3");
-	var tab4=document.getElementById("tab4");
-	var tab5=document.getElementById("tab5");
+	var tabs=new Array("tab0","tab1","tab2","tab3","tab4","tab5","tab6");
+	for(var i=0;i<7;i++){
+		if(i==which){
+			$("#tab"+i).css("background","red");
+			$("#tab"+i).css("color","white");
+		}else{
+			$("#tab"+i).css("background","white");
+			$("#tab"+i).css("color","black");
+		}
+	}
+	
 	if(which==0){//系统通知
 		$(".contents").text("");
 		$(".contents").append("<div class='content'><center>静候此功能上线喔</center></div>");
-		tab0.style="background: red;color:white;";
-		tab1.style="background: white;color:black;";
-		tab2.style="background: white;color:black;";
-		tab3.style="background: white;color:black;";
-		tab4.style="background: white;color:black;";
-		tab5.style="background: white;color:black;";
 	}else if(which==1){//关注
 		$(".contents").text("");
 		$.ajax({
@@ -264,17 +276,11 @@ function openTab(which){
 					$(".contents").append("<div class='content'><center>暂时没有人关注你喔，快去发布一些吸引人的日记吧！</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].noticerName+"</a>&emsp;关注了你<font color='gray' size='2px'><span>"+res[i].noticeTime+"</span></font></div><hr>");
+					$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].noticerName+"</a>&emsp;关注了你<font color='gray' size='2px'><span>"+res[i].noticeTime+"</span></font></div><hr>");
 				}
 				
 			}
 		});
-		tab0.style="background: white;color:black;";
-		tab1.style="background: red;color:white;";
-		tab2.style="background: white;color:black;";
-		tab3.style="background: white;color:black;";
-		tab4.style="background: white;color:black;";
-		tab5.style="background: white;color:black;";
 	}else if(which==2){//被评论消息
 		$(".contents").text("");
 		$.ajax({
@@ -292,20 +298,19 @@ function openTab(which){
 					$(".contents").append("<div class='content'><center>暂时没有人评论你的日记喔，快去发布一些吸引人的日记吧！</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
+					var con=res[i].reviewCon+"";
+					
+					if(con.length>10){
+						con=con.substring(0,7)+"...";
+					}
 					if(res[i].reviewer=='123141414'||res[i].reviewer==''){
-						$(".contents").append("<div class='content'>本站访客(未登录用户)评论了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
+						$(".contents").append("<div class='content'>本站访客(未登录用户)评论了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>&emsp;<font style='color:gray;font-size:5px;'>"+con+"</font><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 					}else{
-						$(".contents").append("<div class='content'><a href='author.html?author="+res[i].reviewer+"' target='_blank'>"+res[i].viewerName+"</a>&emsp;评论了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
+						$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].reviewer+"' target='_blank'>"+res[i].viewerName+"</a>&emsp;评论了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>&emsp;"+con+"<font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 					}
 				}
 			}
 		});
-		tab0.style="background: white;color:black;";
-		tab1.style="background: white;color:black;";
-		tab2.style="background: red;color:white;";
-		tab3.style="background: white;color:black;";
-		tab4.style="background: white;color:black;";
-		tab5.style="background: white;color:black;";
 	}else if(which==3){//被点赞消息
 		$(".contents").text("");
 		$.ajax({
@@ -323,16 +328,10 @@ function openTab(which){
 					$(".contents").append("<div class='content'>暂时没有人给你的日记点赞喔，，快去发布一些吸引人的日记吧！</div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>&emsp;赞了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].praiseTime+"</span></font></div><hr>");
+					$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>&emsp;赞了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].praiseTime+"</span></font></div><hr>");
 				}
 			}
 		});
-		tab0.style="background: white;color:black;";
-		tab1.style="background: white;color:black;";
-		tab2.style="background: white;color:black;";
-		tab3.style="background: red;color:white;";
-		tab4.style="background: white;color:black;";
-		tab5.style="background: white;color:black;";
 	}else if(which==4){//被收藏消息
 		$(".contents").text("");
 		$.ajax({
@@ -350,32 +349,19 @@ function openTab(which){
 					$(".contents").append("<div class='content'><center>暂时没有人收藏你的日记喔，快去发布一些吸引人的日记吧！</center></div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'><a href='author.html?author="+res[i].storer+"' target='_blank'>"+res[i].storerName+"</a>&emsp;收藏了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].storeTime+"</span></font></div><hr>");
+					$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].storer+"' target='_blank'>"+res[i].storerName+"</a>&emsp;收藏了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].storeTime+"</span></font></div><hr>");
 				}
 			}
 		});
-		tab0.style="background: white;color:black;";
-		tab1.style="background: white;color:black;";
-		tab2.style="background: white;color:black;";
-		tab3.style="background: white;color:black;";
-		tab4.style="background: red;color:white;";
-		tab5.style="background: white;color:black;";
-	}else if(which=5){//@我的
-		
-	}else if(which=6){//消息设置
+	}else if(which==5){//@我的
 		$(".contents").text("");
-		$(".contents").append("<div class='content'>");
-		$(".contents").append("<span>关注消息提醒设置</span><input type='checkbox' id='attenRemind' checked name='attenRemind'><hr>");
+		$(".contents").append("<div class='content'><center>还没有人@你呐</center></div>");
+	}else if(which==6){//消息设置
+		$(".contents").text("");
+		$(".contents").append("<span>被关注消息提醒设置</span><input type='checkbox' id='attenRemind' checked name='attenRemind'><hr>");
 		$(".contents").append("<span>获赞消息提醒设置</span><input type='checkbox' id='praiseRemind' checked name='praiseRemind'><hr>");
 		$(".contents").append("<span>被收藏消息提醒设置</span><input type='checkbox' id='storeRemind' checked name='storeRemind'><hr>");
 		$(".contents").append("<span>被评论消息提醒设置</span><input type='checkbox' id='commentRemind' checked name='commentRemind'><hr>");
-		$(".contents").append("</div><hr>");
-		tab0.style="background: white;color:black;";
-		tab1.style="background: white;color:black;";
-		tab2.style="background: white;color:black;";
-		tab3.style="background: white;color:black;";
-		tab4.style="background: white;color:black;";
-		tab5.style="background: red;color:white;";
 	}
 	
 }

@@ -608,15 +608,15 @@ function change(){
 	if(mode=="order"){//当前模式为顺序，则切换为随机
 		mode="random";
 		m.src="../image/play_random.png";//http://longqcloud/Minimusic/
-		m.title="随机播放--C键切换";
+		m.title="随机播放--Alt+C键切换";
 	}else if(mode=="random"){//当前播放为随机，则切换为单曲
 		mode="single";
 		m.src="../image/play_single.png";
-		m.title="单曲循环--C键切换";
+		m.title="单曲循环--Alt+C键切换";
 	}else{//当前播放为单曲，则切换为顺序循环
 		mode="order";
 		m.src="../image/play_order.png";
-		m.title="顺序循环--C键切换";
+		m.title="顺序循环--Alt+C键切换";
 	}
 }
 /**

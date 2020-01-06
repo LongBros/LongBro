@@ -12,15 +12,20 @@
 	</resultMap>
 	
 	<insert id="create" parameterType="com.longbro.note.bean.CommentDiary">
-		INSERT INTO d_comment
+		<selectKey resultType="java.lang.Integer" keyProperty="CId" >
+            SELECT @@IDENTITY AS ID
+        </selectKey>
+        INSERT INTO d_comment
 		(c_Id,c_Reviewed_Diary,c_Comment,c_Reviewer,c_Reviewed,c_Review_Time,c_Read_Status)
 		VALUES 
 		(#{CId,jdbcType=NUMERIC}, #{CReviewedDiary,jdbcType=VARCHAR}, #{CComment,jdbcType=VARCHAR}, #{CReviewer,jdbcType=VARCHAR}, #{CReviewed,jdbcType=VARCHAR}, #{CReviewTime,jdbcType=VARCHAR}, #{CReadStatus,jdbcType=NUMERIC})
+		
 	</insert>
 	
 	<select id="get"   parameterType="java.lang.Integer" resultType="java.util.HashMap">
 		SELECT dc.c_Id reviewId,dc.c_Reviewed_Diary reviewedDiary,dc.c_Comment reviewContent,dc.c_Reviewer reviewer,
-			 dc.c_Reviewed reviewed,dc.c_Review_Time reviewTime,dc.c_Read_Status readStatus,dui.u_User_Name reviewerName
+			 dc.c_Reviewed reviewed,dc.c_Review_Time reviewTime,dc.c_Read_Status readStatus,
+			 dui.u_User_Name reviewerName,dui.u_Head_Image headImg
 		FROM d_comment dc
 		LEFT JOIN d_user_info dui on dc.c_Reviewer=dui.u_User_Id
 		WHERE 

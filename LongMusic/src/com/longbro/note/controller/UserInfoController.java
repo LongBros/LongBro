@@ -125,6 +125,7 @@ public class UserInfoController{
         	//设置最近登录时间，直接使用ui会报数据库中编码乱码错误？
 //        	UserInfo ui1=new UserInfo();
     		ui.setLastLogin(TimeUtil.time());
+    		ui.setUStatus(1);//2020-01-01设置为在线状态
 //    		ui1.setUId(ui.getUId());
 //    		ui1.setUUserId(ui.getUUserId());;
     		userInfoService.updateUserInfo(ui);

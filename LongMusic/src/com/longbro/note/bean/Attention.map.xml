@@ -65,7 +65,7 @@
 	<!-- 2019-12-03得到某用户被关注的消息 -->
 	<select id="getMyMessage" parameterType="java.lang.String" resultType="java.util.HashMap">
 		select dn.n_Noticer noticerId,dn.n_Notice_Time noticeTime,dn.n_Read_Status readStatus,
-				dui.u_User_Name noticerName
+				dui.u_User_Name noticerName,dui.u_Head_Image headImg
 		from d_notice dn
 		LEFT JOIN d_user_info dui ON dn.n_Noticer=dui.u_User_Id
 	    WHERE dn.n_Noticed=#{userId}
@@ -78,7 +78,7 @@
 	<!-- 2019-12-07得到我关注的人 -->
 	<select id="getMyAtten" parameterType="java.lang.String" resultType="java.util.HashMap">
 		select dn.n_Noticed noticedId,dn.n_Notice_Time noticeTime,dn.n_Read_Status readStatus,
-				dui.u_User_Name noticedName
+				dui.u_User_Name noticedName,dui.u_Head_Image headImg
 		from d_notice dn
 		LEFT JOIN d_user_info dui ON dn.n_Noticed=dui.u_User_Id
 	    WHERE dn.n_Noticer=#{userId}

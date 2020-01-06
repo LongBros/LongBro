@@ -13,7 +13,7 @@
 <link rel="Shortcut Icon" href="image/logo/dlam.jpg" />
 <script type="text/javascript" src="hui/diary/js/index.js"></script>
 <link rel="stylesheet" type="text/css" href="css/index1.css">
-<link rel="stylesheet" type="text/css" href="hui/diary/css/index.css"><!-- 回顶部 -->
+<link rel="stylesheet" type="text/css" href="hui/diary/css/index.css"><!-- 回顶部，歌曲选择框 -->
 <link rel="stylesheet" type="text/css" href="hui/diary/css/home.css">
 <!--[if lt IE 9]>
 <script type="text/javascript" src="lib/html5shiv.js"></script>
@@ -182,6 +182,14 @@
 		<i class="Hui-iconfont">&#xe690;</i><span id="joinTime">加入时间：</span><br>
 		<i class="Hui-iconfont">&#xe690;</i><span id="recentLogin">最近登录：</span><br>
 		<i class="Hui-iconfont">&#xe6d3;</i><span id="diaryDayNum" title="星星=1天，月亮=7天，太阳=49天">写日记天数：</span><br>
+	</div>
+</div>
+<!-- 点击歌添加歌曲至歌单 -->
+<div id="searchSong" style="cursor:pointer;position:fixed;overflow:scroll;background:#3CBC8D;right:150px;top:200px;width:240px;height:350px;display: none">
+	<span onclick="closeSearch()" style="color:black;margin-left: 210px;">X</span>
+	<input id="key" name="key" type="text" oninput="searchMusic()" placeholder="输入你要搜索的歌曲">
+	<div id="songsList">
+		<br><br><br><br>列表最多展示10首歌曲，若搜不到你想选择的歌曲，可联系站长添加歌曲
 	</div>
 </div>
 <div class="toTop">

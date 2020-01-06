@@ -320,16 +320,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        		  <!--end 播放列表，全部歌词 -->
        		  <!-- 其他工具#3f4156：上一曲，下一曲，播放暂停，进度条，音量加减，播放列表显示与隐藏按钮 -->
 				<div id="bottom" style="background: #009688;position:fixed;bottom:0; left:260px;width:80%;height:60px;">
-					<img style="width: 40px;height: 40px" title="左键--上一曲" onclick="preview()" alt="" src="../image/play_previous.png">&emsp;
-					<img style="width: 40px;height: 40px" title="P键--暂停/播放" id="pause" alt="" onclick="pause_play()" src="../image/play.png">&emsp;
-				    <img style="width: 40px;height: 40px" title="右键--下一曲" onclick="next()" alt="" src="../image/play_next.png">
-					<img id="mode" title="顺序播放--C键切换" style="width:50px;height:60px;" src="../image/play_random.png" onclick="change()">
-					<progress title="A键---快退10秒,D键---快进10秒;Q键---快退5秒,E键---快进5秒" style="width:566px;height:10px" draggable="false" id="pro" value="0" max="100"></progress>
+					<img style="width: 40px;height: 40px" title="Alt+左键--上一曲" onclick="preview()" alt="" src="../image/play_previous.png">&emsp;
+					<img style="width: 40px;height: 40px" title="Alt+P键--暂停/播放" id="pause" alt="" onclick="pause_play()" src="../image/play.png">&emsp;
+				    <img style="width: 40px;height: 40px" title="Alt+右键--下一曲" onclick="next()" alt="" src="../image/play_next.png">
+					<img id="mode" title="顺序播放--Alt+C键切换" style="width:50px;height:60px;" src="../image/play_random.png" onclick="change()">
+					<progress title="Alt+A键---快退10秒,D键---快进10秒;Q键---快退5秒,E键---快进5秒" style="width:566px;height:10px" draggable="false" id="pro" value="0" max="100"></progress>
 					<span id="time" class="time" title="已播放/总时长" style="color:white"></span>
-					<a onclick="minus()" class="minus" title="下键--音量减">一</a>
+					<a onclick="minus()" class="minus" title="Alt+下键--音量减">一</a>
 					<progress style="width:90px;" draggable="false" id="voice" value="100" max="100"></progress>
-					<a onclick="add()" class="add" title="上键--音量加">✚</a>
-					<span onclick="showHide()" title="Ctrl+shift+S"  style="color:white" id="sah">显示</span>
+					<a onclick="add()" class="add" title="Alt+上键--音量加">✚</a>
+					<span onclick="showHide()" title="Alt+S"  style="color:white" id="sah">显示</span>
 					&emsp;
 					<span id="lock" onclick="fixBottom()" style="display: inline-block;"><i class="Hui-iconfont" style="font-size: 15px">&#xe605;</i></span><!-- 锁定：&#xe60e; 解锁：&#xe605;-->
 					<span id="unlock" onclick="unfixBottom()" style="display:none;"><i class="Hui-iconfont" style="font-size: 15px">&#xe60e;</i></span>

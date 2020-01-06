@@ -403,7 +403,9 @@ function loadInfo(){
 			var data=res.result;
 			var sex=data.uuserSex+"";//性别：1男，2女
 			var showNum=data.uShowWordnum+"";//是否显示日记字数
-			var perpageNum=data.perpageNum+"";//
+			var perpageNum=data.perpageNum+"";//每页展示日记数量
+			var homesongName=data.homeSongName+"";
+			var homesong=data.uhomeSong+"";
 			
 			var blackNameIds=data.blackNameList+"";//用户id
 			var blackIds=blackNameIds.split(",");
@@ -424,7 +426,6 @@ function loadInfo(){
 				string=string+"<input type='radio' onchange='saveInfo(7,0)' name='sex'>女</input></span><br>";
 			}
 			
-			//string=string+"<span>家歌选择：</span><font color='red'>"+data.uhomeSong+"</font><i class=\"Hui-iconfont\">&#xe6df;</i>(其他用户访问你的家园时会播放家歌)<br>";
 			if(showNum=="1"){
 				string=string+"<span>首页显示日记字数:<input type='radio' onchange='saveInfo(6,1)' name='wordsize' value='' checked='true'>显示</input>";
 				string=string+"<input type='radio' onchange='saveInfo(6,0)' name='wordsize' value=''>隐藏</input></span>";
@@ -456,6 +457,14 @@ function loadInfo(){
 			for(var key in blackIds){
 				string=string+"<a onclick='removeFromList(\""+blackIds[key]+"\",\""+blacks[key]+"\")' style='color:red'>"+blacks[key]+"</a>&emsp;&emsp;";
 			}
+			string=string+"</span><br>";
+			
+			string=string+"<span>家歌选择(其他用户访问你的家园时会播放家歌)：";
+			string=string+"<input name='homesongName' id='songName' readonly value='"+homesongName+"'>";
+			string=string+"<input name='homesong' style='display: none' id='sourceId' readonly value='"+homesong+"'>";
+			string=string+"<a onclick='openMusic()' title='点击搜索歌曲'><font color='red'>切换</font></a>&emsp;";
+			string=string+"<a id='clearBtn' style='display:none' onClick='clearSong()'>清空所选歌曲</a>&emsp;";
+			string=string+"<i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(9)' title='点击保存'>&#xe676;</i>";
 			string=string+"</span><br>";
 			string=string+"<span>音频自动播放(日记音频及用户家歌)：</span>";
 			var play=data.autoPlay;
@@ -499,6 +508,8 @@ function saveInfo(which,value){
 		url=url+"&UUserSex="+value;
 	}else if(t=="8"){//每页加载日记篇数
 		url=url+"&perpageNum="+value;
+	}else if(t=="9"){//家歌
+		url=url+"&UHomeSong="+document.info.homesong.value;
 	}
 	
 	$.ajax({
@@ -546,7 +557,7 @@ function loadMyAtten(){
 					$("#myDiary").append("<center>你共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
 				}
 				for(var i=0;i<data.length;i++){
-					$("#myDiary").append("<div class='notice'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					$("#myDiary").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
 					
 				}
 			}else{
@@ -629,7 +640,8 @@ function loadMyCom(){
 				$("#myDiary").append("<div class='notice'><center>你还没有评论过别人的日记喔，快去评论别人的日记吧！</center></div>");
 			}
 			for(var i=0;i<res.length;i++){
-				$("#myDiary").append("<div class='notice'>你评论了<a href='author.html?author="+res[i].reviewed+"' target='_blank'>"+res[i].viewedName+"</a>&emsp;的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
+				var con=res[i].reviewCon+"";
+				$("#myDiary").append("<div class='notice'>你评论了<a href='author.html?author="+res[i].reviewed+"' target='_blank'>"+res[i].viewedName+"</a>&emsp;的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>&emsp;<font style='color:gray;font-size:5px;'>"+con+"</font><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 			}
 		}
 	});
@@ -665,7 +677,7 @@ function loadMyFans(){
 					$("#myDiary").append("<center>共<font color='red' size='2px'>"+data.length+"</font>个小伙伴关注了你</center>");
 				}
 				for(var i=0;i<data.length;i++){
-					$("#myDiary").append("<div class='notice'><a href='author.html?author="+data[i].noticerId+"' target='_blank'>"+data[i].noticerName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					$("#myDiary").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticerId+"' target='_blank'>"+data[i].noticerName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
 					
 				}
 			}else{

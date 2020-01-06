@@ -7,6 +7,7 @@ import com.longbro.note.bean.CommentDiary;
 import com.longbro.note.dao.CommentDiaryDao;
 import com.longbro.common.BaseDao;
 
+import org.apache.ibatis.annotations.Options;
 import org.springframework.stereotype.Repository;
 /**
  * 描述：日记评论表 
@@ -20,9 +21,11 @@ public class CommentDiaryDao extends BaseDao{
 	public String getNamespace() {
 		return CommentDiary.class.getName();
 	}
-	public void create(CommentDiary bean) {
+//	@Options(useGeneratedKeys = true, keyProperty = "CId", keyColumn = "c_Id")
+	public int create(CommentDiary bean) {
 		// TODO Auto-generated method stub
 		this.insert(getNamespace()+".create", bean);
+		return bean.getCId();
 	}
 	public List<HashMap<String, String>> getComByDiaryId(int id) {
 		return this.selectList(getNamespace()+".get",id);

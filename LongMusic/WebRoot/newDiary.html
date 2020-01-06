@@ -192,7 +192,15 @@
 						<option value="4">深度好文</option>
 					</select>
 	<br><a onClick="writeNote();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i>发布</a>							
-		
+	<div id="songSelect" style="display:none">
+		歌曲：
+		<a onClick="openMusic();" class="btn btn-primary radius" type="submit">搜索</a>
+		<a id="clearBtn" style="display:none" class="btn btn-primary radius" type="submit">清空所选歌曲</a>
+		<div class="formControls col-xs-8 col-sm-6">
+			<input id="songName" readonly="readonly" name="songName" type="text" class="input-text" value="" placeholder="给你的日记选首音乐吧^-^(可空)->点击右侧按钮搜索歌曲">
+			<input id="sourceId" style="display: none" readonly="readonly" name="sourceId" type="text" class="input-text" value="" placeholder="">
+		</div>
+	</div>
 	</form>
 </div>
 

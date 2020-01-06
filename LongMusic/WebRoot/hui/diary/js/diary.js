@@ -60,7 +60,7 @@ function loadDiary(id){
 				//<i class=\"Hui-iconfont\">&#xe66e;</i>18&nbsp;
 				
 				$("#diary").append("<h2><center>"+title1+"</center></h2>"
-						+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openAuthor(\""+data.userName+"\")'>"+data.userName
+						+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer'>"+data.userName
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data.ntime
 						+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data.ntitle+"'>《"+title+"》</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i>"+data.nlocation
 						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i><span id='browseNum'>"+data.visitNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"
@@ -127,7 +127,7 @@ function handleCon(content){
  * @param author
  */
 function openAuthor(author){
-	alert(author);
+	//alert(author);
 }
 /**
  * 6.判断当前登录人是否已点赞、收藏该日记，并对图标做修改
@@ -326,6 +326,7 @@ function submit_comment(){
 	}
 //	alert(id);//当前被评论日记的id
 //	alert(author);//被评论日记的作者
+	var cid="";
 	$.ajax({
 		url:"note/comment/commentDiary.do",
 		type:"get",
@@ -336,11 +337,36 @@ function submit_comment(){
 			CComment:con,
 			CReviewed:author
 		},
-		success:function(){
-			alert("评论成功，请勿重复提交！");
+		dataType:"Json",
+		success:function(res){
+			cid=res.result;
+			alert(res.message);
 		}
 	});
+	alert(cid);//评论id
+	var at=$("#calledFri").text()+"";//@的人
+	if(at.indexOf("、")!=-1){
+		$.ajax({
+			url:"note/call/callFriend.do",
+			type:"get",
+			async:false,
+			data:{
+				AAtorUser:user==""?"":user,
+				AType:1,
+				ADiary:id,
+				AAtedUser:at
+			},
+			dataType:"Json",
+			success:function(res){
+				cid=res.result;
+				alert(res.message);
+			}
+		});
+	}
+	
 	loadCom();
+	$("#content").val("");
+	$("#calledFri").text("");
 }
 /**
  * 12.加载当前文章的评论
@@ -356,6 +382,7 @@ function loadCom(){
 			if(data.length<1){
 				$('#comments').append("<center>嗨，留下你的神评呗^_^，一楼属于你哒</center>");
 			}
+			var l=data.length;
 			for(var k=0;k<data.length;k++){
 				var con=data[k].reviewContent;
 				con=con.replace(new RegExp("::::","gm"), ".jpg'>");
@@ -369,11 +396,17 @@ function loadCom(){
 				
 				$('#comments').append("<hr>");
 				var href="某本站访客";
+				var img="dlam";
 				if(data[k].reviewer!=''){
-					href="<a href='author.html?author="+data[k].reviewer+"' target='_blank'>"+data[k].reviewerName+"</a>";
+					href="<a href='author.html?author="+data[k].reviewer+"' target='_blank'>"+data[k].reviewerName+"</a>&emsp;&emsp;<span style='color:gray;font-size:1px'>"+l+"L</span>";
 				}
-				$('#comments').append(href+"&nbsp;&nbsp;<span style='color:gray;font-size:10px;'>"+data[k].reviewTime+"</span>");
+				if(data[k].headImg){
+					img=data[k].headImg;
+				}
+				$('#comments').append("<img src='image/tx/"+img+".jpg'>");
+				$('#comments').append(href+"&nbsp;&nbsp;<span style='color:gray;font-size:10px;float:right;margin-right:20px'>"+data[k].reviewTime+"</span>");
 				$('#comments').append("<br>"+con);
+				l--;
 			}
 			
 		}
@@ -447,6 +480,8 @@ function addVisitRecord(id){
 }
 //17.@函数--登录用户方可使用
 function callFriend(){
+	$("#myAtten").text('');
+	$("#searchSong").css("display","inline-block");
 	$.ajax({
 		url:"note/notice/getMyAtten.do?userId="+user,
 		type:"get",
@@ -458,10 +493,12 @@ function callFriend(){
 				if(data.length<1){
 					alert("只能@你关注的人喔，请先去关注后再来@啦");
 				}else{
-					$("#myDiary").append("<center>你共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
+					$("#myAtten").append("<center>你共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
 				}
 				for(var i=0;i<data.length;i++){
-					$("#myDiary").append("<div class='notice'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					$("#myAtten").append("<a href='author.html?author="+data[i].noticedId+
+					"' target='_blank'>"+data[i].noticedName+"</a>&emsp;<font color='red' size='2px'><span onclick='athim(\""+
+					data[i].noticedId+"\",\""+data[i].noticedName+"\")'>@他</span></font><hr>");
 					
 				}
 			}else{
@@ -470,3 +507,25 @@ function callFriend(){
 		}
 	});
 }
+function athim(ated,atedName){
+	var con=$("#content").val();
+	var at=$("#calledFri").text()+"";
+	var i=at.split("、");
+	if(at.indexOf(ated)!=-1){
+		alert("你已@过这个朋友啦");
+		return;
+	}
+	if(i.length==3){
+		alert("单条评论最多可以@两个朋友");
+		return;
+	}
+	$("#content").val(con+"@"+atedName+"  ");
+//	$("#calledFri").append("<font title='点击取消@' onclick='cancelAt("+ated+")'>"+ated+"</font>、");
+	$("#calledFri").append(ated+"、");
+	closeSearch();
+}
+/*function cancelAt(ated){
+	var at=$("#calledFri").text()+"";
+	alert(at)
+	$("#calledFri").text(at.replace(ated+"、",""));
+}*/

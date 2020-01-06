@@ -9,3 +9,15 @@ body{
 	cursor: pointer;
 	left: 95%;
 }
+#searchSong::-webkit-scrollbar {
+   	display: none;
+}
+#searchSong input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 1px 0;
+  box-sizing: border-box;
+  border: none;
+  background-color: gray;
+  color: white;
+}
