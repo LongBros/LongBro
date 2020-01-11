@@ -1,0 +1,233 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<title>哆啦网-记录你生活的点点滴滴</title>
+<meta name="keywords" content="哆啦网,哆啦日记首页,哆啦日记">
+<meta name="description" content="哆啦网,是一个以记录生活、工作、心情等为主题的网站,记录形式主要以文本、音频为主;它不仅仅是怀旧,更想为你记录你生活的点点滴滴。哆啦日记，做全网最有意思、最有用的日记记录网站。">
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="image/logo/dlam.jpg" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="css/index1.css">
+<link rel="stylesheet" type="text/css" href="hui/diary/css/index1.css"><!-- 首页 -->
+<link rel="stylesheet" type="text/css" href="hui/diary/css/index.css"><!-- 回顶部 -->
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="hui/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/css/style.css" />
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="hui/diary/js/index.js"></script>
+<script type="text/javascript" src="hui/diary/js/index1.js"></script>
+
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+</head>
+<body id="bodys" style="background:url(res/images/back/back3.jpg)">
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/">哆啦网</a> 
+		<a class="logo navbar-logo-m f-l mr-10 visible-xs" href="newDiary.html">写日记</a> 
+			<span class="logo navbar-slogan f-l mr-10 hidden-xs">Doranote</span> 
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" onclick="loginPhone()" id="loginMobile">登录</a>
+				<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+			<ul class="cl">
+				<!-- <li><a href="new.html">写日记</a></li> -->
+				<li class="dropDown dropDown_hover">
+					<a href="#" class="dropDown_A"><span id="image">admin</span> <i class="Hui-iconfont">&#xe6d5;</i></a>
+					<ul class="dropDown-menu menu radius box-shadow">
+						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
+						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
+						<li><a href="javascript:;" id="alarm" style="" onClick="openNewPage('4')">553Music</a></li>
+						<li><a href="http://112.74.173.44/LongMusic/index0.jsp" target="_blank">哆啦闹铃</a></li>
+						<li><a href="http://blog.duola.vip/msgboard.jsp" target="_blank">每日一句</a></li>
+						<li><a href="http://www.17419.vip/" target="_blank">17419</a></li>
+						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
+						<li><a class="login" id="login" style="display:block">登录</a></li>
+					</ul>
+				</li>
+				<li id="Hui-msg" class="dropDown right dropDown_hover"> <a href="#" title="消息"><span class="badge badge-danger" id="unReadNum"></span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> 
+					<ul class="dropDown-menu menu radius box-shadow">
+						<li><a href="message.html?tab=0" data-val="red" title="公告数目">公告<font color="red"><span id="advNum"></span></font></a></li>
+						<li><a href="message.html?tab=2" target='_blank' data-val="default" title="评论数目">评论<font color="red"><span id="comNum"></span></font></a></li>
+						<li><a href="message.html?tab=3" target='_blank' data-val="blue" title="获赞数目">获赞<font color="red"><span id="praiseNum"></span></font></a></li>
+						<li><a href="message.html?tab=1" target='_blank' data-val="green" title="关注数目">关注<font color="red"><span id="noticeNum"></span></font></a></li>
+						<li><a href="javascript:;" data-val="yellow" title="点击后消息标记为已读" id="cleanBtn" style="display:none" onclick="setAsReaded()">朕已阅✔</a></li>
+						<li><a href="message.html?tab=5" target='_blank'data-val="yellow" title="消息设置">设置</a></li>
+					</ul>
+				</li>
+				<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+					<ul class="dropDown-menu menu radius box-shadow">
+						<li><a href="javascript:;" data-val="default" title="黑色">默认（黑色）</a></li>
+						<li><a href="javascript:;" data-val="blue" title="默认（蓝色）">蓝色</a></li>
+						<li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+						<li><a href="javascript:;" data-val="red" title="红色">红色</a></li>
+						<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+						<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>
+</header>
+
+<div class="modal fade" id="loginModal" style="display:none;">
+			<div class="modal-dialog modal-sm" style="width:540px;">
+				<div class="modal-content" style="border:none;">
+					<div class="col-left"></div>
+					<div class="col-right">
+						<div class="modal-header">
+							<button type="button" id="login_close" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="loginModalLabel" style="font-size: 18px;">
+								<span onclick="loginOrRegister(0)">登录</span>&emsp;&emsp;
+								<span onclick="loginOrRegister(1)">注册</span>
+							</h4>
+						</div>
+						<div class="modal-body">
+							<section class="box-login v5-input-txt" id="box-login">
+								<div id="loginBox">
+									<form id="login_form" name="login_form" action="" method="post" autocomplete="off">
+									<ul>
+										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入哆啦id" type="text"></li><br>
+										<li class="form-group"><input class="form-control" id="id_password_l" name="password_l" placeholder="请输入密码" type="password"></li>
+									</ul>
+									</form>
+									<p class="good-tips marginB10"><a id="btnForgetpsw" class="fr"><!-- 忘记密码？ --></a>还没有账号？<a href="javascript:;" onclick="loginOrRegister(1)" target="_blank" id="btnRegister">立即注册</a></p>
+									 <div class="login-box marginB10">
+										<button id="login_btn" type="button" onclick="login()" class="btn btn-micv5 btn-block globalLogin">登录</button>
+										<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+									</div>
+								</div>
+								<div id="registerBox" style="display:none">
+									<form id="register_form" name="register_form" action="" method="post" autocomplete="off">
+										<ul>
+											<li class="form-group"><input class="form-control" id="id_dora_r" maxlength="8" name="dora_r" placeholder="请输入哆啦id" type="text"></li>
+											<li class="form-group"><input class="form-control" id="id_userName_r" maxlength="20" name="userName_r" placeholder="请输入用户名" type="text"></li>
+											<li class="form-group"><input class="form-control" id="id_password_r" name="password_r" placeholder="请输入密码" type="password"></li>
+											<li class="form-group"><input class="form-control" id="id_inviter_r" name="inviter_r" placeholder="请输入邀请码" type="text"></li>
+										</ul>
+									</form>
+									<div class="login-box marginB10">
+										<button id="login_btn" type="button" onclick="register()" class="btn btn-micv5 btn-block globalLogin">注册</button>
+										<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+									</div>
+								</div>
+<!-- 								<div class="threeLogin"><span>其他方式登录</span><a class="nqq" href="javascript:;"></a><a class="nwx" href="javascript:;"></a><a class="nwb"></a></div>
+ -->							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>	
+
+<div class="contents" id="contents">
+	<div class="tabs">
+		<span id="recommend" onclick="switchTab(0)" title="随机推荐几篇日记">推荐</span>
+		<span id="notice" onclick="switchTab(1)" title="你关注的人的最新10篇日记">关注</span>
+		<span id="time" onclick="switchTab(2)">时间轴</span>
+	</div>
+	<div class="pages" style="cursor: pointer;">
+	</div>
+	<div class="diarys" id="diarys">
+		<div class="diary" >
+			<center><span style="color:blue;font-size: 20px;margin-top: 20px;">如果长时间加载不出来，还请刷新一下，给你带来的不便还请见谅。<br></span></center>
+		</div>
+	</div>
+	<div class="pages" style="cursor: pointer;">
+	</div>
+</div>
+
+<div class="rights" id="rights">
+	<div class="banner">
+	<img src="image/trumpet.png">&nbsp;
+	<span id="word">
+	注册功能已于12月14日上线，欢迎各位朋友前来注册。
+	</span>
+</div>
+<br>
+	<div class="website">
+		哆啦日记，不仅仅是怀旧；哆啦日记，记录你生活的点点滴滴；哆啦日记，记录你生活的每一个
+		小细节！<br>www.duola.vip<br><br>
+	</div>
+	<!-- <div class="statistic">
+		&emsp;哆啦统计<br>在线人数：8888<br>用户数：888888<br>
+		今日笔记：88<br>总日记数：8888888<br><br>
+	</div> -->
+	<div class="newer" style="cursor: pointer;overflow: auto;">
+		<span style="color: red;font-size:20px;">1.</span><span onclick="openAuthor('1314521')">LongBros</span><br>
+		<font style="color: green;font-size:20px;">2.</font><span onclick="openAuthor('12345678')">FatLuo</span><br>
+		<font style="color: cyan;font-size:20px;">3.</font><span onclick="openAuthor('88888888')">歌词网</span><br>
+		<font style="color: black;font-size:20px;">4.</font><span onclick="openAuthor('66666666')">古诗网</span><br>
+		<font style="color: black;font-size:20px;">5.</font><span onclick="openAuthor('81912398')">Mr.Wang</span><br>
+		<font style="color: black;font-size:20px;">6.</font><span onclick="openAuthor('24972612')">Mrs.Zhang</span><br>
+		<font style="color: black;font-size:20px;">7.</font><span onclick="openAuthor('20080226')">rashrat</span><br>
+		<font style="color: black;font-size:20px;">8.</font><span onclick="openAuthor('5211314')">哆啦小子</span><br>
+		<font style="color: black;font-size:20px;">9.</font><span onclick="openAuthor('15577347')">Yigongzi</span><br>
+		<font style="color: black;font-size:20px;">10.</font><span onclick="openAuthor('20191208')">Forevermore</span><br>
+		<font style="color: black;font-size:20px;">11.</font><span onclick="openAuthor('65313340')">一只小兔几</span><br>
+	</div>
+</div>
+<div class="toTop">
+	<a href="#" title="点我回顶部喔">^^</a>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="hui/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="hui/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="hui/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="hui/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="hui/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+<script type="text/javascript">
+getUser();
+$(".login").on("click", login_popup),function() {
+    var e = [];
+    $(".modal").on("show.bs.modal",
+    function() {
+        for (var s = 0; e.length > s; s++) e[s] && (e[s].modal("hide"), e[s] = null);
+        e.push($(this));
+        var o = $(this),
+        a = o.find(".modal-dialog"),
+        t = $('<div style="display:table; width:100%; height:100%;"></div>');
+        t.html('<div style="vertical-align:middle; display:table-cell;"></div>'),
+        t.children("div").html(a),
+        o.html(t)
+    })
+} ();
+var author='';
+var user=getCookie("userId")+"";//当前登录用户
+var perPageNum=0;//已登录用户设置的显示日记篇数
+var perPage=10;//默认每页显示日记篇数
+$(function(){
+	if(user!=""){//需放到加载日记之前，以实现是否显示日记字数的设定
+		getSetting(user);//加载登录用户的设置
+	}
+	if(perPageNum!="0"){
+		perPage=perPageNum;
+	}
+	//loadDiary('index','','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
+	setPage('index','',perPage,user);//根据日记数量设置分页，参数为作者
+	switchTab(2);
+	monitor();//手机访问时隐藏左边栏目
+});
+//打开新人榜对应新人
+function openAuthor(aid){
+	window.location="author.html?author="+aid;
+	//window.open("myHome.html", "_blank")
+}
+
+</script> 
+</body>
+</html>

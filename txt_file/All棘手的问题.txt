@@ -1,0 +1,246 @@
+41138119951016421X	18620101642	6217002440004113429
+*************
+
+	
+	
+<Host name="alarm.duola.vip"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/current/index0.jsp" reloadable="true"/> 
+      </Host>
+	  
+	  
+	  
+	  
+	   <Host name="localhost"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/" reloadable="true"/> 
+      </Host>
+
+412902197305064278
+
+develop-20191028-risk-3.0
+
+2019-12-18
+getDetail接口问题(65正常，线上出问题)
+至于昨天说的图片过多的问题，我也跟国显说了下，看看是做图片数量的限制还是从技术上解决一下？
+
+select * from mysql.user;
+
+update user set password=password('123456') where user='root' and host='localhost';
+
+
+2019-12-16周一
+1.运营原始数据表中身份证号、手机号等敏感信息脱敏，原本采用将最后面的数据使用以下sql。后来发现了个问题，就是某些身份证号字段可能不止一个身份证，
+可以有多个，这个时候要多个脱敏显示，而不是只显示一个脱敏其他不显示。刚开始一直在想怎么把多个用sql的subString_index函数拆分，越想越觉得这个函数
+难以实现。后来灵机一动，因为最后面的身份证号是在前面通过groupConcat拼接起来的，去在这个拼接的地方直接脱敏后再拼接就完美解决问题了。唯一的缺点
+就是略显麻烦，有二十多个地方地方需要改(2000多行的sql)
+
+--直接修改查询出来的结果
+if(ifnull(owner_id,"")="","",concat(left(owner_id,5),"***************"))
+
+concat(left(owner_id,5),"***************")
+
+
+
+concat(left(owner_phone,3),"*****",right(owner_phone,3))
+
+
+if(ifnull(main_lender_id,"")="","",concat(left(main_lender_id,5),"***************"))
+concat(left(main_lender_id,5),"***************")
+
+
+
+if(ifnull(second_lender_id,"")="","",concat(left(second_lender_id,5),"***************"))
+
+4/5/8/4
+
+
+
+--修改查询过程中的数据
+concat(left(sb.F_PHONE,3),"*****",right(sb.F_PHONE,3))
+
+if(ifnull(sb.F_PHONE,"")="","",concat(left(sb.F_PHONE,3),"*****",right(sb.F_PHONE,3)))
+
+
+concat(left(sb.F_ORGANIZATION_PHONE,3),"*****",right(sb.F_ORGANIZATION_PHONE,3))
+
+if(ifnull(sb.F_ORGANIZATION_PHONE,"")="","",concat(left(sb.F_ORGANIZATION_PHONE,3),"*****",right(sb.F_ORGANIZATION_PHONE,3)))
+
+2019-12-09周一
+1.银行转介表总宗数与我司+银行宗数不相等问题
+show variables like 'group_concat_max_len' ;-- 查看长度
+
+SET GLOBAL group_concat_max_len = 102400; -- 修改长度
+
+SET SESSION group_concat_max_len=102400; -- 用session让上述改动立即生效
+
+12-06周五
+
+1.调用存储过程方法(以银行转介表为例)---若想得到存储过程对应的查询语句，可在存储过程尾部加上 SELECT @selectSql;
+SET @a=NULL;
+SET @b=NULL;
+SET @c=NULL;
+SET @d=NULL;
+SET @e=NULL;
+SET @f=NULL;
+SET @g='2530000022937712';
+SET @h=0;
+SET @i=100;
+SET @j=-1;
+SET @k=1;
+SET @l=null;
+
+CALL proc_report3_0_business_statistics_BankReferral(@a,@b,@c,@d,@e,@f,@g,@h,@i,@j,@k,@l);
+
+2.测试服运营原始数据表在sadmin正常，而统计表机构报了500，报的错是：[Err] 1292 - Truncated incorrect DOUBLE value: '商业贷款'
+在数据库中调用存储过程，传入sadmin的账号正常，传统计表机构的账号也是报的这个错误。
+分析后发现如下所示，下方的第二行的2、3、7没有加引号，加上引号之后就好了。但是原本2、3也没加引号就没事啊，所以太奇怪了
+if(wci.F_LOAN_TYPE ="1" or wci.F_LOAN_TYPE ="3" or wci.F_LOAN_TYPE ="4" or wci.F_LOAN_TYPE ="5" or wci.F_LOAN_TYPE ="7",if(ifnull(wci.F_BUS_LOAN_AMOUNT,"")="",0,wci.F_BUS_LOAN_AMOUNT),0) busLoanAmount,
+if(wci.F_LOAN_TYPE = "2" or wci.F_LOAN_TYPE ="3" or wci.F_LOAN_TYPE ="7",IF(IFNULL(wci.F_HFUND_LOAN_AMOUNT,"")="",0,wci.F_HFUND_LOAN_AMOUNT),0) hfundLoanAmount,
+3.银行转介表测试服正常，验收服报500的问题，没有打印错误日志，浏览器里面就能看到个null，调用存储过程也是正常的---后来在本地连了验收服务器，发现是有些案件的部门名称为空导致的
+  这个问题之前是出现过的。
+4.cp -rf LongMusic $(date +%Y%m%d_%H%M%S)		该Linux命令可实现将项目复制成以当前时间命名的文件
+
+11-28周四
+1.为给APP边案件添加案件进度的筛选，了解到mybatis的一个使用点。如下必须是外面单引号，里面双引号，否则会报numberFormatException
+<if test='taskNodesName=="" or taskNodesName==null or taskNodesName=="等" or taskNodesName=="等待" or taskNodesName=="等待签" or taskNodesName=="等待签约" or taskNodesName=="待" or taskNodesName=="待签"
+                    or taskNodesName=="待签约"  or taskNodesName=="签" or taskNodesName=="签约" or taskNodesName=="约" '>
+
+
+11-27为了解决类型为机构时仍显示人号码的问题，修改了其接口的xml文件，但后来造成了很大的问题(FlowScript中也调用了该接口，这里为机构时也取个人的号码)
+
+
+11-26周二
+从当前页到另一页，如何做到在另一页被关闭后返回到当前页时刷新当前页
+
+11-25周一
+如何使已有案号的APP边案件签件后不再生成案号：在前端中向Wcaseinfo中传入案号，在FlowScript的setCaseNumber脚本中添加代码
+
+
+
+11-21周四
+在将APP那边的案件使用union并到BPM的待处理列表中时，出现了字段与字段对应不上的问题，
+比如“创建时间”跑到”风控产品“那里，后来想了想，又在网上搜了搜，发现union的使用不仅
+要将两边的字段对应，顺序也要对应，比如：one,two,three union one,three,two就会导致数据错乱，可参见taskMgr.map.xml
+
+11-13
+关于系统参数-"aj.order.onoff"的修改：直接修改数据库和通过浏览器修改不一样，通过浏览器修改会存入缓存中，
+程序中是从缓存取的，所以导致从数据库修改效果一点儿也没改。
+
+
+
+2019091100001
+签约	1
+案件配置	2
+评估	3
+跟件	4
+录入	5
+审核	6
+递件	7
+派单	8
+网签	9
+公证	10
+复核	11
+银行审批	12
+终评	13
+合同	14
+预约递件	15
+审核递件	16
+送放款	19
+放款	20
+结案	21
+业务审批	22
+委托确认书	23
+
+
+IDEA快捷键：
+1.Alt+上键/下键可快速切换类中的方法
+2.双击Enter可唤起文件查找窗口
+3.Ctrl+Z撤销，Ctrl+Shift+Z取消撤销
+
+四期优化项：9,10,11，13,18,19，30，31，34
+
+涉及前端新版界面：2,3,17,20,24，27
+取消优化的：5,8,15,16
+涉及流程的：6,25,29，33
+2019-10-23
+签件界面选择组合贷款时出现rollback错误
+
+2019-10-17
+eclipse或Myeclipse中web项目没有run on server
+刷新web项目，在项目->右击->Properties->Project Facets->Modify Project，选择Java和Dynamic Web Module。点击ok关闭。
+
+
+alc20191017		MyEclipse
+alc201910171	Intell idea
+
+解决tomcat控制台乱码问题
+
+打开tomcat/conf/logging.properties
+找到java.util.logging.ConsoleHandler.encoding = UTF-8
+修改为java.util.logging.ConsoleHandler.encoding = GBK
+
+
+2019-10-11
+指派的效果没有达到，并不是因为只改了bpm_inst_user没改act_ru_task。
+而是只改了bpm_inst_user中的派单节点的用户，没有改递件节点。所以指派后的递件人员还是原本的
+
+目前采用前端传递件的nodeid而非派单的
+
+2019-10-10
+担保业务占比选择全部产品后报json is error以及500。
+是因为全部产品字段超过1000，而存储过程设置的是1000，改为10000后就好了
+
+2019-10-08
+不知道怎么回事，在本地运行出现了部分乱码（主要为js和css代码）的情况。数据也加载不出来
+后经关荣帮忙找到是tomcat版本的问题，从tomcat8改为tomcat8Custom(自己配置的)后问题解决
+
+
+6.
+09-18银行转介表的总宗数与银行和我司宗数和相差较多，是group_concat拼接ID时导致的
+数据库：GROUP_CONCAT 这个词是有默认长度的，最大1024，如果拼接的长度过长，就会被自动截取，所以需要修改数据库配置文件，把长度设大一点
+
+5.
+09-18送审汇总表的合计项突然消失了，关荣帮忙找到问题所在并解决：界面中typeId未删除，导致查询总和时传了typeId，而数据库中并无该typeID对应数据
+
+4.送审明细表合计项开发、测试、验收均正常，但65上却出现都为0的情况。应该是数据类型使用double的原因，应用BigDecimal
+
+1.报表在做合计项时出现合计项时而出现时而消失的情况
+
+2.用户根据工作职责搜索时，因工作职责搜索条件可多选，只要满足一个的用户就应该搜索出来
+比如搜索条件选择签约、评估、复核；数据库中某用户的职责为：签约、跟件，他就应该被搜索出来
+
+3.报表的类型设置中出现有时黄总数据保存后为空的情况。后来分析后是如果进入后黄总的数据不动的话，就会默认被清除。然后相继解决掉了。
+
+
+
+
+
+
+
+启动tomcat权限不够解决办法
+
+在tomcat所在目录下使用命令：sudo chmod -R 777 apache-tomcat-8.0.53
+
+ source /etc/profile
+ 
+ 
+ 
+ tar.xz解压为tar
+ xz -d mysql-8.0.17-linux-glibc2.12-i686.tar.xz
+ 解压tar
+ tar xvf mysql-8.0.17-linux-glibc2.12-i686.tar
+ 
+ df	占用
+ du -sh *	列出文件占用空间
+ 
+ rpm -qa | grep -i mysql
+ 
+ 使用软链接指向到：	ln -s /usr/local/mysql/mysql.sock /tmp/mysql.sock
+ 

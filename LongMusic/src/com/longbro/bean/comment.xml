@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.bean.comment">
+	<insert id="addComment" parameterType="java.util.HashMap">
+		INSERT INTO `music`.`comment` (`c_Type`, `c_Reviewed`, `c_Content`, `c_Time`, `c_Reviewer`, `c_Ip`, `c_Address`) 
+		VALUES (#{c_Type},#{c_Reviewed},#{c_Content},#{c_Time},#{c_Reviewer},#{c_Ip},#{c_Address});
+	</insert>
+	<select id="queryComment"  resultType="java.util.HashMap">
+		select * from comment 
+		where 1=1
+		<if test="c_Type!=null and c_Type!='' and c_Type!='-1'"><!-- c_Type=-1时查询所有数据 -->
+			and c_Type=#{c_Type} 
+		</if>
+		<if test="c_Reviewed!=null and c_Reviewed!=''">
+			and c_Reviewed=#{c_Reviewed};
+		</if>
+	</select>
+</mapper>
+	

@@ -1,0 +1,23 @@
+body{
+	/*background: url("../../../res/images/back/back3.jpg");
+	 background-color: #e2e2e2; */
+}
+.toTop{
+	position: fixed;
+	bottom: 20px;
+	float: right;
+	cursor: pointer;
+	left: 95%;
+}
+#searchSong::-webkit-scrollbar {
+   	display: none;
+}
+#searchSong input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 1px 0;
+  box-sizing: border-box;
+  border: none;
+  background-color: gray;
+  color: white;
+}

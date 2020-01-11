@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.CommentDiary">
+	<resultMap id="CommentDiary" type="com.longbro.note.bean.CommentDiary">
+		<id property="CId" column="c_Id" jdbcType="NUMERIC"/>
+		<result property="CReviewedDiary" column="c_Reviewed_Diary" jdbcType="VARCHAR"/>
+		<result property="CComment" column="c_Comment" jdbcType="VARCHAR"/>
+		<result property="CReviewer" column="c_Reviewer" jdbcType="VARCHAR"/>
+		<result property="CReviewed" column="c_Reviewed" jdbcType="VARCHAR"/>
+		<result property="CReviewTime" column="c_Review_Time" jdbcType="VARCHAR"/>
+		<result property="CReadStatus" column="c_Read_Status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.CommentDiary">
+		<selectKey resultType="java.lang.Integer" keyProperty="CId" >
+            SELECT @@IDENTITY AS ID
+        </selectKey>
+        INSERT INTO d_comment
+		(c_Id,c_Reviewed_Diary,c_Comment,c_Reviewer,c_Reviewed,c_Review_Time,c_Read_Status)
+		VALUES 
+		(#{CId,jdbcType=NUMERIC}, #{CReviewedDiary,jdbcType=VARCHAR}, #{CComment,jdbcType=VARCHAR}, #{CReviewer,jdbcType=VARCHAR}, #{CReviewed,jdbcType=VARCHAR}, #{CReviewTime,jdbcType=VARCHAR}, #{CReadStatus,jdbcType=NUMERIC})
+		
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.Integer" resultType="java.util.HashMap">
+		SELECT dc.c_Id reviewId,dc.c_Reviewed_Diary reviewedDiary,dc.c_Comment reviewContent,dc.c_Reviewer reviewer,
+			 dc.c_Reviewed reviewed,dc.c_Review_Time reviewTime,dc.c_Read_Status readStatus,
+			 dui.u_User_Name reviewerName,dui.u_Head_Image headImg
+		FROM d_comment dc
+		LEFT JOIN d_user_info dui on dc.c_Reviewer=dui.u_User_Id
+		WHERE 
+		dc.c_Reviewed_Diary=#{id} order by dc.c_Review_Time desc;
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="CommentDiary">
+		SELECT * FROM d_comment
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY c_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.CommentDiary">
+		UPDATE d_comment
+        <set>
+			<if test="CReviewedDiary != null">
+				c_Reviewed_Diary=#{CReviewedDiary,jdbcType=VARCHAR},
+			</if>
+			<if test="CComment != null">
+				c_Comment=#{CComment,jdbcType=VARCHAR},
+			</if>
+			<if test="CReviewer != null">
+				c_Reviewer=#{CReviewer,jdbcType=VARCHAR},
+			</if>
+			<if test="CReviewed != null">
+				c_Reviewed=#{CReviewed,jdbcType=VARCHAR},
+			</if>
+			<if test="CReviewTime != null">
+				c_Review_Time=#{CReviewTime,jdbcType=VARCHAR},
+			</if>
+			<if test="CReadStatus != null">
+				c_Read_Status=#{CReadStatus,jdbcType=NUMERIC}
+			</if>
+		</set>
+		WHERE
+		c_Id=#{CId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM d_comment 
+		WHERE
+		c_Id=#{CId}
+	</delete>
+	<update id="setAsReaded">
+		UPDATE d_comment SET c_Read_Status=1 WHERE c_Reviewed=#{_parameter} AND c_Read_Status=0;
+	</update>
+	<!-- 2019-12-03得到某用户日记被评论的消息 -->
+	<select id="getMyMessage" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select dc.c_Reviewed_Diary diaryId,dc.c_Reviewer reviewer,dc.c_Comment reviewCon,
+				dc.c_Review_Time reviewTime,dc.c_Read_Status readStatus,
+				dui.u_User_Name viewerName,dd.n_Title diaryTitle
+		from d_comment dc
+		LEFT JOIN d_user_info dui ON dc.c_Reviewer=dui.u_User_Id
+		LEFT JOIN d_diary dd ON dc.c_Reviewed_Diary=dd.n_Id
+	    WHERE dc.c_Reviewed=#{userId}
+	    order by dc.c_Review_Time desc
+	    ;
+	</select>
+	<!--2019-12-03 得到某用户的评论 -->
+	<select id="getMyComment" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select dc.c_Reviewed_Diary diaryId,dc.c_Reviewed reviewed,dc.c_Comment reviewCon,
+				dc.c_Review_Time reviewTime,dc.c_Read_Status readStatus,
+				dui.u_User_Name viewedName,dd.n_Title diaryTitle
+		from d_comment dc
+		LEFT JOIN d_user_info dui ON dc.c_Reviewed=dui.u_User_Id
+		LEFT JOIN d_diary dd ON dc.c_Reviewed_Diary=dd.n_Id
+	    WHERE dc.c_Reviewer=#{userId}
+	    order by dc.c_Review_Time desc
+ 		;
+	</select>
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.bean.Alarm">
+	<resultMap id="Alarm" type="com.longbro.bean.Alarm">
+		<id property="AId" column="a_Id" jdbcType="NUMERIC"/>
+		<result property="AUserid" column="a_UserId" jdbcType="VARCHAR"/>
+		<result property="ATime" column="a_Time" jdbcType="VARCHAR"/>
+		<result property="ATips" column="a_Tips" jdbcType="VARCHAR"/>
+		<result property="AMusic" column="a_Music" jdbcType="VARCHAR"/>
+		<result property="AStatus" column="a_Status" jdbcType="NUMERIC"/>
+		<result property="ACreatetime" column="a_CreateTime" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.bean.Alarm">
+		INSERT INTO alarm
+		(a_Id,a_UserId,a_Time,a_Tips,a_Music,a_Status,a_CreateTime)
+		VALUES 
+		(#{AId,jdbcType=NUMERIC}, #{AUserid,jdbcType=VARCHAR}, #{ATime,jdbcType=VARCHAR}, #{ATips,jdbcType=VARCHAR}, #{AMusic,jdbcType=VARCHAR}, #{AStatus,jdbcType=NUMERIC}, #{ACreatetime,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="Alarm">
+		SELECT * FROM alarm 
+		WHERE 
+		a_Id=#{AId}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="Alarm">
+		SELECT * FROM alarm
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY a_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.bean.Alarm">
+		UPDATE alarm
+        <set>
+			<if test="AUserid != null">
+				a_UserId=#{AUserid,jdbcType=VARCHAR},
+			</if>
+			<if test="ATime != null">
+				a_Time=#{ATime,jdbcType=VARCHAR},
+			</if>
+			<if test="ATips != null">
+				a_Tips=#{ATips,jdbcType=VARCHAR},
+			</if>
+			<if test="AMusic != null">
+				a_Music=#{AMusic,jdbcType=VARCHAR},
+			</if>
+			<if test="AStatus != null">
+				a_Status=#{AStatus,jdbcType=NUMERIC},
+			</if>
+			<if test="ACreatetime != null">
+				a_CreateTime=#{ACreatetime,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE
+		a_Id=#{AId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM alarm 
+		WHERE
+		a_Id=#{AId}
+	</delete>
+	<!-- 根据用户id得到其设置的所有闹铃（开启状态） -->
+	<select id="getAlarmByUserId" parameterType="java.lang.String" resultMap="Alarm">
+		select * from alarm where a_UserId=#{userId} and a_Status=0 order by a_Time asc;
+	</select>
+	<!--  根据用户id和闹铃时间得到数量，根据数量判断某用户是否设置某个闹铃 -->
+	<select id="getAlarmNums" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) 
+		from alarm 
+		where 1=1
+		<if test="userId!=null and userId!=''">
+			and a_UserId=#{userId}
+		</if>
+		<if test="time!=null and time!=''">
+			and a_Time=#{time} and a_Status=0<!-- 参数不为空时指定查启用状态的 -->
+		</if>
+		;
+		
+	</select>
+	<update id="updateAStatusById">
+		update alarm set a_Status=1 where a_Id=#{aId}
+	</update>
+</mapper>

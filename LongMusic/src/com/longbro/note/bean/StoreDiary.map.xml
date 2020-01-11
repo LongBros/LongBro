@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.StoreDiary">
+	<resultMap id="StoreDiary" type="com.longbro.note.bean.StoreDiary">
+		<id property="SId" column="s_Id" jdbcType="NUMERIC"/>
+		<result property="SDiary" column="s_Diary" jdbcType="VARCHAR"/>
+		<result property="SStorer" column="s_Storer" jdbcType="VARCHAR"/>
+		<result property="SStored" column="s_Stored" jdbcType="VARCHAR"/>
+		<result property="SStoreTime" column="s_Store_Time" jdbcType="VARCHAR"/>
+		<result property="SReadStatus" column="s_Read_Status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.StoreDiary">
+		INSERT INTO d_store
+		(s_Diary,s_Storer,s_Stored,s_Store_Time)
+		VALUES 
+		(#{SDiary,jdbcType=VARCHAR}, #{SStorer,jdbcType=VARCHAR}, #{SStored,jdbcType=VARCHAR}, #{SStoreTime,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get"  resultMap="StoreDiary">
+		SELECT * FROM d_store 
+		WHERE 
+		s_Diary=#{SDiary} and s_Storer=#{SStorer}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="StoreDiary">
+		SELECT * FROM d_store
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY s_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.StoreDiary">
+		UPDATE d_store
+        <set>
+			<if test="SDiary != null">
+				s_Diary=#{SDiary,jdbcType=VARCHAR},
+			</if>
+			<if test="SStorer != null">
+				s_Storer=#{SStorer,jdbcType=VARCHAR},
+			</if>
+			<if test="SStored != null">
+				s_Stored=#{SStored,jdbcType=VARCHAR},
+			</if>
+			<if test="SStoreTime != null">
+				s_Store_Time=#{SStoreTime,jdbcType=VARCHAR},
+			</if>
+			<if test="SReadStatus != null">
+				s_Read_Status=#{SReadStatus,jdbcType=NUMERIC}
+			</if>
+		</set>
+		WHERE
+		s_Id=#{SId}
+	</update>
+	
+	<delete id="remove" parameterType="com.longbro.note.bean.StoreDiary">
+		DELETE FROM d_store 
+		WHERE
+		s_Diary=#{SDiary} and s_Storer=#{SStorer}
+	</delete>
+	<!-- 得到某用户收藏的日记 -->
+	<select id="getStoreDiarybyUser" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT 
+		dd.n_Id id,dd.n_Title title,dd.n_Type cate,dd.n_Content content,
+		dd.n_Time time,dd.n_Location loc,dd.n_Writter writter,
+		ds.s_Store_Time storeTime,dui.u_User_Name,dui.u_Head_Image headImg,
+		(SELECT count(1) FROM d_praise WHERE p_Diary=dd.n_Id) praiseNum,
+		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=dd.n_Id) commentNum,
+		(SELECT count(1) FROM d_store WHERE s_Diary=dd.n_Id) storeNum,
+		(SELECT count(1) FROM d_visit WHERE v_Diary=dd.n_Id) visitNum
+		FROM d_store ds
+		LEFT JOIN d_diary dd on ds.s_Diary=dd.n_Id
+		LEFT JOIN d_user_info dui ON dd.n_Writter=dui.u_User_Id
+ 		WHERE s_Storer=#{userId}
+ 		order by ds.s_Store_Time desc
+ 		;
+	</select>
+	<update id="setAsReaded">
+		UPDATE d_store SET s_Read_Status=1 WHERE s_Stored=#{_parameter} AND s_Read_Status=0;
+	</update>
+	<!--2019-12-05 得到某用户日记被收藏的消息 -->
+	<select id="getMyMessage" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select ds.s_Type type,ds.s_Diary diaryId,ds.s_Storer storer,
+				ds.s_Store_Time storeTime,ds.s_Read_Status readStatus,
+				dui.u_User_Name storerName,dui.u_Head_Image headImg,dd.n_Title diaryTitle
+		from d_store ds
+		LEFT JOIN d_user_info dui ON ds.s_Storer=dui.u_User_Id
+		LEFT JOIN d_diary dd ON ds.s_Diary=dd.n_Id
+	    WHERE ds.s_Stored=#{userId}
+	    order by ds.s_Store_Time desc
+	    ;
+	</select>
+</mapper>

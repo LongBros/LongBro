@@ -1,0 +1,715 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    
+    <meta charset="utf-8" />
+    
+    <meta name="renderer" content="webkit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="author" content="lapuda.org" />
+    <link rel="shortcut icon" href="/img/favicon.png?lapuda" />
+    
+    <meta name="description" content="拉普达,世界不停转,你藏在其中...,拉普达日记,日记本,网络日记本,网络日记,免费日记,日记,在线日记本,小清新日记本,简单清新的日记博客小站" />
+    
+    
+    <meta name="keywords" content="拉普达日记,日记本,网络日记本,网络日记,免费日记,日记,在线日记本,小清新日记本,简单清新的日记博客小站" />
+    
+    
+<title>kfzwqxzy的日记本 - 拉普达</title>
+
+    
+    <style type="text/css">
+    /*https://www.bing.com/az/hprichbg/rb/GareSaintLazare_ZH-CN6611772290_1920x1080.jpg,https://www.bing.com/az/hprichbg/rb/CabodeGata_ZH-CN12858688851_1920x1080.jpg*/
+    #wrapper_del{opacity:1;background-image:url("https://www.bing.com/az/hprichbg/rb/ShenandoahNP_ZH-CN9981989975_1920x1080.jpg");height:100%;background-repeat:no-repeat;background-attachment:fixed;}
+    </style>
+    <link rel="stylesheet" href="/css/lib.css?yougam">
+    <link rel="stylesheet" type="text/css" href="/font/css/font-awesome.min.css?yougam" />
+    <link rel="stylesheet" href="/css/app.css?lapuda">
+    <link rel="stylesheet" href="/css/timeline.css?lapuda"/>
+    
+    
+    <!–[if lt IE 9]>   
+    <script type="text/javascript" src="/js/html5shiv.js?yougam"></script>   
+    <![endif]–>  
+    <script type="text/javascript" src="/js/lib.js?yougam"></script>
+    <script type="text/javascript" src="/js/app.js?lapuda"></script>
+    
+
+         
+    
+
+         
+    
+</head>
+
+
+<body id="front">
+    
+    <div id="wrapper">
+        <nav id="navbar" class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="logo" href="/"><img src="/img/logo.png?yougam"></a>
+        </div>
+
+        
+
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            
+             
+            <ul class="nav navbar-nav navbar-right navbar-menu">
+                        <li>
+                            <a href="/">首页</a>
+                        </li>
+                        
+                        <li class="active">
+                            <a href="/user/LongBro/diarys">日记本</a>
+                        </li>
+                        
+                        
+                        
+                
+                        <li>
+                            <a href="/notifications/">
+                                <i class="icon-bell" title="通知"></i>
+                            </a>
+                        </li>
+                        <li role="presentation" class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="/user/LongBro/">
+                              LongBro<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+	                                <li><a href="/diary/new/">写新日记</a></li>
+                                    <li><a href="/user/LongBro/">我的小窝</a></li>
+                                    <li><a href="/settings/profile/">个人设置</a></li>
+                                
+	                                <li role="presentation" class="divider"></li>
+	                                <li><a href="/signout/">注销登录</a></li>
+                            </ul>
+                        </li>
+               
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<script>
+    $(document).ready(
+        function() { 
+            $(document).scroll(function() {
+                if($(this).scrollTop()<220) { $('#navbar').removeClass('navbar-alp'); 
+                } else {
+                    $('#navbar').addClass('navbar-alp'); 
+                }
+            });
+        }
+    );
+</script>
+
+        
+<div id="main" class="container">
+    <div id="content" class="user-page">
+        <div class="row">
+            
+                        
+            <div class="col-md-3">
+                <div class="box">
+                    <div style="min-height:220px;" class="text-center">
+                        
+                        <a href="/user/kfzwqxzy/" class="avatar">
+                        
+                            
+                                <img class="huge" src="/9060/741806e3a72f7099e4ec205c124d10fa1cda0b286fc6deb0.jpg" style="margin:10px;">
+                            
+                        </a>
+                        
+                    </div>
+                    
+                        <div class="info">
+                            
+                                <p>昵称:<strong>kfzwqxzy</strong></p>
+                            
+                            <p>性别:<strong>保密</strong>
+                            </p>
+                            
+                                <p>这家伙很懒，连个签名都不想写！</p>
+                            
+                        </div>
+                    
+
+                
+
+                    <div class="detail">
+                        <ul class="list-unstyled">
+                        
+                        
+                        
+                        
+                            <li>
+                                <i class="icon-time"></i>加入时间 2019.01.19 08:42
+                            </li>
+                        
+                        
+                            <li>
+                                <i class="icon-time"></i>最近登录 2019.12.13 06:53
+                            </li>
+                        
+                        </ul>
+                        <span class="clearfix"></span>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="col-md-9">
+                <div class="box gray">
+	                <div class="cell breadcrumb first">
+	                    <a href="/user/kfzwqxzy/"><i class="icon-user"></i></a> ? <a href="/user/kfzwqxzy/">kfzwqxzy</a><i class="divider icon-angle-right"></i>日记
+	                </div>
+                    
+                    	<div class="cell post-list">
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/74249/">
+                                       
+                                         
+                                            2646-二零一八年九月十二日星期三多云转阵雨27℃~19℃客厅早晨温度26℃ PM2.5-55
+庆兔兔还在床上叠被子。
+我问：“庆兔兔，你现在每天晚饭都吃什么了？是不是每天就吃鸡蛋糕了？”
+庆兔兔说：“不是的，我就吃了两次蛋糕。”
+我问：“那你们是不是在吃热干面呀？”
+庆兔兔说：“我们没有天天吃热干面。”
+我问：“那你们晚饭爸爸都炒什么菜吃了。”
+庆兔兔说：“爸爸没有炒菜，我们是在饭馆里吃的饭。...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.05.30 06:57</span>
+                                    ?《
+                                    <a href="/diary/74249/">
+                                       
+                                         
+                                            《庆兔兔日记》2646扫地机器...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 2</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/74178/">
+                                       
+                                         
+                                            2645-二零一八年九月十一日星期二阴天27℃~16℃客厅早晨温度26℃ PM2.5-49
+庆小兔喝完牛奶，庆小兔洗完脸和屁股，庆小兔又换好衣服，庆小兔一个人在茶几旁边玩。
+我从厨房刚刚出来，庆小兔用手指着地面说：“巴巴。”
+我顺着庆小兔手指的方向看，果真地板上有一坨巴巴。
+我连忙把庆小兔往卫生间抱，我把庆小兔的长裤褪下来，又一坨巴巴从庆小兔的裤子里掉了出来。
+就听见噗呲一声，便池里已经出现一滩稀...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.05.29 09:08</span>
+                                    ?《
+                                    <a href="/diary/74178/">
+                                       
+                                         
+                                            《庆兔兔日记》2645小九拉肚...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 5</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/74125/">
+                                       
+                                         
+                                            2644-二零一八年九月十日星期一多云25℃~16℃客厅早晨温度26℃ PM2.5-49
+温度骤然地下降了。
+穿着昨天的一身衣服，好有一点感到冷飕飕的，汽车顶棚上的斑斑点点告诉我们刚刚下雨了。
+许多人已经换上了秋装，人们手里拿着雨伞急急忙忙地走着。
+雨还在下，雨滴稀疏的有一点感不到，举着雨伞的人是因为看见地面上的雨痕。
+看见有一个学生手里拿着三束玫瑰花，我这才想起来今天是教师节。
+这个同学絮絮叨叨...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.05.28 10:41</span>
+                                    ?《
+                                    <a href="/diary/74125/">
+                                       
+                                         
+                                            《庆兔兔日记》2644小九跟着...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 6</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/74061/">
+                                       
+                                         
+                                            2643-二零一八年九月九日星期日多云28℃~19℃客厅早晨温度27℃ PM2.5-48
+当我们买菜回来，妈妈已经在给小朋友上英语课了。
+下课了，妈妈说：“庆兔兔，我们这是上课，别的小朋友在说话，别的小朋友在做小动作，你不能跟着一起玩，也不能跟着一起疯。你比其他小朋友要大，大就要做一个好榜样，上课的时候妈妈是一个老师，你要像在学校上课一样。”
+妈妈说：“庆兔兔，该踢毽子了。”
+庆兔兔踢毽子姿势还是...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class="icon-time" title="发布时间"></i>
+                                        
+                                    
+                                    <span class="time">2019.05.27 11:06</span>
+                                    ?《
+                                    <a href="/diary/74061/">
+                                       
+                                         
+                                            《庆兔兔日记》2643小九做事...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 12</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/73998/">
+                                       
+                                         
+                                            2642-二零一八年九月八日星期六晴天转多云28℃~17℃客厅早晨温度27℃ PM2.5-44
+今天早上妈妈过来的时候，庆兔兔没有跟着过来。
+今天上课又增加了一个小朋友。是一个还在上幼儿园的男孩。
+妈妈说：“今天我们又多了一个同学，我们现在大家互相熟悉一下。”
+妈妈用手指着林思意“这个叫林思意。”
+男孩很大方健谈，男孩对着林思意说：“林思意。”
+妈妈说：“这个叫安瑞。”
+当妈妈的指向安瑞的时候，安...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.05.26 10:08</span>
+                                    ?《
+                                    <a href="/diary/73998/">
+                                       
+                                         
+                                            《庆兔兔日记》2642小九扫地
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 1</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/73950/">
+                                       
+                                         
+                                            2641-二零一八年九月七日星期五多云26℃~17℃客厅早晨温度27℃ PM2.5-39
+八点四十分庆小兔还没有醒，外婆说：“马上就要九点钟了，小九还不起来呀。”
+我说：“我把火火兔打开。”
+爸爸说：“还是让小九自己醒了吧。”
+外婆问：“是不是小九昨天晚上睡晚了？”
+爸爸说：“小九，昨天晚上一直和我一起在床上疯。”
+我说：“不能起来太晚了，要不就会影响小九下午的睡觉，让小九的生物钟发生混乱。”
+等...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.05.25 09:29</span>
+                                    ?《
+                                    <a href="/diary/73950/">
+                                       
+                                         
+                                            《庆兔兔日记》2641大床成了...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 4</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/73891/">
+                                       
+                                         
+                                            2640-二零一八年九月六日星期四中雨27℃~50℃客厅早晨温度27℃ PM2.5-50
+庆小兔喜欢吹泡泡，庆小兔已经会吹泡泡，但是庆小兔的泡泡水一大半都被洒到地上。
+庆小兔一个手拿着泡泡棒在吹泡泡，庆小兔一个手拿着泡泡水的瓶子，全神贯注地看着飞起来的泡泡，庆小兔拿瓶子的手不知不觉地歪倒过来。
+也不是庆小兔都是无意之举，有时候庆小兔会故意把泡泡水倒在地上，庆小兔发现泡泡水倒在地上也会出现泡泡。
+从...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.05.24 08:54</span>
+                                    ?《
+                                    <a href="/diary/73891/">
+                                       
+                                         
+                                            《庆兔兔日记》2640小九生气...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 3</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/73833/">
+                                       
+                                         
+                                            2639-二零一八年九月五日星期三中雨35℃~25℃客厅早晨温度28℃ PM2.5-55
+一望无际的蓝天，太阳光芒四射，天上几乎看不到一片像样的云。
+来到姨妈家小区的小广场，外婆做出一个跑步的动作，外婆说：“小九，我们在这里玩一会吧。”
+外婆陪着庆小兔，我把童车送回家，我给庆小兔拿来了玩具，小皮球惯性车发条小鸡。
+庆小兔拿着皮球就往篮球架下边跑。
+外婆说：“小九，你扔球呀。”
+我说：“小九是要去投...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.05.23 08:54</span>
+                                    ?《
+                                    <a href="/diary/73833/">
+                                       
+                                         
+                                            《庆兔兔日记》2639黄粱美梦...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 1</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/73769/">
+                                       
+                                         
+                                            2638-二零一八年九月四日星期二多云34℃~24℃客厅早晨温度27℃ PM2.5-37
+昨天晚上很晚了妈妈来电话说：“庆兔兔爸爸去单位没有回来，明天早上早一点送庆兔兔上学。”
+我和外婆六点钟就起来了，六点四十分我们就匆匆忙忙赶了过来。
+我们刚刚走到门口，妈妈打开门说：“早上庆兔兔上学还是他爸爸去送。”
+庆兔兔说：“爸爸，我的牙齿掉了。”
+爸爸问：“你的牙齿掉了，你的牙齿是怎么掉的，是不是吃饭的时...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.05.22 09:49</span>
+                                    ?《
+                                    <a href="/diary/73769/">
+                                       
+                                         
+                                            《庆兔兔日记》2638眼睛和用...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 4</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="post noavatar cell">
+                               <h3 class="title">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/diary/73634/">
+                                       
+                                         
+                                            2636-二零一八年九月二日星期日阵雨32℃~24℃客厅早晨温度28℃ PM2.5-40
+今天庆兔兔庆小兔一天都没有过来。
+吃过晚饭的时候，姨妈愤愤不平地说：“以后庆兔兔和小九的事情我们都不要管了，他们爸爸在家里，你们也不要把小九带过来，他们自己会带孩子的。”
+外婆说：“他爸爸也没有带过孩子，他知道怎么带小九吗？”
+姨妈说：“庆兔兔小九是他们的儿子，你们还怕他们会把小九怎么了。你们以后也不要说庆兔...
+                                         
+                                       
+                                    </a>
+                                <h3>
+                                <div class="meta">
+                                    
+                                        
+                                            <i class=" icon-adjust" title="登陆可见"></i>
+                                        
+                                    
+                                    <span class="time">2019.05.20 09:51</span>
+                                    ?《
+                                    <a href="/diary/73634/">
+                                       
+                                         
+                                            《庆兔兔日记》2636庆小兔庆...
+                                         
+                                       
+                                    </a>》
+                                    
+                                        
+                                        
+                                            
+                                                
+                                            
+                                        
+                                    
+                                    <div class="data hidden-xs pull-right">
+                                        <i class="icon-eye-open"> 3</i>
+                                        <i class="icon-comment"> 0</i>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    	</div>
+
+						
+			            <div class="cell last low">
+			                <ul class='pager'><li class='previous'><a href='/user/kfzwqxzy/diarys/lastest/page19/'>上一页</a></li><li class="pager-nums">20 / 33</li><li class='next'><a href='/user/kfzwqxzy/diarys/lastest/page21/'>下一页</a></li></ul>
+			            </div>
+			            
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+    
+
+    <footer id="footer">
+    <div class="container footer-wrap">
+        <div class="content col-md-12">
+            <p>
+                <span style="margin-right:1em;">
+                    <a href="/"> <strong>拉普达</strong>
+                    </a>
+                </span>
+                
+                    
+                        
+                            <span style="margin-right:1em;">
+                                <a href="/page/about/"> <strong>about</strong>
+                                </a>
+                            </span>
+                        
+                    
+                
+            </p>
+            <ul class="cell" style="border:0;">
+                <li>
+					<span><a href="/" target="_blank" title="拉普达">Copyright</a> ?2015~2016 <a href="http://www.lapuda.org" rel="nofollow" target="_blank" title="β-Studio">β-Studio</a></span>
+                    <span style="margin-right:1em;"> ? 24 Route ? v1.0.6</span>
+					
+                   
+                </li>
+                <li>
+                    <span>
+								
+                                        
+										<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258448463'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/stat.php%3Fid%3D1258448463%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+										<a href="/" >粤ICP备16028005号-1</a>
+								
+
+								
+                    </span>
+                </li>
+            </ul>
+            
+            <div id="backtop" class="hidden backtop" title="Back to Top">
+                <strong class="hidden">返回顶部</strong>
+            </div>
+            <script>
+                    $(document).ready(
+                    function() { $(document).scroll(function() { if($(this).scrollTop()>720) { $('#backtop').removeClass('hidden'); }
+                            else { $('#backtop').addClass('hidden'); }
+                        }
+                        );
+                        $('#backtop').click(function() { $('body, html').animate( { scrollTop: 0 }
+                        ); return false; }
+                        )
+                    window.console&&window.console.info('Copyright 2016 拉普达'); }
+                    );
+            </script>
+        </div>
+
+    </div>
+</footer>
+</body>
+
+
+</html>

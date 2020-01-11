@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.UserInfo">
+	<resultMap id="UserInfo" type="com.longbro.note.bean.UserInfo">
+		<id property="UId" column="u_Id" jdbcType="NUMERIC"/>
+		<result property="UUserName" column="u_User_Name" jdbcType="VARCHAR"/>
+		<result property="UUserId" column="u_User_Id" jdbcType="NUMERIC"/>
+		<result property="UUserSex" column="u_User_Sex" jdbcType="NUMERIC"/>
+		<result property="uShowWordnum" column="u_show_wordnum" jdbcType="NUMERIC"/>
+		<result property="blackNameList" column="u_black_namelist" jdbcType="NUMERIC"/>
+		<result property="UJoinTime" column="u_Join_Time" jdbcType="VARCHAR"/>
+		<result property="UStatus" column="u_Status" jdbcType="NUMERIC"/>
+		<result property="UBornTime" column="u_Born_Time" jdbcType="VARCHAR"/>
+		<result property="UHomeSong" column="u_Home_Song" jdbcType="VARCHAR"/>
+		<result property="signature" column="u_Signature" jdbcType="VARCHAR"/>
+		<result property="headImage" column="u_Head_Image" jdbcType="VARCHAR"/>
+		<result property="password" column="u_Password" jdbcType="VARCHAR"/>
+		<result property="location" column="u_Location" jdbcType="VARCHAR"/>
+		<result property="autoPlay" column="u_autoplay_audio" jdbcType="NUMERIC"/>
+		<result property="lastLogin" column="u_recent_login" jdbcType="VARCHAR"/>
+		<result property="back" column="u_default_back" jdbcType="VARCHAR"/>
+		<result property="perpageNum" column="u_perpage_num" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.UserInfo">
+		INSERT INTO d_user_info
+		(u_Id,u_User_Name,u_User_Id,u_User_Sex,u_show_wordnum,u_black_namelist,u_Join_Time,u_Status,u_Born_Time,u_Home_Song,u_autoplay_audio,
+		u_recent_login,u_Head_Image,u_Password,
+		u_Location,u_default_back,u_inviter)
+		VALUES 
+		(#{UId,jdbcType=NUMERIC}, #{UUserName,jdbcType=VARCHAR}, #{UUserId,jdbcType=NUMERIC}, 
+		#{UUserSex,jdbcType=NUMERIC}, #{uShowWordnum,jdbcType=NUMERIC}, 
+		#{blackNameList,jdbcType=NUMERIC}, #{UJoinTime,jdbcType=VARCHAR}, 
+		#{UStatus,jdbcType=NUMERIC}, #{UBornTime,jdbcType=VARCHAR}, 
+		#{UHomeSong,jdbcType=VARCHAR},#{autoPlay,jdbcType=NUMERIC},
+		#{lastLogin,jdbcType=VARCHAR},#{headImage,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{location,jdbcType=VARCHAR},#{back,jdbcType=VARCHAR},#{inviter,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get" parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Author">
+		SELECT u_Id UId,u_User_Name UUserName,u_User_Id UUserId,u_User_Sex UUserSex,
+		u_show_wordnum uShowWordnum,u_Join_Time UJoinTime,
+		u_Status UStatus,u_Born_Time UBornTime,u_perpage_num perpageNum,
+		u_recent_login lastLogin,u_Head_Image headImage,
+		u_Home_Song UHomeSong,s.songName homeSongName,u_Signature signature,
+		u_autoplay_audio autoPlay,u_Location location,u_default_back back,
+		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=#{UUserId}) likeNum,
+		(SELECT COUNT(1) FROM d_store WHERE s_Storer=#{UUserId}) storeNum,
+		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=#{UUserId}) praisedNum,
+		(SELECT COUNT(1) FROM d_visit WHERE v_Visited=#{UUserId}) visitedNum,
+		(SELECT COUNT(1) FROM d_notice WHERE n_Noticer=#{UUserId}) noticeNum,
+		(SELECT COUNT(1) FROM d_notice WHERE n_Noticed=#{UUserId}) fanNum,
+		<!-- u_black_namelist blackNameList, 12-11取消此写法，ID和name都使用以下可以一一对应-->
+		<!-- 12-10添加黑名单的name -->
+		(SELECT GROUP_CONCAT(u_User_Id) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_namelist)) blackNameList,
+		(SELECT GROUP_CONCAT(u_User_Name) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_namelist)) blackNames,
+		(SELECT COUNT(DISTINCT LEFT(n_Time,10)) FROM d_diary WHERE n_Writter=#{UUserId}) diaryDayNum
+		FROM d_user_info dui
+		LEFT JOIN song s ON dui.u_Home_Song=s.sourceId
+		WHERE 
+		u_User_Id=#{UUserId}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="UserInfo">
+		SELECT * FROM d_user_info
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY u_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.UserInfo">
+		UPDATE d_user_info
+        <set>
+			<if test="UUserName != null">
+				u_User_Name=#{UUserName,jdbcType=VARCHAR},
+			</if>
+			<if test="UUserSex != null">
+				u_User_Sex=#{UUserSex,jdbcType=NUMERIC},
+			</if>
+			<if test="uShowWordnum != null">
+				u_show_wordnum=#{uShowWordnum,jdbcType=NUMERIC},
+			</if>
+			<if test="blackNameList != null">
+				u_black_namelist=#{blackNameList,jdbcType=NUMERIC},
+			</if>
+			<if test="UJoinTime != null">
+				u_Join_Time=#{UJoinTime,jdbcType=VARCHAR},
+			</if>
+			<if test="UStatus != null">
+				u_Status=#{UStatus,jdbcType=NUMERIC},
+			</if>
+			<if test="UBornTime != null">
+				u_Born_Time=#{UBornTime,jdbcType=VARCHAR},
+			</if>
+			<if test="UHomeSong != null">
+				u_Home_Song=#{UHomeSong,jdbcType=VARCHAR},
+			</if>
+			<if test="autoPlay != null">
+				u_autoplay_audio=#{autoPlay,jdbcType=VARCHAR},
+			</if>
+			<if test="signature != null">
+				u_Signature=#{signature,jdbcType=VARCHAR},
+			</if>
+			<if test="lastLogin != null">
+				u_recent_login=#{lastLogin,jdbcType=VARCHAR},
+			</if>
+			<if test="location != null">
+				u_Location=#{location,jdbcType=VARCHAR},
+			</if>
+			<if test="back != null">
+				u_default_back=#{back,jdbcType=VARCHAR},
+			</if>
+			<if test="perpageNum != null">
+				u_perpage_num=#{perpageNum,jdbcType=NUMERIC},
+			</if>
+			<if test="inviter != null">
+				u_inviter=#{inviter,jdbcType=NUMERIC},
+			</if>
+			<if test="showWhichTab != null">
+				u_show_tab=#{showWhichTab,jdbcType=NUMERIC},
+			</if>
+			<if test="showPlayer != null">
+				u_show_player=#{showPlayer,jdbcType=NUMERIC},
+			</if>
+			<if test="textEditor != null">
+				u_text_editor=#{textEditor,jdbcType=NUMERIC}
+			</if>
+		</set>
+		WHERE
+		u_User_Id=#{UUserId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM d_user_info 
+		WHERE
+		u_Id=#{UId}
+	</delete>
+	<select id="loginNote"  resultMap="UserInfo">
+		select * from d_user_info where u_User_Id=#{acc} and u_Password=#{pass};
+	</select>
+	<!-- 查询某用户或所有用户的未读 -->
+	<select id="queryUnReadNum" resultType="java.util.HashMap">
+		SELECT d.u_User_Id,d.u_User_Name,
+		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=d.u_User_Id AND p_Read_Status=0) praiseNum,
+		(SELECT COUNT(1) FROM d_comment WHERE c_Reviewed=d.u_User_Id AND c_Read_Status=0) comNum,
+		(SELECT COUNT(1) FROM d_store WHERE s_Stored=d.u_User_Id AND s_Read_Status=0) storedNum,
+		(SELECT COUNT(1) FROM d_notice WHERE n_Noticed=d.u_User_Id AND n_Read_Status=0) noticedNum
+		FROM d_user_info d 
+		where 1=1 
+		<if test="_parameter != null and _parameter !=''">
+			and d.u_User_Id=#{_parameter}
+		</if>
+		;
+	</select>
+	<!-- 查询某用户或所有用户的互动信息：赞、评论、收藏、关注,被赞、被评论、被收藏、被关注 -->
+	<select id="queryInteractNum" resultType="java.util.HashMap">
+		SELECT d.u_User_Id,d.u_User_Name,
+		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=d.u_User_Id) praisedNum,
+		(SELECT COUNT(1) FROM d_comment WHERE c_Reviewed=d.u_User_Id) comedNum,
+		(SELECT COUNT(1) FROM d_store WHERE s_Stored=d.u_User_Id) storedNum,
+		(SELECT COUNT(1) FROM d_notice WHERE n_Noticed=d.u_User_Id) noticedNum,
+		(SELECT COUNT(1) FROM d_visit WHERE v_Visited=d.u_User_Id) visitedNum,
+		
+		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=d.u_User_Id) praiseNum,
+		(SELECT COUNT(1) FROM d_comment WHERE c_Reviewer=d.u_User_Id) comNum,
+		(SELECT COUNT(1) FROM d_store WHERE s_Storer=d.u_User_Id) storeNum,
+		(SELECT COUNT(1) FROM d_notice WHERE n_Noticer=d.u_User_Id) noticeNum,
+		(SELECT COUNT(1) FROM d_visit WHERE v_Visitor=d.u_User_Id) visitNum
+		
+		FROM d_user_info d where 1=1 
+		<if test="_parameter != null and _parameter !=''">
+			and d.u_User_Id=#{_parameter}
+		</if>
+		;
+	</select>
+	<select id="getStatisticInfo" resultType="java.util.HashMap">
+		SELECT
+		(SELECT COUNT(1) FROM d_user_info) allUser,
+		(SELECT COUNT(1) FROM d_user_info WHERE u_Status=1) onLineUser,
+		(SELECT COUNT(1) FROM d_user_info WHERE TIMESTAMPDIFF(SECOND,u_Join_Time,SYSDATE())<![CDATA[ <= ]]>86400) oneDayUserNum,
+		(SELECT COUNT(1) FROM d_user_info WHERE DATEDIFF(SYSDATE(),u_Join_Time)<![CDATA[ <= ]]>7) oneWeekUserNum1,
+		(SELECT COUNT(1) FROM d_user_info WHERE TIMESTAMPDIFF(SECOND,u_Join_Time,SYSDATE())<![CDATA[ <= ]]>604800) oneWeekUserNum,
+		(SELECT COUNT(1) FROM d_user_info WHERE TIMESTAMPDIFF(SECOND,u_Join_Time,SYSDATE())<![CDATA[ <= ]]>2592000) oneMonthUserNum,
+		
+		(SELECT COUNT(1) FROM d_user_info WHERE u_Join_Time LIKE CONCAT('%',CURDATE(),'%')) todayUserNum,
+		
+		(SELECT COUNT(1) FROM d_diary) diaryNum,
+		(SELECT COUNT(1) FROM d_diary WHERE TIMESTAMPDIFF(SECOND,n_Time,SYSDATE())<![CDATA[ <= ]]>86400) oneDayDiaryNum,
+		(SELECT COUNT(1) FROM d_diary WHERE TIMESTAMPDIFF(SECOND,n_Time,SYSDATE())<![CDATA[ <= ]]>604800) oneWeekDiaryNum,
+		(SELECT COUNT(1) FROM d_diary WHERE TIMESTAMPDIFF(SECOND,n_Time,SYSDATE())<![CDATA[ <= ]]>2592000) oneMonthDiaryNum,
+		
+		(SELECT COUNT(1) FROM d_diary WHERE n_Time LIKE CONCAT('%',CURDATE(),'%')) todayDiaryNum;	
+	</select>
+</mapper>

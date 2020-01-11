@@ -48,7 +48,7 @@
 		<property name="mapperLocations">
 			<list>
 				<value>classpath:com/longbro/*/*.xml</value>
-				
+				<value>classpath:com/longbro/*/*/*.xml</value>
 			</list>
 		</property>
 	</bean>

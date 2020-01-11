@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.PraiseDiary">
+	<resultMap id="PraiseDiary" type="com.longbro.note.bean.PraiseDiary">
+		<id property="PId" column="p_Id" jdbcType="NUMERIC"/>
+		<result property="PDiary" column="p_Diary" jdbcType="VARCHAR"/>
+		<result property="PPraiser" column="p_Praiser" jdbcType="VARCHAR"/>
+		<result property="PPraised" column="p_Praised" jdbcType="VARCHAR"/>
+		<result property="PPraiseTime" column="p_Praise_Time" jdbcType="VARCHAR"/>
+		<result property="PReadStatus" column="p_Read_Status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.PraiseDiary">
+		INSERT INTO d_praise
+		(p_Diary,p_Praiser,p_Praised,p_Praise_Time)
+		VALUES 
+		(#{PDiary,jdbcType=VARCHAR}, #{PPraiser,jdbcType=VARCHAR}, 
+		#{PPraised,jdbcType=VARCHAR}, #{PPraiseTime,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get" resultMap="PraiseDiary">
+		SELECT * FROM d_praise 
+		WHERE p_Diary=#{PDiary} and p_Praiser=#{PPraiser}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="PraiseDiary">
+		SELECT * FROM d_praise
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY p_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.PraiseDiary">
+		UPDATE d_praise
+        <set>
+			<if test="PDiary != null">
+				p_Diary=#{PDiary,jdbcType=VARCHAR},
+			</if>
+			<if test="PPraiser != null">
+				p_Praiser=#{PPraiser,jdbcType=VARCHAR},
+			</if>
+			<if test="PPraised != null">
+				p_Praised=#{PPraised,jdbcType=VARCHAR},
+			</if>
+			<if test="PPraiseTime != null">
+				p_Praise_Time=#{PPraiseTime,jdbcType=VARCHAR},
+			</if>
+			<if test="PReadStatus != null">
+				p_Read_Status=#{PReadStatus,jdbcType=NUMERIC}
+			</if>
+		</set>
+		WHERE
+		p_Id=#{PId}
+	</update>
+	<!-- 某用户取消喜欢某日记时调用 -->
+	<delete id="remove" parameterType="com.longbro.note.bean.PraiseDiary">
+		DELETE FROM d_praise 
+		WHERE p_Diary=#{PDiary} and p_Praiser=#{PPraiser}
+	</delete>
+	<!-- 1.得到当前日记有多少人喜欢2.得到某人的未读喜欢、所有被喜欢数量 -->
+	<select id="getPraiseNum" parameterType="java.lang.String">
+		SELECT COUNT(1) FROM d_praise 
+		WHERE 1=1
+		<if test="diaryId!='' and diaryId!=null"><!-- 得到当前日记有多少人喜欢 -->
+			and p_Diary=#{diaryId}
+		</if> 
+		<if test="PPraised!='' and PPraised!=null"><!-- 得到当前用户有多少未读喜欢 -->
+			and p_Praised=#{PPraised} 
+		</if>
+		<if test="status!='' and status!=null">
+			and find_in_set(p_Read_Status,#{status})
+		</if>
+		;
+	</select>
+	<!-- 得到某用户喜欢的日记 -->
+	<select id="getLikeDiarybyUser" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT dd.n_Id id,dd.n_Title title,dd.n_Type cate,dd.n_Content content,
+			   dd.n_Time time,dd.n_Location loc,dd.n_Writter writter,
+			   dp.p_Praise_Time likeTime,dui.u_User_Name,dui.u_Head_Image headImg,
+		(SELECT count(1) FROM d_praise WHERE p_Diary=dd.n_Id) praiseNum,
+		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=dd.n_Id) commentNum,
+		(SELECT count(1) FROM d_store WHERE s_Diary=dd.n_Id) storeNum,
+		(SELECT count(1) FROM d_visit WHERE v_Diary=dd.n_Id) visitNum
+		FROM d_praise dp
+		LEFT JOIN d_diary dd on dp.p_Diary=dd.n_Id
+		LEFT JOIN d_user_info dui ON dd.n_Writter=dui.u_User_Id
+ 		WHERE p_Praiser=#{userId}
+ 		order by dp.p_Praise_Time desc
+ 		;
+	</select>
+	<update id="setAsReaded">
+		UPDATE d_praise SET p_Read_Status=1 WHERE p_Praised=#{_parameter} AND p_Read_Status=0;
+	</update>
+	<!--2019-12-03 得到某用户日记被喜欢的消息 -->
+	<select id="getMyMessage" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select dp.p_Type type,dp.p_Diary diaryId,dp.p_Praiser praiser,
+				dp.p_Praise_Time praiseTime,dp.p_Read_Status readStatus,
+				dui.u_User_Name praiserName,dui.u_Head_Image headImg,dd.n_Title diaryTitle
+		from d_praise dp
+		LEFT JOIN d_user_info dui ON dp.p_Praiser=dui.u_User_Id
+		LEFT JOIN d_diary dd ON dp.p_Diary=dd.n_Id
+	    WHERE dp.p_Praised=#{userId}
+	    order by dp.p_Praise_Time desc
+	    ;
+	</select>
+</mapper>

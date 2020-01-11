@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>实用小闹钟-小可爱版</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+    
+    <style type="text/css">
+    html, body
+    {        
+        padding:0;
+        margin:0;
+        border:0;
+        height:100%;
+        overflow:hidden;
+		
+    }
+	.remark{
+		margin-top:80px;
+	}
+	#smilePic{
+		margin-top:20px;
+		width:53px;
+		height:53px;
+	}
+	.praise{
+		
+		font-size:20px;
+		font-family:monospace;
+		letter-spacing: 3px;
+		font-variant:small-caps;
+		text-shadow:#f00fff0
+	}
+	#time{
+		margin-top:20px;
+		font-size:60px;
+		color:white;
+	}
+	.long-shadow, .medium-shadow {
+		border: none;
+		-o-text-overflow: clip;
+		text-overflow: clip;
+	}
+	.long-shadow {
+		-webkit-box-sizing: content-box;
+		-moz-box-sizing: content-box;
+		box-sizing: content-box;
+		text-shadow: 3px 3px 0 #4C6A92, 4px 4px 0 #4C6A92, 5px 5px 0 #4C6A92, 6px 6px 0 #4C6A92, 7px 7px 0 #4C6A92, 8px 8px 0 #4C6A92, 9px 9px 0 #4C6A92, 10px 10px 0 #4C6A92, 11px 11px 0 #4C6A92, 12px 12px 0 #4C6A92, 13px 13px 0 #4C6A92, 14px 14px 0 #4C6A92, 15px 15px 0 #4C6A92, 16px 16px 0 #4C6A92, 17px 17px 0 #4C6A92, 18px 18px 0 #4C6A92, 19px 19px 0 #4C6A92, 20px 20px 0 #4C6A92;
+	}
+	h1 .animateTitle1 {
+		font-size: 10vh;
+		letter-spacing: 2.7vh;
+		color: #FFF;
+		padding: 1em 0;
+	}
+    </style>
+</head>
+<body style="background:pink;" id="body">    
+     <center>
+		<div class="remark">打卡时间：<span style="color:red;">08:20</span>、<span style="color:red;">14:30</span>、<span style="color:red;">17:30</span></div>
+		<div class="remark">我的打卡时间：<span style="color:red;">09:00前</span>、<span style="color:red;">18:00后</span></div>
+		<img id="smilePic" src="picture/smile1.png"><div class="praise"><img id="heart" src="picture/heart.png">加油哟，你最棒啦!<img id="hug" src="picture/hug.png"></div>
+		<div id="time"></div>
+	 </center>
+    <audio id="song" src="" autoplay></audio>
+    <script type="text/javascript">
+    window.setInterval(clock, 1000);
+	randBack();
+    function clock(){
+		//Courier New,serif			font-style:italic;																																						<h1 class="long-shadow"><span class="animateTitle1">盈盈</span></h1>
+		var call=new Array("小可爱","盈盈","盈儿","时老师");																																				//,"时领导","时老板","小甜甜","宝宝","小宝贝","时老板娘","亲爱哒","未来对象","未来女盆友","未来老婆","未来媳妇儿","未来娘子","未来孩儿他娘"
+		//早上的句子
+		var senM=new Array("早呀(打卡^-^)","今天也要元气满满哟(打卡^-^)","早呀小甜甜(打卡^-^)","小可爱早上好呀(打卡^-^)");
+		//下午的句子
+		var senA=new Array("小可爱，忙了一上午了，辛苦啦，再坚持坚持就下班了呢(打卡^-^)","小可爱记着打卡哟^-^","小可爱我来啦(打卡^-^)","辛苦啦盈盈(打卡^-^)");
+		//晚上下班的语句
+		var senN=new Array("快到打卡时间啦，别忘记打卡哦~一天的工作快结束了，让忙碌的自己歇歇^-^","快到打卡时间啦，别忘记打卡哦~放下工作的压力，用笑容面对身边的人^-^",
+						   "快到打卡时间啦，别忘记打卡哦~因为努力，今天的你比昨天更强大^-^","快到打卡时间啦，别忘记打卡哦~生活是忙忙碌碌，重要的是开开心心^-^",
+		); 																																																			//"小可爱辛苦啦，快歇歇","小祖宗别太累了，我永远是你坚强的后盾","你是我的小呀小苹果，怎么爱你都不嫌多，记着打卡哈"
+   		var songs=new Array("440241232","5146554","29759733","1315718569","28111646");
+		var songsName=new Array("Right Now","Right Now","可乐","有一种悲伤","只是太爱你");
+		var all=new Date();
+		var year=all.getFullYear();
+		var mon=addZero(all.getMonth()+1);
+		var day=addZero(all.getDate());
+		var hour=addZero(all.getHours());
+		var min=addZero(all.getMinutes());
+		var sec=addZero(all.getSeconds());
+		var time=year+"-"+mon+"-"+day+" "+hour+":"+min+":"+sec;
+		var time1=hour+":"+min+":"+sec;
+		var song=document.getElementById("song");
+		if(time1=="17:28:00"){//下午打卡时间
+			var num=random(senN.length-1);
+			song.src="https://link.hhtjim.com/163/"+songs[2]+".mp3";
+			alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senN[num]);
+		}else if(time1=="14:15:45"){//中午打卡时间
+			var num=random(senA.length-1);
+			song.src="https://link.hhtjim.com/163/"+songs[4]+".mp3";
+			alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senA[num]);
+		}else if(time1=="08:10:00"){//早上打卡时间
+			var num=random(senA.length-1);
+			alert("已到"+time1+"，请提醒"+call[random(call.length-1)]+"打卡！"+"\n\n"+senM[num]);
+		}else if(time1=="08:50:00"){//我的上班卡
+			song.src="https://link.hhtjim.com/163/"+songs[2]+".mp3";
+			alert("你该打上班卡啦！")
+		}else if(time1=="18:10:00"){//我的下班卡
+			song.src="https://link.hhtjim.com/163/"+songs[2]+".mp3";
+			alert("你该打下班卡啦！")
+		}
+   		document.getElementById("time").innerText=time;
+		
+   	}
+	function addZero(param){
+		var param=param+"";
+		if(param.length==1){
+			param="0"+param;
+		}
+		return param;
+	}
+	
+     //生成min-max的随机整数（包括min,max）
+	//var random = function(min, max){
+	function random(min, max){
+		// 若max不存在 min 赋值给max,并重新赋值min
+		if(max == null){
+			max = min;  
+			min = 0;
+		}
+		return min+ Math.floor(Math.random()*(max-min+1))
+	}
+	//随机设置背景色和开心图片
+	function randBack(){
+		var colors=new Array("pink","orange","cyan","purple");//"white",
+		var m=random(colors.length-1);
+		//随机设置背景色
+		var body=document.getElementById("body");
+		body.style.background="pink";
+		//随机设置图片
+		var pics=new Array("smile1.png","smile2.png","smile3.png","smile4.png","smile5.png","smile6.gif","smile7.jpg","smile8.png");
+		var n=random(pics.length-1);
+		//alert(pics[n])
+		document.getElementById("smilePic").src="picture/"+"smile8.png";
+	}
+    </script>
+</body>
+</html>

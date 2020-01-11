@@ -1,0 +1,149 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>亲爱的慕菊小可爱，欢迎您使用-小可爱版小闹钟</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <style type="text/css">
+    html, body
+    {        
+        padding:0;
+        margin:0;
+        border:0;
+        height:100%;
+        overflow:hidden;
+		
+    }
+	.remark{
+		margin-top:180px;
+	}
+	#smilePic{
+		margin-top:20px;
+		width:53px;
+		height:53px;
+	}
+	.praise{
+		
+		font-size:20px;
+		font-family:monospace;
+		letter-spacing: 3px;
+		font-variant:small-caps;
+		text-shadow:#f00fff0
+	}
+	#time{
+		margin-top:20px;
+		font-size:60px;
+		color:white;
+	}
+	.long-shadow, .medium-shadow {
+		border: none;
+		-o-text-overflow: clip;
+		text-overflow: clip;
+	}
+	.long-shadow {
+		-webkit-box-sizing: content-box;
+		-moz-box-sizing: content-box;
+		box-sizing: content-box;
+		text-shadow: 3px 3px 0 #4C6A92, 4px 4px 0 #4C6A92, 5px 5px 0 #4C6A92, 6px 6px 0 #4C6A92, 7px 7px 0 #4C6A92, 8px 8px 0 #4C6A92, 9px 9px 0 #4C6A92, 10px 10px 0 #4C6A92, 11px 11px 0 #4C6A92, 12px 12px 0 #4C6A92, 13px 13px 0 #4C6A92, 14px 14px 0 #4C6A92, 15px 15px 0 #4C6A92, 16px 16px 0 #4C6A92, 17px 17px 0 #4C6A92, 18px 18px 0 #4C6A92, 19px 19px 0 #4C6A92, 20px 20px 0 #4C6A92;
+	}
+	h1 .animateTitle1 {
+		font-size: 10vh;
+		letter-spacing: 2.7vh;
+		color: #FFF;
+		padding: 1em 0;
+	}
+	input{
+		width:200px;
+		height:30px;
+		
+	}
+    </style>
+</head>
+<body style="background:pink;" id="body"> 
+	 <!--<span>时间:</span>&emsp;<input name="timeSetting" style="font-size:10px;color:red;" onenter="alert('1')" id="timeSetting">-->
+     <center>
+		<div class="remark">提醒时间：<span style="color:red;">08:35</span>、<span style="color:red;">08:45</span>、<span style="color:red;">18:00</span></div>
+		<img id="smilePic" src="picture/smile1.png"><div class="praise"><img id="heart" src="picture/heart.png">加油哟，你是最棒哒<img id="hug" src="picture/hug.png"></div>
+		<div id="time"></div>
+	 </center>
+    <audio id="song" src="" autoplay></audio>
+    <script type="text/javascript">
+    window.setInterval(clock, 1000);
+	randBack();
+    function clock(){
+		//Courier New,serif			font-style:italic;													<h1 class="long-shadow"><span class="animateTitle1"></span></h1>
+		var senM=new Array("不是花中偏爱菊，此花开尽更无花","兰有秀兮菊有芳，怀佳人兮不能忘",
+						   "秋菊有佳色，裛露掇其英","耐寒唯有东篱菊，金粟初开晓更清 —— 唐 白居易《咏菊》",
+						   "问篱边黄菊，知为谁开 —— 宋 · 秦观《满庭芳·碧水惊秋》");
+		var senN=new Array("下班啦，别忘记打卡哦~一天的工作快结束了，让忙碌的自己歇歇^-^",
+							"下班啦，别忘记打卡哦~放下工作的压力，用笑容面对身边的人^-^",
+						   "下班啦，别忘记打卡哦~因为努力，今天的你比昨天更强大^-^",
+						   "下班啦，别忘记打卡哦~生活是忙忙碌碌，重要的是开开心心^-^",
+		);
+   		var songs=new Array("1369798757","4875075","287035","566442496","165375","165379");
+		var songsName=new Array("芒种","遇到","遇见","浪人琵琶","专属味道","小星星");
+		var all=new Date();
+		var year=all.getFullYear();
+		var mon=addZero(all.getMonth()+1);
+		var day=addZero(all.getDate());
+		var hour=addZero(all.getHours());
+		var min=addZero(all.getMinutes());
+		var sec=addZero(all.getSeconds());
+		var time=year+"-"+mon+"-"+day+" "+hour+":"+min+":"+sec;
+		var time1=hour+":"+min+":"+sec;
+		var song=document.getElementById("song");
+		var s=random(0,songs.length-1);
+		if(time1=="08:35:00"||time1=="08:45:30"||time1=="09:00:30"){//早上打卡时间
+			var w=random(0,senM.length-1);
+			alert(time1+"来自LongBro的话~\n上班的时间到了，努力的你真棒，加油么么哒\n"+senM[w]);
+			song.src="https://link.hhtjim.com/163/"+songs[s]+".mp3";
+		}else if(time1=="18:00:00"){
+			var w=random(0,senN.length-1);
+			alert(senN[w]);
+			song.src="https://link.hhtjim.com/163/"+songs[s]+".mp3";
+		}   		
+		document.getElementById("time").innerText=time;
+   	}
+	function addZero(param){
+		var param=param+"";
+		if(param.length==1){
+			param="0"+param;
+		}
+		return param;
+	}
+	
+     //生成min-max的随机整数（包括min,max）
+	//var random = function(min, max){
+	function random(min, max){
+		// 若max不存在 min 赋值给max,并重新赋值min
+		if(max == null){
+			max = min;  
+			min = 0;
+		}
+		return min+ Math.floor(Math.random()*(max-min+1))
+	}
+	//随机设置背景色和开心图片
+	function randBack(){
+		var colors=new Array("pink","orange","cyan","purple");//"white",
+		var m=random(colors.length-1);
+		//随机设置背景色
+		var body=document.getElementById("body");
+		body.style.background="pink";
+		//随机设置图片
+		var pics=new Array("smile1.png","smile2.png","smile3.png","smile4.png","smile5.png","smile6.gif","smile7.jpg","smile8.png");
+		var n=random(pics.length-1);
+		//alert(pics[n])
+		document.getElementById("smilePic").src="picture/"+"smile8.png";
+	}
+	function addVisitLog(){
+		$.ajax({
+			
+			
+			})
+		}
+	}
+    </script>
+</body>
+</html>

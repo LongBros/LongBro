@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.Attention">
+	<resultMap id="Attention" type="com.longbro.note.bean.Attention">
+		<id property="NId" column="n_Id" jdbcType="NUMERIC"/>
+		<result property="NNoticer" column="n_Noticer" jdbcType="VARCHAR"/>
+		<result property="NNoticed" column="n_Noticed" jdbcType="VARCHAR"/>
+		<result property="NNoticeTime" column="n_Notice_Time" jdbcType="VARCHAR"/>
+		<result property="NReadStatus" column="n_Read_Status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.Attention">
+		INSERT INTO d_notice
+		(n_Id,n_Noticer,n_Noticed,n_Notice_Time,n_Read_Status)
+		VALUES 
+		(#{NId,jdbcType=NUMERIC}, #{NNoticer,jdbcType=VARCHAR}, #{NNoticed,jdbcType=VARCHAR}, #{NNoticeTime,jdbcType=VARCHAR}, #{NReadStatus,jdbcType=NUMERIC})
+	</insert>
+	
+	<select id="get" parameterType="com.longbro.note.bean.Attention" resultMap="Attention">
+		SELECT * FROM d_notice 
+		WHERE 
+		n_Noticer=#{NNoticer} and n_Noticed=#{NNoticed};
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="Attention">
+		SELECT * FROM d_notice
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY n_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.Attention">
+		UPDATE d_notice
+        <set>
+			<if test="NNoticer != null">
+				n_Noticer=#{NNoticer,jdbcType=VARCHAR},
+			</if>
+			<if test="NNoticed != null">
+				n_Noticed=#{NNoticed,jdbcType=VARCHAR},
+			</if>
+			<if test="NNoticeTime != null">
+				n_Notice_Time=#{NNoticeTime,jdbcType=VARCHAR},
+			</if>
+			<if test="NReadStatus != null">
+				n_Read_Status=#{NReadStatus,jdbcType=NUMERIC}
+			</if>
+		</set>
+		WHERE
+		n_Id=#{NId}
+	</update>
+	
+	<delete id="remove" parameterType="com.longbro.note.bean.Attention">
+		DELETE FROM d_notice 
+		WHERE
+		n_Noticer=#{NNoticer} and n_Noticed=#{NNoticed};
+	</delete>
+	<!-- 2019-12-03得到某用户被关注的消息 -->
+	<select id="getMyMessage" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select dn.n_Noticer noticerId,dn.n_Notice_Time noticeTime,dn.n_Read_Status readStatus,
+				dui.u_User_Name noticerName,dui.u_Head_Image headImg
+		from d_notice dn
+		LEFT JOIN d_user_info dui ON dn.n_Noticer=dui.u_User_Id
+	    WHERE dn.n_Noticed=#{userId}
+	    order by dn.n_Notice_Time desc
+	    ;
+	</select>
+	<update id="setAsReaded">
+		UPDATE d_notice SET n_Read_Status=1 WHERE n_Noticed=#{_parameter} AND n_Read_Status=0;
+	</update>
+	<!-- 2019-12-07得到我关注的人 -->
+	<select id="getMyAtten" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select dn.n_Noticed noticedId,dn.n_Notice_Time noticeTime,dn.n_Read_Status readStatus,
+				dui.u_User_Name noticedName,dui.u_Head_Image headImg
+		from d_notice dn
+		LEFT JOIN d_user_info dui ON dn.n_Noticed=dui.u_User_Id
+	    WHERE dn.n_Noticer=#{userId}
+	    order by dn.n_Notice_Time desc
+	    ;
+	</select>
+</mapper>

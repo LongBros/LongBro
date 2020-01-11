@@ -1,0 +1,174 @@
+2019-12-29
+1.	$("#sourceId").val(sid);	替代document.getElementById("").value=sid;
+2.	$("#clearBtn").css("display","inline-block");替代document.getElementById("").style.display="inline-block";
+3.	$(function(){	$("#clearBtn").click(function(){})	})	替代
+2019-12-14
+mysql中用CHAR_LENGTH函数计算字符长度，用LENGTH函数计算字节长度
+ length:   是计算字段的长度一个汉字是算三个字符,一个数字或字母算一个字符
+CHAR_LENGTH(str) 返回值为字符串str 的长度，长度的单位为字符。一个多字节字符算作一个单字符。对于一个包含五个二字节字符集, LENGTH()返回值为 10,而CHAR_LENGTH()的返回值为5。
+CHARACTER_LENGTH(str) CHARACTER_LENGTH()是CHAR_LENGTH()的同义词。
+BIT_LENGTH(str) 返回2进制长度.
+
+
+2019-10-13
+1.js中实现类似java中的contains方法
+  expre.indexOf("aodamiao") != -1
+2.js中实现java中replaceAll方法~https://blog.csdn.net/fukaiit/article/details/83245943
+  1）使用具有全局标志g的正则表达式
+  	var str = "dogdogdog";var str2 = str.replace(/dog/g,"cat");
+  2）使用另一种具有全局标志g的正则表达式的定义方法
+  	 con=con.replace(new RegExp("::::","gm"), ".jpg'>");
+  3）给string对象添加原型方法replaceAll()
+  	String.prototype.replaceAll = function(s1, s2) {
+    	return this.replace(new RegExp(s1, "gm"), s2);
+	}
+2019-10-07
+使title或alert中的内容换行，
+可用:
+1.\r,2.\n,3.&#13;,4.&#10;四个符号中的一个
+5.也可直接在title代码里换行
+例title="提示语:打卡啦
+铃声:我又想你了"
+&#10;&#13;换行和回车
+以下选自https://blog.csdn.net/u010189070/article/details/50955493/
+常用转义符号的意义：
+\n  LF或ASCII中的0x0A(10)
+\r  CR或ASCII中的0x0D(13)
+\t  水平制表符-HT或ASCII中的0x09（9）
+\\  反斜杠
+\$  美圆符
+\"  双引号
+\'  单引号
+
+2019-10-05
+Javascript刷新页面的几种方法：
+
+1    history.go(0)
+2    window.location.reload()
+     window.location.reload(true) 
+3    location=location
+4    location.assign(location)
+5    document.execCommand(''Refresh'')
+6    window.navigate(location)
+7    location.replace(location)
+8    document.URL=location.href
+2019-10-03
+三种方法判断输入是否为数字
+1.NaN 即 Not a Number 
+  isNaN(numValue)
+2.var re = /^[0-9]+.?[0-9]*/;//判断字符串是否为数字//判断正整数/[1−9]+[0−9]∗]∗/ 
+　　if (!re.test(nubmer)) { 
+　　　　alert(“请输入数字”); 
+　　} 
+3.function isNotANumber(inputData) { 
+　　//isNaN(inputData)不能判断空串或一个空格 
+　　//如果是一个空串或是一个空格，而isNaN是做为数字0进行处理的，而parseInt与parseFloat是返回一个错误消息，这个isNaN检查不严密而导致的。 
+　　if (parseFloat(inputData).toString() == “NaN”) { 
+　　　　//alert(“请输入数字……”); 
+　　　　return false; 
+　　} else { 
+　　　　return true; 
+　　} 
+}
+ 
+
+text-align:center;
+vertical-align: middle;
+	style="background-image:url(image/back/back28.jpg)"
+
+ 使用Ajax时的返回值类型:xml、html、script、JSON、jsonp、text
+2019-08-31
+一些相关的参数：
+str.toLowerCase()   转换成小写  
+str.toUpperCase()   字符串全部转换成大写
+URL即:统一资源定位符 (Uniform Resource Locator, URL) 
+完整的URL由这几个部分构成：
+scheme://host:port/path?query#fragment 
+scheme:通信协议
+常用的http,ftp,maito等
+
+host:主机
+服务器(计算机)域名系统 (DNS) 主机名或 IP 地址。
+
+port:端口号
+整数，可选，省略时使用方案的默认端口，如http的默认端口为80。
+
+path:路径
+由零或多个"/"符号隔开的字符串，一般用来表示主机上的一个目录或文件地址。
+
+query:查询
+可选，用于给动态网页（如使用CGI、ISAPI、PHP/JSP/ASP/ASP.NET等技术制作的网页）传递参数，可有多个参数，用"&"符号隔开，每个参数的名和值用"="符号隔开。
+
+fragment:信息片断
+字符串，用于指定网络资源中的片断。例如一个网页中有多个名词解释，可使用fragment直接定位到某一名词解释。(也称为锚点.)
+
+对于这样一个URL：http://www.maidq.com/index.html?ver=1.0&id=6#imhere
+我们可以用javascript获得其中的各个部分
+1, window.location.href
+整个URl字符串(在浏览器中就是完整的地址栏)
+本例返回值: http://www.maidq.com/index.html?ver=1.0&id=6#imhere
+2,window.location.protocol
+URL 的协议部分
+本例返回值:http:
+3,window.location.host
+URL 的主机部分
+本例返回值:www.maidq.com
+4,window.location.port
+URL 的端口部分
+如果采用默认的80端口(update:即使添加了:80)，那么返回值并不是默认的80而是空字符
+本例返回值:""
+5,window.location.pathname
+URL 的路径部分(就是文件地址)
+本例返回值:/fisker/post/0703/window.location.html
+6,window.location.search
+查询(参数)部分
+除了给动态语言赋值以外，我们同样可以给静态页面,并使用javascript来获得相信应的参数值
+本例返回值:?ver=1.0&id=6
+7,window.location.hash
+锚点
+本例返回值:#imhere
+
+
+2019-08-29
+cursor
+auto            :　  默认值。浏览器根据当前情况自动确定鼠标光标类型。 
+all-scroll      :　 IE6.0  有上下左右四个箭头，中间有一个圆点的光标。用于标示页面可以向上下左右任何方向滚动。 
+col-resize      :　 IE6.0  有左右两个箭头，中间由竖线分隔开的光标。用于标示项目或标题栏可以被水平改变尺寸。 
+crosshair       :　  简单的十字线光标。 
+default         :　  客户端平台的默认光标。通常是一个箭头。 
+hand            :　  竖起一只手指的手形光标。就像通常用户将光标移到超链接上时那样。 
+move            :　  十字箭头光标。用于标示对象可被移动。 
+help            :　  带有问号标记的箭头。用于标示有帮助信息存在。 
+no-drop         :　 IE6.0  带有一个被斜线贯穿的圆圈的手形光标。用于标示被拖起的对象不允许在光标的当前位置被放下。 
+not-allowed     :　 IE6.0  禁止标记(一个被斜线贯穿的圆圈)光标。用于标示请求的操作不允许被执行。 
+pointer         :　 IE6.0  和 hand 一样。竖起一只手指的手形光标。就像通常用户将光标移到超链接上时那样。 
+progress        :　 IE6.0  带有沙漏标记的箭头光标。用于标示一个进程正在后台运行。 
+row-resize      :　 IE6.0  有上下两个箭头，中间由横线分隔开的光标。用于标示项目或标题栏可以被垂直改变尺寸。 
+text            :　  用于标示可编辑的水平文本的光标。通常是大写字母 I 的形状。 
+vertical-text   :　 IE6.0  用于标示可编辑的垂直文本的光标。通常是大写字母 I 旋转90度的形状。 
+wait            :　  用于标示程序忙用户需要等待的光标。通常是沙漏或手表的形状。 
+*-resize        :　  用于标示对象可被改变尺寸方向的箭头光标。
+                     w-resize | s-resize | n-resize | e-resize | ne-resize | sw-resize | se-resize | nw-resize 
+url ( url )     :　 IE6.0  用户自定义光标。使用绝对或相对 url 地址指定光标文件(后缀为 .cur 或者 .ani )。
+
+08-09
+判断网络状态-https://www.jb51.net/article/112961.htm
+1. navigator.onLine
+2. ajax请求
+3. 获取网络资源
+4. bind()
+
+使用navigator.onLine来判断当前网络状态---pListSong.js的play函数中使用
+并不准确-根据MDN的描述：
+navigator.onLine只会在机器未连接到局域网或路由器时返回false，其他情况下均返回true。
+也就是说，机器连接上路由器后，即使这个路由器没联通网络，navigator.onLine仍然返回true
+
+audio|video.networkState
+0 = NETWORK_EMPTY - 音频/视频尚未初始化
+1 = NETWORK_IDLE - 音频/视频是活动的且已选取资源，但并未使用网络
+2 = NETWORK_LOADING - 浏览器正在下载数据
+3 = NETWORK_NO_SOURCE - 未找到音频/视频来源
+
+8-04周日
+实现页面文本被复制时的事件
+document.body.oncopy=function(){alert("复制成功")}

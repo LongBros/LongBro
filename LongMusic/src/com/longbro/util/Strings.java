@@ -1,7 +1,15 @@
 package com.longbro.util;
 
 import java.util.ArrayList;
-
+import java.util.Random;
+/**
+ * 账单分类、歌曲名及id数组
+ * @author 赵成龙
+ * @website www.longqcloud.cn & www.zy52113.com
+ * @date 2019年8月3日 下午2:07:45
+ * @description
+ * @version
+ */
 public class Strings {
 	public static String category[]={"交通","早餐","午餐","晚餐","生活","话费","娱乐","日常","零食","饮料","服装","学习"};
 	public static String Incate[]={"刷单","工资","兼职","软件","代缴电费","其他"};
@@ -140,4 +148,84 @@ public class Strings {
 			
 			"40926193.kw"
 	};
+	/**
+	 * 随机生成一个含有wei个数字的数
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年10月1日
+	 * @param wei
+	 * @return
+	 */
+	public static int allotNum(int wei){
+		Random ran=new Random();
+		String num="";
+		for(int i=0;i<wei;i++){
+			int seven=ran.nextInt(10);
+			num=num+seven;
+		}
+		int number=Integer.parseInt(num);
+		if(number>pow(10, wei)){//如果不是0开头，则返回
+			return number;
+		}else{//否则重新生成
+			return allotNum(wei);
+		}
+	}
+	public static int allotEight1(){
+		int id;
+		Random ran=new Random();
+		int eig=ran.nextInt(99999999);
+		if(eig>10000000){
+			 id=eig;
+			 return id;
+		}
+		else{
+			return allotEight1();
+		}
+	}
+	public static void main(String[] args) {
+//		for(int i=0;i<10;i++){
+//			System.out.println(allotNum(8));
+//		}
+		System.out.println(genNumber(10,3000));
+		
+		//计算10的八次方
+		
+	}
+	/**
+	 * 计算who的wei次幂
+	 * @desc 
+	 * @author zcl
+	 * @date 2019年10月1日
+	 * @param who
+	 * @param wei
+	 * @return
+	 */
+	public static int pow(int who,int wei){
+		int c=1;
+		for(int i=1;i<8;i++){
+			c=c*who;
+		}
+		return c;
+	}
+	public static String backs[]={"back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg"
+		,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png"
+		,"back0.gif","back1.gif","back2.gif"};
+	/**
+	 * @desc 随机生成n个max以内的正整数
+	 * @author zcl
+	 * @date 2019年12月25日
+	 * @param n
+	 * @param max
+	 * @return
+	 */
+	public static String genNumber(int n,int max){
+		String s="";
+		for(int i=0;i<n;i++){
+			s=s+new Random().nextInt(max)+",";
+		}
+		s=s.substring(0,s.length()-1);
+		return s;
+		
+	}
+	
 }

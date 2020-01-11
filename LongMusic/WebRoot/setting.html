@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>设置-实用小闹钟</title>
+    <meta charset="utf-8">
+    <meta name="keywords" content="实用小闹钟,打卡提醒,提醒工具">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    <link rel="icon" type="image/png" href="image/logo/dlam.jpg">
+    <link rel="stylesheet" type="text/css" href="hui/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    
+	<script src="scripts/boot.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/myjs/lovelyAlarm.js"></script>
+    <script type="text/javascript" src="js/myjs/player.js"></script>
+    <script type="text/javascript" src="js/myjs/setting.js"></script>
+    <style type="text/css">
+    	body {
+			background-color: #e2e2e2;
+		}
+    	.alAtip{
+    		margin-left: 40px;
+    		margin-top: 20px;
+    	}
+    </style>
+  </head>
+  
+  <body>
+  		<audio id="audio" style="display:none;" controls="controls"
+  		 	src="http://music.163.com/song/media/outer/url?id=486814412.mp3">
+		</audio>
+		<div class="alAtip">
+			<div class="alarm">
+				<h1>step1:设置我的铃声库->创建闹铃时选择铃声</h1>
+			    <table>
+			        <tr>
+			            <td style="cursor: pointer;">
+			            	<a href="amaze/songsList.jsp" target="_blank">云歌曲库</a>&nbsp<a onclick="loadPage('1')">1</a>&nbsp
+			            	<a onclick="loadPage('2')">2</a>&nbsp
+			            	<a onclick="loadPage('3')">3</a>&nbsp
+			            	<a onclick="loadPage('4')">4</a>&nbsp
+			            	<a onclick="loadPage('5')">5</a>&nbsp
+			            	<a onclick="loadPage('6')">6</a>&nbsp
+			            	<a onclick="loadPage('7')">7</a>&nbsp
+			            	<a onclick="loadPage('8')">8</a>&nbsp
+			            	<a onclick="loadPage('9')">9</a>&nbsp
+			            	<a onclick="loadPage('10')">10</a>&nbsp
+			                <div id="listbox1" class="mini-listbox" style="width:280px;height:350px;"
+			                    textField="songName" valueField="sourceId" showCheckBox="true" multiSelect="true"
+			                    url="queryAllSongs.do?page=1">
+			                </div>
+			            </td>
+			            <td style="width:120px;text-align:center;">
+			            	<input type="button" value="试听" onclick="listen()" style="background-color:blue;color:white ;width:40px;"/><br/>
+			                <input type="button" value=">" onclick="add()" title="加入铃声库" style="width:40px;"/><br />
+			                <input type="button" value=">>" onclick="addAll()" title="加入所有歌曲至铃声库" style="width:40px;"/><br />
+			                <input type="button" value="&lt;&lt;" onclick="removeAll()" title="清空铃声库" style="width:40px;"/><br />
+			                <input type="button" value="&lt;" onclick="removes()" title="移出铃声库" style="width:40px;"/><br />
+			
+			            </td>
+			            <td>
+			            	我的铃声库(最多可设置20个)
+			                <div id="myMusic" class="mini-listbox" style="width:250px;height:350px;"                     
+			                     showCheckBox="true" multiSelect="true">     
+			                    <div property="columns">
+			                        <div header="资源id" field="sourceId"></div>
+			                        <div header="歌曲名" field="songName"></div>
+			                    </div>
+			                </div>
+			            </td>
+			            <td style="width:50px;text-align:center;vertical-align:bottom">
+			                <input type="button" value="上移" title="选中歌曲后可将铃声库歌曲上移" onclick="upItem()" style="width:55px;"/>
+			                <input type="button" value="下移" title="选中歌曲后可将铃声库歌曲下移" onclick="downItem()" style="width:55px;"/>
+							<input type="button" value="保存" onclick="saveData1()" style="background-color:blue;color:white ;width:55px;"/>
+			            </td>
+			        </tr>
+			    </table>
+			</div>
+			<div class="tips">
+				 <h1>step2:设置我的提示语->创建闹铃时选择提示语</h1>
+			     <div id="myTips" class="mini-listbox" style="width:725px;height:250px;" 
+			       multiSelect="true" allowResize="true">
+			       	<div property="columns">
+			            <div header="提示语" field="tip"></div>
+			            <div header="创建时间" field="createtime"></div>
+			        </div>
+			    </div> 
+			    <fieldset style="width:700px;border:solid 1px #aaa;margin-top:8px;position:relative;">
+			        <legend>新增提示语</legend>
+			        <div id="editForm1" style="padding:5px;">
+			            <input class="mini-hidden" name="id"/>
+			            <table style="width:100%;">
+			                <tr>
+			                    <td><input id="ntip" name="ntip" emptyText="请输入" style="width:450px;" class="mini-textbox" /></td>
+			                    <td><input type="button" value="保存" onclick="saveData2()" style="background-color:blue;color:white ;margin-left:10px;"/>  </td>
+			                </tr>
+			            </table>
+			        </div>
+			    </fieldset>
+			</div>
+		</div>
+  	
+    <br>
+    <center><span id="oacb" onclick="openWords()" style="font-size: 20px;cursor: pointer;padding-bottom: 40px;">
+   		 展开<i class="Hui-iconfont" style="font-size:20px">&#xe6d5;</i>更多
+    </span></center>
+    <div id="words" style="display: none;margin-left: 30px;margin-bottom: 100px;">
+	    <h1>作者的话~关于网页版实用小闹铃:</h1>
+	    <h2>Zero:优势</h2>
+	    <div>
+	    	<span style="color: red">1</span>.简单、便捷、高效、快速，无需登录即可使用！<br>
+	    	<span style="color: red">2</span>.支持设置多个闹铃，闹铃之间互不影响<br>
+	    	<span style="color: red">3</span>.可随意删除不想用的闹铃<br>
+	    	<span style="color: red">4</span>.可随意设置铃声与提示语，选择你想听的铃声<br>
+	    	<span style="color: red">5</span>.超级温暖的提示语，作者选取超暖的语句作为默认的提示语以供选择<br>
+	    	<span style="color: red">6</span>.超甜超可爱的小表情，给你一整天的好心情<br>
+	    	<span style="color: red">PS</span>:如果你发现<span style="color: red">云歌曲库</span>中没得自己想添加的歌曲，欢迎联系QQ<span style="color: red">1459892910</span>为你添加。<br>
+	    	后期将上线<span style="color: red">留言板</span>功能以供留言，以及曲库搜索功能以很快搜索到你想要的歌曲。将支持所有<span style="color: red">QQ音乐</span>、<span style="color: red">网易云音乐</span>歌曲，敬请期待！
+	    </div>
+	    <h2>First：详细介绍</h2>
+	     <div>
+			  <span style="color: red">使命</span>:
+			  	别看我小，但我却有一个伟大的梦想，哪就是想让你拥有一整天的好心情，<br>
+			  &emsp;&emsp;&nbsp;拥有了我，打卡、订外卖……重要的事情不再忘记，<br>
+			  &emsp;&emsp;&nbsp;我将像手机闹铃一样重要。我会和辛苦的你一起，加油<br>
+			    主要使用对象：从事电脑工作的小伙伴们<br>
+			    使用方法：<span style="color: red">浏览器</span>基本是电脑工作者每日必使用的一款软件，通过浏览器打开此网页<br>
+			    作用举例：<br>1.每日上下班钉钉等<span style="color: red">打卡提醒</span>，<br>
+			  2.上班情况下如果有事(比如某个群定好上午十点要发红包)需定闹铃使用手机会有铃声影响<br>
+		 	  3.上班族<span style="color: red">订外卖提醒</span>工具，可定时十点半订外卖，到时自动提醒。再也不用为忘记订外卖而挨饿啦~
+		 	  4.如果你是带午饭的上班族那么它对你也是量身定做，可定时十一点半热饭，到时自动提醒。再也不用为忘记热饭而吃饭晚啦~
+		 	  <h4>因为需求与想法，所以萌生了此工具的构思；而因为有执行力，所……以，它被做了出来！虽然
+		 	  它看似是一个很小的工具，<br>但其实很实用。希望觉得不错的小伙伴可以多多宣传，作者在此向
+		 	  各位表示感谢！如有需要，它将来会拥有越来越多的功能</h4>
+		 </div>
+		 <h2>Second(<span style="color: red">Last but not the Least</span>)：温馨提示~可将该工具设为浏览器主页</h2>
+		 <div>
+		 	可将该工具设为浏览器主页，每次打开浏览器即会进入小闹铃工具，让它可以像手机闹铃一样为你服务<br>
+		  	设置方法：<span style="color: red">360浏览器</span>->设置->基本设置->修改主页->输入网址(<span style="color: red">http://112.74.173.44/LongMusic/index0.jsp</span>)并确定<br>
+					<span style="color: red">Google Chrome</span>->设置->高级->隐私设置和安全性->在启动时一栏选择“打开特定网页或一组网页”并输入网址保存
+		 	
+		 </div>
+    </div>
+    <div id="sponsorImage" style="display:none;background:#009688;width:200px;bottom:50px;height:240px;float: right;position:fixed;cursor: pointer;margin-right: 55px;">
+		
+		<img id="paypal" alt="" style="margin-left: 20px;display:inline-block" src="image/picture/paypal.jpg" width="160px" height="219px">
+    	<img id="wechat" alt="" style="margin-left: 20px;display: none" src="image/picture/wechat.jpg" width="160px" height="219px">
+    	<img id="qq" alt="" style="margin-left: 20px;display: none" src="image/picture/qq.jpg" width="160px" height="219px">
+    	<div style="background-color: pink;padding-bottom: 8px;padding-top: 4px;">
+			<span id="payBtn" style="float: left;margin-left: 20px;color:red" onclick="switchImg('pay')">支付宝</span>&emsp;
+			<span id="weBtn" style="float: center;margin-left: 17px;margin-right: 20px" onclick="switchImg('we')">微信</span>&emsp;
+			<span id="qqBtn" style="float: right;margin-right: 18px" onclick="switchImg('qq')">QQ</span>
+		</div>
+    </div>
+	<div style="background: pink;position:fixed;bottom:0; left:0px;width:100%;height:40px;cursor:pointer; ">
+		<div style="margin-left:50px;padding-top:6px;font-size: 13px;float: left;">
+			<span id="sponsor" onclick="tabOnItem('2')">赞赏支持</span>&nbsp;<i class="Hui-iconfont" title="赞助记录" onclick="tabOnItem('4')" style="font-size:18px">&#xe627;</i>&nbsp;|&emsp;
+			<span onclick="tabOnItem('0')">每日一句</span>&emsp;|&emsp;
+			<span onclick="tabOnItem('1')">用户使用指南</span>&emsp;|&emsp;
+			<span onclick="tabOnItem('3')" title="给作者留下你的珍贵性建议">留言作者</span>
+		</div>
+		<span style="margin-right:50px;padding-top:8px;font-size: 15px;float:right ;" onclick="mini.alert('域名正在备案进行中，暂无法使用域名访问网站！带来的不便还请见谅')">www.duola.vip © 2018~2020	&emsp;|&emsp;豫ICP备16023798号-1</span>
+		<span style="margin-right:50px;padding-top:8px;font-size: 18px;float:right ;"></span>
+		
+	</div>
+    <script type="text/javascript">
+        mini.parse();
+        var listbox1 = mini.get("listbox1");
+        var myMusic = mini.get("myMusic");
+        fillMyGit();
+    </script>  
+  </body>
+</html>

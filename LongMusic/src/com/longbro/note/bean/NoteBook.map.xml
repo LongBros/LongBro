@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.NoteBook">
+	<resultMap id="NoteBook" type="com.longbro.note.bean.NoteBook">
+		<id property="NId" column="n_Id" jdbcType="NUMERIC"/>
+		<result property="NType" column="n_Type" jdbcType="NUMERIC"/>
+		<result property="NBookid" column="n_BookId" jdbcType="NUMERIC"/>
+		<result property="NWritter" column="n_Writter" jdbcType="VARCHAR"/>
+		<result property="NTitle" column="n_Title" jdbcType="VARCHAR"/>
+		<result property="NContent" column="n_Content" jdbcType="VARCHAR"/>
+		<result property="NTime" column="n_Time" jdbcType="VARCHAR"/>
+		<result property="NWeather" column="n_Weather" jdbcType="NUMERIC"/>
+		<result property="NMood" column="n_Mood" jdbcType="NUMERIC"/>
+		<result property="NLocation" column="n_Location" jdbcType="VARCHAR"/>
+		<result property="NAllowComment" column="n_AllowComment" jdbcType="NUMERIC"/>
+		<result property="nAuthority" column="n_Authority" jdbcType="NUMERIC"/>
+		<result property="nSongId" column="n_song_id" jdbcType="VARCHAR"/>
+		<result property="nTop" column="n_top" jdbcType="NUMERIC"/>
+		<result property="nUserTop" column="n_user_top" jdbcType="NUMERIC"/>
+		<result property="updateTime" column="n_update_time" jdbcType="VARCHAR"/>
+		<result property="nWriteDevice" column="n_write_device" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.NoteBook">
+		INSERT INTO d_diary
+		(n_Type,n_BookId,n_Writter,n_Title,n_Content,n_Time,n_Weather,
+		n_Mood,n_Location,n_AllowComment,n_Authority,n_song_id,n_top,n_user_top,
+		n_write_device)
+		VALUES 
+		(#{NType,jdbcType=NUMERIC}, #{NBookid,jdbcType=NUMERIC}, 
+		#{NWritter,jdbcType=VARCHAR}, #{NTitle,jdbcType=VARCHAR}, 
+		#{NContent,jdbcType=VARCHAR}, #{NTime,jdbcType=VARCHAR}, 
+		#{NWeather,jdbcType=NUMERIC}, #{NMood,jdbcType=NUMERIC}, 
+		#{NLocation,jdbcType=VARCHAR},#{NAllowComment,jdbcType=NUMERIC},
+		#{NAuthority,jdbcType=NUMERIC},#{nSongId,jdbcType=VARCHAR},
+		#{nTop,jdbcType=NUMERIC},#{nUserTop,jdbcType=NUMERIC},
+		#{nWriteDevice,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get" parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Diary">
+		select d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
+		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
+		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
+		d.n_Authority nAuthority,d.n_song_id nSongId,n_update_time updateTime,
+		n_top nTop,n_user_top nUserTop,n_write_device nWriteDevice,
+		di.u_User_Name userName,di.u_Head_Image headImage,
+		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
+		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
+		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,
+		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum
+		 from d_diary d
+		 left join d_user_info di on d.n_Writter=di.u_User_Id
+		WHERE 
+		n_Id=#{id}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="NoteBook">
+		SELECT * FROM d_diary
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY n_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.NoteBook">
+		UPDATE d_diary
+        <set>
+			<if test="NType != null">
+				n_Type=#{NType,jdbcType=NUMERIC},
+			</if>
+			<if test="NBookid != null">
+				n_BookId=#{NBookid,jdbcType=NUMERIC},
+			</if>
+			<if test="NWritter != null">
+				n_Writter=#{NWritter,jdbcType=VARCHAR},
+			</if>
+			<if test="NTitle != null">
+				n_Title=#{NTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="NContent != null">
+				n_Content=#{NContent,jdbcType=VARCHAR},
+			</if>
+			<if test="NWeather != null">
+				n_Weather=#{NWeather,jdbcType=NUMERIC},
+			</if>
+			<if test="NMood != null">
+				n_Mood=#{NMood,jdbcType=NUMERIC},
+			</if>
+			<if test="NLocation != null">
+				n_Location=#{NLocation,jdbcType=VARCHAR},
+			</if>
+			<if test="NAllowComment != null">
+				n_AllowComment=#{NAllowComment,jdbcType=NUMERIC},
+			</if>
+			<if test="nAuthority != null">
+				n_Authority=#{nAuthority,jdbcType=NUMERIC},
+			</if>
+			<if test="nTop != null">
+				n_top=#{nTop,jdbcType=NUMERIC},
+			</if>
+			<if test="nUserTop != null">
+				n_user_top=#{nUserTop,jdbcType=NUMERIC},
+			</if>
+			<if test="nSongId != null">
+				n_song_id=#{nSongId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				n_update_time=#{updateTime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE
+		n_Id=#{NId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM d_diary 
+		WHERE
+		n_Id=#{NId}
+	</delete>
+	<select id="getDiaryByPage" parameterType="java.lang.Integer" resultMap="NoteBook">
+		select * from d_diary 
+		ORDER BY n_Time DESC,n_Id DESC LIMIT #{page},10 
+	</select>
+	<select id="getDiaryBy" resultType="com.longbro.note.bean.Diary">
+		select 
+		d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
+		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
+		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
+		d.n_Authority nAuthority,d.n_song_id nSongId,di.u_User_Name userName,
+		di.u_Head_Image headImage,n_top nTop,n_user_top nUserTop,
+		CHAR_LENGTH(d.n_Content) wordSize,n_write_device nWriteDevice,
+		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
+		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
+		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,
+		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum
+		 from d_diary d
+		 left join d_user_info di on d.n_Writter=di.u_User_Id
+		  where 1=1 and find_in_set(n_Authority,#{authority})
+		<if test="author!=null and author!=''">
+			and n_Writter=#{author}
+		</if>
+		<!-- 法一:将黑名单通过参数传过来-->
+		<!--
+		<if test="blackNameList!=null and blackNameList!=''">
+			and !FIND_IN_SET(n_Writter,#{blackNameList})
+		</if> 
+		-->
+		<!-- 法二:当前登录人id传过来，根据id查到登录人的黑名单 -->
+		<if test="user!=null and user!=''">
+			and !FIND_IN_SET(n_Writter,
+				CONCAT('\'1,',(SELECT u_black_namelist FROM d_user_info WHERE u_User_Id=#{user}),',2\''))
+		</if>
+		ORDER BY n_top desc,
+		<if test="author!=null and author!=''"><!-- 在作者页和我的家园页，用户置顶生效 -->
+			n_user_top desc,
+		</if>
+		n_Time DESC,n_Id DESC
+		<if test="page!=null and page!=''">
+			LIMIT ${page},${perPage} 
+		</if>
+		;
+	</select>
+	<select id="getDiaryNumBy" parameterType="com.longbro.note.bean.NoteBook" resultType="java.lang.Integer">
+		select count(1) from d_diary 
+		where 1=1
+		<if test="NType!=null and NType!=''"><!-- 日记分类 -->
+			 and n_Type =#{NType}
+		</if>
+		<if test="NWritter!=null and NWritter!=''"><!-- 日记作者 -->
+			 and n_Writter=#{NWritter}
+		</if>
+		<!-- 查询排出黑名单的日记的数量此处的NBookid作当前登录用户使用 -->
+		<if test="NBookid!=null and NBookid!=''">
+			and !FIND_IN_SET(n_Writter,
+				CONCAT('\'1,',(SELECT u_black_namelist FROM d_user_info WHERE u_User_Id=#{NBookid}),',2\''))
+		</if>
+		<!-- 12-12此处的NLocation做要查看的权限使用，比如：个人页使用的0,1,2表示查询完全公开、自己可见、登录可见的日记数量 -->
+		<if test="NLocation!=null and NLocation!=''">
+			 and find_in_set(n_Authority,#{NLocation})
+		</if>
+		ORDER BY n_Id desc;
+	</select>
+	<!-- 在diary.html界面使用，当前作者当前日记的上下篇切换功能	1上一篇，2下一篇 -->
+	<select id="getBeforeAndNextId" parameterType="java.util.Map" resultType="java.util.Map">
+		(SELECT n_Id id,n_Title title,1 as t FROM d_diary 
+		WHERE n_Writter=#{author} and find_in_set(n_Authority,#{authority})
+		<!-- <if test="user!=null and user!=''">登录用户
+			and find_in_set(n_Authority,'0,2')
+		</if>
+		<if test="user==author">登录用户与作者一样，可查看包括自己可见的上下篇
+			and find_in_set(n_Authority,'0,1,2')
+		</if>
+		<if test="user==null or user==''">未登录用户
+			and find_in_set(n_Authority,'0')
+		</if> -->
+		AND n_Id&lt;#{id} 
+		ORDER BY n_Id DESC LIMIT 0,1 )
+		UNION 
+		(SELECT n_Id id,n_Title title,2 as t FROM d_diary 
+		WHERE n_Writter=#{author} 
+		and find_in_set(n_Authority,#{authority})
+		 AND n_Id&gt;#{id}
+		 LIMIT 0,1 );
+	</select>
+	<select id="getMyDiary">
+		
+	</select>
+	<!-- 查询当天某账号的录入情况 -->
+	<select id="ifHasGen" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select count(1) from d_diary 
+		where n_Writter=#{account} and n_Time like concat('%',#{day},'%');
+	</select>
+	<!-- 得到古诗网或歌词网的所有未使用过的 -->
+	<select id="getDiaryByTable" parameterType="java.lang.String" resultType="java.util.HashMap">
+		select * from ${_parameter} 
+		where 1=1
+		<if test='_parameter=="song"'><!-- 12-10改为只得到网易云音乐的 -->
+			and status=0
+			and website='网易云音乐'
+		</if>
+		<if test='_parameter=="poem"'>
+			and p_Status=0
+		</if>
+		;
+	</select>
+	<!-- 修改使用状态 -->
+	<update id="alterUseStatus" parameterType="java.util.HashMap">
+		update ${tables} 
+		set 
+		<if test='tables=="song"'>
+			status=1,use_time=#{time} where id=#{id}
+		</if>
+		<if test='tables=="poem"'>
+			p_Status=1,p_usetime=#{time} where p_Id=#{id}
+		</if>
+	</update>
+	<!-- 12-25随机推荐n篇日记 -->
+	<select id="randomRecommend" parameterType="java.lang.String" resultType="com.longbro.note.bean.Diary">
+		select d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
+		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
+		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
+		d.n_Authority nAuthority,d.n_song_id nSongId,n_update_time updateTime,
+		n_top nTop,n_user_top nUserTop,n_write_device nWriteDevice,
+		CHAR_LENGTH(d.n_Content) wordSize,
+		di.u_User_Name userName,di.u_Head_Image headImage,
+		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
+		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
+		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,
+		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum
+		 from d_diary d
+		 left join d_user_info di on d.n_Writter=di.u_User_Id
+		WHERE  1=1 and find_in_set(n_Authority,'0,2') and find_in_set(n_Id,#{ids});
+	</select>
+	<!-- 12-25随机推荐n篇日记 -->
+	<select id="noticeUserDiary" parameterType="java.util.HashMap" resultType="com.longbro.note.bean.Diary">
+		select d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
+		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
+		d.n_Mood NMood,d.n_Location NLocation,d.n_AllowComment NAllowComment,
+		d.n_Authority nAuthority,d.n_song_id nSongId,n_update_time updateTime,
+		n_top nTop,n_user_top nUserTop,n_write_device nWriteDevice,
+		CHAR_LENGTH(d.n_Content) wordSize,
+		di.u_User_Name userName,di.u_Head_Image headImage,
+		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
+		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
+		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,
+		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum
+		 from d_diary d
+		 left join d_user_info di on d.n_Writter=di.u_User_Id
+		LEFT JOIN d_notice dn ON dn.n_Noticed=d.n_Writter
+		WHERE 1=1 and find_in_set(n_Authority,'0,2') 
+				  and dn.n_Noticer=#{user} 
+		ORDER BY d.n_Time DESC LIMIT 0,#{n};
+	</select>
+</mapper>

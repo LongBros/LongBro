@@ -1,0 +1,121 @@
+.contents{
+		width: 880px;
+		margin-left: 420px;
+		background:white ;
+		margin-top: 30px;
+	}
+	.tabs span{
+		margin-left:30px;
+		cursor: pointer;
+	}
+	.diary{
+		width: 800px;
+		margin-left: 10px;
+		margin-top: 10px;
+		cursor: pointer;
+	}
+	.diary img{
+		width: 20px;
+		height: 24px;
+		padding: 1px;
+	}
+	.info{
+		color: gray;
+		font-size: 10px;
+		padding-bottom: 6px;
+	}
+	.zan{
+		float:right;
+		margin-right: 15px;
+	}
+	.rights{
+		top: 75px;
+		left:38px;
+		width:356px;
+		position:fixed;
+		float: right;
+		background:white;
+		height: 520px;
+	}
+	.rights img{
+		width: 84px;
+		height: 130px;
+		padding: 1px;
+		margin-left:20px;
+		margin-top:20px;
+		border-radius:5px;
+	}
+	.rights .perStatistic{
+		padding-left: 20px;
+		margin-top: 10px;
+		padding-bottom: 10px;
+	}
+	.rights .perInfo{
+		padding-left: 20px;
+		margin-top: 10px;
+		padding-bottom: 10px;
+	}
+	.rights .activeInfo{
+		padding-left: 20px;
+		margin-top: 20px;
+	}
+	.praiseAStore{
+		text-align: center;
+		margin-top: 20px;
+	}
+	.pages{
+		vertical-align: middle;
+		text-align: center;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+	.pages span{
+		width:30px;
+		height:30px;
+		text-align:center;
+		line-height:30px;
+		display:inline-block;
+		background-color:#e2e2e2; 
+	}
+	.backDemo{
+		width: 88px;
+		height: 88px;
+		margin-left: 10px;
+		margin-top:10px; 
+	}
+	.backDemo:hover{
+		width: 208px;
+		height: 208px;
+		margin-left: 10px;
+		margin-top:10px; 
+	}
+	#myDiary span{
+		margin-left: 20px;
+		margin-top: 10px;
+	}
+	#myDiary .diary span{
+		margin-left: 1px;
+		margin-top: 1px;
+	}
+	#myDiary .diary .diaryTitle:hover{
+		margin-left: 25px;
+		margin-top: 25px;
+		font-color: blue;
+	}
+	#myDiary .notice{
+		margin-left: 30px;
+		margin-top: 15px;
+		margin-bottom: 12px;
+	}
+	#myDiary .notice a{
+		color: blue;
+	}
+	#myDiary .notice span{
+		float:right;
+		margin-right: 30px;
+	}
+	#myDiary .notice img{
+		width: 30px;
+		height: 34px;
+		margin-right: 5px;
+	}

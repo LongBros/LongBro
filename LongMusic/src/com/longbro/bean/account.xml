@@ -19,16 +19,28 @@
 		*
 		from account
 		where 1=1
-		<if test="payutil!=null">
+		<if test="payutil!=null and payutil!='' ">
 			and payutil=#{payutil}
 		</if>
-		<if test="in_out!=null">
+		<if test="in_out!=null and in_out!='' ">
 			and in_out=#{in_out}
 		</if>
-		<if test="category!=null">
+		<if test="category!=null and category!='' ">
 			and category=#{category}
 		</if>
-		<if test="key!=null">
+		<if test="amountFrom!=null and amountFrom!='' ">
+			and amount <![CDATA[ >= ]]> ${amountFrom}
+		</if>
+		<if test="amountTo!=null and amountTo!='' ">
+			and amount <![CDATA[ <= ]]> ${amountTo}
+		</if>
+		<if test="dateFrom!=null and dateFrom!='' ">
+			and str_to_date(time,'%Y-%m-%d') <![CDATA[ >= ]]> #{dateFrom}
+		</if>
+		<if test="dateTo!=null and dateTo!='' ">
+			and str_to_date(time,'%Y-%m-%d') <![CDATA[ <= ]]> #{dateTo}
+		</if>
+		<if test="key!=null and key!='' ">
 			and remark like concat('%',#{key},'%')
 		</if>
 		<if test="sortField!=null">

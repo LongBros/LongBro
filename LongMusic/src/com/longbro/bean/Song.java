@@ -17,19 +17,16 @@ public class Song {
 	private String album;
 	private String imgPath;
 	private String releaseTime;
+	private String inputTime;
 	private String website;
-	private String desc;
+	private String descr;
+	private String lyric;
+	private int playNum;
 	public String getWebsite() {
 		return website;
 	}
 	public void setWebsite(String website) {
 		this.website = website;
-	}
-	public String getDesc() {
-		return desc;
-	}
-	public void setDesc(String desc) {
-		this.desc = desc;
 	}
 	public int getId() {
 		return id;
@@ -79,6 +76,32 @@ public class Song {
 	public void setReleaseTime(String releaseTime) {
 		this.releaseTime = releaseTime;
 	}
+	
+	public String getInputTime() {
+		return inputTime;
+	}
+	public void setInputTime(String inputTime) {
+		this.inputTime = inputTime;
+	}
+	public String getDescr() {
+		return descr;
+	}
+	public void setDescr(String descr) {
+		this.descr = descr;
+	}
+	public String getLyric() {
+		return lyric;
+	}
+	public void setLyric(String lyric) {
+		this.lyric = lyric;
+	}
+	
+	public int getPlayNum() {
+		return playNum;
+	}
+	public void setPlayNum(int playNum) {
+		this.playNum = playNum;
+	}
 	public Song(int id, String sourceId, String songName, String singer,
 			String duration, String album, String imgPath, String releaseTime,
 			String website, String desc) {
@@ -92,7 +115,7 @@ public class Song {
 		this.imgPath = imgPath;
 		this.releaseTime = releaseTime;
 		this.website = website;
-		this.desc = desc;
+		this.descr = desc;
 	}
 	public Song() {
 		super();

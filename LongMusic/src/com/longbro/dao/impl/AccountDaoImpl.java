@@ -34,12 +34,9 @@ public class AccountDaoImpl extends BaseDao implements AccountDao{
 	}
 	@Override
 	public List<Account> queryAllBill1(String pageIndex, String pageSize,
-			String sortField, String sortOrder,String payutil,String in_out,String category,String key) {
-		HashMap<String,String> map=new HashMap<String, String>();
+			String sortField, String sortOrder,HashMap<String, String> map) {
 		map.put("pageIndex", pageIndex);map.put("pageSize", pageSize);
 		map.put("sortField", sortField);map.put("sortOrder", sortOrder);
-		map.put("payutil",payutil);map.put("in_out",in_out);map.put("category",category);
-		map.put("key", key);
 		return (List<Account>)this.selectList("com.longbro.bean.account.queryAllBill1",map);
 	}
 	@Override

@@ -1,0 +1,370 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>我的消息-哆啦日记</title>
+<meta name="keywords" content="哆啦日记消息页">
+<meta name="description" content="哆啦日记消息页,已登录用户可查看自己收到的消息">
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/image/logo/dlam.jpg" />
+<script type="text/javascript" src="hui/diary/js/index.js"></script>
+<link rel="stylesheet" type="text/css" href="css/index1.css">
+<link rel="stylesheet" type="text/css" href="hui/diary/css/index.css"><!-- 回顶部 -->
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="hui/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="hui/static/h-ui.admin/css/style.css" />
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="hui/diary/js/index.js"></script><!-- 获取当前登录用户 -->
+<script type="text/javascript" src="hui/diary/js/index1.js"></script><!-- 处理日记 -->
+<script type="text/javascript" src="js/myjs/timeDeal.js"></script><!-- 时间处理函数 -->
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<style type="text/css">
+	.contents{
+		width: 880px;
+		margin-left: 320px;
+		background:white ;
+		margin-top: 30px;
+		margin-bottom:66px;
+		height: 1000px;
+		overflow: auto;
+	}
+	.contents::-webkit-scrollbar {
+    	display: none;
+	}
+	.contents .content{
+		margin-left: 20px;
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	.contents span{
+		margin-left: 20px;
+		padding-top: 20px;
+	}
+	.contents input{
+		margin-left: 120px;
+	}
+	.content a{
+		color: blue;
+	}
+	.content span{
+		float:right;
+		margin-right: 10px;
+	}
+	.content img{
+		width: 24px;
+		height: 28px;
+		margin-right: 10px;
+	}
+	.info{
+		color: gray;
+		font-size: 10px;
+		padding-bottom: 6px;
+	}
+	.rights{
+		top: 75px;
+		left:108px;
+		width:206px;
+		position:fixed;
+		float: right;
+		background:white;
+		height: 350px;
+	}
+	.tabs .tab{
+		margin-top:20px;
+		cursor: pointer;
+		height: 35px;
+	}
+	.tabs span{
+		margin-left:70px;
+		cursor: pointer;
+	}
+	.tabs .current{
+		margin-left:20px;
+		margin-top:20px;
+		background-color:red;
+		font-style:white;
+		cursor: pointer;
+	}
+</style>
+</head>
+
+<body id="bodys" style="background:url(res/images/back/back3.jpg)">
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/">哆啦日记</a> 
+		<a class="logo navbar-logo-m f-l mr-10 visible-xs" href="newDiary.html">写日记</a> 
+			<span class="logo navbar-slogan f-l mr-10 hidden-xs">Doranote</span> 
+			<a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" onclick="loginPhone()" id="loginMobile">登录</a>
+				<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+			<ul class="cl">
+				<li id="homepage" style="cursor:pointer;" onclick="openNewPage('1')">首页</li>
+				<li class="dropDown dropDown_hover">
+					<a href="#" class="dropDown_A"><span id="image">admin</span> <i class="Hui-iconfont">&#xe6d5;</i></a>
+					<ul class="dropDown-menu menu radius box-shadow">
+						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
+						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
+						<li><a href="javascript:;" id="alarm" style="" onClick="openNewPage('4')">553Music</a></li>
+						<li><a href="http://112.74.173.44/LongMusic/index0.jsp" target="_blank">哆啦闹铃</a></li>
+						<li><a href="http://blog.duola.vip/msgboard.jsp" target="_blank">每日一句</a></li>
+						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
+						<li><a class="login" id="login" style="display:block">登录</a></li>
+					</ul>
+			</li>
+			<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+				<ul class="dropDown-menu menu radius box-shadow">
+					<li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
+					<li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
+					<li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+					<li><a href="javascript:;" data-val="red" title="红色">红色</a></li>
+					<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+					<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
+				</ul>
+			</li>
+			</ul>
+		</nav>
+	</div>
+</div>
+</header>
+
+
+<div class="modal fade" id="loginModal" style="display:none;">
+			<div class="modal-dialog modal-sm" style="width:540px;">
+				<div class="modal-content" style="border:none;">
+					<div class="col-left"></div>
+					<div class="col-right">
+						<div class="modal-header">
+							<button type="button" id="login_close" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="loginModalLabel" style="font-size: 18px;"><span onclick="loginOrRegister(0)">登录</span>&emsp;&emsp;<span onclick="loginOrRegister(1)">注册</span></h4>
+						</div>
+						<div class="modal-body">
+							<section class="box-login v5-input-txt" id="box-login">
+								<div id="loginBox">
+									<form id="login_form" name="login_form" action="" method="post" autocomplete="off">
+									<ul>
+										<li class="form-group"><input class="form-control" id="id_account_l" maxlength="50" name="account_l" placeholder="请输入哆啦id" type="text"></li>
+										<li class="form-group"><input class="form-control" id="id_password_l" name="password_l" placeholder="请输入密码" type="password"></li>
+									</ul>
+									</form>
+									<p class="good-tips marginB10"><a id="btnForgetpsw" class="fr"><!-- 忘记密码？ --></a>还没有账号？<a href="javascript:;" onclick="loginOrRegister(1)" target="_blank" id="btnRegister">立即注册</a></p>
+									 <div class="login-box marginB10">
+										<button id="login_btn" type="button" onclick="login()" class="btn btn-micv5 btn-block globalLogin">登录</button>
+										<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+									</div>
+								</div>
+								<div id="registerBox" style="display:none">
+									<form id="register_form" name="register_form" action="" method="post" autocomplete="off">
+										
+										<ul>
+											<li class="form-group"><input class="form-control" id="id_dora_r" maxlength="8" name="dora_r" placeholder="请输入哆啦id(为空时随机生成)" type="text"></li>
+											<li class="form-group"><input class="form-control" id="id_userName_r" maxlength="20" name="userName_r" placeholder="请输入用户名" type="text"></li>
+											<li class="form-group"><input class="form-control" id="id_password_r" name="password_r" placeholder="请输入密码" type="password"></li>
+										</ul>
+									</form>
+									<div class="login-box marginB10">
+										<button id="login_btn" type="button" onclick="register()" class="btn btn-micv5 btn-block globalLogin">注册</button>
+										<div id="login-form-tips" class="tips-error bg-danger" style="display: none;">错误提示</div>
+									</div>
+								</div>
+<!-- 								<div class="threeLogin"><span>其他方式登录</span><a class="nqq" href="javascript:;"></a><a class="nwx" href="javascript:;"></a><a class="nwb"></a></div>
+ -->							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<div id="content" class="contents" style="">
+	
+</div>
+<div class="rights">
+	<div class="tabs">
+		<div class="tab" id="tab0" onclick="openTab(0)"><span id="system">系统通知</span></div>
+		<div class="tab" id="tab1" onclick="openTab(1)"><span id="attention">关注朕</span></div>
+		<div class="tab" id="tab2" onclick="openTab(2)"><span id="comment">给我评论</span></div>
+		<div class="tab" id="tab3" onclick="openTab(3)"><span id="praise">给我点赞</span></div>
+		<div class="tab" id="tab4" onclick="openTab(4)"><span id="store">收藏我的</span></div>
+		<div class="tab" id="tab5" onclick="openTab(5)"><span id="at">@我的</span></div>
+		<div class="tab" id="tab6" onclick="openTab(6)"><span id="msgsetting">消息设置</span></div>
+	</div>
+	
+</div>
+<div class="toTop">
+	<a href="#" title="点我回顶部喔">^^</a>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="hui/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="hui/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="hui/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="hui/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="hui/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+<script type="text/javascript">
+var user=getCookie("userId")+"";//当前登录用户
+getUser();
+$(".login").on("click", login_popup),function() {
+    var e = [];
+    $(".modal").on("show.bs.modal",
+    function() {
+        for (var s = 0; e.length > s; s++) e[s] && (e[s].modal("hide"), e[s] = null);
+        e.push($(this));
+        var o = $(this),
+        a = o.find(".modal-dialog"),
+        t = $('<div style="display:table; width:100%; height:100%;"></div>');
+        t.html('<div style="vertical-align:middle; display:table-cell;"></div>'),
+        t.children("div").html(a),
+        o.html(t)
+    })
+} ();
+var author=user;//loadAuthorInfo()函数中需要author
+
+$(function(){
+	if(user!=""){
+		getSetting(user);//加载登录用户的设置：背景、不看他、是否自动播放等
+	}
+	var t=window.location+"";
+	if(t.indexOf("=")==-1){
+		openTab(1);
+	}else{
+		t=t.substring(t.indexOf("=")+1);
+		openTab(t);
+	}
+});
+
+function openTab(which){
+	var tabs=new Array("tab0","tab1","tab2","tab3","tab4","tab5","tab6");
+	for(var i=0;i<7;i++){
+		if(i==which){
+			$("#tab"+i).css("background","red");
+			$("#tab"+i).css("color","white");
+		}else{
+			$("#tab"+i).css("background","white");
+			$("#tab"+i).css("color","black");
+		}
+	}
+	
+	if(which==0){//系统通知
+		$(".contents").text("");
+		$(".contents").append("<div class='content'><center>静候此功能上线喔</center></div>");
+	}else if(which==1){//关注
+		$(".contents").text("");
+		$.ajax({
+			url:"note/notice/getMyMessage.do?userId="+user,
+			type:"get",
+			async:false,
+			dataType:"Json",
+			success:function(data){
+				//noticerId,noticeTime,readStatus,noticerName
+				var res=data.result;
+				if(res.length>0){
+					$(".contents").append("<span></span>");
+					$(".contents").append("<div class='content'><center>共有<font color='red'>"+res.length+"</font>条关注消息</center></div>");
+				}
+				if(res.length<1){
+					$(".contents").append("<div class='content'><center>暂时没有人关注你喔，快去发布一些吸引人的日记吧！</center></div>");
+				}
+				for(var i=0;i<res.length;i++){
+					$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].noticerId+"' target='_blank'>"+res[i].noticerName+"</a>&emsp;关注了你<font color='gray' size='2px'><span>"+res[i].noticeTime+"</span></font></div><hr>");
+				}
+				
+			}
+		});
+	}else if(which==2){//被评论消息
+		$(".contents").text("");
+		$.ajax({
+			url:"note/comment/getMyMessage.do?userId="+user,
+			type:"get",
+			async:false,
+			dataType:"Json",
+			success:function(data){
+				//diaryId，reviewer，reviewCon，reviewTime，readStatus，viewerName，diaryTitle
+				var res=data.result;
+				if(res.length>0){
+					$(".contents").append("<div class='content'><center>共有<font color='red'>"+res.length+"</font>条评论消息</center></div>");
+				}
+				if(res.length<1){
+					$(".contents").append("<div class='content'><center>暂时没有人评论你的日记喔，快去发布一些吸引人的日记吧！</center></div>");
+				}
+				for(var i=0;i<res.length;i++){
+					var con=res[i].reviewCon+"";
+					
+					if(con.length>10){
+						con=con.substring(0,7)+"...";
+					}
+					if(res[i].reviewer=='123141414'||res[i].reviewer==''){
+						$(".contents").append("<div class='content'>本站访客(未登录用户)评论了你的日记<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>&emsp;<font style='color:gray;font-size:5px;'>"+con+"</font><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
+					}else{
+						$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].reviewer+"' target='_blank'>"+res[i].viewerName+"</a>&emsp;评论了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>&emsp;"+con+"<font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
+					}
+				}
+			}
+		});
+	}else if(which==3){//被点赞消息
+		$(".contents").text("");
+		$.ajax({
+			url:"note/praise/getMyMessage.do?userId="+user,
+			type:"get",
+			async:false,
+			dataType:"Json",
+			success:function(data){
+				//type,diaryId,praiser,praiseTime,readStatus,praiserName,diaryTitle
+				var res=data.result;
+				if(res.length>0){
+					$(".contents").append("<div class='content'><center>共有<font color='red'>"+res.length+"</font>条被点赞消息</center></div>");
+				}
+				if(res.length<1){
+					$(".contents").append("<div class='content'>暂时没有人给你的日记点赞喔，，快去发布一些吸引人的日记吧！</div>");
+				}
+				for(var i=0;i<res.length;i++){
+					$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>&emsp;赞了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].praiseTime+"</span></font></div><hr>");
+				}
+			}
+		});
+	}else if(which==4){//被收藏消息
+		$(".contents").text("");
+		$.ajax({
+			url:"note/store/getMyMessage.do?userId="+user,
+			type:"get",
+			async:false,
+			dataType:"Json",
+			success:function(data){
+				//type,diaryId,storer,storeTime,readStatus,storerName,diaryTitle
+				var res=data.result;
+				if(res.length>0){
+					$(".contents").append("<div class='content'><center>共有<font color='red'>"+res.length+"</font>条被收藏消息</center></div>");
+				}
+				if(res.length<1){
+					$(".contents").append("<div class='content'><center>暂时没有人收藏你的日记喔，快去发布一些吸引人的日记吧！</center></div>");
+				}
+				for(var i=0;i<res.length;i++){
+					$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].storer+"' target='_blank'>"+res[i].storerName+"</a>&emsp;收藏了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].storeTime+"</span></font></div><hr>");
+				}
+			}
+		});
+	}else if(which==5){//@我的
+		$(".contents").text("");
+		$(".contents").append("<div class='content'><center>还没有人@你呐</center></div>");
+	}else if(which==6){//消息设置
+		$(".contents").text("");
+		$(".contents").append("<span>被关注消息提醒设置</span><input type='checkbox' id='attenRemind' checked name='attenRemind'><hr>");
+		$(".contents").append("<span>获赞消息提醒设置</span><input type='checkbox' id='praiseRemind' checked name='praiseRemind'><hr>");
+		$(".contents").append("<span>被收藏消息提醒设置</span><input type='checkbox' id='storeRemind' checked name='storeRemind'><hr>");
+		$(".contents").append("<span>被评论消息提醒设置</span><input type='checkbox' id='commentRemind' checked name='commentRemind'><hr>");
+	}
+	
+}
+</script> 
+</body>
+</html>
