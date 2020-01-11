@@ -1,5 +1,12 @@
 # LongBro
 个人开发的一些实用工具
+项目域名：
+哆啦日记：www.duola.vip
+553Music：http://www.duola.vip/amaze/songsList.jsp
+智能记账：http://www.duola.vip/mini/myAccount.html
+LongBro博客：blog.duola.vip
+553影院：http://duola.vip/LongVideos/
+
 包括
 1.记账账单---分别用AmazeUI和MiniUI及hui三种前端框架实现
 可以方便的记录账单，也可以直观的查看账单。
