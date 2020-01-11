@@ -527,6 +527,8 @@ function register(){
 		if(re==1){
 			return;
 		}
+	}else{
+		inviter="5211314";
 	}
 	var url="note/userinfo/register.do";
 	$.ajax({
