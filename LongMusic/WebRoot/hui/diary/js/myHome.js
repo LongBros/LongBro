@@ -370,8 +370,8 @@ function openSetting(){
  */
 function loadAllBack(){
 	var array=new Array("back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg"
-			,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png"
-			,"back0.gif","back1.gif","back2.gif");
+			,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png","back8.png","back9.png","back10.png","back11.png"
+			,"back0.gif","back1.gif","back2.gif","back3.gif","back4.gif","back5.gif","back6.gif");
 	for(var i=0;i<array.length;i++){
 		if(i%5==0){
 			$("#myDiary").append("<br>");
@@ -641,6 +641,9 @@ function loadMyCom(){
 			}
 			for(var i=0;i<res.length;i++){
 				var con=res[i].reviewCon+"";
+				if(con.length>15){
+					con=con.substring(0,15)+"...";
+				}
 				$("#myDiary").append("<div class='notice'>你评论了<a href='author.html?author="+res[i].reviewed+"' target='_blank'>"+res[i].viewedName+"</a>&emsp;的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>&emsp;<font style='color:gray;font-size:5px;'>"+con+"</font><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 			}
 		}
@@ -685,4 +688,32 @@ function loadMyFans(){
 			}
 		}
 	});
+}
+function openTab(which){
+	var tabs=new Array("my","love","store","comment","attention","fans","setting");
+	for(var i=0;i<7;i++){
+		if(i==which){
+			$(tabs[i]).css("background","red");
+			$(tabs[i]).css("color","white");
+		}else{
+			$(tabs[i]).css("background","white");
+			$(tabs[i]).css("color","black");
+		}
+	}
+	
+	if(which==0){//
+		loadMyDiary('1','10');
+	}else if(which==1){
+		loadMyLove()
+	}else if(which==2){
+		loadMyStore()
+	}else if(which==3){
+		loadMyCom()
+	}else if(which==4){
+		loadMyAtten()
+	}else if(which==5){
+		loadMyFans()
+	}else if(which==6){
+		openSetting()
+	}
 }

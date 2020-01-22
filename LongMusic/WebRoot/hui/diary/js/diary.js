@@ -343,7 +343,6 @@ function submit_comment(){
 			alert(res.message);
 		}
 	});
-	alert(cid);//评论id
 	var at=$("#calledFri").text()+"";//@的人
 	if(at.indexOf("、")!=-1){
 		$.ajax({

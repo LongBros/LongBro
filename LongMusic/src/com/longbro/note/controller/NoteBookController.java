@@ -109,7 +109,7 @@ public class NoteBookController{
     @RequestMapping(value="getDiaryBy",method=RequestMethod.GET)
     @ResponseBody
     public List<Diary> getDiaryBy(HttpServletRequest request){
-    	genDiary();//生成歌词网和古诗网的日记
+    	genDiary(0,0);//生成歌词网和古诗网的日记
     	
 //    	log.info("开始加载笔记");
     	int per=10;
@@ -158,15 +158,14 @@ public class NoteBookController{
     }
     /**
      * @desc 7.每天随机生成歌词网和古诗网的日记，爬取庆兔兔日记
+     * 01-05添加两参数，计划可以指定某个账号生成的日记。使不再随机
      * @author zcl
      * @date 2019年11月30日
      */
-    public void genDiary(){
+    public void genDiary(int poem,int song){
     	//凌晨六点前十一点后不执行该方法
-		/*if(TimeUtil.getNowHour()>11||TimeUtil.getNowHour()<6){
-			return;
-    	}*/
-		if(TimeUtil.getNowHour()>11){//十一点后不执行该方法
+    	int hour=TimeUtil.getNowHour();
+		if(hour>11||(hour>3&&hour<6)){
 			return;
     	}
     	int num1=noteBookService.ifHasGen(TimeUtil.getToday(), "65313340");
@@ -199,6 +198,84 @@ public class NoteBookController{
 			int i=new Random().nextInt(list.size());
 			System.out.println(">>>>>>>>>>>>>用户"+account+"今日将被使用的内容的序号为"+i);
 			HashMap<String, Object> map=list.get(i);
+			NoteBook nb=new NoteBook();
+			nb.setNWritter(account+"");
+			nb.setNTime(TimeUtil.getToday()+" "+TimeUtil.genRandomTime());
+			nb.setNAuthority(0);//所有人可见
+			nb.setNType(3);
+			nb.setNAllowComment(0);//允许评论
+			nb.setNWeather(0);
+			nb.setNMood(0);
+			nb.setnTop(0);
+			nb.setnUserTop(0);
+			System.out.println(">>>>>>>>>>>>>用户"+account+"今日被使用的内容的实体为"+new Gson().toJson(map));
+			if(account==88888888){//歌曲
+				nb.setNTitle(map.get("songName")+"-"+map.get("singer"));
+				nb.setNContent(map.get("lyric")+"");
+				nb.setnSongId(map.get("sourceId")+"");
+				nb.setNLocation("河南省平顶山市");
+				idd=map.get("id")+"";
+			}else{//古诗
+				nb.setNTitle(map.get("p_Name")+"-"+map.get("p_Poet"));
+				nb.setNContent(map.get("p_PoemCons")+"");
+				nb.setNLocation("河南省邓州市");
+				idd=map.get("p_Id")+"";
+			}
+			noteBookService.addNote(nb);//插入笔记
+			//修改使用状态，万万不可用i
+			noteBookService.alterUseStatus(table, TimeUtil.time(), idd);
+	    	System.out.println(">>>>>>>>>>>>>已生成今日"+account+"的日记为第"+idd);
+
+		}
+    }
+    public void genDiary1(int poem,int song){
+    	//凌晨3~6点前及十一点后不执行该方法
+    	int hour=TimeUtil.getNowHour();
+		if(hour>11||(hour>3&&hour<6)){
+			return;
+    	}
+    	int num1=noteBookService.ifHasGen(TimeUtil.getToday(), "65313340");
+    	if(num1==0){//庆兔兔日记今日未爬取过
+    		int diaryId=0;
+    		for(int i=0;i<4;i++){
+    			diaryId=SpideLapuda.spideIndex(i);//从首页获取庆兔兔日记id
+    			if(diaryId!=0){
+    	    		spideLapuda(diaryId);
+    				break;
+    			}
+    		}
+    	}
+    	
+    	int num=noteBookService.ifHasGen(TimeUtil.getToday(), "66666666");
+    	if(num>0){//古诗网今日已生成过
+        	System.out.println("今日已生成过");
+    		return;
+    	}
+    	int machines[]={66666666,88888888};
+		for(int account:machines){
+			System.out.println(">>>>>>>>>>>>>将生成用户"+account+"的日记");
+			String table="poem";
+			String idd="";//日记在原本数据表中的ID，方便修改状态为“已使用”状态
+			if(account==88888888){
+				table="song";
+			}
+			HashMap<String, Object> map=null;
+			if(poem==0&&account==66666666){//未指定则随机
+				List<HashMap<String, Object>> list=noteBookService.getDiaryByTable(table);
+				System.out.println(">>>>>>>>>>>>>用户"+account+"未被使用的内容数量为"+list.size());
+				int i=new Random().nextInt(list.size());
+				System.out.println(">>>>>>>>>>>>>用户"+account+"今日将被使用的内容的序号为"+i);
+				map=list.get(i);
+			}else if(song==0&&account==88888888){//未指定则随机
+				List<HashMap<String, Object>> list=noteBookService.getDiaryByTable(table);
+				System.out.println(">>>>>>>>>>>>>用户"+account+"未被使用的内容数量为"+list.size());
+				int i=new Random().nextInt(list.size());
+				System.out.println(">>>>>>>>>>>>>用户"+account+"今日将被使用的内容的序号为"+i);
+				map=list.get(i);
+			}else{
+				
+			}
+			
 			NoteBook nb=new NoteBook();
 			nb.setNWritter(account+"");
 			nb.setNTime(TimeUtil.getToday()+" "+TimeUtil.genRandomTime());

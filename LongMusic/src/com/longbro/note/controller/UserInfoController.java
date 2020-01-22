@@ -389,7 +389,7 @@ public class UserInfoController{
     	ui.setUUserId(Integer.parseInt(doraId));
     	ui.setUUserName(userName);
     	ui.setPassword(password);
-    	ui.setInviter(Integer.parseInt(inviter));
+    	ui.setInviter(inviter.equals("")?null:Integer.parseInt(inviter));
     	ui.setLocation("");
     	ui.setSignature("");
     	//随机生成家歌和背景
