@@ -329,7 +329,11 @@ function openTab(which){
 					$(".contents").append("<div class='content'>暂时没有人给你的日记点赞喔，，快去发布一些吸引人的日记吧！</div>");
 				}
 				for(var i=0;i<res.length;i++){
-					$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>&emsp;赞了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].praiseTime+"</span></font></div><hr>");
+					if(res[i].type==0){
+						$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>&emsp;赞了你的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a><font color='gray' size='2px'><span>"+res[i].praiseTime+"</span></font></div><hr>");
+					}else{//评论被赞
+						$(".contents").append("<div class='content'><img src='image/tx/"+res[i].headImg+".jpg'><a href='author.html?author="+res[i].praiser+"' target='_blank'>"+res[i].praiserName+"</a>&emsp;赞了你的评论<font color='gray' size='2px'><span>"+res[i].praiseTime+"</span></font></div><hr>");
+					}
 				}
 			}
 		});

@@ -41,8 +41,8 @@ public class PraiseDiaryDao extends BaseDao{
 		// TODO Auto-generated method stub
 		return (PraiseDiary)this.selectOne(getNamespace()+".get", diary);
 	}
-	public int getPraiseNum(Map<String,Object> map){
-		return (Integer)this.selectOne(getNamespace()+".getPraiseNum", map);
+	public int getPraiseNum(PraiseDiary diary){
+		return (Integer)this.selectOne(getNamespace()+".getPraiseNum", diary);
 	}
 	public List<PraiseDiary> getLikeDiarybyUser(String userId){
 		return (List<PraiseDiary>)this.selectList(getNamespace()+".getLikeDiarybyUser", userId);

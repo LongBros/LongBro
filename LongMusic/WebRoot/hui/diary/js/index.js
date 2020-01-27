@@ -337,6 +337,8 @@ function ifAttention(){
 	var attBtn=document.getElementById("attention");
 	if(ifAtt==1){//已关注，则隐藏“关注”按钮
 		attBtn.innerHTML="已关注<i class=\"Hui-iconfont\">&#xe676;</i>";
+		attBtn.style.background="white";
+		attBtn.style.color="gray";
 	}else{
 		attBtn.innerHTML="关注<i class=\"Hui-iconfont\">&#xe716;</i>";
 	}
@@ -357,11 +359,15 @@ function attenAuthor(){
 	if(text.indexOf("已关注")!=-1){//已关注情况取消关注
 		url="note/notice/cancelAtten.do";
 		attBtn.innerHTML="关注<i class=\"Hui-iconfont\">&#xe716;</i>";
+		attBtn.style.background="red";
+		attBtn.style.color="white";
 		fanNum.innerText=parseInt(fanNum.innerText)-1;
 		alert("已取消关注！");
 	}else{
 		url="note/notice/noticeAuthor.do";
 		attBtn.innerHTML="已关注<i class=\"Hui-iconfont\">&#xe676;</i>";
+		attBtn.style.background="white";
+		attBtn.style.color="gray";
 		fanNum.innerText=parseInt(fanNum.innerText)+1;
 		alert("已关注！");
 	}

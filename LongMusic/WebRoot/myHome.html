@@ -138,27 +138,32 @@
 		</div>
 
 <div class="contents" id="contents">
-	<div class="tabs">
-		&emsp;&emsp;<span onclick="openTab(0)" id="my">我的日记</span>
-		&emsp;&emsp;<span onclick="openTab(1)" id="love">我的喜欢</span>
-		&emsp;<span onclick="openTab(2)" id="store">我的收藏</span>
-		&emsp;<span onclick="openTab(3)" id="comment">我评论的</span>
-		&emsp;<span onclick="openTab(4)" id="attention">我关注的人</span>
-		&emsp;<span onclick="openTab(5)" id="fans">我的粉丝</span>
-		<!-- &emsp;<span onclick="loadMyFeet()" id="feet">我看过的</span> -->
-		&emsp;<span onclick="openTab(6)" id="setting">设置</span>	
+	<div class="tabs" style="background: #5fb878;color:white;height: 40px;cursor: pointer;">
+		<div  style="padding-top: 8px">
+			&emsp;&emsp;<span onclick="openTab(0)" id="my">我的日记</span>
+			&emsp;&emsp;<span onclick="openTab(1)" id="love">我的喜欢</span>
+			&emsp;<span onclick="openTab(2)" id="store">我的收藏</span>
+			&emsp;<span onclick="openTab(3)" id="comment">我评论的</span>
+			&emsp;<span onclick="openTab(4)" id="attention">我关注的人</span>
+			&emsp;<span onclick="openTab(5)" id="fans">我的粉丝</span>
+			<!-- &emsp;<span onclick="loadMyFeet()" id="feet">我看过的</span> -->
+			&emsp;<span onclick="openTab(6)" id="setting">设置</span>
+		</div>
 	</div>
 	<div id="myDiary"></div>
 	<div class="pages" style="cursor: pointer;">
 	</div>
 </div>
 <div class="rights" id="rights">
-	 <img src='image/logo/dlam.jpg' id="touxiang" class='touxiang'>
-	 <!-- <form action="../../note/userinfo/uploadHeadImage.do" method="post" enctype="multipart/form-data">
-		<input type="file" name="pic">
-		<input type="text" name="userId" value="66666666">
-		<input type="submit" value="上传">
-	</form> -->
+	<div>
+		<img src='image/logo/dlam.jpg' id="touxiang" class='touxiang'>
+		 <form action="note/userinfo/uploadHeadImage.do" method="post" enctype="multipart/form-data">
+			<input type="file" name="pic"><br>
+			<input type="text" name="userId" id="userId_pic" style="display:none">
+			<input type="submit" value="上传" style="background: gray;width: 40px;height: 25px;margin-top: 5px;">
+		</form>
+	</div>
+	 
 	<div class="perStatistic">
 		关注：<span title="朕关注的人" id="careNum">0</span>&emsp;粉丝：<span title="关注朕的人" id="noticedNum">0</span>&emsp;
 		喜欢：<span title="朕喜欢的日记" id="likeNum">0</span>&emsp;收藏：<span title="朕收藏的日记" id="storeNum">0</span><br>	
@@ -223,7 +228,6 @@ $(".login").on("click", login_popup),function() {
 var author=user;//loadAuthorInfo()函数中需要author
 
 $(function(){
-	//判断当前登录人是否已点赞、收藏该日记，并对图标做修改
 	loadAuthorInfo();//index.js中
 	var curPage=1;//当前页码
 	var perPage=10;//当前一页展示日记数量
@@ -233,12 +237,13 @@ $(function(){
 	if(user!=""){
 		getSetting(user);//加载登录用户的设置
 	}
+	setUserId();
 	monitor();//手机访问时隐藏左边栏目
 });
 //12-02上传头像
-function uploadImg(){
-	var pics=document.getElementById("pic");
-	alert(pics.value);
+function setUserId(){
+	var pics=document.getElementById("userId_pic");
+	pics.value=user;
 }
 </script> 
 </body>

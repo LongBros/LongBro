@@ -132,7 +132,10 @@
 				u_show_player=#{showPlayer,jdbcType=NUMERIC},
 			</if>
 			<if test="textEditor != null">
-				u_text_editor=#{textEditor,jdbcType=NUMERIC}
+				u_text_editor=#{textEditor,jdbcType=NUMERIC},
+			</if>
+			<if test="headImage != null">
+				u_Head_Image=#{headImage,jdbcType=VARCHAR}
 			</if>
 		</set>
 		WHERE

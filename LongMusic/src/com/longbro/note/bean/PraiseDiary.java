@@ -11,7 +11,7 @@ package com.longbro.note.bean;
 public class PraiseDiary{
 
 	protected Integer PId;
-
+	protected Integer type;//被赞的文本的类型(0:日记,1:评论)
 	protected String PDiary; //被赞的日记
 	protected String PPraiser; //点赞的人
 	protected String PPraised; //被点赞的人
@@ -79,6 +79,12 @@ public class PraiseDiary{
 	 */
 	public Integer getPReadStatus() {
 		return this.PReadStatus;
+	}
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	
 }

@@ -16,7 +16,11 @@ function myselfinfo(){
 
 /*
  * 2.根据页码加载日记--用于首页和作者页
- * @param 作者	页码
+ * @param from:作者页、首页
+ * @param author作者	
+ * @param page页码
+ * @param perPage
+ * @param userId
 */
 function loadDiary(from,author,page,perPage,userId){
 	var au="0";//完全公开的
@@ -93,7 +97,12 @@ function loadDiary(from,author,page,perPage,userId){
 				var au="";
 				if(from=="index"){//首页列表中显示头像和作者
 					tx="<img src='image/tx/"+data[i].headImage+".jpg' class='touxiang' onclick='openOther(1,\""+data[i].nwritter+"\")'>";
-					au="<i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+					var sex=data[i].authorSex;
+					if(sex==0){//女性
+						au="<i class=\"Hui-iconfont\" style='color:red'>&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+					}else{
+						au="<i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+					}
 				}
 				//onclick='openOther(0,"+data[i].nid+")'
 				$("#diarys").append("<div class=\"diary\">"+tx+"<a href=\"diary.html?id="+data[i].nid+"\"  "+ti+">"+con+"</a><br>"
@@ -298,9 +307,13 @@ function setPage(from,author,perPage,userId){
 function initUnReadMessage(){
 	
 	$.ajax({
-		url:"note/praise/getPraiseNum.do?PPraised=",
+		url:"note/praise/getPraiseNum.do",
 		type:"get",
 		async:false,
+		data:{
+			PPraised:user,
+			PReadStatus:0
+		},
 		dataType:"text",
 		success:function(data){
 			document.getElementById("unReadNum").innerText=data;
@@ -344,17 +357,17 @@ function addToUnlike(userId,userName){
 function switchTab(which){
 	if(which==0){//推荐
 		document.getElementById("recommend").style.color="red";
-		document.getElementById("notice").style.color="black";
-		document.getElementById("time").style.color="black";
+		document.getElementById("notice").style.color="white";
+		document.getElementById("time").style.color="white";
 		openRecommend();
 	}else if(which==1){//关注
-		document.getElementById("recommend").style.color="black";
+		document.getElementById("recommend").style.color="white";
 		document.getElementById("notice").style.color="red";
-		document.getElementById("time").style.color="black";
+		document.getElementById("time").style.color="white";
 		openNotice();
 	}else if(which==2){//时间轴
-		document.getElementById("recommend").style.color="black";
-		document.getElementById("notice").style.color="black";
+		document.getElementById("recommend").style.color="white";
+		document.getElementById("notice").style.color="white";
 		document.getElementById("time").style.color="red";
 		loadDiary('index','','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
 	}

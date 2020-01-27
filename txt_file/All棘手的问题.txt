@@ -1,26 +1,7 @@
-41138119951016421X	18620101642	6217002440004113429
-*************
-
-	
-	
-<Host name="alarm.duola.vip"  appBase="webapps"
-            unpackWARs="true" autoDeploy="true">
-        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
-               prefix="localhost_access_log" suffix=".txt"
-               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
-	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/current/index0.jsp" reloadable="true"/> 
-      </Host>
-	  
-	  
-	  
-	  
-	   <Host name="localhost"  appBase="webapps"
-            unpackWARs="true" autoDeploy="true">
-        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
-               prefix="localhost_access_log" suffix=".txt"
-               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
-	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/" reloadable="true"/> 
-      </Host>
+2020-01-25
+1.另一种方法实现文件上传：MultipartFile，多个文件时定义数组
+2.不定义id实现css设置submit格式，.rights form input[type=submit]{
+3.REST风格的网站url
 
 412902197305064278
 

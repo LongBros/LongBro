@@ -476,8 +476,8 @@ function play(obj,k) {
 //				url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
 //			}else if(sid.substring(sid.length-3)==".kw"){
 //				url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
-//			}else if(sid.substring(sid.length-4)==".mp3"){
-//				url=sid;
+//			}else if(sid.substring(sid.length-4)==".553"){
+//				url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
 //			}else{
 //				url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
 //			}
@@ -513,14 +513,16 @@ function play(obj,k) {
 			artist="url("+artist+")";
 			document.getElementById('plist').style.backgroundImage=artist;
 			//加载歌词资源
-			var au="../loadLyric3.jsp?sid="+sid+"&type=2&from=1";
+			var au="../querySongBySId.do?sourceId="+sid;
+			//var au="../loadLyric3.jsp?sid="+sid+"&type=2&from=1";
 			$.ajax({
 				type:"Get",
 				async:false,
 				url:au,
-				dataType:"text",
+				dataType:"json",
 				success:function(data){
-					document.getElementById("alyric").innerHTML="<center><font color='yellow' onclick='loadSong("+nowplay+")'>"+name+"</font></center>"+data;
+					document.getElementById("alyric").innerHTML="<center><font color='yellow' onclick='loadSong("+nowplay+")'>"+name+"</font></center>"+data.lyric;
+//					document.getElementById("alyric").innerHTML="<center><font color='yellow' onclick='loadSong("+nowplay+")'>"+name+"</font></center>"+data;
 				}
 			});
 			

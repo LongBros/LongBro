@@ -49,10 +49,10 @@
 						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
 						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
 						<li><a href="javascript:;" id="alarm" style="" onClick="openNewPage('4')">553Music</a></li>
-						<li><a href="http://112.74.173.44/LongMusic/index0.jsp" target="_blank">哆啦闹铃</a></li>
-						<li><a href="http://blog.duola.vip/msgboard.jsp" target="_blank">每日一句</a></li>
-						<li><a href="http://www.17419.vip/" target="_blank">17419</a></li>
-						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
+<!-- 						<li><a href="http://112.74.173.44/LongMusic/index0.jsp" target="_blank">哆啦闹铃</a></li>
+ -->						<li><a href="http://blog.duola.vip/msgboard.jsp" target="_blank">每日一句</a></li>
+<!-- 						<li><a href="http://www.17419.vip/" target="_blank">17419</a></li>
+ -->						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
 						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
 				</li>
@@ -133,7 +133,7 @@
 		</div>	
 
 <div class="contents" id="contents">
-	<div class="tabs">
+	<div class="tabs"  style="background: #5fb878;color:white;height: 40px;cursor: pointer;">
 		<span id="recommend" onclick="switchTab(0)" title="随机推荐几篇日记">推荐</span>
 		<span id="notice" onclick="switchTab(1)" title="你关注的人的最新10篇日记">关注</span>
 		<span id="time" onclick="switchTab(2)">时间轴</span>
@@ -150,24 +150,28 @@
 </div>
 
 <div class="rights" id="rights">
-	<div class="banner">
+	<!-- <div class="banner">
 	<img src="image/trumpet.png">&nbsp;
 	<span id="word">
-	注册功能已于12月14日上线，欢迎各位朋友前来注册。
+		注册功能已于12月14日上线，欢迎各位朋友前来注册。
 	</span>
-</div>
-<br>
-	<div class="website">
-		哆啦日记，不仅仅是怀旧；哆啦日记，记录你生活的点点滴滴；哆啦日记，记录你生活的每一个
-		小细节！<br>www.duola.vip<br><br>
+	</div> -->
+	<div style="background: #5fb878;color:white;height: 25px;cursor: pointer;">
+		<span style="margin-left: 10px;margin-top: 7px;font-size: 8px;">哆啦寄语：</span>
+	</div>
+	<div style="background:#5fb878;height: 1px;"></div>
+	<div class="website" style="margin-top: 10px">
+		www.duola.vip，哆啦日记，记录你生活的点点滴滴！<br>
 	</div>
 	<!-- <div class="statistic">
 		&emsp;哆啦统计<br>在线人数：8888<br>用户数：888888<br>
 		今日笔记：88<br>总日记数：8888888<br><br>
 	</div> -->
-	
+	<div style="background:#5fb878;height: 1px;margin-top: 10px"></div>
+	<div style="background: #5fb878;color:white;height: 25px;cursor: pointer;">
+		<span style="margin-left: 10px;margin-top: 7px;font-size: 8px;">推荐关注：</span>
+	</div>
 	<div class="newer" style="cursor: pointer;overflow: auto;">
-		推荐用户:<br>
 		<font style="color: red;font-size:20px;">1.</font><span onclick="openAuthor('20170906')">蕊希Erin</span><br>
 		<font style="color: green;font-size:20px;">2.</font><span onclick="openAuthor('12345678')">FatLuo</span><br>
 		<font style="color: cyan;font-size:20px;">3.</font><span onclick="openAuthor('88888888')">歌词网</span><br>
@@ -178,6 +182,18 @@
 		<font style="color: black;font-size:20px;">8.</font><span onclick="openAuthor('65313340')">一只小兔几</span><br>
 		<font style="color: black;font-size:20px;">9.</font><span onclick="openAuthor('15577347')">Yigongzi</span><br>
 		<font style="color: black;font-size:20px;">10.</font><span onclick="openAuthor('90365715')">每日一句</span><br>
+	</div>
+	<div>
+		<div style="background: #5fb878;color:white;height: 25px;cursor: pointer;">
+			<span style="margin-left: 10px;margin-top: 7px;font-size: 8px;">友情链接：</span>
+		</div>
+		<div style="background:#5fb878;height: 1px;"></div>
+		<div class="website" style="margin-top: 10px;margin-bottom: 10px;">
+			<a href="http://www.duola.vip/amaze/songsList.jsp" target="_blank">553Music</a>&emsp;
+			<a href="http://www.gold404.cn/" target="_blank">K先生的博客</a>&emsp;
+			<a href="http://112.74.173.44/LongMusic/index0.jsp" target="_blank">哆啦闹铃</a>&emsp;
+			<a href="http://www.17419.vip/" target="_blank">17419</a>
+		</div>
 	</div>
 </div>
 <div class="toTop">

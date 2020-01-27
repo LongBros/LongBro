@@ -55,7 +55,8 @@
 		duration,
 		album,
 		imgPath,
-		releaseTime 
+		releaseTime,
+		lyric
 		from song
 		where sourceId='${_parameter}'
 	</select>

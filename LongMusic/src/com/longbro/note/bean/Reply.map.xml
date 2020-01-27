@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.Reply">
+	<resultMap id="Reply" type="com.longbro.note.bean.Reply">
+		<id property="RId" column="r_id" jdbcType="NUMERIC"/>
+		<result property="replyer" column="r_replyer" jdbcType="NUMERIC"/>
+		<result property="RCommentId" column="r_comment_id" jdbcType="NUMERIC"/>
+		<result property="RContent" column="r_content" jdbcType="VARCHAR"/>
+		<result property="RTime" column="r_time" jdbcType="VARCHAR"/>
+		<result property="RReadStatus" column="r_read_status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.Reply">
+		INSERT INTO d_reply
+		(r_id,r_replyer,r_comment_id,r_content,r_time,r_read_status)
+		VALUES 
+		(#{RId,jdbcType=NUMERIC},#{replyer,jdbcType=NUMERIC}, #{RCommentId,jdbcType=NUMERIC}, #{RContent,jdbcType=VARCHAR}, #{RTime,jdbcType=VARCHAR}, #{RReadStatus,jdbcType=NUMERIC})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="Reply">
+		SELECT * FROM d_reply 
+		WHERE 
+		r_id=#{RId}
+	</select>
+	<select id="getReplyById" resultType="java.util.HashMap">
+		SELECT dr.r_comment_id cId,dr.r_content content,dr.r_replyer replyer,
+			 dui.u_User_Name replyerName,dui.u_Head_Image headImg,dr.r_time time
+
+		FROM d_reply dr 
+		LEFT JOIN d_user_info dui ON dui.u_User_Id=dr.r_replyer
+		<where>
+		 	1=1
+			<if test="_parameter!=null and _parameter!=''">
+				and r_comment_id=#{_parameter}
+			</if>
+		</where>
+		;
+	</select>
+	<select id="query" parameterType="java.util.Map" resultMap="Reply">
+		SELECT * FROM d_reply
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY r_id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.Reply">
+		UPDATE d_reply
+        <set>
+			<if test="RCommentId != null">
+				r_comment_id=#{RCommentId,jdbcType=NUMERIC},
+			</if>
+			<if test="RContent != null">
+				r_content=#{RContent,jdbcType=VARCHAR},
+			</if>
+			<if test="RTime != null">
+				r_time=#{RTime,jdbcType=VARCHAR},
+			</if>
+			<if test="RReadStatus != null">
+				r_read_status=#{RReadStatus,jdbcType=NUMERIC}
+			</if>
+		</set>
+		WHERE
+		r_id=#{RId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM d_reply 
+		WHERE
+		r_id=#{RId}
+	</delete>
+	
+	
+</mapper>

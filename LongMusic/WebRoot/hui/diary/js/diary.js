@@ -70,9 +70,9 @@ function loadDiary(id){
 
 						);
 				var updTime=data.updateTime+"";
-				if(updTime.length>5){
-					$("#diary").append("<span style='float:right;margin-right:28px;'>文章于<font color='red'>"+updTime+"</font>被更新</span><br>");
-				}
+//				if(updTime.length>5){
+//					$("#diary").append("<span style='float:right;margin-right:28px;'>文章于<font color='red'>"+updTime+"</font>被更新</span><br>");
+//				}
 				$("#diary").append("<br>&emsp;&emsp;&emsp;<span>本文链接：<font color='blue'>"+document.URL+"</font>，主人公：<a href='author.html?author="+author+"' style='color:red'>"+data.userName+"</a>，如需分享请注明出处，谢谢喜欢！</span><br>");
 
 				if(data.nallowComment==1){//不允许评论
@@ -127,7 +127,7 @@ function handleCon(content){
  * @param author
  */
 function openAuthor(author){
-	//alert(author);
+	window.open("author.html?author="+author, "_blank")
 }
 /**
  * 6.判断当前登录人是否已点赞、收藏该日记，并对图标做修改
@@ -144,6 +144,7 @@ function setIcon(id){
 		dataType:"Json",
 		data:{
 			PDiary:id,
+			type:0,
 			PPraiser:user
 		},
 		success:function(data){
@@ -205,6 +206,7 @@ function praise(){
 			dataType:"text",
 			data:{
 				PDiary:id,
+				type:0,
 				PPraiser:user,
 				PPraised:author,
 				PPraiseTime:formatW2(new Date()+"")
@@ -224,6 +226,7 @@ function praise(){
 			dataType:"text",
 			data:{
 				PDiary:id,
+				type:0,
 				PPraiser:user
 			},
 			success:function(res){
@@ -380,9 +383,13 @@ function loadCom(){
 			var data=res.result;
 			if(data.length<1){
 				$('#comments').append("<center>嗨，留下你的神评呗^_^，一楼属于你哒</center>");
+			}else{
+				$('#comments').append("&emsp;共<font color='red'>"+data.length+"</font>条评论");
 			}
 			var l=data.length;
 			for(var k=0;k<data.length;k++){
+				var cId=data[k].reviewId;//评论id
+				var comer=data[k].reviewer;//评论者
 				var con=data[k].reviewContent;
 				con=con.replace(new RegExp("::::","gm"), ".jpg'>");
 				con=con.replace(new RegExp(":::","gm"), ".png'>");
@@ -397,14 +404,29 @@ function loadCom(){
 				var href="某本站访客";
 				var img="dlam";
 				if(data[k].reviewer!=''){
-					href="<a href='author.html?author="+data[k].reviewer+"' target='_blank'>"+data[k].reviewerName+"</a>&emsp;&emsp;<span style='color:gray;font-size:1px'>"+l+"L</span>";
+					href="<a href='author.html?author="+comer+"' target='_blank'>"+data[k].reviewerName+"</a>&emsp;&emsp;<span style='color:gray;font-size:1px'>"+l+"L</span>";
 				}
 				if(data[k].headImg){
 					img=data[k].headImg;
 				}
 				$('#comments').append("<img src='image/tx/"+img+".jpg'>");
 				$('#comments').append(href+"&nbsp;&nbsp;<span style='color:gray;font-size:10px;float:right;margin-right:20px'>"+data[k].reviewTime+"</span>");
-				$('#comments').append("<br>"+con);
+				$('#comments').append("<br><div class='content1'>"+con+"</div>");
+				
+				
+				var pra=wheHasPrCom(cId);//是否已点赞评论，1表示已点赞
+				var pNum=getPraComNum(cId);//评论的被点赞数量
+				//&#xe66d;	&#xe697;		&#xe66e;	&#xe72e;
+				if(pra==1){//
+					$('#comments').append("<div class='interact'><span onclick='replyCom("+cId+","+comer
+							+")'>回复</span>&emsp;<i class='Hui-iconfont' onclick='praiseCom(\""+cId+"\",\""+comer
+							+"\")' title='取消点赞' id='comPraise"+cId+"' style='color:red'>&#xe697;</i>&nbsp;<span id='comPraNum"+cId+"'>"+pNum
+							+"</span></div>");
+				}else{
+					$('#comments').append("<div class='interact'><span onclick='replyCom("+cId+","+comer+")'>回复</span>&emsp;<i class=\"Hui-iconfont\" onclick='praiseCom(\""+cId+"\",\""+comer+"\")' title='点赞' id='comPraise"+cId+"'>&#xe697;</i>&nbsp;<span id='comPraNum"+cId+"'>"+pNum+"</span></div>");
+				}
+				//加载评论的回复
+				loadAllReply(cId);
 				l--;
 			}
 			
@@ -421,8 +443,13 @@ function playAudio(sid){
 		url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
 	}else if(sid.substring(sid.length-3)==".kw"){
 		url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
-	}else if(sid.substring(sid.length-4)==".aac"||sid.substring(sid.length-4)==".m4a"||sid.substring(sid.length-4)==".mp3"){
+	}else if(sid.substring(sid.length-4)==".aac"||
+			sid.substring(sid.length-4)==".m4a"||//其他音频平台：荔枝、喜马拉雅
+			sid.substring(sid.length-4)==".mp3"||
+			sid.indexOf("voice")!=-1){//微信的音频例：https://res.wx.qq.com/voice/getvoice?mediaid=MzI0NDI3MTE4MF8yNjU3NDU1Nzk0
 		url=sid;
+	}else if(sid.substring(sid.length-4)==".553"){
+		url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
 	}else{
 		url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
 	}
@@ -506,6 +533,7 @@ function callFriend(){
 		}
 	});
 }
+//18.
 function athim(ated,atedName){
 	var con=$("#content").val();
 	var at=$("#calledFri").text()+"";
@@ -528,3 +556,163 @@ function athim(ated,atedName){
 	alert(at)
 	$("#calledFri").text(at.replace(ated+"、",""));
 }*/
+/**
+ * 19.点赞评论
+ * @param cId 回复的评论的id
+ * @param comer 被回复的评论者
+ */
+function praiseCom(cId,comer){
+	if(!ifLogin()){
+		alert("点赞失败，请先登录");
+		login_popup();
+		return;
+	}
+	var user=getCookie("userId")+"";
+	var comPraise=document.getElementById("comPraise"+cId);
+	var comPraNum=document.getElementById("comPraNum"+cId);
+	if(comPraise.title=="点赞"){
+		$.ajax({
+			url:"note/praise/praiseDiary.do",
+			type:"get",
+			async:false,
+			dataType:"text",
+			data:{
+				PDiary:cId,//
+				type:1,//点赞类型为评论
+				PPraiser:user,
+				PPraised:comer,
+				PPraiseTime:formatW2(new Date()+"")
+			},
+			success:function(res){
+				//alert("点赞成功")
+			}
+		});
+		comPraise.title="取消点赞";
+		comPraise.style.color="red";
+		comPraNum.innerText=parseInt(comPraNum.innerText)+1;
+	}else{
+		$.ajax({
+			url:"note/praise/removePraiseDiary.do",
+			type:"get",
+			async:false,
+			dataType:"text",
+			data:{
+				PDiary:cId,
+				type:1,//点赞类型为评论
+				PPraiser:user
+			},
+			success:function(res){
+				//alert("取消喜欢成功")
+			}
+		});
+		comPraise.title="点赞";
+		comPraise.style.color="black";
+		comPraNum.innerText=parseInt(comPraNum.innerText)-1;
+	}
+}
+/**
+ * 20.打开回复框
+ * @param cId 回复的评论的id
+ * @param comer 被回复的评论者
+ */
+function replyCom(cId,comer){
+	$("#commId").text(cId);
+	$(".replyBox").css("display","inline-block");
+}
+//21.关闭回复框
+function closeReply(){
+	$(".replyBox").css("display","none");
+}
+//22.回复评论
+function replyComment(){
+	if(!ifLogin()){
+		alert("回复失败，请先登录");
+		login_popup();
+		return;
+	}
+	var user=getCookie("userId")+"";
+	var replyCon=document.getElementById("replyCon").value+"";//内容
+	if(replyCon.length<3||replyCon.length>30){
+		alert("评论内容不得少于3字符，且不多于30字符");
+		return;
+	}
+	var cid=$("#commId").text();
+	$.ajax({
+		url:"note/reply/replyCom.do",
+		type:"post",
+		async:false,
+		data:{
+			replyer:user==""?"":user,
+			RCommentId:cid,
+			RContent:replyCon
+		},
+		dataType:"Json",
+		success:function(res){
+			alert(res.message);
+			loadCom();
+			closeReply();
+		}
+	});
+}
+
+//21.判断当前登录人是否已点赞某评论
+function wheHasPrCom(cId){
+	var user=getCookie("userId")+"";
+	var praise=0;
+	$.ajax({
+		url:"note/praise/getPraise.do",
+		type:"get",
+		async:false,
+		dataType:"Json",
+		data:{
+			PDiary:cId,
+			type:1,//点赞类型为评论
+			PPraiser:user
+		},
+		success:function(data){
+			if(data.pdiary==cId){//当前用户已喜欢
+				praise=1;
+			}
+		}
+	});
+	return praise;
+}
+/**
+ * 22.查询单条评论被点赞数量
+ * @param cId
+ * @returns {Number}
+ */
+function getPraComNum(cId){
+	var praiseNum=0;
+	$.ajax({
+		url:"note/praise/getPraiseNum.do",
+		type:"get",
+		async:false,
+		dataType:"text",
+		data:{
+			PDiary:cId,//评论id
+			type:1//点赞类型为评论
+		},
+		success:function(data){
+			praiseNum=data;
+		}
+	});
+	return praiseNum;
+}
+//23.加载评论 下的回复
+function loadAllReply(cId){
+	$.ajax({
+		url:"note/reply/getReplyById.do?cid="+cId,
+		type:"get",
+		async:false,
+		success:function(res){
+			var data=res.result;
+			if(data.length>0){
+				$('#comments').append("&emsp;&emsp;<font color='red'>"+data.length+"</font>条回复");
+				for(var i=0;i<data.length;i++){
+					$('#comments').append("<br>&emsp;&emsp;&emsp;<img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].replyer+"' target='_blank'>"+data[i].replyerName+"</a>&emsp;"+data[i].content+"&emsp;<span style='color:gray;font-size:10px;float:right;margin-right:20px'>"+data[i].time+"</span>");
+				}
+			}
+		}
+	});
+}

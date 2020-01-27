@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.gson.Gson;
 import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.bean.StoreDiary;
 import com.longbro.note.service.PraiseDiaryService;
+import common.Logger;
 /**
  * 日记点赞表控制器
  * 1.添加点赞记录2.取消点赞3.根据日记id和当前登录用户判断登录用户是否已点赞
@@ -34,6 +36,7 @@ import com.longbro.note.service.PraiseDiaryService;
 public class PraiseDiaryController{
     @Autowired
     PraiseDiaryService praiseDiaryService;
+    private Logger logger=Logger.getLogger(PraiseDiaryController.class);
     /**
      * @desc 1.添加点赞记录
      * @author zcl
@@ -66,6 +69,7 @@ public class PraiseDiaryController{
     @RequestMapping(value="getPraise",method=RequestMethod.GET)
     @ResponseBody
     public PraiseDiary get(PraiseDiary diary){
+    	logger.debug("=========>"+new Gson().toJson(diary));
     	return praiseDiaryService.get(diary);
     }
     /**
@@ -77,12 +81,9 @@ public class PraiseDiaryController{
      */
     @RequestMapping(value="getPraiseNum",method=RequestMethod.GET)
     @ResponseBody
-    public int getPraiseNum(String diaryId,String PPraised,int status){
-    	Map<String,Object> map=new HashedMap();
-    	map.put("diaryId", diaryId);
-    	map.put("PPraised", PPraised);
-    	map.put("status", status);
-    	return praiseDiaryService.getPraiseNum(map);
+    public int getPraiseNum(PraiseDiary diary){
+    	logger.debug("getPraiseNum=========>"+new Gson().toJson(diary));
+    	return praiseDiaryService.getPraiseNum(diary);
     }
     /**
      * @desc 5.得到某用户喜欢的日记

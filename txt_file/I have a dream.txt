@@ -3,11 +3,33 @@ ZCL19952019.
 db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
 db.username=mysqlrd
 db.password=123456
+<br><p style="text-align: right;">摘自《心灵鸡汤正能量励志》</p>
+
+
+#D92E2E;
 
 
 1.消息设置、添加系统通知
 2.写日记或评论时可@
 
+<Host name="alarm.duola.vip"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/current/index0.jsp" reloadable="true"/> 
+      </Host>
+	  
+	  
+	  
+	  
+	   <Host name="localhost"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/" reloadable="true"/> 
+      </Host>
 
 cp -rf LongMusic $(date +%Y%m%d_%H%M%S)
 

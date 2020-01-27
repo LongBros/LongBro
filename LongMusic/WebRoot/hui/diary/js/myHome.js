@@ -100,13 +100,13 @@ function loadMyDiary(page,perPage){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="red";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("comment").style.color="black";
+	document.getElementById("my").style.color="black";
+	document.getElementById("love").style.color="white";
+	document.getElementById("store").style.color="white";
+	document.getElementById("setting").style.color="white";
+	document.getElementById("attention").style.color="white";
+	document.getElementById("fans").style.color="white";
+	document.getElementById("comment").style.color="white";
 	var au="0,1,2";//0完全公开,1自己可见,2登录可见
 	//$("#myDiary").text("");
 	$.ajax({
@@ -180,13 +180,6 @@ function loadMyLove(){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="red";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("comment").style.color="black";
 	$.ajax({
 		url:"note/praise/getMyLikeDiary.do?userId="+user,
 		type:"get",
@@ -232,13 +225,6 @@ function loadMyStore(){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="red";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("comment").style.color="black";
 	$.ajax({
 		url:"note/store/getMyStoreDiary.do?userId="+user,
 		type:"get",
@@ -352,13 +338,6 @@ function diaryToTop(id,which){
 function openSetting(){
 	$("#myDiary").text('');
 	$(".pages").text('');
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="red";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("comment").style.color="black";
 	loadInfo();//加载出作者信息以供编辑
 	$("#myDiary").append("<span>背景选择：</span>");
 	/* $("#myDiary").append("<a onclick='setBack()'>设置当前背景为默认朕的背景</a>"); */
@@ -372,13 +351,14 @@ function loadAllBack(){
 	var array=new Array("back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg"
 			,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png","back8.png","back9.png","back10.png","back11.png"
 			,"back0.gif","back1.gif","back2.gif","back3.gif","back4.gif","back5.gif","back6.gif");
+//	$("#myDiary").append("<div style='height:100px;'>");
 	for(var i=0;i<array.length;i++){
 		if(i%5==0){
 			$("#myDiary").append("<br>");
 		}
 		$("#myDiary").append("<img src='res/images/back/"+array[i]+"' title='点击即可设置当前\r背景为朕的背景^_^' class='backDemo' onclick='setBackground(\""+array[i]+"\")'>");
 	}
-	
+//	$("#myDiary").append("</div>");
 }
 
 /**
@@ -411,9 +391,22 @@ function loadInfo(){
 			var blackIds=blackNameIds.split(",");
 			var blackNames=data.blackNames+"";//用户名
 			var blacks=blackNames.split(",");
+			
+			var bornTime=data.ubornTime+"";//2020-01-27新增
+			var year="",month="",day="";
+			if(bornTime.length>5){//有出生日期
+				year=bornTime.substring(0,4);
+				month=bornTime.substring(5,7);
+				day=bornTime.substring(8,10);
+			}
 			var string="<form name='info'><span>昵称：</span><input name='nickName' value='"+data.uuserName+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(1)' title='点击保存'>&#xe676;</i><br>";
 			string=string+"<span>个性签名：</span><input name='signature' value='"+data.signature+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(2)' title='点击保存'>&#xe676;</i><br>";
 			string=string+"<span>默认日记地址：</span><input name='location' value='"+data.location+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(3)' title='点击保存'>&#xe676;</i><br>";
+			if(day!=""){//有出生日期的不可再设置
+				string=string+"<span>出生日期：</span><span>"+bornTime+"</span>&nbsp;<span style='color:gray'>(出生日期设置后不可更改)</span><br>";
+			}else{
+				string=string+"<span>出生日期：</span><input name='year' value='"+year+"' style='width:45px;'>-<input name='month' value='"+month+"' style='width:35px;'>-<input name='day' value='"+day+"' style='width:35px;'>&nbsp;<i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(10)' title='点击保存'>&#xe676;</i>&nbsp;<span style='color:gray'>(请于三个框中分别输入年、月、日并点击保存，谨慎输入！设置后不可更改)</span><br>";
+			}
 			
 			if(sex=="1"){
 				string=string+"<span>性别:<input type='radio' onchange='saveInfo(7,1)' name='sex' checked='true'>男</input>";
@@ -447,7 +440,7 @@ function loadInfo(){
 					string=string+"<option value='"+per[i]+"'>&emsp;"+per[i]+"&emsp;</option>";
 				}
 			}
-			string=string+"</select>&emsp;(0表示显示下拉列表,可切换每页篇数)</span>";
+			string=string+"</select>&emsp;(0表示显示下拉列表,可切换每页篇数)</span>&nbsp;<span style='color:gray'>(每页加载篇数越多耗时越长，请谨慎选择)</span>";
 			
 			string=string+"<br><span>我的黑名单(不看名单，点击可移出):";
 //			for(var i=0;i<blackIds.length;i++){
@@ -510,6 +503,28 @@ function saveInfo(which,value){
 		url=url+"&perpageNum="+value;
 	}else if(t=="9"){//家歌
 		url=url+"&UHomeSong="+document.info.homesong.value;
+	}else if(t=="10"){//出生日期
+		var year=document.info.year.value+"";
+		var month=document.info.month.value+"";
+		var day=document.info.day.value+"";
+		if(isNaN(year)||isNaN(month)||isNaN(day)){
+			alert("输入错误");
+			return;
+		}
+		if(year.length!=4){
+			alert("年输入错误");
+			return;
+		}
+		if(month.length>2||month.length==0||day.length>2||day.length==0){
+			alert("月或日输入错误");
+			return;
+		}
+		var c=confirm("确认保存你的生日嘛？保存后不可修改呢。");
+		if(c==false){
+			return;
+		}
+		var birth=document.info.year.value+"-"+document.info.month.value+"-"+document.info.day.value;
+		url=url+"&UBornTime="+birth;
 	}
 	
 	$.ajax({
@@ -525,6 +540,7 @@ function saveInfo(which,value){
 			}
 		}
 	});
+	openSetting();
 }
 /**
  * 15.加载我关注的人
@@ -536,13 +552,6 @@ function loadMyAtten(){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("attention").style.color="red";
-	document.getElementById("comment").style.color="black";
 	$.ajax({
 		url:"note/notice/getMyAtten.do?userId="+user,
 		type:"get",
@@ -619,13 +628,6 @@ function loadMyCom(){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("comment").style.color="red";
 	$.ajax({
 		url:"note/comment/getMyComment.do?userId="+user,
 		type:"get",
@@ -659,13 +661,6 @@ function loadMyFans(){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="red";
-	document.getElementById("comment").style.color="black";
 	$.ajax({
 		url:"note/notice/getMyMessage.do?userId="+user,
 		type:"get",
@@ -690,18 +685,19 @@ function loadMyFans(){
 	});
 }
 function openTab(which){
+	//01-27 用以下代码避免在各个方法中写代码来控制tab颜色
 	var tabs=new Array("my","love","store","comment","attention","fans","setting");
 	for(var i=0;i<7;i++){
 		if(i==which){
-			$(tabs[i]).css("background","red");
-			$(tabs[i]).css("color","white");
+//			$("#"+tabs[i]).css("background","black");
+			$("#"+tabs[i]).css("color","black");
 		}else{
-			$(tabs[i]).css("background","white");
-			$(tabs[i]).css("color","black");
+//			$("#"+tabs[i]).css("background","white");
+			$("#"+tabs[i]).css("color","white");
 		}
 	}
 	
-	if(which==0){//
+	if(which==0){
 		loadMyDiary('1','10');
 	}else if(which==1){
 		loadMyLove()

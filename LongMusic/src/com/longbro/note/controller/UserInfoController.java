@@ -17,11 +17,14 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
@@ -37,6 +40,7 @@ import com.longbro.note.service.UserInfoService;
 import com.longbro.service.CommentService;
 import com.longbro.util.Strings;
 import com.longbro.util.TimeUtil;
+import common.Logger;
 /**
  * d_user_info控制器
  * @author longbro
@@ -56,6 +60,7 @@ public class UserInfoController{
     StoreDiaryService storeDiaryService;
     @Autowired
     AttentionService attentionService;
+    private Logger logger=Logger.getLogger(UserInfoController.class);
     /**
      * @desc 1.根据userId获取用户信息
      * @author zcl
@@ -152,6 +157,7 @@ public class UserInfoController{
     		cookie2.setPath("/");
     		response.addCookie(cookie2);
     		System.out.println(cookie.getValue());
+   		 	logger.debug("==========>"+cookie.getValue());
     		result.setCode(200);
     		result.setMessage("登录成功");
     		result.setResult(1);
@@ -257,11 +263,16 @@ public class UserInfoController{
      */
     @RequestMapping(value="uploadHeadImage",method=RequestMethod.POST)
     @ResponseBody
-    public void uploadHeadImage(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		 String pname="";
-		 String userId="";
-		 System.out.println(request.getParameter("userId"));
-    	//创建 FileItem 对象的工厂
+    public void uploadHeadImage(HttpServletRequest request,HttpServletResponse response,
+    		@RequestParam(value="pic",required=false) MultipartFile attach) throws Exception{
+		response.setCharacterEncoding("utf-8");
+		String userId="";
+		 userId=request.getParameter("userId");
+		 logger.debug("==========>"+new Gson().toJson(request.getParameterMap()));
+//		 System.out.println(">>>>>>>>>>>>"+attach.getOriginalFilename());
+    	/*		 
+    	String pname="";
+		//创建 FileItem 对象的工厂
 		DiskFileItemFactory factory=new DiskFileItemFactory();
 		//ServletFileUpload 负责处理上传的文件数据，并将表单中每个输入项封装成一个 FileItem 对象中
     	ServletFileUpload upload=new ServletFileUpload(factory);//2、创建一个文件上传解析器
@@ -285,12 +296,41 @@ public class UserInfoController{
 				}else{
 				}
 			}
+		}*/
+		if(attach.isEmpty()){
+			response.getWriter().write("你还未选择头像图片");
+			return;
+		}
+		String path=request.getSession().getServletContext().
+				getRealPath("image"+File.separator+"tx"+File.separator);
+		logger.debug("==========>"+path);
+		long fname=System.currentTimeMillis();
+		String prefix=FilenameUtils.getExtension(attach.getOriginalFilename());
+		int fileSize=2*1024*1024;
+		if(attach.getSize()>fileSize){//限制上传大小为2兆内的图片
+			response.getWriter().write("请选择两兆以内大小的图片");
+			request.setAttribute("uploadFileError","请选择两兆以内大小的图片");
+		}else{
+			if(prefix.equalsIgnoreCase("jpg")||prefix.equalsIgnoreCase("png")
+					||prefix.equalsIgnoreCase("png")||prefix.equalsIgnoreCase("png")){
+//				File dir=new File("D:/apache-tomcat-8.5.35/webapps/LongMusic/image/tx/");
+				File file=new File(path,userId+"_"+fname+".jpg");
+//				if(!dir.exists()){
+//					file=new File("/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/image/tx/",userId+"_"+fname+".jpg");
+//				}
+				attach.transferTo(file);
+				UserInfo user=new UserInfo();
+				user.setHeadImage(userId+"_"+fname+"");
+				user.setUUserId(Integer.parseInt(userId));
+				updateUserInfo(response,user);
+				response.sendRedirect("../../myHome.html");
+			}else{
+				response.getWriter().write("请选择图片文件");
+				request.setAttribute("uploadFileError","上传图片的格式不正确");
+			}
 		}
 		
-		UserInfo user=new UserInfo();
-		user.setHeadImage(pname);
-		user.setUUserId(Integer.parseInt(userId));
-		updateUserInfo(response,user);
+
     }
     /**
      * @desc 9.查询用户数、日记数量的统计信息

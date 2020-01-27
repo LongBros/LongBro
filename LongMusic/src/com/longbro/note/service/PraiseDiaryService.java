@@ -36,8 +36,8 @@ public class PraiseDiaryService{
 		// TODO Auto-generated method stub
 		return dao.get(diary);
 	}
-	public int getPraiseNum(Map<String,Object> map){
-		return dao.getPraiseNum(map);
+	public int getPraiseNum(PraiseDiary diary){
+		return dao.getPraiseNum(diary);
 	}
 	public List<PraiseDiary> getMyLikeDiary(String userId){
 		return dao.getLikeDiarybyUser(userId);

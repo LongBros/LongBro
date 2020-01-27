@@ -125,7 +125,42 @@
 		height: 24px;
 		padding: 1px;
 	}
-	
+	#comments .content1{
+		margin-top: 3px;
+		margin-bottom:5px;
+		margin-left: 18px;
+	}
+	#comments .interact{
+		float:right;
+		margin-right: 20px;
+		cursor: pointer;
+	}
+	#comments .interact span{
+		font-size:10px;
+	}
+	#comments .interact i{
+		color: black;
+	}
+	.replyBox{
+		cursor:pointer;position:fixed;
+		overflow:scroll;background:#3CBC8D;
+		right:320px;top:200px;width:240px;
+		height:240px;display: none
+	}
+	.replyBox #tips{
+		margin-left: 5px;
+	}
+	.replyBox textarea{
+		background: white;
+		margin-left: 5px;
+	}
+	.replyBox button{
+		float:right;
+		margin-right: 10px;
+		background: gray;
+		width:66px;
+		color: white;
+	}
 </style>
 <body id="bodys" style="background:url(res/images/back/back3.jpg)">
 <header class="navbar-wrapper">
@@ -274,14 +309,19 @@
 	</div>
 	<!-- 评论 -->
 	<div id="comments">
-		
-	
 	</div>
+</div>
+<div class="replyBox" id="replyBox">
+	<span onclick="closeReply()" style="color:black;margin-left: 210px;">X</span>
+	<span id="tips">请在下方输入回复：</span>
+	<textarea id="replyCon" cols="30" rows="8" placeholder="回复内容不得少于3字符，且不多于30字符"></textarea>
+	<span id="commId">44</span>
+	<button onclick="replyComment()">回复</button>
 </div>
 <div class="rights" id="rights">
 		<img src='image/logo/dlam.jpg' id="touxiang" class='touxiang'>
 		<!-- 自己的账号显示上传头像按钮，别人的根据有没有关注而显示 -->
-		<button id="attention" onclick="attenAuthor()"></button>
+		<span id="attention" onclick="attenAuthor()" style="background: red;color:white;font-size: 12px;cursor: pointer;"></span>
 	<div class="perStatistic">
 		关注：<span title="她关注的人" id="careNum">0</span>&emsp;粉丝：<span title="关注她的人" id="noticedNum">0</span>&emsp;
 		喜欢：<span title="她喜欢的日记" id="likeNum">0</span>&emsp;收藏：<span title="她收藏的日记" id="storeNum">0</span><br>	
