@@ -46,8 +46,7 @@
 		float: right;
 	}
 	.expre{
-		
-		margin-left: 70px;
+		margin-left: 0px;
 		margin-top: 15px;
 	}
 	.expre img{
@@ -56,6 +55,20 @@
 		padding: 1px;
 		/*display:none;隐藏后不占空间*/
 		/*visibility:visible;*//*隐藏后仍占空间*/
+	}
+	#isphone input{
+		background:white;
+		border:1px solid gray;
+		border-radius:3px;
+		outline:none;/* 聚焦时可能有矩形，去掉矩形边框 */
+		color:black;
+	}
+	#isphone textarea{
+		background:white;
+		border:1px solid gray;
+		border-radius:3px;
+		outline:none;/* 聚焦时可能有矩形，去掉矩形边框 */
+		color:black;
 	}
 </style>
 <body>
@@ -154,46 +167,48 @@
 			
 		</div>	
 
-<script> 
-/* $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js',function(){  
- alert(remote_ip_info.country);//国家  
- alert(remote_ip_info.province);//省份  
- alert(remote_ip_info.city);//城市  
-});   */
-</script>
 <font color="red" style="margin-left: 100px;margin-top: 10px;"><span id="tip"></span></font>
 <div id="isphone"><!-- 手机端使用，默认隐藏 -->
 	<form name="form">
 		<br>城市：<input type="text" id="location" name="location" value="广东省广州市" placeholder="请输入城市">
-	<br>天气：<input type="text" id="weather" name="weather" style="display:none" value="0">
-	<i class="Hui-iconfont" style="font-size:18px;color:pink" id="sunny" title="晴" onclick="changeWea('0')">&#xe6ae;</i><!-- 晴 -->
+		<br>天气：<input type="text" id="weather" name="weather" style="display:none" value="0">
+		<i class="Hui-iconfont" style="font-size:18px;color:pink" id="sunny" title="晴" onclick="changeWea('0')">&#xe6ae;</i><!-- 晴 -->
 				<i class="Hui-iconfont" style="font-size:18px" title="雾" id="foggy" onclick="changeWea('1')">&#xe6af;</i>
 				<i class="Hui-iconfont" style="font-size:18px" title="霾" id="hazing" onclick="changeWea('2')">&#xe6ad;</i>
 				<i class="Hui-iconfont" style="font-size:18px" title="阴" id="overcast" onclick="changeWea('3')">&#xe6b1;</i><!-- 阴 -->
 				<i class="Hui-iconfont" style="font-size:18px" title="雨" id="rainy" onclick="changeWea('4')">&#xe6b2;</i><!-- 雨 -->
 				<i class="Hui-iconfont" style="font-size:18px" title="雪" id="snowy" onclick="changeWea('5')">&#xe6b0;</i>
-	<br>心情：<input type="text" id="mood" name="mood" style="display:none" value="0">
+		<br>心情：<input type="text" id="mood" name="mood" style="display:none" value="0">
 		<i class="Hui-iconfont" style="font-size:18px;color:pink" id="happy" onclick="changeMood('0')" title="开心">&#xe668;</i>
 				<i class="Hui-iconfont" style="font-size:18px" id="smile" onclick="changeMood('1')" title="微笑">&#xe656;</i>
 				<i class="Hui-iconfont" style="font-size:18px" id="cry" onclick="changeMood('2')" title="哭脸">&#xe688;</i>
 				<i class="Hui-iconfont" style="font-size:18px" id="angry" onclick="changeMood('3')" title="愤怒">&#xe65d;</i>
-	<br>标题：<input id="title" name="title" type="text" value="" placeholder="给你的日记加个标题吧^-^(可空)">
-	<br>内容：<div><textarea name="content" rows="6" cols="70"placeholder="在这里输入内容"></textarea></div>
-	<br>评论：(选中后日记可被评论)<input type="checkbox" id="allowcomment" checked name="allowcomment">						
-	<br>权限：<select name="authority" id="authority" >
+		<br>标题：<input id="title" name="title" type="text" value="" placeholder="给你的日记加个标题吧^-^(可空)">
+		<br>内容：<div><textarea name="content" rows="6" cols="70"placeholder="在这里输入内容"></textarea></div>
+		<img alt="嗷大喵表情" title="嗷大喵表情" style="width: 18px;height: 18px" src="image/expre/aodamiao/weixiao.gif" onmousedown="oocImage('0','0')">
+		<img alt="小黄脸表情" title="小黄脸表情" style="width: 18px;height: 18px" src="image/expre/huang/wx.gif" onmousedown="oocImage('1','0')">
+		<img alt="新贴吧表情" title="新贴吧表情" style="width: 18px;height: 18px" src="image/expre/newtieba/a.png" onmouseover="" onmousedown="oocImage('3','0')">
+		<img alt="贴吧表情" title="贴吧表情" style="width: 18px;height: 18px" src="image/expre/tieba/a.png" onmouseover="" onmousedown="oocImage('5','0')">
+		<img alt="微博表情" title="微博表情" style="width: 18px;height: 18px" src="image/expre/weibo/aini.png" onmouseover="" onmousedown="oocImage('6','0')">
+			
+		<div class="expre" id="expre" style="width: 200px">
+			
+		</div>
+		<br>评论：(选中后日记可被评论)<input type="checkbox" id="allowcomment" checked name="allowcomment">						
+		<br>权限：<select name="authority" id="authority" >
 					<option value="0" selected="selected">完全公开</option>
 					<option value="1">自己可见</option>
 					<option value="2">登录可见</option>
 				</select>
-	<br>分类：<select name="category" id="category" >
+		<br>分类：<select name="category" id="category" >
 						<option value="0">生活日记</option>
 						<option value="1">工作笔记</option>
 						<option value="2">idea</option>
 						<option value="3">诗词(文学)</option>
 						<option value="4">深度好文</option>
 					</select>
-	<br><a onClick="writeNote();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i>发布</a>							
-	<div id="songSelect" style="display:none">
+		<br><a onClick="writeNote();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i>发布</a>							
+		<div id="songSelect" style="display:none">
 		歌曲：
 		<a onClick="openMusic();" class="btn btn-primary radius" type="submit">搜索</a>
 		<a id="clearBtn" style="display:none" class="btn btn-primary radius" type="submit">清空所选歌曲</a>

@@ -247,14 +247,18 @@
 <div class="contents" id="contents">
 	<div class="tabs" style="background: #5fb878;color:white;height: 40px;cursor: pointer;">
 		<div style="padding-top: 8px">
-			&emsp;&emsp;<span onclick="openTab(0)" id="my" style="color:red">他的日记</span>
-			&emsp;&emsp;<span onclick="openTab(1)" id="love">他的喜欢</span>
-			&emsp;<span onclick="openTab(2)" id="store">他的收藏</span>
-			&emsp;<span onclick="openTab(3)" id="notice">他关注的</span>
-			&emsp;<span onclick="openTab(4)" id="fans">他的粉丝</span>
+			&emsp;&emsp;<span onclick="openTab(0)" id="my" style="color:red"><span class="sexCall">他</span>的日记</span>
+			&emsp;&emsp;<span onclick="openTab(1)" id="love"><span class="sexCall">他</span>喜欢的</span>
+			&emsp;<span onclick="openTab(2)" id="store"><span class="sexCall">他</span>收藏的</span>
+			&emsp;<span onclick="openTab(3)" id="notice"><span class="sexCall">他</span>关注的</span>
+			&emsp;<span onclick="openTab(4)" id="fans"><span class="sexCall">他</span>的粉丝</span>
 		</div>
 	</div>
 	<div class="pages" style="cursor: pointer;">
+	</div>
+	<div id="album" style="display:none;height: 180px;cursor: pointer;">
+		<img alt="" src="image/album.png" style="position: fixed;float: right;margin-left: 260px;">
+		<span id="logoword" onclick="hideCircle()" title="点击可隐藏" style="float: right;position: fixed;margin-left: 322px;margin-top: 80px;font-size:1px;color: white">DoraNote</span>
 	</div>
 	<div class="diarys" id="diarys">
 		<div class="diary" >
@@ -269,9 +273,9 @@
 		<img src='image/logo/dlam.jpg' id="touxiang" class='touxiang'>
 		<span id="attention" onclick="attenAuthor()" style="background: red;color:white;font-size: 12px;cursor: pointer;"></span>
 
-	<div class="perStatistic">
-		关注：<span title="她关注的人" id="careNum">0</span>&emsp;粉丝：<span title="关注她的人" id="noticedNum">0</span>&emsp;
-		喜欢：<span title="她喜欢的日记" id="likeNum">0</span>&emsp;收藏：<span title="她收藏的日记" id="storeNum">0</span><br>	
+	<div class="perStatistic"  style="cursor: pointer;">
+		关注：<span title="她关注的人" onclick="openTab(3)" id="careNum">0</span>&emsp;粉丝：<span onclick="openTab(4)" title="关注她的人" id="noticedNum">0</span>&emsp;
+		喜欢：<span title="她喜欢的日记" onclick="openTab(1)" id="likeNum">0</span>&emsp;收藏：<span onclick="openTab(2)" title="她收藏的日记" id="storeNum">0</span><br>	
 		被阅读量：<span title="她的日记总被阅读量" id="visitedNum">0</span>&emsp;阅读量：<span title="她的阅读量" id="visitNum">0</span>&emsp;被评论数：<span title="她的日记总被评论量" id="comedNum">0</span>
 		&emsp;被赞：<span title="她的日记总被赞数量" id="praisedNum">0</span>
 	</div>

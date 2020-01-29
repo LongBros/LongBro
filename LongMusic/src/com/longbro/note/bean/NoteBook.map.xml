@@ -157,6 +157,10 @@
 			and !FIND_IN_SET(n_Writter,
 				CONCAT('\'1,',(SELECT u_black_namelist FROM d_user_info WHERE u_User_Id=#{user}),',2\''))
 		</if>
+		<!-- <if test="user!=null and user!=''">2020-01-28不给他看，暂未实现
+			and !FIND_IN_SET(n_Writter,
+				CONCAT('\'1,',(SELECT u_black_namelist FROM d_user_info WHERE u_User_Id=#{user}),',2\''))
+		</if> -->
 		ORDER BY n_top desc,
 		<if test="author!=null and author!=''"><!-- 在作者页和我的家园页，用户置顶生效 -->
 			n_user_top desc,
@@ -249,7 +253,7 @@
 		d.n_Authority nAuthority,d.n_song_id nSongId,n_update_time updateTime,
 		n_top nTop,n_user_top nUserTop,n_write_device nWriteDevice,
 		CHAR_LENGTH(d.n_Content) wordSize,
-		di.u_User_Name userName,di.u_Head_Image headImage,
+		di.u_User_Name userName,di.u_Head_Image headImage,di.u_User_Sex authorSex,
 		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
 		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
 		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,
@@ -266,7 +270,7 @@
 		d.n_Authority nAuthority,d.n_song_id nSongId,n_update_time updateTime,
 		n_top nTop,n_user_top nUserTop,n_write_device nWriteDevice,
 		CHAR_LENGTH(d.n_Content) wordSize,
-		di.u_User_Name userName,di.u_Head_Image headImage,
+		di.u_User_Name userName,di.u_Head_Image headImage,di.u_User_Sex authorSex,
 		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
 		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
 		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,

@@ -55,9 +55,22 @@
 	.statistic{
 		margin-left: 10px;
 	}
-	.newer{
+	.alluser{
 		margin-left: 10px;
 		margin-bottom: 20px;
+		margin-top: 10px;
+		cursor: pointer;
+		overflow: auto;
+		height:280px;
+	}
+	.alluser img{
+		width: 30px;
+		height: 34px;
+		margin-right: 5px;
+	}
+	.alluser .user{
+		margin-top: 3px;
+		margin-bottom: 3px;
 	}
 	.info{
 		color: gray;

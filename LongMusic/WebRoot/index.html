@@ -48,10 +48,10 @@
 					<ul class="dropDown-menu menu radius box-shadow">
 						<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
 						<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
-						<li><a href="javascript:;" id="alarm" style="" onClick="openNewPage('4')">553Music</a></li>
-<!-- 						<li><a href="http://112.74.173.44/LongMusic/index0.jsp" target="_blank">哆啦闹铃</a></li>
- -->						<li><a href="http://blog.duola.vip/msgboard.jsp" target="_blank">每日一句</a></li>
-<!-- 						<li><a href="http://www.17419.vip/" target="_blank">17419</a></li>
+<!--						<li><a href="javascript:;" id="alarm" style="" onClick="openNewPage('4')">553Music</a></li>
+ 						<li><a href="http://112.74.173.44/LongMusic/index0.jsp" target="_blank">哆啦闹铃</a></li>
+						<li><a href="http://blog.duola.vip/msgboard.jsp" target="_blank">每日一句</a></li>
+						<li><a href="http://www.17419.vip/" target="_blank">17419</a></li>
  -->						<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
 						<li><a class="login" id="login" style="display:block">登录</a></li>
 					</ul>
@@ -140,15 +140,20 @@
 	</div>
 	<div class="pages" style="cursor: pointer;">
 	</div>
+	<!-- <div id="album" style="display:none">
+		<img alt="" src="image/album.png" style="float: right;margin-right: 260px;">
+		<span id="logoword" style="float: right;position: fixed;margin-left: 373px;margin-top: 80px;font-size:1px;color: white">DoraNote</span>
+	</div> -->
 	<div class="diarys" id="diarys">
+		
 		<div class="diary" >
+			<center><img alt="" src="image/loading.gif" style="width: 88px;height: 88px;"></center>
 			<center><span style="color:blue;font-size: 20px;margin-top: 20px;">如果长时间加载不出来，还请刷新一下，给你带来的不便还请见谅。<br></span></center>
 		</div>
 	</div>
 	<div class="pages" style="cursor: pointer;">
 	</div>
 </div>
-
 <div class="rights" id="rights">
 	<!-- <div class="banner">
 	<img src="image/trumpet.png">&nbsp;
@@ -171,8 +176,8 @@
 	<div style="background: #5fb878;color:white;height: 25px;cursor: pointer;">
 		<span style="margin-left: 10px;margin-top: 7px;font-size: 8px;">推荐关注：</span>
 	</div>
-	<div class="newer" style="cursor: pointer;overflow: auto;">
-		<font style="color: red;font-size:20px;">1.</font><span onclick="openAuthor('20170906')">蕊希Erin</span><br>
+	<div class="alluser" id="alluser">
+		<!-- <font style="color: red;font-size:20px;">1.</font><span onclick="openAuthor('20170906')">蕊希Erin</span>&emsp;<font color='gray' size='1px'>3天共10篇日记</font><br>
 		<font style="color: green;font-size:20px;">2.</font><span onclick="openAuthor('12345678')">FatLuo</span><br>
 		<font style="color: cyan;font-size:20px;">3.</font><span onclick="openAuthor('88888888')">歌词网</span><br>
 		<font style="color: black;font-size:20px;">4.</font><span onclick="openAuthor('66666666')">古诗网</span><br>
@@ -181,9 +186,9 @@
 		<font style="color: black;font-size:20px;">7.</font><span onclick="openAuthor('10000000')">凌晨一点</span><br>
 		<font style="color: black;font-size:20px;">8.</font><span onclick="openAuthor('65313340')">一只小兔几</span><br>
 		<font style="color: black;font-size:20px;">9.</font><span onclick="openAuthor('15577347')">Yigongzi</span><br>
-		<font style="color: black;font-size:20px;">10.</font><span onclick="openAuthor('90365715')">每日一句</span><br>
+		<font style="color: black;font-size:20px;">10.</font><span onclick="openAuthor('90365715')">每日一句</span><br> -->
 	</div>
-	<div>
+	<div style="height: 100px;">
 		<div style="background: #5fb878;color:white;height: 25px;cursor: pointer;">
 			<span style="margin-left: 10px;margin-top: 7px;font-size: 8px;">友情链接：</span>
 		</div>
@@ -192,7 +197,9 @@
 			<a href="http://www.duola.vip/amaze/songsList.jsp" target="_blank">553Music</a>&emsp;
 			<a href="http://www.gold404.cn/" target="_blank">K先生的博客</a>&emsp;
 			<a href="http://112.74.173.44/LongMusic/index0.jsp" target="_blank">哆啦闹铃</a>&emsp;
-			<a href="http://www.17419.vip/" target="_blank">17419</a>
+			<a href="http://www.17419.vip/" target="_blank">17419</a><br>
+			<a href="https://www.autopiano.cn/" target="_blank">自由钢琴</a>&emsp;
+			<a href="http://blog.duola.vip/msgboard.jsp" target="_blank">每日一句</a>
 		</div>
 	</div>
 </div>
@@ -238,6 +245,7 @@ $(function(){
 	setPage('index','',perPage,user);//根据日记数量设置分页，参数为作者
 	switchTab(2);
 	monitor();//手机访问时隐藏左边栏目
+	loadAllUser()
 });
 //打开新人榜对应新人
 function openAuthor(aid){

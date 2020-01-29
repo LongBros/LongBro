@@ -20,6 +20,7 @@
 		<result property="lastLogin" column="u_recent_login" jdbcType="VARCHAR"/>
 		<result property="back" column="u_default_back" jdbcType="VARCHAR"/>
 		<result property="perpageNum" column="u_perpage_num" jdbcType="NUMERIC"/>
+		<result property="blackList" column="u_black_list" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.longbro.note.bean.UserInfo">
@@ -55,6 +56,10 @@
 		<!-- 12-10添加黑名单的name -->
 		(SELECT GROUP_CONCAT(u_User_Id) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_namelist)) blackNameList,
 		(SELECT GROUP_CONCAT(u_User_Name) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_namelist)) blackNames,
+		<!-- 2020-01-28添加不给看名单 -->
+		(SELECT GROUP_CONCAT(u_User_Id) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_list)) blackList,
+		(SELECT GROUP_CONCAT(u_User_Name) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_list)) blacks,
+		
 		(SELECT COUNT(DISTINCT LEFT(n_Time,10)) FROM d_diary WHERE n_Writter=#{UUserId}) diaryDayNum
 		FROM d_user_info dui
 		LEFT JOIN song s ON dui.u_Home_Song=s.sourceId
@@ -135,7 +140,10 @@
 				u_text_editor=#{textEditor,jdbcType=NUMERIC},
 			</if>
 			<if test="headImage != null">
-				u_Head_Image=#{headImage,jdbcType=VARCHAR}
+				u_Head_Image=#{headImage,jdbcType=VARCHAR},
+			</if>
+			<if test="blackList != null">
+				u_black_list=#{blackList,jdbcType=VARCHAR}
 			</if>
 		</set>
 		WHERE

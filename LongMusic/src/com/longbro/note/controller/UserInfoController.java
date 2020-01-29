@@ -349,18 +349,19 @@ public class UserInfoController{
 		
     }
     /**
-     * 10.添加某人至不看名单，或从不看名单移出某人
+     * 10.添加某人至不(被)看名单，或从不(被)看名单移出某人
      * @author LongBro
      * 2019年12月10日
      * 下午7:19:58
      * @param type	type=0添加至黑名单，1移出黑名单
      * @param user
      * @param userId
+     * @param which	1:不看列表，0：不被看列表
      * @return
      */
     @RequestMapping("addToOrRemoveFromList")
     @ResponseBody
-    public BaseResult<HashMap<String, String>> addToOrRemoveFromList(int type,int user,String userId){
+    public BaseResult<HashMap<String, String>> addToOrRemoveFromList(int type,int user,String userId,int which){
     	//user:当前登录用户,userId:待移除用户
     	BaseResult<HashMap<String, String>> result=new BaseResult<HashMap<String, String>>();
     	if(StringUtils.isEmpty(user+"")||StringUtils.isEmpty(userId)){
@@ -369,34 +370,65 @@ public class UserInfoController{
     		return result;
     	}
     	UserInfo userinfo=userInfoService.get(user);
-    	
-    	String blackIds=userinfo.getBlackNameList();//获取用户黑名单
-    	if(type==0){//添加至黑名单
-    		if(!StringUtils.isEmpty(blackIds)){//黑名单中有人
-    			if(blackIds.contains(userId)){
-    				result.setMessage("此作者已在你的不看名单中");
+    	if(which==0){
+    		String blackIds=userinfo.getBlackList();//获取用户的不给看名单
+    		
+    		if(type==0){//添加至不给看名单
+        		if(!StringUtils.isEmpty(blackIds)){//黑名单中有人
+        			if(blackIds.contains(userId)){
+        				result.setMessage("此用户已在你的不给看名单中");
+            		}else{
+            			blackIds=blackIds+","+userId;
+                    	result.setMessage("已添加至不给看名单");
+            		}
         		}else{
-        			blackIds=blackIds+","+userId;
+                	blackIds=blackIds+","+userId;
+                	result.setMessage("已添加至不给看名单");
+        		}
+        	}else if(type==1){//移出不给看名单
+        		if(!StringUtils.isEmpty(blackIds)){//不给看名单中没有人
+            		if(blackIds.contains(userId+",")){//该id不在最后一个
+                    	blackIds=blackIds.replace(userId+",","");
+                	}else{
+                		blackIds=blackIds.replace(","+userId,"");
+                	}
+            		result.setMessage("已移出不给看名单");
+            	}else{
+            		result.setMessage("该用户不在你的不给看名单中");
+            	}
+
+        	}
+        	userinfo.setBlackList(blackIds);
+    		
+    	}else{
+    		String blackIds=userinfo.getBlackNameList();//获取用户黑名单
+        	if(type==0){//添加至黑名单
+        		if(!StringUtils.isEmpty(blackIds)){//黑名单中有人
+        			if(blackIds.contains(userId)){
+        				result.setMessage("此作者已在你的不看名单中");
+            		}else{
+            			blackIds=blackIds+","+userId;
+                    	result.setMessage("已添加至不看名单");
+            		}
+        		}else{
+                	blackIds=blackIds+","+userId;
                 	result.setMessage("已添加至不看名单");
         		}
-    		}else{
-            	blackIds=blackIds+","+userId;
-            	result.setMessage("已添加至不看名单");
-    		}
-    	}else if(type==1){//移出黑名单
-    		if(!StringUtils.isEmpty(blackIds)){//黑名单中没有人
-        		if(blackIds.contains(userId+",")){//该id不在最后一个
-                	blackIds=blackIds.replace(userId+",","");
+        	}else if(type==1){//移出黑名单
+        		if(!StringUtils.isEmpty(blackIds)){//黑名单中没有人
+            		if(blackIds.contains(userId+",")){//该id不在最后一个
+                    	blackIds=blackIds.replace(userId+",","");
+                	}else{
+                		blackIds=blackIds.replace(","+userId,"");
+                	}
+            		result.setMessage("已移出不看名单");
             	}else{
-            		blackIds=blackIds.replace(","+userId,"");
+            		result.setMessage("该用户不在你的不看名单中");
             	}
-        		result.setMessage("已移出不看名单");
-        	}else{
-        		result.setMessage("该用户不在你的不看名单中");
-        	}
 
+        	}
+        	userinfo.setBlackNameList(blackIds);
     	}
-    	userinfo.setBlackNameList(blackIds);
     	userInfoService.updateUserInfo(userinfo);
     	result.setCode(200);
 		return result;

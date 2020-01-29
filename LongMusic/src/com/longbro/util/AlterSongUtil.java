@@ -20,7 +20,7 @@ public class AlterSongUtil {
 		// TODO Auto-generated method stub
 //		alterSonName();
 //		saveLyricToDb();
-		setSortNum();
+//		setSortNum();
 	}
 	/**
 	 * @desc 1.批量重命名歌曲文件，由歌曲名改为歌曲资源id命名

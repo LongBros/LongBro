@@ -5,6 +5,8 @@ loadNotice();
 var homeSongId="";
 var show=1;//显示日记字数
 var perPageNum=0;//显示日记篇数
+var sexInt=0;
+var call="他";
 /**
  * 1.根据是否登录设置菜单栏
  */
@@ -186,6 +188,11 @@ function loadAuthorInfo(){
 			var data=res.result;
 			var url=document.URL+"";
 			var sex=getSexById(data.uuserSex);
+
+			sexInt=data.uuserSex;
+			if(sexInt==0){//sexInt在index.js中指定
+				call="她";//在author.js中使用
+			}
 			if(user!=author){//不是当前人时候的title显示
 				document.title=""+document.title+"'"+data.uuserName+"'的日记~哆啦网";
 				if(url.indexOf("author.html")!=-1){//别的作者的页面
@@ -431,6 +438,9 @@ function playHomeSong(){
 		playAudio(homeSongId);
 		btn.title="点击停止播放";
 	}else{
+		//隐藏logo并停止旋转
+		hideCircle();
+		stopRotateCircle();
 		var song=document.getElementById("audio");
 		song.src="";
 		$("#playBtn").text("▷");
@@ -473,6 +483,9 @@ function playAudio(sid){
 	$("#playBtn").text("||");
 	var btn=document.getElementById("playBtn");
 	btn.title="点击暂停";
+	//01-28显示logo并旋转
+	document.getElementById("album").style.display="block";
+	rotateCircle();
 }
 //19.手机端按钮登录
 function loginPhone(){
@@ -691,4 +704,86 @@ function getSongNameBySId(sourceId){
 		}
 	});
 	return name;
+}
+/**
+ * 24.画圆函数
+ * 参数：圆心坐标，半径，精确度，背景颜色
+ */
+function drawCircle(centreX, centreY, radius, precision, color){
+	var cx=Math.abs(parseInt(centreX));
+	var cy=Math.abs(parseInt(centreY));
+	var r = parseInt(radius<2 ? 60 : radius);
+	var p = parseInt(precision<1 ? 1 : precision);
+	var c = color;
+	var y;
+	for(var x=cx-r; x<=cx+r; x+=p){
+		  y = cy - Math.sqrt(Math.pow(r, 2) - Math.pow(cx - x, 2));
+		  document.write('<img style="background:'+c+'; border:1 solid '+c+'; width:'+p+'; height:'+parseInt(2*Math.sqrt(Math.pow(r, 2) - Math.pow(cx - x, 2)))+'; position:absolute; top:'+parseInt(y)+'; left:'+parseInt(x)+';">');
+	}
+}
+/**
+ * 25.显示画出的圆及logo
+ */
+function showCircle(){
+	document.write("<div style='float:right;margin-top:22px;'>");
+	drawCircle(450, 100, 100, 1, "grey");
+	drawCircle(450, 100, 38, 1, "white");
+	drawCircle(450, 100, 35, 1, "#cd3f11");
+	document.write('<span id="logoword" style="font-size:8px;color:white;position:absolute; top:90px; left:423px;">DoraNote</span>');
+	document.write("</div>");
+}
+function hideCircle(){
+	document.getElementById("album").style.display="none";
+}
+/**
+ * 26.定时器控制logo旋转
+ */
+var thread;
+var deg;
+function rotateCircle(){
+	deg=5;
+	thread=window.setInterval("rotateLogo()", "300");
+}
+//停止旋转
+function stopRotateCircle(){
+	window.clearInterval(thread);
+}
+/**
+ * 27.旋转logo
+ * @param deg 旋转角度
+ */
+function rotateLogo(){
+	document.getElementById("logoword").style.transform="rotate("+deg+"deg)";//
+	deg=deg+5;
+}
+/**
+ * 28.2020-01-28左侧栏推荐所有用户
+ */
+function loadAllUser(){
+	$("#alluser").text('');
+	if(user==""){
+		alert("请登录");
+		return;
+	}
+	$.ajax({
+		url:"note/notice/getMyAtten.do?userId="+"5211314",
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(res){
+			if(res.code==200){
+				var data=res.result;
+				if(data.length<1){
+//					$("#alluser").append("<center>你还没有关注别人呢，快去关注你喜欢的人吧！</center>");
+				}else{
+//					$("#alluser").append("<center>你共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
+				}
+				for(var i=data.length-1;i>=0;i--){
+					$("#alluser").append("<div class='user'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a>&emsp;<font  color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font></div><hr>");
+				}
+			}else{
+				alert("查询失败");
+			}
+		}
+	});
 }

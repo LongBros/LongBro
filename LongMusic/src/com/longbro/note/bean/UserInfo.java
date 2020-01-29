@@ -32,6 +32,7 @@ public class UserInfo{
 	private Integer showWhichTab;//12-27首页默认加载tab(0:推荐，1:关注，2:时间轴)
 	private Integer showPlayer;//u_show_player是否在播放歌曲的时候显示播放器(0：不显示，1：显示)
 	private Integer	textEditor;//写日记使用的编辑器(0：百度文本编辑器，1：普通文本区)
+	protected String blackList; //2020-01-28不给看名单
 	public Integer getUId() {
 		return this.UId;
 	}
@@ -208,6 +209,12 @@ public class UserInfo{
 	}
 	public void setTextEditor(Integer textEditor) {
 		this.textEditor = textEditor;
+	}
+	public String getBlackList() {
+		return blackList;
+	}
+	public void setBlackList(String blackList) {
+		this.blackList = blackList;
 	}
 	
 }

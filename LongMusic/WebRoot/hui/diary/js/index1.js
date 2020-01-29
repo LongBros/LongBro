@@ -1,6 +1,7 @@
 var curPage=1;//当前页码
 var perPage=10;//当前一页展示日记数量
 var user=getCookie("userId")+"";
+
 /*1.个人信息*/
 function myselfinfo(){
 	layer.open({
@@ -26,6 +27,9 @@ function loadDiary(from,author,page,perPage,userId){
 	var au="0";//完全公开的
 	if(user!=null&&user!=''){//登录用户可看到完全公开和登录可见的
 		au="0,2";
+	}
+	if(from=="author"){//作者页要定作者的性别，以此来设置tab及其他 01-28
+		$(".sexCall").text(call);//设置tab
 	}
 	$("#diarys").text("");
 	$.ajax({
@@ -78,7 +82,8 @@ function loadDiary(from,author,page,perPage,userId){
 				//未登录所有日记不显示不看他按钮,已登录自己的日记不显示不看他按钮
 				var nsh="";
 				if((data[i].nwritter+"")!=(user+"")&&user!=""){
-					nsh="&nbsp;<i class=\"Hui-iconfont\" title='不看他' onclick='addToUnlike(\""+data[i].nwritter+"\",\""+data[i].userName+"\")'>&#xe68b;</i>";
+					nsh="&nbsp;<i class=\"Hui-iconfont\" title='不看他' onclick='addToUnlike(\"1\",\""+data[i].nwritter+"\",\""+data[i].userName+"\")'>&#xe624;</i>";
+					nsh=nsh+"&nbsp;<i class=\"Hui-iconfont\" title='不给ta看' onclick='addToUnlike(\"0\",\""+data[i].nwritter+"\",\""+data[i].userName+"\")'>&#xe691;</i>";
 				}
 				var top="";
 				if(data[i].nUserTop==1){//用户置顶
@@ -99,9 +104,11 @@ function loadDiary(from,author,page,perPage,userId){
 					tx="<img src='image/tx/"+data[i].headImage+".jpg' class='touxiang' onclick='openOther(1,\""+data[i].nwritter+"\")'>";
 					var sex=data[i].authorSex;
 					if(sex==0){//女性
-						au="<i class=\"Hui-iconfont\" style='color:red'>&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+//						au="<i class=\"Hui-iconfont\" style='color:red'>&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+						au="<img src='image/female.png' style='width:16px;height:17px;'><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
 					}else{
-						au="<i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+//						au="<i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+						au="<img src='image/male.png' style='width:16px;height:17px;'><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
 					}
 				}
 				//onclick='openOther(0,"+data[i].nid+")'
@@ -334,14 +341,18 @@ function setPer(from,userId,pernum){
  * @param userId
  * @param userName
  */
-function addToUnlike(userId,userName){
+function addToUnlike(which,userId,userName){
+	var w="确定添加‘"+userName+"’至不看列表？(添加后在你的首页不会显示ta的文章)";
+	if(which==0){
+		w="确定添加‘"+userName+"’至不给看列表？(添加后在ta的首页不会显示你的文章)";
+	}
 	//user:当前登录用户,userId:待移除用户
-	var r=window.confirm("确定添加‘"+userName+"’至不看列表？(添加后在首页不会显示他的文章)");
+	var r=window.confirm(w);
 	if(r==false){
 		return;
 	}
 	$.ajax({
-		url:"note/userinfo/addToOrRemoveFromList.do?type=0&user="+user+"&userId="+userId,
+		url:"note/userinfo/addToOrRemoveFromList.do?type=0&user="+user+"&userId="+userId+"&which="+which,
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -440,9 +451,12 @@ function openRecommend(){
 					ti="title='该篇日记共计"+data[i].wordSize+"字(包含格式所占字符)'";
 				}
 				var tx="<img src='image/tx/"+data[i].headImage+".jpg' class='touxiang' onclick='openOther(1,\""+data[i].nwritter+"\")'>";
-				var au="<i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
-				
-				//onclick='openOther(0,"+data[i].nid+")'
+				var sex=data[i].authorSex;
+				if(sex==0){//女性
+					au="<img src='image/female.png' style='width:16px;height:17px;'><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+				}else{
+					au="<img src='image/male.png' style='width:16px;height:17px;'><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+				}
 				$("#diarys").append("<div class=\"diary\">"+tx+"<a href=\"diary.html?id="+data[i].nid+"\"  "+ti+">"+con+"</a><br>"
 				+"<div class='info'>"+au+"<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
 				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>"+title+"</span>&nbsp;<span>"+(music=='1'?'<font color=\'red\' title=\'有音频喔\'>'+wordSize+'音</font>':'<font color=\'red\'>'+wordSize+'</font>')+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i><span title='"+data[i].nlocation+"'>"+loc
@@ -533,8 +547,13 @@ function openNotice(){
 					ti="title='该篇日记共计"+data[i].wordSize+"字(包含格式所占字符)'";
 				}
 				var tx="<img src='image/tx/"+data[i].headImage+".jpg' class='touxiang' onclick='openOther(1,\""+data[i].nwritter+"\")'>";
-				var au="<i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
-				//onclick='openOther(0,"+data[i].nid+")'
+				var au="";
+				var sex=data[i].authorSex;
+				if(sex==0){//女性
+					au="<img src='image/female.png' style='width:16px;height:17px;'><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+				}else{
+					au="<img src='image/male.png' style='width:16px;height:17px;'><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
+				}
 				$("#diarys").append("<div class=\"diary\">"+tx+"<a href=\"diary.html?id="+data[i].nid+"\"  "+ti+">"+con+"</a><br>"
 				+"<div class='info'>"+au+"<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
 				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>"+title+"</span>&nbsp;<span>"+(music=='1'?'<font color=\'red\' title=\'有音频喔\'>'+wordSize+'音</font>':'<font color=\'red\'>'+wordSize+'</font>')+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i><span title='"+data[i].nlocation+"'>"+loc

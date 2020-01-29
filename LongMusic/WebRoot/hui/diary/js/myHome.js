@@ -386,11 +386,16 @@ function loadInfo(){
 			var perpageNum=data.perpageNum+"";//每页展示日记数量
 			var homesongName=data.homeSongName+"";
 			var homesong=data.uhomeSong+"";
-			
+			//不看
 			var blackNameIds=data.blackNameList+"";//用户id
 			var blackIds=blackNameIds.split(",");
 			var blackNames=data.blackNames+"";//用户名
 			var blacks=blackNames.split(",");
+			//不给看
+			var bIds=data.blackList+"";//用户id
+			var bIdss=bIds.split(",");
+			var bNames=data.blacks+"";//用户名
+			var bNamess=bNames.split(",");
 			
 			var bornTime=data.ubornTime+"";//2020-01-27新增
 			var year="",month="",day="";
@@ -442,13 +447,19 @@ function loadInfo(){
 			}
 			string=string+"</select>&emsp;(0表示显示下拉列表,可切换每页篇数)</span>&nbsp;<span style='color:gray'>(每页加载篇数越多耗时越长，请谨慎选择)</span>";
 			
-			string=string+"<br><span>我的黑名单(不看名单，点击可移出):";
+			string=string+"<br><span>不看名单(你看不到列表中的用户在首页的日记，点击可移出):";
 //			for(var i=0;i<blackIds.length;i++){
 //				string=string+"<a onclick='removeFromList(\""+blackIds[i]+"\",\""+blacks[i]+"\")' style='color:red'>"+blacks[i]+"</a>&emsp;&emsp;";
 //			}
 			//另一种for循环
 			for(var key in blackIds){
-				string=string+"<a onclick='removeFromList(\""+blackIds[key]+"\",\""+blacks[key]+"\")' style='color:red'>"+blacks[key]+"</a>&emsp;&emsp;";
+				string=string+"<a onclick='removeFromList(\"1\",\""+blackIds[key]+"\",\""+blacks[key]+"\")' style='color:red'>"+blacks[key]+"</a>&emsp;&emsp;";
+			}
+			string=string+"</span><br>";
+			
+			string=string+"<span>不给看名单(列表中的用户在首页看不到你的日记，点击可移出):";
+			for(var key in bIdss){
+				string=string+"<a onclick='removeFromList(\"0\",\""+bIdss[key]+"\",\""+bNamess[key]+"\")' style='color:red'>"+bNamess[key]+"</a>&emsp;&emsp;";
 			}
 			string=string+"</span><br>";
 			
@@ -566,7 +577,7 @@ function loadMyAtten(){
 					$("#myDiary").append("<center>你共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
 				}
 				for(var i=0;i<data.length;i++){
-					$("#myDiary").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					$("#myDiary").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a>&emsp;<font  color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
 					
 				}
 			}else{
@@ -596,17 +607,23 @@ function isPhone(){
 }
 /**
  * 17.将userId移出不看他列表
+ * @param which 1:不看列表，0：不被看列表
  * @param userId
+ * @param userName
  */
-function removeFromList(userId,userName)
+function removeFromList(which,userId,userName)
 {
-	var r=window.confirm("确定从不看列表移出‘"+userName+"’？");
+	var w="不看";
+	if(which==0){
+		w="不给看";
+	}
+	var r=window.confirm("确定从"+w+"列表移出‘"+userName+"’？");
 	if(r==false){
 		return;
 	}
 	//user:当前登录用户,userId:待移除用户
 	$.ajax({
-		url:"note/userinfo/addToOrRemoveFromList.do?type=1&user="+user+"&userId="+userId,
+		url:"note/userinfo/addToOrRemoveFromList.do?type=1&user="+user+"&userId="+userId+"&which="+which,
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -675,7 +692,7 @@ function loadMyFans(){
 					$("#myDiary").append("<center>共<font color='red' size='2px'>"+data.length+"</font>个小伙伴关注了你</center>");
 				}
 				for(var i=0;i<data.length;i++){
-					$("#myDiary").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticerId+"' target='_blank'>"+data[i].noticerName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					$("#myDiary").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticerId+"' target='_blank'>"+data[i].noticerName+"</a>&emsp;<font  color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
 					
 				}
 			}else{
@@ -696,7 +713,6 @@ function openTab(which){
 			$("#"+tabs[i]).css("color","white");
 		}
 	}
-	
 	if(which==0){
 		loadMyDiary('1','10');
 	}else if(which==1){

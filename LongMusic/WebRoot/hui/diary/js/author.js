@@ -17,7 +17,7 @@ function loadMyLove(author){
 		success:function(data){
 			var res=data.result;
 			if(res.length<1){
-				$("#diarys").append("<br><br><center>他还没有喜欢的日记喔！</center><br><br>");
+				$("#diarys").append("<br><br><center>"+call+"还没有喜欢的日记喔！</center><br><br>");
 				return;
 			}
 			for(var i=0;i<res.length;i++){
@@ -39,7 +39,7 @@ function loadMyLove(author){
 						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
 						+"</div><hr width='100%'>");
 			}
-			$("#diarys").append("<br><br><center>朕共喜欢<font color='red'>"+res.length+"</font>篇日记</center><br>");
+			$("#diarys").append("<br><br><center>"+call+"共喜欢<font color='red'>"+res.length+"</font>篇日记</center><br>");
 
 		}
 	});
@@ -62,7 +62,7 @@ function loadMyStore(author){
 		success:function(data){
 			var res=data.result;
 			if(res.length<1){
-				$("#diarys").append("<br><br><center>他还没有收藏过日记喔！</center><br><br>");
+				$("#diarys").append("<br><br><center>"+call+"还没有收藏过日记喔！</center><br><br>");
 				return;
 			}
 			for(var i=0;i<res.length;i++){
@@ -84,7 +84,7 @@ function loadMyStore(author){
 						+"</span>&nbsp;&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
 						+"</div><hr width='100%'>");
 			}
-			$("#diarys").append("<br><br><center>朕共收藏了<font color='red'>"+res.length+"</font>篇日记</center><br>");
+			$("#diarys").append("<br><br><center>"+call+"共收藏了<font color='red'>"+res.length+"</font>篇日记</center><br>");
 
 		}
 	});
@@ -118,13 +118,12 @@ function loadMyAtten(author){
 			if(res.code==200){
 				var data=res.result;
 				if(data.length<1){
-					$("#diarys").append("<center>他还没有关注别人呢！</center>");
+					$("#diarys").append("<center>"+call+"还没有关注别人呢！</center>");
 				}else{
-					$("#diarys").append("<center>他共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
+					$("#diarys").append("<center>"+call+"共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
 				}
 				for(var i=0;i<data.length;i++){
-					$("#diarys").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
-					
+					$("#diarys").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a>&emsp;<font  color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
 				}
 			}else{
 				alert("查询失败");
@@ -153,14 +152,14 @@ function loadMyCom(author){
 				$("#diarys").append("<div class='notice'><center>共有<font color='red'>"+res.length+"</font>条评论消息</center></div>");
 			}
 			if(res.length<1){
-				$("#diarys").append("<div class='notice'><center>他还没有评论过别人的日记！</center></div>");
+				$("#diarys").append("<div class='notice'><center>"+call+"还没有评论过别人的日记！</center></div>");
 			}
 			for(var i=0;i<res.length;i++){
 				var con=res[i].reviewCon+"";
 				if(con.length>15){
 					con=con.substring(0,15)+"...";
 				}
-				$("#diarys").append("<div class='notice'>他评论了<a href='author.html?author="+res[i].reviewed+"' target='_blank'>"+res[i].viewedName+"</a>&emsp;的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>&emsp;<font style='color:gray;font-size:5px;'>"+con+"</font><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
+				$("#diarys").append("<div class='notice'>"+call+"评论了<a href='author.html?author="+res[i].reviewed+"' target='_blank'>"+res[i].viewedName+"</a>&emsp;的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>&emsp;<font style='color:gray;font-size:5px;'>"+con+"</font><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 			}
 		}
 	});
@@ -184,12 +183,12 @@ function loadMyFans(author){
 			if(res.code==200){
 				var data=res.result;
 				if(data.length<1){
-					$("#diarys").append("<center>还没有人关注他呢，期待他成为他的第一个粉丝啦！</center>");
+					$("#diarys").append("<center>还没有人关注"+call+"呢，期待你成为"+call+"的第一个粉丝啦！</center>");
 				}else{
-					$("#diarys").append("<center>共<font color='red' size='2px'>"+data.length+"</font>个小伙伴关注了他</center>");
+					$("#diarys").append("<center>共<font color='red' size='2px'>"+data.length+"</font>个小伙伴关注了"+call+"</center>");
 				}
 				for(var i=0;i<data.length;i++){
-					$("#diarys").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticerId+"' target='_blank'>"+data[i].noticerName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					$("#diarys").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticerId+"' target='_blank'>"+data[i].noticerName+"</a>&emsp;<font color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
 					
 				}
 			}else{
