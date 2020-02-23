@@ -1,23 +1,33 @@
-
 /**
  * 1.加载他喜欢的
+ * @param which
+ * @param page
+ * @param perPage
+ * @param author
  */
-function loadMyLove(author){
+function loadMyLove(which,page,perPage,author){
 	$("#diarys").text('');
 	$(".pages").text('');
 	if(user==""){
-		alert("请登录");
+		alert("请先登录，登录后方可查看作者喜欢的日记");
+		login_popup();
 		return;
 	}
 	$.ajax({
-		url:"note/praise/getMyLikeDiary.do?userId="+author,
+		url:"note/praise/getMyLikeDiary.do",
 		type:"get",
 		async:false,
+		data:{
+			userId:author,
+			//author:author,
+			page:page,
+			perPage:perPage
+		},
 		dataType:"Json",
 		success:function(data){
 			var res=data.result;
 			if(res.length<1){
-				$("#diarys").append("<br><br><center>"+call+"还没有喜欢的日记喔！</center><br><br>");
+//				$("#diarys").append("<br><br><center>"+call+"还没有喜欢的日记喔！</center><br><br>");
 				return;
 			}
 			for(var i=0;i<res.length;i++){
@@ -39,30 +49,43 @@ function loadMyLove(author){
 						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
 						+"</div><hr width='100%'>");
 			}
-			$("#diarys").append("<br><br><center>"+call+"共喜欢<font color='red'>"+res.length+"</font>篇日记</center><br>");
 
 		}
 	});
+	curPage=parseInt(page);
+	perPage=parseInt(perPage);
+	setPage1(which,perPage);
 }
 /**
  * 2.加载他收藏的
+ * @param which
+ * @param page
+ * @param perPage
+ * @param author
  */
-function loadMyStore(author){
+function loadMyStore(which,page,perPage,author){
 	$("#diarys").text('');
 	$(".pages").text('');
 	if(user==""){
-		alert("请登录");
+		alert("请先登录，登录后方可查看作者收藏的日记");
+		login_popup();
 		return;
 	}
 	$.ajax({
-		url:"note/store/getMyStoreDiary.do?userId="+author,
+		url:"note/store/getMyStoreDiary.do",
 		type:"get",
 		async:false,
+		data:{
+			userId:author,
+			//author:author,
+			page:page,
+			perPage:perPage
+		},
 		dataType:"Json",
 		success:function(data){
 			var res=data.result;
 			if(res.length<1){
-				$("#diarys").append("<br><br><center>"+call+"还没有收藏过日记喔！</center><br><br>");
+//				$("#diarys").append("<br><br><center>"+call+"还没有收藏过日记喔！</center><br><br>");
 				return;
 			}
 			for(var i=0;i<res.length;i++){
@@ -84,10 +107,12 @@ function loadMyStore(author){
 						+"</span>&nbsp;&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
 						+"</div><hr width='100%'>");
 			}
-			$("#diarys").append("<br><br><center>"+call+"共收藏了<font color='red'>"+res.length+"</font>篇日记</center><br>");
 
 		}
 	});
+	curPage=parseInt(page);
+	perPage=parseInt(perPage);
+	setPage1(which,perPage);
 }
 /**
  * 3.加载他看过的
@@ -101,35 +126,55 @@ function loadMyFeet(author){
 
 /**
  * 4.加载他关注的人
+ * @param which
+ * @param page
+ * @param perPage
+ * @param author
  */
-function loadMyAtten(author){
+function loadMyAtten(which,page,perPage,author){
 	$("#diarys").text('');
 	$(".pages").text('');
 	if(user==""){
-		alert("请登录");
+		alert("请先登录，登录后方可查看作者关注的用户");
+		login_popup();
 		return;
 	}
 	$.ajax({
-		url:"note/notice/getMyAtten.do?userId="+author,
+		url:"note/notice/getMyAtten.do",
 		type:"get",
 		async:false,
+		data:{
+			userId:user,
+			author:author,
+			page:page,
+			perPage:perPage
+		},
 		dataType:"Json",
 		success:function(res){
 			if(res.code==200){
 				var data=res.result;
 				if(data.length<1){
-					$("#diarys").append("<center>"+call+"还没有关注别人呢！</center>");
+//					$("#diarys").append("<center>"+call+"还没有关注别人呢！</center>");
 				}else{
-					$("#diarys").append("<center>"+call+"共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
+//					$("#diarys").append("<center>"+call+"共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
 				}
 				for(var i=0;i<data.length;i++){
-					$("#diarys").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a>&emsp;<font  color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					var btn="";
+					if(data[i].ifAtten>0){
+						btn="&emsp;&emsp;<font style='background:white;color:black;font-size:1px;' onclick='attenUser()'>已关注</span>";
+					}else{
+						btn="&emsp;&emsp;<font style='background:red;color:white;font-size:1px;' onclick='attenUser()'>关注</span>";
+					}
+					$("#diarys").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a>&emsp;<font color='gray' size='1px'>"+data[i].fanNums+"粉丝</font>&emsp;<font  color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font>"+btn+"<font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
 				}
 			}else{
 				alert("查询失败");
 			}
 		}
 	});
+	curPage=parseInt(page);
+	perPage=parseInt(perPage);
+	setPage1(which,perPage);
 }
 /**
  * 5.加载他的评论
@@ -139,6 +184,7 @@ function loadMyCom(author){
 	$(".pages").text('');
 	if(user==""){
 		alert("请登录");
+		login_popup();
 		return;
 	}
 	$.ajax({
@@ -166,29 +212,46 @@ function loadMyCom(author){
 }
 /**
  * 6.加载他的粉丝
+ * @param which
+ * @param page
+ * @param perPage
+ * @param author
  */
-function loadMyFans(author){
+function loadMyFans(which,page,perPage,author){
 	$("#diarys").text('');
 	$(".pages").text('');
 	if(user==""){
-		alert("请登录");
+		alert("请先登录，登录后方可查看作者的粉丝");
+		login_popup();
 		return;
 	}
 	$.ajax({
-		url:"note/notice/getMyMessage.do?userId="+author,
+		url:"note/notice/getMyMessage.do",
 		type:"get",
 		async:false,
+		data:{
+			userId:user,
+			author:author,
+			page:page,
+			perPage:perPage
+		},
 		dataType:"Json",
 		success:function(res){
 			if(res.code==200){
 				var data=res.result;
 				if(data.length<1){
-					$("#diarys").append("<center>还没有人关注"+call+"呢，期待你成为"+call+"的第一个粉丝啦！</center>");
+//					$("#diarys").append("<center>还没有人关注"+call+"呢，期待你成为"+call+"的第一个粉丝啦！</center>");
 				}else{
-					$("#diarys").append("<center>共<font color='red' size='2px'>"+data.length+"</font>个小伙伴关注了"+call+"</center>");
+//					$("#diarys").append("<center>共<font color='red' size='2px'>"+data.length+"</font>个小伙伴关注了"+call+"</center>");
 				}
 				for(var i=0;i<data.length;i++){
-					$("#diarys").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticerId+"' target='_blank'>"+data[i].noticerName+"</a>&emsp;<font color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					var btn="";
+					if(data[i].ifAtten>0){
+						btn="&emsp;&emsp;<font style='background:white;color:black;font-size:1px;width:160px;height:29px' onclick='attenUser()'>已关注</span>";
+					}else{
+						btn="&emsp;&emsp;<font style='background:red;color:white;font-size:1px;width:160px;height:29px' onclick='attenUser()'>关注</span>";
+					}
+					$("#diarys").append("<div class='notice' style='cursor:pointer'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticerId+"' target='_blank'>"+data[i].noticerName+"</a>&emsp;<font color='gray' size='1px'>"+data[i].fanNums+"粉丝</font>&emsp;<font color='gray' size='1px'>"+data[i].joinDay+"天"+data[i].diaryNum+"篇日记</font>"+btn+"<font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
 					
 				}
 			}else{
@@ -196,6 +259,9 @@ function loadMyFans(author){
 			}
 		}
 	});
+	curPage=parseInt(page);
+	perPage=parseInt(perPage);
+	setPage1(which,perPage);
 }
 /**
  * 7.切换tab
@@ -218,12 +284,178 @@ function openTab(which){
 		document.getElementById("notice").style.color="white";
 		document.getElementById("fans").style.color="white";
 	}else if(which==1){
-		loadMyLove(author)
+		loadMyLove('1','1','10',author)
 	}else if(which==2){
-		loadMyStore(author)
+		loadMyStore('2','1','10',author)
 	}else if(which==3){
-		loadMyAtten(author)
+		loadMyAtten('3','1','10',author)
 	}else if(which==4){
-		loadMyFans(author)
+		loadMyFans('4','1','10',author)
 	}
+}
+/**
+ * 8.设置分页
+ * @param author
+ * @param perPage
+ */
+function setPage1(which,perPage){
+	$(".pages").text('');
+	var num=0;//数量
+	var fun="";//函数名
+	/*var url="";//
+	var param="";
+	if(which==1){
+		fun="loadMyLove";
+		url="note/praise/getPraiseNum.do";
+	}else if(which==2){
+		fun="loadMyStore";
+		url="note/store/getStoreNum.do";
+	}*/
+	if(which==1){//喜欢的日记的数量
+		$.ajax({
+			url:"note/praise/getPraiseNum.do",
+			type:"get",
+			async:false,
+			data:{
+				PPraiser:author
+			},
+			dataType:"text",
+			success:function(data){
+				num=data;
+			}
+		});
+		fun="loadMyLove";
+	}else if(which==2){//收藏的日记的数量
+		$.ajax({
+			url:"note/store/getStoreNum.do",
+			type:"get",
+			async:false,
+			data:{
+				SStorer:author
+			},
+			dataType:"text",
+			success:function(data){
+				num=data;
+			}
+		});
+		fun="loadMyStore";
+	}else if(which==3){//关注的人的数量
+		$.ajax({
+			url:"note/notice/getAttenNum.do",
+			type:"get",
+			async:false,
+			data:{
+				NNoticer:author
+			},
+			dataType:"text",
+			success:function(data){
+				num=data;
+			}
+		});
+		fun="loadMyAtten";
+	}else if(which==4){//粉丝的数量
+		$.ajax({
+			url:"note/notice/getAttenNum.do",
+			type:"get",
+			async:false,
+			data:{
+				NNoticed:author
+			},
+			dataType:"text",
+			success:function(data){
+				num=data;
+			}
+		});
+		fun="loadMyFans";
+	}
+	
+	var page=0;
+	if(num%perPage==0){//可整除的话，页码数为总日记数除以10
+		page=num/perPage;
+	}else{//不可整除的话，页码数为总日记数除以10加1
+		page=parseInt(num/perPage)+1;
+	}
+	var value=new Array("10","20","30","40");
+	var sel="";
+	if(which!=3&&which!=4){
+		sel="<select onchange='setPer1("+which+",options[selectedIndex].value)'>";
+		for(var i=0;i<value.length;i++){
+			if(value[i]==perPage){
+				sel=sel+"<option value='"+value[i]+"' selected>每页"+value[i]+"篇</option>";
+			}else{
+				sel=sel+"<option value='"+value[i]+"'>每页"+value[i]+"篇</option>";
+			}
+		}
+		sel=sel+"</select>";
+	}
+	if(num>10){
+		if(which!=3&&which!=4){
+			$(".pages").append(sel+"&nbsp;共"+num+"篇日记&nbsp;"+curPage+"/"+page+"&emsp;");
+		}else{
+			$(".pages").append(num+"条数据&nbsp;"+curPage+"/"+page+"&emsp;");
+		}
+	}else{//只有10篇无需显示选择每页多少篇
+		if(which!=3&&which!=4){
+			$(".pages").append("&nbsp;共"+num+"篇日记&nbsp;");
+		}else{
+			$(".pages").append(num+"条数据"+"");
+		}
+	}
+	if(curPage!=1){
+		$(".pages").append("<span onclick=\""+fun+"('"+which+"','1','"+perPage+"','"+author+"')\">首</span>&emsp;")
+		$(".pages").append("<span onclick=\""+fun+"('"+which+"','"+(curPage-1)+"','"+perPage+"','"+author+"')\">《</span>&emsp;");
+	}
+	if(page>5){//多于5页，只显示5页
+		if(curPage>page-5){//当前页码大于总页码-5，输出后六页
+			for(var i=page-4;i<=page;i++){
+	              if(i==curPage){
+	  				   $(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"','"+author+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+		          }else{
+					   $(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"','"+author+"')\">"+i+"</span>&emsp;")
+	         	  }
+	        }
+		}else{//当前页码小于总页码-6，输出当前页码后的六页
+            for(var i=curPage;i<curPage+5;i++){
+                if(i==curPage){
+	  				   $(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"','"+author+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+                }else{
+					   $(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"','"+author+"')\">"+i+"</span>&emsp;")
+                }
+            }
+         }
+	}else{//少于5页，显示所有页码
+		if(page!=1){//只有一页无需显示页码
+			for(var i=1;i<=page;i++){
+				if(curPage==i){
+					$(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"','"+author+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+				}else{
+					$(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"','"+author+"')\">"+i+"</span>&emsp;")
+				}
+			}
+		}
+	}
+	if(curPage+1<=page){//＜＞
+		$(".pages").append("<span onclick=\""+fun+"('"+which+"','"+(curPage+1)+"','"+perPage+"','"+author+"')\">》</span>&emsp;")
+		$(".pages").append("<span onclick=\""+fun+"('"+which+"','"+page+"','"+perPage+"','"+author+"')\">尾</span>&emsp;")
+	}
+	
+}
+/**
+ * 9.设置每页多少篇
+ * @param pernum
+ */
+function setPer1(which,pernum){
+	perPage=pernum;
+	setPage1(which,perPage);
+	if(which=="0"){//自己的
+		loadMyDiary(which,curPage,perPage,author);
+	}else if(which=="1"){//喜欢的
+		loadMyLove(which,curPage,perPage,author);
+	}
+}
+/**
+ * 10.关注或取消关注某人
+ */
+function attenUser(){
+	alert("此处暂不支持关注，请进入作者详情页进行关注，谢谢")
 }

@@ -246,7 +246,7 @@ public class UserInfoController{
 			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
-		
+		logger.debug(new Gson().toJson(info));
 		userInfoService.updateUserInfo(info);
 		result.setCode(200);
     	result.setMessage("信息保存成功");
@@ -267,8 +267,8 @@ public class UserInfoController{
     		@RequestParam(value="pic",required=false) MultipartFile attach) throws Exception{
 		response.setCharacterEncoding("utf-8");
 		String userId="";
-		 userId=request.getParameter("userId");
-		 logger.debug("==========>"+new Gson().toJson(request.getParameterMap()));
+		userId=request.getParameter("userId");
+		logger.debug("==========>"+new Gson().toJson(request.getParameterMap()));
 //		 System.out.println(">>>>>>>>>>>>"+attach.getOriginalFilename());
     	/*		 
     	String pname="";
@@ -329,8 +329,6 @@ public class UserInfoController{
 				request.setAttribute("uploadFileError","上传图片的格式不正确");
 			}
 		}
-		
-
     }
     /**
      * @desc 9.查询用户数、日记数量的统计信息

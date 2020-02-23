@@ -1,3 +1,5 @@
+SELECT VERSION();用于获取当前 Mysql 的版本。
+
 2020-01-25
 1.另一种方法实现文件上传：MultipartFile，多个文件时定义数组
 2.不定义id实现css设置submit格式，.rights form input[type=submit]{

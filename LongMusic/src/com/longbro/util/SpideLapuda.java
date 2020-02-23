@@ -34,16 +34,16 @@ public class SpideLapuda {
 //			System.out.println(TimeUtil.timeConvert(s));
 //			
 //		}
-		int diaryId=0;
-		for(int i=0;i<15;i++){
-			diaryId=spideIndex(i);
-			if(diaryId!=0){
-				break;
-			}
-		}
-		System.out.println(diaryId);
+//		int diaryId=0;
+//		for(int i=0;i<15;i++){
+//			diaryId=spideIndex(i);
+//			if(diaryId!=0){
+//				break;
+//			}
+//		}
+//		System.out.println(diaryId);
 //		getIds();
-//		setDate();
+		setDate();
 	}
 	/**
 	 * @desc 爬取首页，
@@ -88,10 +88,10 @@ public class SpideLapuda {
 //		int d1[]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
 //		int d2[]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30};
 //		int d3[]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29};
-		int year=2019;
+		int year=2020;
 		int month=2;
-		int d=28;
-		for(int i=1719;i>1600;i--){
+		int d=3;
+		for(int i=1306;i>1206;i--){
 			System.out.println("UPDATE `music`.`d_diary` SET  `n_Time`='"+year+"-"+TimeUtil.handleNum(month)+"-"+TimeUtil.handleNum(d)+" 22:22:22' WHERE (`n_Id`='"+i+"');");
 			if(d>1){
 				d--;

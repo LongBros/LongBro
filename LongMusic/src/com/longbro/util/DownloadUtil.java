@@ -32,9 +32,9 @@ import com.sun.star.setup.CopyFileAction;
  */
 public class DownloadUtil {
 	public static void main(String[] args) {
-		writeToFile(spideLyric("296835"), "296835");
+//		writeToFile(spideLyric("296835"), "296835");
 
-		/*for(int i=740;i<760;i++){
+		for(int i=772;i<0;i++){
 			try {
 				ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName,website from song where id="+i);
 				while(rs.next()){
@@ -51,7 +51,7 @@ public class DownloadUtil {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}*/
+		}
 
 	}
 	/**

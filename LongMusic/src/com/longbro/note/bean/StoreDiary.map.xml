@@ -66,8 +66,26 @@
 		WHERE
 		s_Diary=#{SDiary} and s_Storer=#{SStorer}
 	</delete>
+	<!-- 1.得到当前日记有多少人喜欢2.得到某人的未读喜欢、所有被喜欢数量 -->
+	<select id="getStoreNum" parameterType="com.longbro.note.bean.StoreDiary" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM d_store 
+		WHERE 1=1
+		<if test="SDiary!='' and SDiary!=null"><!-- 得到当前日记有多少人收藏 -->
+			and s_Diary=#{SDiary}
+		</if> 
+		<if test="SStored!='' and SStored!=null"><!-- 得到当前用户有多少未读收藏 -->
+			and s_Stored=#{SStored} 
+		</if>
+		<if test="SStorer!='' and SStorer!=null"><!-- 得到当前用户收藏多少日记 -->
+			and s_Storer=#{SStorer} 
+		</if>
+		<if test="SReadStatus!='' and SReadStatus!=null">
+			and find_in_set(s_Read_Status,#{SReadStatus})
+		</if>
+		;
+	</select>
 	<!-- 得到某用户收藏的日记 -->
-	<select id="getStoreDiarybyUser" parameterType="java.lang.String" resultType="java.util.HashMap">
+	<select id="getStoreDiarybyUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT 
 		dd.n_Id id,dd.n_Title title,dd.n_Type cate,dd.n_Content content,
 		dd.n_Time time,dd.n_Location loc,dd.n_Writter writter,
@@ -81,6 +99,7 @@
 		LEFT JOIN d_user_info dui ON dd.n_Writter=dui.u_User_Id
  		WHERE s_Storer=#{userId}
  		order by ds.s_Store_Time desc
+ 		LIMIT #{start},#{perPage}
  		;
 	</select>
 	<update id="setAsReaded">

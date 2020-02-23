@@ -83,7 +83,8 @@ public class PraiseDiaryController{
     @ResponseBody
     public int getPraiseNum(PraiseDiary diary){
     	logger.debug("getPraiseNum=========>"+new Gson().toJson(diary));
-    	return praiseDiaryService.getPraiseNum(diary);
+    	int num=praiseDiaryService.getPraiseNum(diary);
+    	return num;
     }
     /**
      * @desc 5.得到某用户喜欢的日记
@@ -92,14 +93,19 @@ public class PraiseDiaryController{
      */
     @RequestMapping(value="getMyLikeDiary",method=RequestMethod.GET)
     @ResponseBody
-    public BaseResult<List<PraiseDiary>> getMyLikeDiary(String userId){
+    public BaseResult<List<PraiseDiary>> getMyLikeDiary(String userId,
+    		String author,int page,int perPage){
     	BaseResult<List<PraiseDiary>> result=new BaseResult<>();
+    	int start=perPage*(page-1);
+    	HashMap<String,Object> map=new HashMap<>();
     	if(StringUtils.isEmpty(userId)){
     		result.setCode(110);
     		result.setMessage("用户id不能为空");
     		return result;
     	}
-    	result.setResult(praiseDiaryService.getMyLikeDiary(userId));;
+    	map.put("userId",userId);map.put("author",author);
+    	map.put("start",start);map.put("perPage",perPage);
+    	result.setResult(praiseDiaryService.getMyLikeDiary(map));
     	result.setCode(200);
     	result.setMessage("查询成功");
     	return result;

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.longbro.note.bean.Attention;
+import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.dao.AttentionDao;
 import com.longbro.common.BaseDao;
 
@@ -34,15 +35,19 @@ public class AttentionDao extends BaseDao{
 		this.delete(getNamespace()+".remove", bean);
 	}
 	//2019-12-03得到我的所有被关注的消息
-	public List<HashMap<String, String>> getMyMessage(String userId){
-		return this.selectList(getNamespace()+".getMyMessage",userId);
+	public List<HashMap<String, String>> getMyMessage(HashMap<String,Object> map){
+		return this.selectList(getNamespace()+".getMyMessage",map);
 	}
 	//2019-12-07设置所有未读消息为已读
 	public void setAsReaded(String userId){
 		this.update(getNamespace()+".setAsReaded", userId);
 	}
-	public List<HashMap<String, String>> getMyAtten(String userId){
-		return this.selectList(getNamespace()+".getMyAtten",userId);
+	public List<HashMap<String, String>> getMyAtten(HashMap<String,Object> map){
+		return this.selectList(getNamespace()+".getMyAtten",map);
+	}
+	//2020年1月30日6.查询关注的人的数量
+	public int getAttenNum(Attention atten){
+		return (Integer)this.selectOne(getNamespace()+".getAttenNum", atten);
 	}
 }
 

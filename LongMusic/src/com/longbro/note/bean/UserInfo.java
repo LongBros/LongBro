@@ -33,6 +33,8 @@ public class UserInfo{
 	private Integer showPlayer;//u_show_player是否在播放歌曲的时候显示播放器(0：不显示，1：显示)
 	private Integer	textEditor;//写日记使用的编辑器(0：百度文本编辑器，1：普通文本区)
 	protected String blackList; //2020-01-28不给看名单
+	protected int listStyle;//2020-01-29日记列表显示样式(默认0:标题+部分内容，1:仅标题)
+	protected int loopPlay;//2020-01-30音频是否循环播放 0:不循环，1:循环
 	public Integer getUId() {
 		return this.UId;
 	}
@@ -215,6 +217,18 @@ public class UserInfo{
 	}
 	public void setBlackList(String blackList) {
 		this.blackList = blackList;
+	}
+	public int getListStyle() {
+		return listStyle;
+	}
+	public void setListStyle(int listStyle) {
+		this.listStyle = listStyle;
+	}
+	public int getLoopPlay() {
+		return loopPlay;
+	}
+	public void setLoopPlay(int loopPlay) {
+		this.loopPlay = loopPlay;
 	}
 	
 }

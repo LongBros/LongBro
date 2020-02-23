@@ -3,11 +3,15 @@ ZCL19952019.
 db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
 db.username=mysqlrd
 db.password=123456
-<br><p style="text-align: right;">摘自《心灵鸡汤正能量励志》</p>
+<br><p style="text-align: right;">摘自《深响》</p>
 
+tadmin@gzaj.com lc1q2w3e
 
 #D92E2E;
 
+2020-01-20
+1.仿照souler的隐身助手，发布者可隐身，其实就跟QQ的那个发秘密差不多
+2.souler有一个不好的地方是，楼主回复评论者评论后，这条回复不是直接在评论下面
 
 1.消息设置、添加系统通知
 2.写日记或评论时可@
@@ -41,7 +45,10 @@ cp -rf LongMusic $(date +%Y%m%d_%H%M%S)
 
 统计表机构
 2530000022937712
-
+2020-02
+广州按揭
+2510000009694995
+179286+4300
 
 有一个访问者必执行的方法，只要访问本站无论哪里均会执行，
 如何判断某用户今日访问了？写一个方法，该方法将访问者cookie带入后端，若某人某天访问过了，则将其连续访问天数加1.若某天中断访问（到第二天了还没访问），则连续访问清零

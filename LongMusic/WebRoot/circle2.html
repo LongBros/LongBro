@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <base href="<%=basePath%>">
+    <title>使用SVG-测试画圆</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+  </head>
+  <body>
+  	<svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgs">
+	</svg>
+    <script>
+    function SVGPath(start_X, start_Y, R, t, width, color) {
+        var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        var real_R = R - width; //真正的半径应该是要达到的半径减去圆圈的宽度；
+        var arr = ['M' + start_X, start_Y + width, 'A' + real_R, real_R, 0, t >= 180 ? 1 : 0, 1]; //最后的参数表示顺时针画图；
+        var circle_x = start_X,
+            circle_y = start_Y + R; //确定圆圈中心位置；
+
+        var t2 = t % 360;
+        t = t > 0 && t2 == 0 ? 359 : t2; //如果角度是360度则取角度为359度，否则还按原来的角度。
+
+        var alpha = t / 180 * Math.PI; //将角度值转化为弧度制
+        var d_x = real_R * Math.sin(alpha);
+        var d_y = real_R * Math.cos(alpha); //计算终点在坐标轴上的投影。
+        var x = circle_x + d_x,
+            y = circle_y - d_y; //确定终点坐标。
+
+        arr.push(x.toFixed(2));
+        arr.push(y.toFixed(2)); //向数组里面添加参数——“终点坐标”；
+        var d = arr.join(" "); //将darr数组中的元素用“空格”隔开，并返回给变量d。 
+
+        path.setAttribute('d', d);
+        path.setAttribute('stroke', color);
+        path.setAttribute('stroke-width', width);
+        path.setAttribute('fill', 'none');
+
+        return path;
+    }
+    window.onload = function() {
+    	var svgs = document.getElementById("svgs");
+        var path = SVGPath(20, 0, 20, 0, 1, '#8B5CDD'); //颜色随便取。
+        svgs.appendChild(path);
+        svgs.onmouseover = function() {
+            var child = this.childNodes;
+            console.log(child); //结果为两个子节点,第一个是text，第二个是path，所以替换第二个子节点
+            clearInterval(this.timer);
+            var iSpeed = 30;
+            this.timer = setInterval(function() {
+                var alpha1 = 30 + iSpeed;
+                iSpeed = alpha1;
+                if (alpha1 >= 360) {
+                    clearInterval(svgs.timer);
+                    var path1 = SVGPath(20, 0, 20, 360, 1, '#8B5CDD');
+                    svgs.replaceChild(path1, child[1]);
+                } else {
+                    var path1 = SVGPath(20, 0, 20, alpha1, 1, '#8B5CDD');
+                    svgs.replaceChild(path1, child[1]);
+                    path = path1;
+                }
+            }, 30);
+        }
+        svgs.onmouseout = function() {
+            var child = this.childNodes;
+            clearInterval(this.timer);
+            var iSpeed = 30;
+            this.timer = setInterval(function() {
+                var alpha1 = 360 - iSpeed;
+                iSpeed += 10;
+                if (alpha1 <= 30) {
+                    clearInterval(svgs.timer);
+                    var path1 = SVGPath(20, 0, 20, 0, 1, '#8B5CDD');
+                    svgs.replaceChild(path1, child[1]);
+                } else {
+                    var path1 = SVGPath(20, 0, 20, alpha1, 1, '#8B5CDD');
+                    svgs.replaceChild(path1, child[1]);
+                    path = path1;
+                }
+            }, 30);
+        }
+    }
+    </script>
+  </body>
+</html>

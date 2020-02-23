@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.gson.Gson;
 import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.bean.StoreDiary;
 import com.longbro.note.service.StoreDiaryService;
+
+import common.Logger;
 /**
  * d_store控制器
  * @author longbro
@@ -31,6 +34,7 @@ import com.longbro.note.service.StoreDiaryService;
 public class StoreDiaryController{
     @Autowired
     StoreDiaryService storeDiaryService;
+    private Logger logger=Logger.getLogger(PraiseDiaryController.class);
     /**
      * @desc 1.添加收藏记录
      * @author zcl
@@ -73,21 +77,26 @@ public class StoreDiaryController{
      */
     @RequestMapping(value="getMyStoreDiary",method=RequestMethod.GET)
     @ResponseBody
-    public BaseResult<List<HashMap<String, Object>>> getMyStoreDiary(String userId){
+    public BaseResult<List<HashMap<String, Object>>> getMyStoreDiary(String userId,
+    		String author,int page,int perPage){
     	BaseResult<List<HashMap<String, Object>>> result=new BaseResult<>();
+    	int start=perPage*(page-1);
+    	HashMap<String,Object> map=new HashMap<>();
     	if(StringUtils.isEmpty(userId)){
     		result.setCode(110);
     		result.setMessage("用户id不能为空");
     		return result;
     	}
-    	result.setResult(storeDiaryService.getStoreDiarybyUser(userId));;
+    	map.put("userId",userId);map.put("author",author);
+    	map.put("start",start);map.put("perPage",perPage);
+    	result.setResult(storeDiaryService.getStoreDiarybyUser(map));;
     	result.setCode(200);
     	result.setMessage("查询成功");
     	return result;
     }
     
     /**
-     * 5.得到我的所有被赞的消息
+     * 5.得到我的所有被收藏的消息
      * @author LongBro
      * 2019年12月5日
      * 下午12:36:39
@@ -107,5 +116,19 @@ public class StoreDiaryController{
     	result.setCode(200);
     	result.setMessage("查询成功");
     	return result;
+    }
+    /**
+     * @desc 6.得到收藏数量
+     * @author zcl
+     * @date 2020年1月29日
+     * @param diary
+     * @return
+     */
+    @RequestMapping(value="getStoreNum",method=RequestMethod.GET)
+    @ResponseBody
+    public int getStoreNum(StoreDiary diary){
+    	logger.debug("getStoreNum=========>"+new Gson().toJson(diary));
+    	int num=storeDiaryService.getStoreNum(diary);
+    	return num;
     }
 }

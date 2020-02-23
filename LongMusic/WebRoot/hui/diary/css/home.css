@@ -129,10 +129,14 @@
 	height: 34px;
 	margin-right: 5px;
 }
-#myDiary input{
+.settingInfo input{
 	background:white;
 	border:1px solid gray;
 	border-radius:3px;
 	outline:none;/* 聚焦时可能有矩形，去掉矩形边框 */
 	color:black;
+}
+.settingTab span{
+	margin-left: 20px;
+	height: 66px;
 }

@@ -96,13 +96,16 @@
 		<if test="PPraised!='' and PPraised!=null"><!-- 得到当前用户有多少未读喜欢 -->
 			and p_Praised=#{PPraised} 
 		</if>
+		<if test="PPraiser!='' and PPraiser!=null"><!-- 得到当前用户喜欢多少日记 -->
+			and p_Praiser=#{PPraiser} 
+		</if>
 		<if test="PReadStatus!='' and PReadStatus!=null">
 			and find_in_set(p_Read_Status,#{PReadStatus})
 		</if>
 		;
 	</select>
 	<!-- 得到某用户喜欢的日记 -->
-	<select id="getLikeDiarybyUser" parameterType="java.lang.String" resultType="java.util.HashMap">
+	<select id="getLikeDiarybyUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT dd.n_Id id,dd.n_Title title,dd.n_Type cate,dd.n_Content content,
 			   dd.n_Time time,dd.n_Location loc,dd.n_Writter writter,
 			   dp.p_Praise_Time likeTime,dui.u_User_Name,dui.u_Head_Image headImg,
@@ -114,7 +117,8 @@
 		LEFT JOIN d_diary dd on dp.p_Diary=dd.n_Id
 		LEFT JOIN d_user_info dui ON dd.n_Writter=dui.u_User_Id
  		WHERE p_Praiser=#{userId}
- 		order by dp.p_Praise_Time desc
+ 		order by dp.p_Praise_Time desc 
+ 		LIMIT #{start},#{perPage}
  		;
 	</select>
 	<update id="setAsReaded">

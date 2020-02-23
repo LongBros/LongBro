@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.gson.Gson;
 import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.Attention;
+import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.service.AttentionService;
 import com.longbro.util.TimeUtil;
+import common.Logger;
 /**
  * 关注表(notice,attention,concern,watch)控制器
  * @author longbro
@@ -30,9 +33,10 @@ import com.longbro.util.TimeUtil;
 @Controller
 @RequestMapping("/note/notice/")
 public class AttentionController{
-//	Logger log = Logger.getLogger(AttentionController.class);
     @Autowired
     AttentionService attentionService;
+	private Logger logger= Logger.getLogger(AttentionController.class);
+
     /**
      * @desc 1.关注作者
      * @author zcl
@@ -112,14 +116,20 @@ public class AttentionController{
      */
     @RequestMapping(value="getMyMessage",method=RequestMethod.GET)
     @ResponseBody
-    public BaseResult<HashMap<String, String>> getMyMessage(String userId){
+    public BaseResult<HashMap<String, String>> getMyMessage(String userId,
+    		String author,int page,int perPage){
     	BaseResult<HashMap<String, String>> result=new BaseResult<>();
+    	int start=perPage*(page-1);
+    	HashMap<String,Object> map=new HashMap<>();
     	if(StringUtils.isEmpty(userId)){
     		result.setCode(110);
     		result.setMessage("用户id不能为空");
     		return result;
     	}
-    	result.setResult(attentionService.getMyMessage(userId));
+    	map.put("userId",userId);map.put("author",author);
+    	map.put("start",start);map.put("perPage",perPage);
+    	logger.debug("getMyMessage=========>"+new Gson().toJson(map));
+    	result.setResult(attentionService.getMyMessage(map));
     	result.setCode(200);
     	result.setMessage("查询成功");
     	return result;
@@ -133,16 +143,37 @@ public class AttentionController{
      */
     @RequestMapping(value="getMyAtten",method=RequestMethod.GET)
     @ResponseBody
-    public BaseResult<List<HashMap<String, Object>>> getMyAtten(String userId){
+    public BaseResult<List<HashMap<String, Object>>> getMyAtten(String userId,
+    		String author,int page,int perPage){
     	BaseResult<List<HashMap<String, Object>>> result=new BaseResult<>();
+    	int start=perPage*(page-1);
+    	HashMap<String,Object> map=new HashMap<>();
     	if(StringUtils.isEmpty(userId)){
     		result.setCode(110);
     		result.setMessage("用户id不能为空");
     		return result;
     	}
-    	result.setResult(attentionService.getMyAtten(userId));;
+    	map.put("userId",userId);map.put("author",author);
+    	map.put("start",start);map.put("perPage",perPage);
+    	logger.debug("getMyAtten=========>"+new Gson().toJson(map));
+
+    	result.setResult(attentionService.getMyAtten(map));
     	result.setCode(200);
     	result.setMessage("查询成功");
     	return result;
+    }
+    /**
+     * @desc 6.查询关注的人的数量
+     * @author zcl
+     * @date 2020年1月30日
+     * @param diary
+     * @return
+     */
+    @RequestMapping(value="getAttenNum",method=RequestMethod.GET)
+    @ResponseBody
+    public int getAttenNum(Attention atten){
+    	logger.debug("getAttenNum=========>"+new Gson().toJson(atten));
+    	int num=attentionService.getAttenNum(atten);
+    	return num;
     }
 }

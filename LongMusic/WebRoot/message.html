@@ -262,9 +262,15 @@ function openTab(which){
 	}else if(which==1){//关注
 		$(".contents").text("");
 		$.ajax({
-			url:"note/notice/getMyMessage.do?userId="+user,
+			url:"note/notice/getMyMessage.do",
 			type:"get",
 			async:false,
+			data:{
+				userId:user,
+				author:user,
+				page:1,
+				perPage:10
+			},
 			dataType:"Json",
 			success:function(data){
 				//noticerId,noticeTime,readStatus,noticerName

@@ -11,12 +11,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>553Music</title>
-  <meta name="description" content="这是一个 table 页面">
+  <meta name="description" content="553Music">
   <meta name="keywords" content="table">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <link rel="icon" type="image/png" href="../image/logo/dlam.jpg">
+  <link rel="icon" type="image/png" href="../image/logo.png">
   <link rel="apple-touch-icon-precomposed" href="../assets/i/app-icon72x72@2x.png">
   <meta name="apple-mobile-web-app-title" content="Amaze UI" />
   <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>

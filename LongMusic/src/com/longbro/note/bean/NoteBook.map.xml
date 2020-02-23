@@ -157,6 +157,9 @@
 			and !FIND_IN_SET(n_Writter,
 				CONCAT('\'1,',(SELECT u_black_namelist FROM d_user_info WHERE u_User_Id=#{user}),',2\''))
 		</if>
+		<if test="time!=null and time!=''"><!-- 2020-02-18 可为加载昨日日记使用 -->
+			and n_Time like concat("%",#{time},"%")
+		</if>
 		<!-- <if test="user!=null and user!=''">2020-01-28不给他看，暂未实现
 			and !FIND_IN_SET(n_Writter,
 				CONCAT('\'1,',(SELECT u_black_namelist FROM d_user_info WHERE u_User_Id=#{user}),',2\''))

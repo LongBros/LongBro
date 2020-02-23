@@ -34,8 +34,8 @@ public class StoreDiaryService{
 		// TODO Auto-generated method stub
 		return dao.get(diary);
 	}
-	public List<HashMap<String,Object>> getStoreDiarybyUser(String userId){
-		return dao.getStoreDiarybyUser(userId);
+	public List<HashMap<String,Object>> getStoreDiarybyUser(HashMap<String,Object> map){
+		return dao.getStoreDiarybyUser(map);
 	}
 	//2019-11-16设置所有未读消息为已读
 	public void setAsReaded(String userId){
@@ -44,6 +44,9 @@ public class StoreDiaryService{
 	//2019-12-05得到我的所有被收藏的消息
 	public List<HashMap<String, String>> getMyMessage(String userId){
 		return dao.getMyMessage(userId);
+	}
+	public int getStoreNum(StoreDiary diary){
+		return dao.getStoreNum(diary);
 	}
 }
 

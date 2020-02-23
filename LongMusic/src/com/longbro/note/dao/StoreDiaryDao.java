@@ -34,8 +34,8 @@ public class StoreDiaryDao extends BaseDao{
 		// TODO Auto-generated method stub
 		return (StoreDiary)this.selectOne(getNamespace()+".get", diary);
 	}
-	public List<HashMap<String,Object>> getStoreDiarybyUser(String userId){
-		return (List<HashMap<String,Object>>)this.selectList(getNamespace()+".getStoreDiarybyUser", userId);
+	public List<HashMap<String,Object>> getStoreDiarybyUser(HashMap<String,Object> map){
+		return (List<HashMap<String,Object>>)this.selectList(getNamespace()+".getStoreDiarybyUser", map);
 	}
 	//2019-11-16设置所有未读消息为已读
 	public void setAsReaded(String userId){
@@ -44,6 +44,9 @@ public class StoreDiaryDao extends BaseDao{
 	//2019-12-05得到我的所有被收藏的消息
 	public List<HashMap<String, String>> getMyMessage(String userId){
 		return this.selectList(getNamespace()+".getMyMessage",userId);
+	}
+	public int getStoreNum(StoreDiary diary){
+		return (Integer)this.selectOne(getNamespace()+".getStoreNum", diary);
 	}
 }
 

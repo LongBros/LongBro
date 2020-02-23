@@ -17,8 +17,7 @@
   <body onLoad="draw('canvas');">
   	<span onclick="rotate()">旋转</span><br>
   	<span onclick="stop()">停止</span>
-  	  	<canvas id="canvas" width="170" height="170" />
-  	
+  	  	<canvas id="canvas" width="150" height="150" />
     <script>
     function draw(id) 
     {  
@@ -30,20 +29,25 @@
         context.fillRect(0, 0, 170, 170);  
         context.beginPath();
         context.fillStyle = 'black';//rgba(255, 0, 0, 0.25)
-        context.arc( 90, 90, 75, 0, Math.PI * 2, true); 
+        context.arc( 75, 75, 75, 0, Math.PI * 2, true); 
         context.closePath();  
         context.fill();
         
         context.beginPath();  
-        context.arc( 90, 90, 35, 0, Math.PI * 2, true); 
+        context.arc( 75, 75, 35, 0, Math.PI * 2, true); 
         context.closePath();  
         context.fillStyle = '#cd3f11';  
         context.fill();
         
         //context.beginPath();
         //context.fillStyle = 'white';
-        //context.fillText("DoraNote",77,100);
+        //context.fillText("DoraNote",53,78);
         //context.fill();
+        
+        context.beginPath();
+        context.fillStyle = 'white';
+        context.fillText("DoraNote",53,78);
+        context.fill();
     }
   	
 	var deg=1;

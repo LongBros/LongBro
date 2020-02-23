@@ -1,4 +1,3 @@
-
 var user=getCookie("userId")+"";
 var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
 loadNotice();
@@ -7,6 +6,8 @@ var show=1;//显示日记字数
 var perPageNum=0;//显示日记篇数
 var sexInt=0;
 var call="他";
+var listStyle=1;//01-29
+var loopPlay=0;//01-30
 /**
  * 1.根据是否登录设置菜单栏
  */
@@ -404,6 +405,12 @@ function getSetting(userId){
 				body.style.background="url(res/images/back/"+data.back+")";
 				show=data.uShowWordnum;
 				perPageNum=data.perpageNum;
+				listStyle=data.listStyle;//01-29
+				loopPlay=data.loopPlay;
+//				alert(loopPlay)
+				if(loopPlay==1){
+					changeMode();
+				}
 			}else{//仅作者页使用，在上方if下面再执行以修改背景为作者的背景
 				var body=document.getElementById("bodys");
 				body.style.background="url(res/images/back/"+data.back+")";
@@ -761,14 +768,16 @@ function rotateLogo(){
  */
 function loadAllUser(){
 	$("#alluser").text('');
-	if(user==""){
-		alert("请登录");
-		return;
-	}
 	$.ajax({
-		url:"note/notice/getMyAtten.do?userId="+"5211314",
+		url:"note/notice/getMyAtten.do",
 		type:"get",
 		async:false,
+		data:{
+			userId:"5211314",
+			author:"5211314",
+			page:0,
+			perPage:1//page为0，perPage为1时start为-1，进而不分页加载
+		},
 		dataType:"Json",
 		success:function(res){
 			if(res.code==200){
@@ -779,11 +788,19 @@ function loadAllUser(){
 //					$("#alluser").append("<center>你共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
 				}
 				for(var i=data.length-1;i>=0;i--){
-					$("#alluser").append("<div class='user'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a>&emsp;<font  color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font></div><hr>");
+					$("#alluser").append("<div class='user'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?"+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a>&emsp;<font color='gray' size='1px'>"+data[i].fanNums+"粉丝</font>&emsp;<font  color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font></div><hr>");
 				}
 			}else{
 				alert("查询失败");
 			}
 		}
 	});
+}
+/**
+ * 
+ */
+function changeMode(){
+	var p=document.getElementById("audio");
+	p.setAttribute("loop", "loop");
+//	alert("已切换为循环播放")
 }

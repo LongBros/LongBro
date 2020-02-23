@@ -116,6 +116,12 @@ public class NoteBookController{
     	HashMap<String, String> map=new HashMap<>();
     	if(StringUtils.isNotEmpty(request.getParameter("author")))
     		map.put("author", request.getParameter("author"));
+    	if(StringUtils.isNotEmpty(request.getParameter("time"))){
+    		int time=Integer.parseInt(request.getParameter("time"));
+    		if(time==1){//加载昨日的日记
+        		map.put("time", TimeUtil.getYesterday());
+    		}
+    	}
     	if(StringUtils.isNotEmpty(request.getParameter("perPage")))
     	{
     		map.put("perPage", request.getParameter("perPage"));
