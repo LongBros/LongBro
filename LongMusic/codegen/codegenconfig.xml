@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="codegen.xsd">
     <variables>
         <variable name="developer" value="longbro"/>
-        <variable name="company" value="多啦学娱网络科技有限公司"/>
+        <variable name="company" value="哆啦学娱网络科技有限公司"/>
         <variable name="system" value="com"/>
         <variable name="domain" value="longbro"/>
         <variable name="email" value="1459892910@qq.com"/>
@@ -28,8 +28,8 @@
             dir="{system}\{domain}\{package}\controller" sub="false" override="true"/>
        
    </files>
-    <table tableName="d_reply">
-        <variable name="class" value="Reply" />
+    <table tableName="d_pour_wall">
+        <variable name="class" value="Confide" />
         <variable name="package" value="note" />
     </table>
 </config>

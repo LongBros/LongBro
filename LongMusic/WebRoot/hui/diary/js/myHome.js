@@ -29,7 +29,8 @@ function setPage1(which,perPage){
 			type:"get",
 			async:false,
 			data:{
-				PPraiser:user
+				PPraiser:user,
+				type:0//点赞类型为日记
 			},
 			dataType:"text",
 			success:function(data){

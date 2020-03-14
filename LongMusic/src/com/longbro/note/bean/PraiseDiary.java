@@ -17,8 +17,6 @@ public class PraiseDiary{
 	protected String PPraised; //被点赞的人
 	protected String PPraiseTime; //点赞时间
 	protected Integer PReadStatus; //赞对于被赞的人的被读状态(0：未读，1：已读)
-	
-	
 	public Integer getPId() {
 		return this.PId;
 	}
@@ -28,7 +26,6 @@ public class PraiseDiary{
 	public void setPDiary(String PDiary) {
 		this.PDiary = PDiary;
 	}
-	
 	/**
 	 * 返回 被赞的日记
 	 * @return

@@ -8,6 +8,7 @@
 		<result property="PPraised" column="p_Praised" jdbcType="VARCHAR"/>
 		<result property="PPraiseTime" column="p_Praise_Time" jdbcType="VARCHAR"/>
 		<result property="PReadStatus" column="p_Read_Status" jdbcType="NUMERIC"/>
+		<result property="type" column="p_Type" jdbcType="NUMERIC"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.longbro.note.bean.PraiseDiary">
@@ -116,7 +117,7 @@
 		FROM d_praise dp
 		LEFT JOIN d_diary dd on dp.p_Diary=dd.n_Id
 		LEFT JOIN d_user_info dui ON dd.n_Writter=dui.u_User_Id
- 		WHERE p_Praiser=#{userId}
+ 		WHERE p_Praiser=#{userId}  AND dp.p_Type=0
  		order by dp.p_Praise_Time desc 
  		LIMIT #{start},#{perPage}
  		;

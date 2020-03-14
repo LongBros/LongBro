@@ -24,7 +24,7 @@ function myselfinfo(){
  * @param userId
 */
 function loadDiary(from,author,page,perPage,userId){
-	var au="0";//完全公开的
+	var au="0,2";//完全公开的
 	if(user!=null&&user!=''){//登录用户可看到完全公开和登录可见的
 		au="0,2";
 	}
@@ -100,8 +100,17 @@ function loadDiary(from,author,page,perPage,userId){
 				var wordSize="",ti="";
 				if(show==1){
 					wordSize="("+data[i].wordSize+"字)";
-					ti="title='该篇日记共计"+data[i].wordSize+"字(包含格式所占字符)'";
+					if(data[i].audioInfo){//含有音频
+						ti=ti+"title='该篇日记共计"+data[i].wordSize+"字(包含格式所占字符),\r含有音频歌曲："+data[i].audioInfo+"'";
+					}else{
+						ti="title='该篇日记共计"+data[i].wordSize+"字(包含格式所占字符)'";
+					}
+				}else{
+					if(data[i].audioInfo){//含有音频
+						ti=ti+"title='该篇日记含有音频歌曲："+data[i].audioInfo+"'";
+					}
 				}
+				
 				var tx="";
 				var au="";
 				if(from=="index"){//首页列表中显示头像和作者
@@ -116,8 +125,8 @@ function loadDiary(from,author,page,perPage,userId){
 					}
 				}
 				
-				//onclick='openOther(0,"+data[i].nid+")'
-				$("#diarys").append("<div class=\"diary\">"+tx+"<a href=\"diary.html?"+data[i].nid+"\"  "+ti+">"+con+"</a><br>"
+				//onclick='openOther(0,"+data[i].nid+")'	href=\"diary.html?"+data[i].nid+"\"
+				$("#diarys").append("<div class=\"diary\">"+tx+"<a  onclick='openOther(0,"+data[i].nid+","+data[i].nauthority+")' "+ti+">"+con+"</a><br>"
 				+"<div class='info'>"+au+"<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
 				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>"+title+"</span>&nbsp;<span>"+(music=='1'?'<font color=\'red\' title=\'有音频喔\'>'+wordSize+'音</font>':'<font color=\'red\'>'+wordSize+'</font>')+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i><span title='"+data[i].nlocation+"'>"+loc
 				+"</span><div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum+com+"&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
@@ -207,11 +216,21 @@ function handleCon(content){
  * 7.打开其他的界面：作者、某日记
  * 
  */
-function openOther(type,value){
+function openOther(type,value,au){
 	if(type==0){
-		window.open("diary.html?"+value, "_blank")
+		if(user||au=="0"){
+			window.open("diary.html?"+value, "_blank")
+		}else{
+			alert("当前日记登录方可查看")
+			login_popup();
+		}
 	}else if(type==1){
-		window.open("author.html?"+value, "_blank")
+		if(user){
+			window.open("author.html?"+value, "_blank");
+		}else{
+			alert("登录方可查看用户的信息")
+			login_popup();	
+		}
 	}
 }
 /**
@@ -224,7 +243,7 @@ function openOther(type,value){
 function setPage(from,author,perPage,userId){
 	$(".pages").text('');
 	var num=0;
-	var au="0";//完全公开的
+	var au="0,2";//完全公开的
 	if(user!=null&&user!=''){//登录用户可看到完全公开和登录可见的
 		au="0,2";
 	}
@@ -369,7 +388,9 @@ function addToUnlike(which,userId,userName){
 			}
 		}
 	});
-	window.open(document.URL,"_self");
+	if(which!=0){//添加至不看列表时刷新
+		window.open(document.URL,"_self");
+	}
 }
 //12.切换tab-推荐、关注、时间轴
 function switchTab(which){
@@ -378,27 +399,37 @@ function switchTab(which){
 		document.getElementById("notice").style.color="white";
 		document.getElementById("time").style.color="white";
 		document.getElementById("yesterday").style.color="white";
+		document.getElementById("listen").style.color="white";
 		openRecommend();
 	}else if(which==1){//关注
 		document.getElementById("recommend").style.color="white";
 		document.getElementById("notice").style.color="red";
 		document.getElementById("time").style.color="white";
 		document.getElementById("yesterday").style.color="white";
+		document.getElementById("listen").style.color="white";
 		openNotice();
 	}else if(which==2){//时间轴
 		document.getElementById("recommend").style.color="white";
 		document.getElementById("notice").style.color="white";
 		document.getElementById("time").style.color="red";
 		document.getElementById("yesterday").style.color="white";
+		document.getElementById("listen").style.color="white";
 		loadDiary('index','','1',perPage,user);//分页加载日记，12-05使用user去除黑名单
 	}else if(which==3){//时间轴
 		document.getElementById("recommend").style.color="white";
 		document.getElementById("notice").style.color="white";
 		document.getElementById("time").style.color="white";
 		document.getElementById("yesterday").style.color="red";
+		document.getElementById("listen").style.color="white";
 		loadYesterDiary();
+	}else if(which==4){//聆听
+		/*document.getElementById("recommend").style.color="white";
+		document.getElementById("notice").style.color="white";
+		document.getElementById("time").style.color="white";
+		document.getElementById("yesterday").style.color="white";
+		document.getElementById("listen").style.color="red";*/
+		alert("开发中，敬请期待")
 	}
-	
 	
 }
 //13.打开推荐

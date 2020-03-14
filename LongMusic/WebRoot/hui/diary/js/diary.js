@@ -57,8 +57,10 @@ function loadDiary(id){
 				//分类
 				var cate=getCateById(data.ntype);
 				//
-				//<i class=\"Hui-iconfont\">&#xe66e;</i>18&nbsp;
-				
+				var audioInfo="";
+				if(data.audioInfo){
+					audioInfo="&emsp;<span style='font-size:8px'>本文含有歌曲音频：<a href='http://www.duola.vip/amaze/songsList.jsp' target='_blank' style='color:red'>"+data.audioInfo+"</a>，点击标题后方按钮可唤起播放</span><br><br>";
+				}
 				$("#diary").append("<h2><center>"+title1+"</center></h2>"
 						+"<div class='info'><i class=\"Hui-iconfont\">&#xe60d;</i><span style='cursor:pointer'>"+data.userName
 						+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe690;</i>"+data.ntime
@@ -66,14 +68,14 @@ function loadDiary(id){
 						+"<div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i><span id='browseNum'>"+data.visitNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe622;</i><span id='commentNum'>"
 						+data.commentNum+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span id='praiseNum1'>"+data.praiseNum
 						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span id='storeNum1'>"+data.storeNum+"</span></div></div>"
-						+"<div class='content'>"+con+"</div>"
-
+						+"<div class='content'>"+audioInfo+con+"</div>"
 						);
 				var updTime=data.updateTime+"";
 //				if(updTime.length>5){
 //					$("#diary").append("<span style='float:right;margin-right:28px;'>文章于<font color='red'>"+updTime+"</font>被更新</span><br>");
 //				}
-				$("#diary").append("<br>&emsp;&emsp;&emsp;<span>本文链接：<font color='blue'>"+document.URL+"</font>，主人公：<a href='author.html?author="+author+"' style='color:red'>"+data.userName+"</a>，如需分享请注明出处，谢谢喜欢！</span><br>");
+				
+				$("#diary").append("<br>&emsp;&emsp;&emsp;<span>本文链接：<font color='blue'>"+document.URL+"</font>，全文"+data.wordSize+"字符，主人公：<a href='author.html?author="+author+"' style='color:red'>"+data.userName+"</a>，如需分享请注明出处，谢谢喜欢！</span><br>");
 
 				if(data.nallowComment==1){//不允许评论
 					$("#comment").text("");

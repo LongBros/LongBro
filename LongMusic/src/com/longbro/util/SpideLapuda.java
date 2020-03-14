@@ -43,7 +43,8 @@ public class SpideLapuda {
 //		}
 //		System.out.println(diaryId);
 //		getIds();
-		setDate();
+//		setDate();
+		spideDiary();
 	}
 	/**
 	 * @desc 爬取首页，
@@ -130,15 +131,19 @@ public class SpideLapuda {
 		//庆兔兔日记-前20~30页
 		int ids5[]={73563,73504,73439,73379,73306,73247,73167,73119,73072,73023,72902,72813,72736,72657,72595,72549,72486,72431,72395,72347,72270,72208,72134,72074,72019,71949,71891,71802,71752,71696,71622,71531,71468,71399,71337,71261,71193,71117,71059,70985,70912,70853,70774,70728,70664,70600,70544,70458,70370,70307,70250,70181,70089,70028,69971,69858,69776,69715,69599,69535,69456,69382,69289,69222,69194,69134,69057,69026,68919,68850,68771,68696,68632,68573,68547,68454,68423,68279,68203,68141,68071,68000,67926,67851,67780,67722,67697,67607,67540,67482,67436,67376,67327,67266,67198,67073,67015,66966,66918,66856};
 		int ids6[]={66813,66762,66718,66661,66614,66567,66519,66458,66409,66358,66289,66206,66085,65957,65881,65797,65749,65704,65632,65584,65539,65496};
-		int ids[]=ids1;
+		//庆兔兔日记 2-25~3-14
+		int ids7[]={98459,98599,98735,98884,99038,99185,99319,99453,99619,99791,99967,100134,100266,100429,100590,100746,100893,101043,101201};
+		int ids9[]={};
+		
+		int ids[]=ids9;
 		Document doc;
-		System.out.println(ids.length+">>");//200-500
+//		System.out.println(ids.length+">>");//200-500
 		try {
-			int j=1700;
+			int j=3654;
 //			int file=100;
 //			File f=null;
 
-			for(int i=0;i<30;i++){//ids.length,43~48登录可见
+			for(int i=ids.length-1;i>=0;i--){//ids.length,43~48登录可见
 //				System.out.print(ids[i]);
 //				if(i%20==0){//每20条换一个文件
 //					file++;
@@ -158,8 +163,8 @@ public class SpideLapuda {
 				s=s.substring(s.indexOf("title\">")+8, s.indexOf("</h1>")-1);
 				s1=s1.substring(s1.indexOf("time\">")+6, s1.indexOf("</span>"));
 				s2=s2.substring(s2.indexOf("<pre>"), s2.indexOf("</div>"));*/
-				String sql="INSERT INTO `music`.`d_diary` (`n_Id`, `n_Type`, `n_BookId`, `n_Writter`, `n_Title`, `n_Content`, `n_Time`, `n_Weather`, `n_Mood`, `n_Location`, `n_AllowComment`, `n_Authority`, `n_song_id`, `n_top`, `n_user_top`, `n_update_time`) VALUES ('"+j+"', '0', NULL, '65313340', '"+(map.get("title")==null?ids[i]+"":map.get("title"))+"', '"+map.get("content")+"', '"+TimeUtil.time()+"', '0', '0', '兔子窝', '0', '0', NULL, '0', NULL, NULL);";
-//				System.out.println(sql);
+				String sql="INSERT INTO `music`.`d_diary` (`n_Id`, `n_Type`, `n_BookId`, `n_Writter`, `n_Title`, `n_Content`, `n_Time`, `n_Weather`, `n_Mood`, `n_Location`, `n_AllowComment`, `n_Authority`, `n_song_id`, `n_top`, `n_user_top`, `n_update_time`) VALUES ('"+j+"', '0', NULL, '65313340', '"+(map.get("title")==null?ids[i]+"":map.get("title"))+"', '"+map.get("content")+"', '"+map.get("time")+"', '0', '0', '兔子窝', '0', '0', NULL, '0', '0', NULL);";
+				System.out.println(sql);
 //				FileWriter fw=new FileWriter(f);
 //				FileReader fr=new FileReader(f);
 //				char c[]=new char[65535];
@@ -202,7 +207,7 @@ public class SpideLapuda {
 			s2=s2.substring(s2.indexOf("<pre>"), s2.indexOf("</div>"));
 			map.put("title", s);
 			map.put("time", TimeUtil.timeConvert(s1));
-			System.out.println("时间已成功转换为:"+TimeUtil.timeConvert(s1));
+//			System.out.println("时间已成功转换为:"+TimeUtil.timeConvert(s1));
 			map.put("content", s2);
 		}catch(Exception e){
 			

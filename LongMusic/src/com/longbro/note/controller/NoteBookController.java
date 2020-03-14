@@ -1,24 +1,30 @@
 package com.longbro.note.controller;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 //import org.apache.log4j.Logger;
 import org.apache.poi.util.StringUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
 import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.Diary;
 import com.longbro.note.bean.NoteBook;
+import com.longbro.note.bean.UserInfo;
 import com.longbro.note.service.NoteBookService;
 import com.longbro.util.SpideLapuda;
 import com.longbro.util.Strings;
@@ -169,7 +175,7 @@ public class NoteBookController{
      * @date 2019年11月30日
      */
     public void genDiary(int poem,int song){
-    	//凌晨六点前十一点后不执行该方法
+    	//凌晨三-六点、十一点后不执行该方法
     	int hour=TimeUtil.getNowHour();
 		if(hour>11||(hour>3&&hour<6)){
 			return;
@@ -180,6 +186,7 @@ public class NoteBookController{
     		for(int i=0;i<4;i++){
     			diaryId=SpideLapuda.spideIndex(i);//从首页获取庆兔兔日记id
     			if(diaryId!=0){
+    				System.out.println("开始获取庆兔兔日记"+diaryId);
     	    		spideLapuda(diaryId);
     				break;
     			}
@@ -188,7 +195,7 @@ public class NoteBookController{
     	
     	int num=noteBookService.ifHasGen(TimeUtil.getToday(), "66666666");
     	if(num>0){//古诗网今日已生成过
-        	System.out.println("今日已生成过");
+        	System.out.println("古诗网今日已生成过");
     		return;
     	}
     	int machines[]={66666666,88888888};
@@ -386,5 +393,46 @@ public class NoteBookController{
     	result.setMessage("已加载你关注用户的"+n+"篇日记");
     	result.setResult(list);
     	return result;
+    }
+    
+    @RequestMapping(value="uploadImage",method=RequestMethod.POST)
+    @ResponseBody
+    public void uploadImage(HttpServletRequest request,HttpServletResponse response,
+    		@RequestParam(value="pic",required=false) MultipartFile attach) throws Exception{
+		response.setCharacterEncoding("utf-8");
+		String userId="";
+		userId=request.getParameter("userId");
+//		 System.out.println(">>>>>>>>>>>>"+attach.getOriginalFilename());
+    	
+		if(attach.isEmpty()){
+			response.getWriter().write("你还未选择头像图片");
+			return;
+		}
+		String path=request.getSession().getServletContext().
+				getRealPath("res"+File.separator+"images"+File.separator+"diary"+File.separator);
+		long fname=System.currentTimeMillis();
+		String prefix=FilenameUtils.getExtension(attach.getOriginalFilename());
+		int fileSize=2*1024*1024;
+		if(attach.getSize()>fileSize){//限制上传大小为2兆内的图片
+			response.getWriter().write("请选择两兆以内大小的图片");
+			request.setAttribute("uploadFileError","请选择两兆以内大小的图片");
+		}else{
+			if(prefix.equalsIgnoreCase("jpg")||prefix.equalsIgnoreCase("png")
+					||prefix.equalsIgnoreCase("png")||prefix.equalsIgnoreCase("png")){
+//				File dir=new File("D:/apache-tomcat-8.5.35/webapps/LongMusic/image/tx/");
+				File file=new File(path,userId+"_"+fname+".jpg");
+//				if(!dir.exists()){
+//					file=new File("/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/image/tx/",userId+"_"+fname+".jpg");
+//				}
+				attach.transferTo(file);
+				UserInfo user=new UserInfo();
+				user.setHeadImage(userId+"_"+fname+"");
+				user.setUUserId(Integer.parseInt(userId));
+				response.sendRedirect("../../myHome.html");
+			}else{
+				response.getWriter().write("请选择图片文件");
+				request.setAttribute("uploadFileError","上传图片的格式不正确");
+			}
+		}
     }
 }

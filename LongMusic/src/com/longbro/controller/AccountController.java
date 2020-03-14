@@ -273,9 +273,9 @@ public class AccountController {
 	public ArrayList<HashMap> getAmountByYoM(HttpServletRequest request){
 		ArrayList<HashMap> arr=new ArrayList<HashMap>();
 		String yom=request.getParameter("yom");//值为year或month
-		ArrayList<HashMap<String, String>> list=service.getAllMonth(yom);
+		ArrayList<HashMap<String, String>> list=service.getAllMonth(yom);//list为所有月份
 //		System.out.println(list);
-		for(HashMap<String, String> s:list){
+		for(HashMap<String, String> s:list){//遍历取出每月份的对应数据
 			HashMap<String, String> map=new HashMap<String, String>();
 			
 			String in=service.getAmount(yom, "收入", s.get("time"));

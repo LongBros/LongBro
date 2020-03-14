@@ -6,8 +6,7 @@
  * @param author
  */
 function loadMyLove(which,page,perPage,author){
-	$("#diarys").text('');
-	$(".pages").text('');
+	
 	if(user==""){
 		alert("请先登录，登录后方可查看作者喜欢的日记");
 		login_popup();
@@ -64,8 +63,7 @@ function loadMyLove(which,page,perPage,author){
  * @param author
  */
 function loadMyStore(which,page,perPage,author){
-	$("#diarys").text('');
-	$(".pages").text('');
+	
 	if(user==""){
 		alert("请先登录，登录后方可查看作者收藏的日记");
 		login_popup();
@@ -132,8 +130,7 @@ function loadMyFeet(author){
  * @param author
  */
 function loadMyAtten(which,page,perPage,author){
-	$("#diarys").text('');
-	$(".pages").text('');
+	
 	if(user==""){
 		alert("请先登录，登录后方可查看作者关注的用户");
 		login_popup();
@@ -180,8 +177,7 @@ function loadMyAtten(which,page,perPage,author){
  * 5.加载他的评论
  */
 function loadMyCom(author){
-	$("#diarys").text('');
-	$(".pages").text('');
+	
 	if(user==""){
 		alert("请登录");
 		login_popup();
@@ -218,8 +214,7 @@ function loadMyCom(author){
  * @param author
  */
 function loadMyFans(which,page,perPage,author){
-	$("#diarys").text('');
-	$(".pages").text('');
+	
 	if(user==""){
 		alert("请先登录，登录后方可查看作者的粉丝");
 		login_popup();
@@ -268,8 +263,12 @@ function loadMyFans(which,page,perPage,author){
  * @param which
  */
 function openTab(which){
-	var tabs=new Array("my","love","store","notice","fans");
-	for(var i=0;i<5;i++){
+	$("#diarys").text('');
+	$(".pages").text('');
+	document.getElementById("comment").style.display="none";
+	$("#comments").text('');
+	var tabs=new Array("my","love","store","notice","fans","picture","wall");
+	for(var i=0;i<tabs.length;i++){
 		if(i==which){
 			$("#"+tabs[i]).css("color","red");
 		}else{
@@ -291,6 +290,9 @@ function openTab(which){
 		loadMyAtten('3','1','10',author)
 	}else if(which==4){
 		loadMyFans('4','1','10',author)
+	}else if(which==5){
+	}else if(which==6){
+		loadMyWall();
 	}
 }
 /**
@@ -317,7 +319,8 @@ function setPage1(which,perPage){
 			type:"get",
 			async:false,
 			data:{
-				PPraiser:author
+				PPraiser:author,
+				type:0//点赞类型为日记
 			},
 			dataType:"text",
 			success:function(data){
@@ -458,4 +461,108 @@ function setPer1(which,pernum){
  */
 function attenUser(){
 	alert("此处暂不支持关注，请进入作者详情页进行关注，谢谢")
+}
+/**
+ * 11.加载他收藏的
+ * @param which
+ * @param page
+ * @param perPage
+ * @param author
+ */
+function loadMyWall(){
+	
+	if(user==""){
+		alert("请先登录，登录后方可查看作者的倾诉墙");
+		login_popup();
+		return;
+	}
+	document.getElementById("comment").style.display="inline-block";
+	loadConfide();
+}
+/**
+ * 12.发布倾诉
+ */
+function submit_confide(){
+	var con=document.getElementById("content").value+"";//内容
+	if(con.length<5){
+		alert("倾诉内容不得低于5字符");
+		return;
+	}
+//	alert(author);//被评论日记的作者
+	var cid="";
+	$.ajax({
+		url:"note/confide/confideOther.do",
+		type:"get",
+		async:false,
+		data:{
+			WConfider:user==""?"":user,
+			WPourType:1,
+			WPourCon:con,
+			WConfided:author,
+			WConfideTime:formatW2(new Date()+""),
+			WReadStatus:0
+		},
+		dataType:"Json",
+		success:function(res){
+			cid=res.result;
+			alert(res.message);
+		}
+	});
+	loadConfide();
+	$("#content").val("");
+}
+/**
+ * 13.加载当前作者的倾诉墙
+ */
+function loadConfide(){
+	$('#comments').text("");
+	$.ajax({
+		url:"note/confide/getConfides.do",
+		type:"get",
+		data:{
+			author:author,
+			page:1,
+			perPage:100
+		},
+		async:false,
+		dataType:"Json",
+		success:function(res){
+			var data=res.result;
+			if(data.length<1){
+				$('#comments').append("<center></center>");
+			}else{
+				$('#comments').append("&emsp;共<font color='red'>"+data.length+"</font>条倾诉");
+			}
+			var l=data.length;
+			for(var k=0;k<data.length;k++){
+//				var confided=data[k].confided;//倾诉id
+				var confider=data[k].confider;//倾诉者
+				var con=data[k].confideCon;
+				con=con.replace(new RegExp("::::","gm"), ".jpg'>");
+				con=con.replace(new RegExp(":::","gm"), ".png'>");
+				con=con.replace(new RegExp("::","gm"), ".gif'>");
+				con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='image/expre/newtieba/");
+				con=con.replace(new RegExp("<<","gm"), "<img alt='' src='image/expre/tieba/");
+				con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='image/expre/weibo/");
+				con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='image/expre/huang/");
+				con=con.replace(new RegExp("&&","gm"),"<img alt='' src='image/expre/aodamiao/");
+				
+				$('#comments').append("<hr>");
+				var href="某本站访客";
+				var img="dlam";
+				if(confider){
+					href="<a href='author.html?author="+confider+"' target='_blank'>"+data[k].confiderName+"</a>&emsp;&emsp;<span style='color:gray;font-size:1px'>"+l+"L</span>";
+				}
+				if(data[k].headImg){
+					img=data[k].headImg;
+				}
+				$('#comments').append("<img src='image/tx/"+img+".jpg'>");
+				$('#comments').append(href+"&nbsp;&nbsp;<span style='color:gray;font-size:10px;float:right;margin-right:20px'>"+data[k].confideTime+"</span>");
+				$('#comments').append("<br><div class='content1'>"+con+"</div>");
+				
+				l--;
+			}
+			
+		}
+	});
 }
