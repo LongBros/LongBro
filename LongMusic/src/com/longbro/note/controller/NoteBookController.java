@@ -213,7 +213,8 @@ public class NoteBookController{
 			HashMap<String, Object> map=list.get(i);
 			NoteBook nb=new NoteBook();
 			nb.setNWritter(account+"");
-			nb.setNTime(TimeUtil.getToday()+" "+TimeUtil.genRandomTime());
+//			nb.setNTime(TimeUtil.getToday()+" "+TimeUtil.genRandomTime());
+			nb.setNTime(TimeUtil.time());//2020-03-16取消使用随机时间
 			nb.setNAuthority(0);//所有人可见
 			nb.setNType(3);
 			nb.setNAllowComment(0);//允许评论
