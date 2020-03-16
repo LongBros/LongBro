@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.note.bean.Confide">
+	<resultMap id="Confide" type="com.longbro.note.bean.Confide">
+		<id property="WId" column="w_Id" jdbcType="NUMERIC"/>
+		<result property="WPourType" column="w_pour_type" jdbcType="VARCHAR"/>
+		<result property="WPourCon" column="w_pour_con" jdbcType="VARCHAR"/>
+		<result property="WConfider" column="w_confider" jdbcType="VARCHAR"/>
+		<result property="WConfided" column="w_confided" jdbcType="VARCHAR"/>
+		<result property="WConfideTime" column="w_confide_Time" jdbcType="VARCHAR"/>
+		<result property="WReadStatus" column="w_Read_Status" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.note.bean.Confide">
+		INSERT INTO d_pour_wall
+		(w_Id,w_pour_type,w_pour_con,w_confider,w_confided,w_confide_Time,w_Read_Status)
+		VALUES 
+		(#{WId,jdbcType=NUMERIC}, #{WPourType,jdbcType=VARCHAR}, #{WPourCon,jdbcType=VARCHAR}, #{WConfider,jdbcType=VARCHAR}, #{WConfided,jdbcType=VARCHAR}, #{WConfideTime,jdbcType=VARCHAR}, #{WReadStatus,jdbcType=NUMERIC})
+	</insert>
+	
+	<select id="get" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+		dpw.w_confided confided,dpw.w_confider confider,dpw.w_confide_Time confideTime,
+		dpw.w_pour_con confideCon,dui.u_User_Name confiderName,dui.u_Head_Image headImg
+		FROM d_pour_wall dpw
+		LEFT JOIN d_user_info dui on dui.u_User_Id=dpw.w_confider
+		WHERE 
+		dpw.w_confided=#{author}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="Confide">
+		SELECT * FROM d_pour_wall
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY w_Id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.note.bean.Confide">
+		UPDATE d_pour_wall
+        <set>
+			<if test="WPourType != null">
+				w_pour_type=#{WPourType,jdbcType=VARCHAR},
+			</if>
+			<if test="WPourCon != null">
+				w_pour_con=#{WPourCon,jdbcType=VARCHAR},
+			</if>
+			<if test="WConfider != null">
+				w_confider=#{WConfider,jdbcType=VARCHAR},
+			</if>
+			<if test="WConfided != null">
+				w_confided=#{WConfided,jdbcType=VARCHAR},
+			</if>
+			<if test="WConfideTime != null">
+				w_confide_Time=#{WConfideTime,jdbcType=VARCHAR},
+			</if>
+			<if test="WReadStatus != null">
+				w_Read_Status=#{WReadStatus,jdbcType=NUMERIC}
+			</if>
+		</set>
+		WHERE
+		w_Id=#{WId}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM d_pour_wall 
+		WHERE
+		w_Id=#{WId}
+	</delete>
+	
+	
+</mapper>

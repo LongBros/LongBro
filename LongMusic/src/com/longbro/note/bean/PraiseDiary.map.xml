@@ -8,19 +8,29 @@
 		<result property="PPraised" column="p_Praised" jdbcType="VARCHAR"/>
 		<result property="PPraiseTime" column="p_Praise_Time" jdbcType="VARCHAR"/>
 		<result property="PReadStatus" column="p_Read_Status" jdbcType="NUMERIC"/>
+		<result property="type" column="p_Type" jdbcType="NUMERIC"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.longbro.note.bean.PraiseDiary">
 		INSERT INTO d_praise
-		(p_Diary,p_Praiser,p_Praised,p_Praise_Time)
+		(p_Diary,p_Type,p_Praiser,p_Praised,p_Praise_Time)
 		VALUES 
-		(#{PDiary,jdbcType=VARCHAR}, #{PPraiser,jdbcType=VARCHAR}, 
+		(#{PDiary,jdbcType=VARCHAR},#{type,jdbcType=NUMERIC},#{PPraiser,jdbcType=VARCHAR}, 
 		#{PPraised,jdbcType=VARCHAR}, #{PPraiseTime,jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="get" resultMap="PraiseDiary">
 		SELECT * FROM d_praise 
-		WHERE p_Diary=#{PDiary} and p_Praiser=#{PPraiser}
+		WHERE 1=1 
+		<if test="PDiary!=null">
+			and p_Diary=#{PDiary}
+		</if>
+		<if test="type!=null">
+			and p_Type=#{type}
+		</if>
+		<if test="PPraiser!=null">
+		 	and p_Praiser=#{PPraiser}
+		</if>
 	</select>
 	
 	<select id="query" parameterType="java.util.Map" resultMap="PraiseDiary">
@@ -63,25 +73,40 @@
 	<!-- 某用户取消喜欢某日记时调用 -->
 	<delete id="remove" parameterType="com.longbro.note.bean.PraiseDiary">
 		DELETE FROM d_praise 
-		WHERE p_Diary=#{PDiary} and p_Praiser=#{PPraiser}
+		WHERE 1=1 
+		<if test="PDiary!=null">
+			and p_Diary=#{PDiary}
+		</if>
+		<if test="type!=null">
+			and p_Type=#{type}
+		</if>
+		<if test="PPraiser!=null">
+		 	and p_Praiser=#{PPraiser}
+		</if>
 	</delete>
 	<!-- 1.得到当前日记有多少人喜欢2.得到某人的未读喜欢、所有被喜欢数量 -->
-	<select id="getPraiseNum" parameterType="java.lang.String">
+	<select id="getPraiseNum" parameterType="com.longbro.note.bean.PraiseDiary" resultType="java.lang.Integer">
 		SELECT COUNT(1) FROM d_praise 
 		WHERE 1=1
-		<if test="diaryId!='' and diaryId!=null"><!-- 得到当前日记有多少人喜欢 -->
-			and p_Diary=#{diaryId}
+		<if test="PDiary!='' and PDiary!=null"><!-- 得到当前日记有多少人喜欢 -->
+			and p_Diary=#{PDiary}
 		</if> 
+		<if test="type!=null and type!=''"><!-- 得到当前日记或评论有多少人点赞 -->
+			and p_Type=#{type}
+		</if>
 		<if test="PPraised!='' and PPraised!=null"><!-- 得到当前用户有多少未读喜欢 -->
 			and p_Praised=#{PPraised} 
 		</if>
-		<if test="status!='' and status!=null">
-			and find_in_set(p_Read_Status,#{status})
+		<if test="PPraiser!='' and PPraiser!=null"><!-- 得到当前用户喜欢多少日记 -->
+			and p_Praiser=#{PPraiser} 
+		</if>
+		<if test="PReadStatus!='' and PReadStatus!=null">
+			and find_in_set(p_Read_Status,#{PReadStatus})
 		</if>
 		;
 	</select>
 	<!-- 得到某用户喜欢的日记 -->
-	<select id="getLikeDiarybyUser" parameterType="java.lang.String" resultType="java.util.HashMap">
+	<select id="getLikeDiarybyUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT dd.n_Id id,dd.n_Title title,dd.n_Type cate,dd.n_Content content,
 			   dd.n_Time time,dd.n_Location loc,dd.n_Writter writter,
 			   dp.p_Praise_Time likeTime,dui.u_User_Name,dui.u_Head_Image headImg,
@@ -92,8 +117,9 @@
 		FROM d_praise dp
 		LEFT JOIN d_diary dd on dp.p_Diary=dd.n_Id
 		LEFT JOIN d_user_info dui ON dd.n_Writter=dui.u_User_Id
- 		WHERE p_Praiser=#{userId}
- 		order by dp.p_Praise_Time desc
+ 		WHERE p_Praiser=#{userId}  AND dp.p_Type=0
+ 		order by dp.p_Praise_Time desc 
+ 		LIMIT #{start},#{perPage}
  		;
 	</select>
 	<update id="setAsReaded">

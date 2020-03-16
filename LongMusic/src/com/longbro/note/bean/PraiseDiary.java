@@ -11,14 +11,12 @@ package com.longbro.note.bean;
 public class PraiseDiary{
 
 	protected Integer PId;
-
+	protected Integer type;//被赞的文本的类型(0:日记,1:评论)
 	protected String PDiary; //被赞的日记
 	protected String PPraiser; //点赞的人
 	protected String PPraised; //被点赞的人
 	protected String PPraiseTime; //点赞时间
 	protected Integer PReadStatus; //赞对于被赞的人的被读状态(0：未读，1：已读)
-	
-	
 	public Integer getPId() {
 		return this.PId;
 	}
@@ -28,7 +26,6 @@ public class PraiseDiary{
 	public void setPDiary(String PDiary) {
 		this.PDiary = PDiary;
 	}
-	
 	/**
 	 * 返回 被赞的日记
 	 * @return
@@ -79,6 +76,12 @@ public class PraiseDiary{
 	 */
 	public Integer getPReadStatus() {
 		return this.PReadStatus;
+	}
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	
 }

@@ -32,18 +32,27 @@ import com.sun.star.setup.CopyFileAction;
  */
 public class DownloadUtil {
 	public static void main(String[] args) {
-		writeToFile(spideLyric("1346104327"), "1346104327");
-//		try {
-//			//听说你也回来过，想你的夜
-//			ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName from song where id=543");
-//			while(rs.next()){
-//				downloadMp3(rs.getString("sourceId"),rs.getString("songName"));
-//			}
-//			
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+//		writeToFile(spideLyric("296835"), "296835");
+
+		for(int i=772;i<0;i++){
+			try {
+				ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName,website from song where id="+i);
+				while(rs.next()){
+					if("网易云音乐".equals(rs.getString("website"))){
+						writeToFile(spideLyric(rs.getString("sourceId")), rs.getString("sourceId"));
+						System.out.println(">>>>>>"+rs.getString("songName")+"下载完成");
+					}else{
+						System.out.println(rs.getString("songName")+"是QQ音乐");
+					}
+//					downloadMp3(rs.getString("sourceId"),rs.getString("songName"));
+				}
+			
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 	}
 	/**
 	 *下载单首mp3歌曲
@@ -78,7 +87,7 @@ public class DownloadUtil {
 			
 			byte[] b=new byte[dis.available()];
 			int len=dis.available();
-			File file=new File("D:/apache-tomcat-8.5.35/webapps/util/songs/"+fName+".mp3");
+			File file=new File("D:/apache-tomcat-8.5.35/webapps/util/songs1/"+fName+".mp3");
 			file.createNewFile();
 			FileOutputStream fos=new FileOutputStream(file);
 //			DataOutputStream dos=new DataOutputStream(fos);
@@ -149,7 +158,7 @@ public class DownloadUtil {
 		lyric=lyric.replace("\\n", "\n");//\n替换为\r
 		try {
 			lyric=new String(lyric.getBytes(),"utf-8");
-			System.out.println(lyric);
+			//System.out.println(lyric);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -166,7 +175,7 @@ public class DownloadUtil {
 	 */
 	public static String writeToFile(String lyric,String name){
 		System.out.println(lyric);
-		File file=new File("E:/AAAA/alyric/"+name+".txt");
+		File file=new File("E:/AAAA/alyric1/"+name+".txt");
 		FileOutputStream fos;
 		try {
 			//歌词保存至文本文件

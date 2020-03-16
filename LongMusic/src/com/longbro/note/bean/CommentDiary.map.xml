@@ -85,7 +85,7 @@
 	<select id="getMyMessage" parameterType="java.lang.String" resultType="java.util.HashMap">
 		select dc.c_Reviewed_Diary diaryId,dc.c_Reviewer reviewer,dc.c_Comment reviewCon,
 				dc.c_Review_Time reviewTime,dc.c_Read_Status readStatus,
-				dui.u_User_Name viewerName,dd.n_Title diaryTitle
+				dui.u_User_Name viewerName,dui.u_Head_Image headImg,dd.n_Title diaryTitle
 		from d_comment dc
 		LEFT JOIN d_user_info dui ON dc.c_Reviewer=dui.u_User_Id
 		LEFT JOIN d_diary dd ON dc.c_Reviewed_Diary=dd.n_Id

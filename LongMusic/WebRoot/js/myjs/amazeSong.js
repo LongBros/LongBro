@@ -191,8 +191,9 @@ function play(k) {
 //				url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
 //			}else if(sid.substring(sid.length-3)==".kw"){
 //				url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
-//			}else if(sid.substring(sid.length-4)==".mp3"){
-//				url=sid;
+//			}else if(sid.substring(sid.length-4)==".553"){
+			//http://www.duola.vip/res/audio/000gfDGx1Pw7gs.mp3
+//				url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
 //			}else{
 //				url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
 //			}

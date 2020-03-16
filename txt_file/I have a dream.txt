@@ -3,7 +3,9 @@ ZCL19952019.
 db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
 db.username=mysqlrd
 db.password=123456
+<br><p style="text-align: right;">摘自《深响》</p>
 
+<<<<<<< HEAD
 根据key去sys_tree表查询typeId，再根据typeId去sys_dic表查询对应的字典
 
 miniUI的grid中的列使用renderer属性举例：
@@ -16,10 +18,37 @@ miniUI的grid中的列使用renderer属性举例：
 
 小半一个				王勃号
 爸的tb51823112			我的号
+=======
+tadmin@gzaj.com lc1q2w3e
+
+#D92E2E;
+
+2020-01-20
+1.仿照souler的隐身助手，发布者可隐身，其实就跟QQ的那个发秘密差不多
+2.souler有一个不好的地方是，楼主回复评论者评论后，这条回复不是直接在评论下面
+>>>>>>> 23f48a032d5e3e044eddb585f938374895e37d4f
 
 1.消息设置、添加系统通知
 2.写日记或评论时可@
 
+<Host name="alarm.duola.vip"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/current/index0.jsp" reloadable="true"/> 
+      </Host>
+	  
+	  
+	  
+	  
+	   <Host name="localhost"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/" reloadable="true"/> 
+      </Host>
 
 cp -rf LongMusic $(date +%Y%m%d_%H%M%S)
 

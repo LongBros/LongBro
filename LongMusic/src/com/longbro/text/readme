@@ -1,3 +1,11 @@
+2020-03-07
+1.解决跨域问题 SpringMVC4.x以下，需要写拦截类并在web.xml进行配置；
+	4.X以上，部分：在方法或整个Controler上加@CrossOrigin注解，
+			全局：在spring-mvc.xml中配置全局访问路径
+			<mvc:cors><mvc:mapping path="/cross/*"/></mvc:cors>-》表示有~路径的支跨域访问
+			或<mvc:cors><mvc:mapping path="/**"/></mvc:cors>-》所有方法可跨域
+			
+			或<mvc:cors><mvc:mapping path="/cross/**" allowed-origins="" max-age="2500"/><mvc:mapping path="/domain/**"/></mvc:cors>
 2019-12-29
 1.	$("#sourceId").val(sid);	替代document.getElementById("").value=sid;
 2.	$("#clearBtn").css("display","inline-block");替代document.getElementById("").style.display="inline-block";

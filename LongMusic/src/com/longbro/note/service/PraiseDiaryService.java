@@ -36,11 +36,11 @@ public class PraiseDiaryService{
 		// TODO Auto-generated method stub
 		return dao.get(diary);
 	}
-	public int getPraiseNum(Map<String,Object> map){
-		return dao.getPraiseNum(map);
+	public int getPraiseNum(PraiseDiary diary){
+		return dao.getPraiseNum(diary);
 	}
-	public List<PraiseDiary> getMyLikeDiary(String userId){
-		return dao.getLikeDiarybyUser(userId);
+	public List<PraiseDiary> getMyLikeDiary(HashMap<String,Object> map){
+		return dao.getLikeDiarybyUser(map);
 	}
 	//2019-11-16设置所有未读消息为已读
 	public void setAsReaded(String userId){

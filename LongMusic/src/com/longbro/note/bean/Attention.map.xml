@@ -63,26 +63,61 @@
 		n_Noticer=#{NNoticer} and n_Noticed=#{NNoticed};
 	</delete>
 	<!-- 2019-12-03得到某用户被关注的消息 -->
-	<select id="getMyMessage" parameterType="java.lang.String" resultType="java.util.HashMap">
+	<select id="getMyMessage" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		select dn.n_Noticer noticerId,dn.n_Notice_Time noticeTime,dn.n_Read_Status readStatus,
-				dui.u_User_Name noticerName,dui.u_Head_Image headImg
+				dui.u_User_Name noticerName,dui.u_Head_Image headImg,
+			(SELECT COUNT(1) FROM d_diary WHERE n_Writter=dui.u_User_Id AND FIND_IN_SET(n_Authority,'0,2')) diaryNum,
+			(SELECT COUNT(DISTINCT LEFT(n_Time,10)) FROM d_diary WHERE n_Writter=dui.u_User_Id AND FIND_IN_SET(n_Authority,'0,2')) diaryDayNum,
+			DATEDIFF(SYSDATE(),dui.u_Join_Time) joinDay,
+			(select count(1) from d_notice where n_Noticed=dui.u_User_Id) fanNums
+			<if test="userId!='' and userId!=null">
+				,(select count(1) from d_notice where n_Noticer=#{userId} and n_Noticed=dui.u_User_Id) ifAtten
+			</if>
 		from d_notice dn
 		LEFT JOIN d_user_info dui ON dn.n_Noticer=dui.u_User_Id
-	    WHERE dn.n_Noticed=#{userId}
+	    WHERE dn.n_Noticed=#{author}
 	    order by dn.n_Notice_Time desc
+	    <if test="start!='-1'">
+	    	LIMIT #{start},#{perPage}
+	    </if>
 	    ;
 	</select>
 	<update id="setAsReaded">
 		UPDATE d_notice SET n_Read_Status=1 WHERE n_Noticed=#{_parameter} AND n_Read_Status=0;
 	</update>
 	<!-- 2019-12-07得到我关注的人 -->
-	<select id="getMyAtten" parameterType="java.lang.String" resultType="java.util.HashMap">
+	<select id="getMyAtten" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		select dn.n_Noticed noticedId,dn.n_Notice_Time noticeTime,dn.n_Read_Status readStatus,
-				dui.u_User_Name noticedName,dui.u_Head_Image headImg
+				dui.u_User_Name noticedName,dui.u_Head_Image headImg,
+			(SELECT COUNT(1) FROM d_diary WHERE n_Writter=dui.u_User_Id AND FIND_IN_SET(n_Authority,'0,2')) diaryNum,
+			(SELECT COUNT(DISTINCT LEFT(n_Time,10)) FROM d_diary WHERE n_Writter=dui.u_User_Id AND FIND_IN_SET(n_Authority,'0,2')) diaryDayNum,
+			DATEDIFF(SYSDATE(),dui.u_Join_Time) joinDay,
+			(select count(1) from d_notice where n_Noticed=dui.u_User_Id) fanNums
+			<if test="userId!='' and userId!=null">
+				,(select count(1) from d_notice where n_Noticer=#{userId} and n_Noticed=dui.u_User_Id) ifAtten
+			</if>
 		from d_notice dn
 		LEFT JOIN d_user_info dui ON dn.n_Noticed=dui.u_User_Id
-	    WHERE dn.n_Noticer=#{userId}
+	    WHERE dn.n_Noticer=#{author}
 	    order by dn.n_Notice_Time desc
-	    ;
+ 		<if test="start!='-1'">
+	    	LIMIT #{start},#{perPage}
+	    </if>
+	   ;
+	</select>
+	<!-- 2020-01-2-30 关注的人的数量 -->
+	<select id="getAttenNum" parameterType="com.longbro.note.bean.Attention" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM d_notice 
+		WHERE 1=1
+		<if test="NNoticed!='' and NNoticed!=null"><!-- 得到当前用户有多少粉丝 -->
+			and n_Noticed=#{NNoticed} 
+		</if>
+		<if test="NNoticer!='' and NNoticer!=null"><!-- 得到当前用户有多少关注 -->
+			and n_Noticer=#{NNoticer} 
+		</if>
+		<if test="NReadStatus!='' and NReadStatus!=null">
+			and find_in_set(n_Read_Status,#{NReadStatus})
+		</if>
+		;
 	</select>
 </mapper>

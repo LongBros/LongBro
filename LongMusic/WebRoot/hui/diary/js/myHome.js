@@ -1,24 +1,87 @@
+var data=new Array();
 /**
  * 1.设置分页
- * @param author
+ * @param which
  * @param perPage
  */
-function setPage1(perPage){
+function setPage1(which,perPage){
 	$(".pages").text('');
-	var num=0;
-	$.ajax({
-		url:"note/diary/getDiaryNumBy.do",
-		type:"get",
-		async:false,
-		data:{
-			NWritter:author,
-			NLocation:"0,1,2"//做权限使用
-		},
-		dataType:"text",
-		success:function(data){
-			num=data;
-		}
-	});
+	var num=0;//数量
+	var fun="";//函数名
+	if(which==0){//个人日记数量
+		$.ajax({
+			url:"note/diary/getDiaryNumBy.do",
+			type:"get",
+			async:false,
+			data:{
+				NWritter:author,
+				NLocation:"0,1,2"//做权限使用
+			},
+			dataType:"text",
+			success:function(data){
+				num=data;
+			}
+		});
+		fun="loadMyDiary";
+	}else if(which==1){//喜欢的日记的数量
+		$.ajax({
+			url:"note/praise/getPraiseNum.do",
+			type:"get",
+			async:false,
+			data:{
+				PPraiser:user,
+				type:0//点赞类型为日记
+			},
+			dataType:"text",
+			success:function(data){
+				num=data;
+			}
+		});
+		fun="loadMyLove";
+	}else if(which==2){//喜欢的日记的数量
+		$.ajax({
+			url:"note/store/getStoreNum.do",
+			type:"get",
+			async:false,
+			data:{
+				SStorer:user
+			},
+			dataType:"text",
+			success:function(data){
+				num=data;
+			}
+		});
+		fun="loadMyStore";
+	}else if(which==3){//关注的人的数量
+		$.ajax({
+			url:"note/notice/getAttenNum.do",
+			type:"get",
+			async:false,
+			data:{
+				NNoticer:author
+			},
+			dataType:"text",
+			success:function(data){
+				num=data;
+			}
+		});
+		fun="loadMyAtten";
+	}else if(which==4){//粉丝的数量
+		$.ajax({
+			url:"note/notice/getAttenNum.do",
+			type:"get",
+			async:false,
+			data:{
+				NNoticed:author
+			},
+			dataType:"text",
+			success:function(data){
+				num=data;
+			}
+		});
+		fun="loadMyFans";
+	}
+	
 	var page=0;
 	if(num%perPage==0){//可整除的话，页码数为总日记数除以10
 		page=num/perPage;
@@ -26,39 +89,50 @@ function setPage1(perPage){
 		page=parseInt(num/perPage)+1;
 	}
 	var value=new Array("10","20","30","40");
-	var sel="<select onchange='setPer1(options[selectedIndex].value)'>";
-	for(var i=0;i<value.length;i++){
-		if(value[i]==perPage){
-			sel=sel+"<option value='"+value[i]+"' selected>每页"+value[i]+"篇</option>";
+	var sel="";
+	if(which!=3&&which!=4){
+		sel="<select onchange='setPer1("+which+",options[selectedIndex].value)'>";
+		for(var i=0;i<value.length;i++){
+			if(value[i]==perPage){
+				sel=sel+"<option value='"+value[i]+"' selected>每页"+value[i]+"篇</option>";
+			}else{
+				sel=sel+"<option value='"+value[i]+"'>每页"+value[i]+"篇</option>";
+			}
+		}
+		sel=sel+"</select>";
+	}
+	if(num>10){
+		if(which!=3&&which!=4){
+			$(".pages").append(sel+"&nbsp;共"+num+"篇日记&nbsp;"+curPage+"/"+page+"&emsp;");
 		}else{
-			sel=sel+"<option value='"+value[i]+"'>每页"+value[i]+"篇</option>";
+			$(".pages").append(num+"条数据&nbsp;"+curPage+"/"+page+"&emsp;");
+		}
+	}else{//只有10篇无需显示选择每页多少篇
+		if(which!=3&&which!=4){
+			$(".pages").append("&nbsp;共"+num+"篇日记&nbsp;");
+		}else{
+			$(".pages").append(num+"条数据"+"");
 		}
 	}
-	sel=sel+"</select>";
-	if(num>10){
-		$(".pages").append(sel+"&nbsp;共"+num+"篇日记&nbsp;"+curPage+"/"+page+"&emsp;");
-	}else{//只有10篇无需显示选择每页多少篇
-		$(".pages").append("&nbsp;共"+num+"篇日记&nbsp;");
-	}
 	if(curPage!=1){
-		$(".pages").append("<span onclick=\"loadMyDiary('1','"+perPage+"')\">首</span>&emsp;")
-		$(".pages").append("<span onclick=\"loadMyDiary('"+(curPage-1)+"','"+perPage+"')\">《</span>&emsp;");
+		$(".pages").append("<span onclick=\""+fun+"('"+which+"','1','"+perPage+"')\">首</span>&emsp;")
+		$(".pages").append("<span onclick=\""+fun+"('"+which+"','"+(curPage-1)+"','"+perPage+"')\">《</span>&emsp;");
 	}
 	if(page>5){//多于5页，只显示5页
 		if(curPage>page-5){//当前页码大于总页码-5，输出后六页
 			for(var i=page-4;i<=page;i++){
 	              if(i==curPage){
-	  				   $(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+	  				   $(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
 		          }else{
-					   $(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+					   $(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
 	         	  }
 	        }
 		}else{//当前页码小于总页码-6，输出当前页码后的六页
             for(var i=curPage;i<curPage+5;i++){
                 if(i==curPage){
-	  				   $(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+	  				   $(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
                 }else{
-					   $(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+					   $(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
                 }
             }
          }
@@ -67,16 +141,16 @@ function setPage1(perPage){
 		if(page!=1){//只有一页无需显示页码
 			for(var i=1;i<=page;i++){
 				if(curPage==i){
-					$(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
+					$(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"')\" style=\"color:white;background:black;\">"+i+"</span>&emsp;")
 				}else{
-					$(".pages").append("<span onclick=\"loadMyDiary('"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
+					$(".pages").append("<span onclick=\""+fun+"('"+which+"','"+i+"','"+perPage+"')\">"+i+"</span>&emsp;")
 				}
 			}
 		}
 	}
 	if(curPage+1<=page){//＜＞
-		$(".pages").append("<span onclick=\"loadMyDiary('"+(curPage+1)+"','"+perPage+"')\">》</span>&emsp;")
-		$(".pages").append("<span onclick=\"loadMyDiary('"+page+"','"+perPage+"')\">尾</span>&emsp;")
+		$(".pages").append("<span onclick=\""+fun+"('"+which+"','"+(curPage+1)+"','"+perPage+"')\">》</span>&emsp;")
+		$(".pages").append("<span onclick=\""+fun+"('"+which+"','"+page+"','"+perPage+"')\">尾</span>&emsp;")
 	}
 	
 }
@@ -84,31 +158,35 @@ function setPage1(perPage){
  * 2.设置每页多少篇
  * @param pernum
  */
-function setPer1(pernum){
+function setPer1(which,pernum){
 	perPage=pernum;
-	setPage1(perPage);
-	loadMyDiary(curPage,perPage);
+	setPage1(which,perPage);
+	if(which=="0"){//自己的
+		loadMyDiary(which,curPage,perPage);
+	}else if(which=="1"){//喜欢的
+		loadMyLove(which,curPage,perPage);
+	}
 }
 /**
  * 3.加载我的日记
+ * @param which
  * @param page
  * @param perPage
  */
-function loadMyDiary(page,perPage){
+function loadMyDiary(which,page,perPage){
 	$("#myDiary").text('');
 	if(user==""){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="red";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("comment").style.color="black";
+	document.getElementById("my").style.color="black";
+	document.getElementById("love").style.color="white";
+	document.getElementById("store").style.color="white";
+	document.getElementById("setting").style.color="white";
+	document.getElementById("attention").style.color="white";
+	document.getElementById("fans").style.color="white";
+	document.getElementById("comment").style.color="white";
 	var au="0,1,2";//0完全公开,1自己可见,2登录可见
-	//$("#myDiary").text("");
 	$.ajax({
 		url:"note/diary/getDiaryBy.do",
 		type:"get",
@@ -161,36 +239,38 @@ function loadMyDiary(page,perPage){
 						+"</span>&nbsp;<span style='color:#c88326' onclick='editDiary("+data[i].nid
 						+")'>编辑</span>&nbsp;<span style='color:#c88326' onclick='delDiary("+data[i].nid
 						+")'>删除</span>&nbsp;"+top+"</div></div>"
-						+"</div><hr width='880px'>");
+						+"</div><hr width='100%'>");
 			}
 
 		}
 	});
 	curPage=parseInt(page);
 	perPage=parseInt(perPage);
-	setPage1(perPage);
+	setPage1(which,perPage);
 }
 /**
  * 4.加载我喜欢的
+ * @param which：加载什么数据 0作者日记，1喜欢的日记
+ * @param page:页码
+ * @param perPage:每页数量
  */
-function loadMyLove(){
+function loadMyLove(which,page,perPage){
 	$("#myDiary").text('');
 	$(".pages").text('');
 	if(user==""){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="red";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("comment").style.color="black";
 	$.ajax({
-		url:"note/praise/getMyLikeDiary.do?userId="+user,
+		url:"note/praise/getMyLikeDiary.do",
 		type:"get",
 		async:false,
+		data:{
+			userId:user,
+			author:user,
+			page:page,
+			perPage:perPage
+		},
 		dataType:"Json",
 		success:function(data){
 			var res=data.result;
@@ -217,32 +297,37 @@ function loadMyLove(){
 						+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
 						+"</div><hr width='880px'>");
 			}
-			$("#myDiary").append("<br><br><center>朕共喜欢<font color='red'>"+res.length+"</font>篇日记</center><br>");
+//			$("#myDiary").append("<br><br><center>朕共喜欢<font color='red'>"+res.length+"</font>篇日记</center><br>");
 
 		}
 	});
+	curPage=parseInt(page);
+	perPage=parseInt(perPage);
+	setPage1(which,perPage);
 }
 /**
  * 5.加载我收藏的
+ * @param which：加载什么数据 0作者日记，1喜欢的日记
+ * @param page:页码
+ * @param perPage:每页数量
  */
-function loadMyStore(){
+function loadMyStore(which,page,perPage){
 	$("#myDiary").text('');
 	$(".pages").text('');
 	if(user==""){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="red";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("comment").style.color="black";
 	$.ajax({
-		url:"note/store/getMyStoreDiary.do?userId="+user,
+		url:"note/store/getMyStoreDiary.do",
 		type:"get",
 		async:false,
+		data:{
+			userId:user,
+			author:user,
+			page:page,
+			perPage:perPage
+		},
 		dataType:"Json",
 		success:function(data){
 			var res=data.result;
@@ -269,10 +354,13 @@ function loadMyStore(){
 						+"</span>&nbsp;&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+res[i].storeNum+"</span></div></div>"
 						+"</div><hr width='880px'>");
 			}
-			$("#myDiary").append("<br><br><center>朕共收藏了<font color='red'>"+res.length+"</font>篇日记</center><br>");
+//			$("#myDiary").append("<br><br><center>朕共收藏了<font color='red'>"+res.length+"</font>篇日记</center><br>");
 
 		}
 	});
+	curPage=parseInt(page);
+	perPage=parseInt(perPage);
+	setPage1(which,perPage);
 }
 /**
  * 6.加载我看过的
@@ -315,7 +403,7 @@ function delDiary(id){
 		},
 		success:function(res){
 			alert("日记已删除");
-			loadMyDiary(curPage,perPage);
+			loadMyDiary(0,curPage,perPage);
 		}
 	});
 }
@@ -343,7 +431,7 @@ function diaryToTop(id,which){
 			}
 		}
 	});
-	loadMyDiary(1,10);
+	loadMyDiary(0,1,10);
 }
 /**
  * 10.
@@ -352,17 +440,25 @@ function diaryToTop(id,which){
 function openSetting(){
 	$("#myDiary").text('');
 	$(".pages").text('');
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="red";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("comment").style.color="black";
-	loadInfo();//加载出作者信息以供编辑
+	//法一：设置选项分tab~写于2020-02-04
+	loadUserInfo();//查询用户信息并赋值data
+	$("#settingAll").css('min-height',"450px");
+	$(".settingTab").css("background","#5fb878");
+	$(".settingTab").css("width","120px");
+	$(".settingTab").css("height","400px");
+	$(".settingTab").css("float","left");
+	$(".settingTab").html('<br><br><span onclick="switchTab(0)" id="basicS" style="color:red">基本信息</span><br><br>');
+	$(".settingTab").append('<span onclick="switchTab(1)" id="showS">显示设置</span><br><br>');
+	$(".settingTab").append('<span onclick="switchTab(2)" id="writeS">写日记设置</span><br><br>');
+	$(".settingTab").append('<span onclick="switchTab(3)" id="audioS">音频设置</span><br><br>');
+	$(".settingTab").append('<span onclick="switchTab(4)" id="backgroundS">背景选择</span><br><br>');
+	switchTab(0);
+	
+	//法二：设置选项不分tab
+	/*loadInfo();//加载出作者信息以供编辑
 	$("#myDiary").append("<span>背景选择：</span>");
-	/* $("#myDiary").append("<a onclick='setBack()'>设置当前背景为默认朕的背景</a>"); */
-	loadAllBack();
+	//$("#myDiary").append("<a onclick='setBack()'>设置当前背景为默认朕的背景</a>"); 
+	loadAllBack();*/
 }
 /**
  * 11.
@@ -370,15 +466,16 @@ function openSetting(){
  */
 function loadAllBack(){
 	var array=new Array("back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg"
-			,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png"
-			,"back0.gif","back1.gif","back2.gif");
+			,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png","back8.png","back9.png","back10.png","back11.png"
+			,"back0.gif","back1.gif","back2.gif","back3.gif","back4.gif","back5.gif","back6.gif");
+//	$("#myDiary").append("<div style='height:100px;'>");
 	for(var i=0;i<array.length;i++){
-		if(i%5==0){
-			$("#myDiary").append("<br>");
+		if(i%5==0&&i!=0){
+			$(".settingInfo").append("<br>");
 		}
-		$("#myDiary").append("<img src='res/images/back/"+array[i]+"' title='点击即可设置当前\r背景为朕的背景^_^' class='backDemo' onclick='setBackground(\""+array[i]+"\")'>");
+		$(".settingInfo").append("<img src='res/images/back/"+array[i]+"' title='点击即可设置当前\r背景为朕的背景^_^' class='backDemo' onclick='setBackground(\""+array[i]+"\")'>");
 	}
-	
+//	$("#myDiary").append("</div>");
 }
 
 /**
@@ -390,7 +487,8 @@ function setBackground(which){
 	saveInfo(4,which);//保存背景设置至数据库
 }
 /**
- * 13.加载作者信息
+ * 13.加载作者信息并赋值到设置项
+ * 2020-02-04废除此种方法，改用第20、21
  */
 function loadInfo(){
 	//加载出作者信息以供编辑
@@ -406,14 +504,35 @@ function loadInfo(){
 			var perpageNum=data.perpageNum+"";//每页展示日记数量
 			var homesongName=data.homeSongName+"";
 			var homesong=data.uhomeSong+"";
-			
+			//不看
 			var blackNameIds=data.blackNameList+"";//用户id
 			var blackIds=blackNameIds.split(",");
 			var blackNames=data.blackNames+"";//用户名
 			var blacks=blackNames.split(",");
+			//不给看
+			var bIds=data.blackList+"";//用户id
+			var bIdss=bIds.split(",");
+			var bNames=data.blacks+"";//用户名
+			var bNamess=bNames.split(",");
+			
+			var bornTime=data.ubornTime+"";//2020-01-27新增
+			var year="",month="",day="";
+			if(bornTime.length>5){//有出生日期
+				year=bornTime.substring(0,4);
+				month=bornTime.substring(5,7);
+				day=bornTime.substring(8,10);
+			}
+			var listStyle=data.listStyle;
+			var loopPlay=data.loopPlay;
+			
 			var string="<form name='info'><span>昵称：</span><input name='nickName' value='"+data.uuserName+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(1)' title='点击保存'>&#xe676;</i><br>";
 			string=string+"<span>个性签名：</span><input name='signature' value='"+data.signature+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(2)' title='点击保存'>&#xe676;</i><br>";
 			string=string+"<span>默认日记地址：</span><input name='location' value='"+data.location+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(3)' title='点击保存'>&#xe676;</i><br>";
+			if(day!=""){//有出生日期的不可再设置
+				string=string+"<span>出生日期：</span><span>"+bornTime+"</span>&nbsp;<span style='color:gray'>(出生日期设置后不可更改)</span><br>";
+			}else{
+				string=string+"<span>出生日期：</span><input name='year' value='"+year+"' style='width:45px;'>-<input name='month' value='"+month+"' style='width:35px;'>-<input name='day' value='"+day+"' style='width:35px;'>&nbsp;<i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(10)' title='点击保存'>&#xe676;</i>&nbsp;<span style='color:gray'>(请于三个框中分别输入年、月、日并点击保存，谨慎输入！设置后不可更改)</span><br>";
+			}
 			
 			if(sex=="1"){
 				string=string+"<span>性别:<input type='radio' onchange='saveInfo(7,1)' name='sex' checked='true'>男</input>";
@@ -424,6 +543,14 @@ function loadInfo(){
 			}else{
 				string=string+"<span>性别:<input type='radio' onchange='saveInfo(7,1)' name='sex'>男</input>";
 				string=string+"<input type='radio' onchange='saveInfo(7,0)' name='sex'>女</input></span><br>";
+			}
+			
+			if(listStyle=="1"){
+				string=string+"<span>列表显示格式:<input type='radio' onchange='saveInfo(11,1)' checked='true' name='listStyle'>仅标题</input>";
+				string=string+"<input type='radio' onchange='saveInfo(11,0)' name='listStyle'>标题和内容</input></span><br>";
+			}else{
+				string=string+"<span>列表显示格式:<input type='radio' onchange='saveInfo(11,1)' name='listStyle'>仅标题</input>";
+				string=string+"<input type='radio' onchange='saveInfo(11,0)' checked='true' name='listStyle'>标题和内容</input></span><br>";
 			}
 			
 			if(showNum=="1"){
@@ -447,15 +574,21 @@ function loadInfo(){
 					string=string+"<option value='"+per[i]+"'>&emsp;"+per[i]+"&emsp;</option>";
 				}
 			}
-			string=string+"</select>&emsp;(0表示显示下拉列表,可切换每页篇数)</span>";
+			string=string+"</select>&emsp;(0表示显示下拉列表,可切换每页篇数)</span>&nbsp;<span style='color:gray'>(每页加载篇数越多耗时越长，请谨慎选择)</span>";
 			
-			string=string+"<br><span>我的黑名单(不看名单，点击可移出):";
+			string=string+"<br><span>不看名单(你看不到列表中的用户在首页的日记，点击可移出):";
 //			for(var i=0;i<blackIds.length;i++){
 //				string=string+"<a onclick='removeFromList(\""+blackIds[i]+"\",\""+blacks[i]+"\")' style='color:red'>"+blacks[i]+"</a>&emsp;&emsp;";
 //			}
 			//另一种for循环
 			for(var key in blackIds){
-				string=string+"<a onclick='removeFromList(\""+blackIds[key]+"\",\""+blacks[key]+"\")' style='color:red'>"+blacks[key]+"</a>&emsp;&emsp;";
+				string=string+"<a onclick='removeFromList(\"1\",\""+blackIds[key]+"\",\""+blacks[key]+"\")' style='color:red'>"+blacks[key]+"</a>&emsp;&emsp;";
+			}
+			string=string+"</span><br>";
+			
+			string=string+"<span>不给看名单(列表中的用户在首页看不到你的日记，点击可移出):";
+			for(var key in bIdss){
+				string=string+"<a onclick='removeFromList(\"0\",\""+bIdss[key]+"\",\""+bNamess[key]+"\")' style='color:red'>"+bNamess[key]+"</a>&emsp;&emsp;";
 			}
 			string=string+"</span><br>";
 			
@@ -476,6 +609,15 @@ function loadInfo(){
 					string=string+"<input type='radio' name='autoplay' onchange='saveInfo(5,"+i+")' value='"+i+"'>"+tips[i]+"</input>&emsp;";
 				}
 			}
+			string=string+"<br><span>音频循环播放(日记音频及用户家歌)：";
+			if(loopPlay=="1"){
+				string=string+"<input type='radio' onchange='saveInfo(12,1)' checked='true' name='loopPlay'>循环</input>";
+				string=string+"<input type='radio' onchange='saveInfo(12,0)' name='loopPlay'>不循环</input></span>";
+			}else{
+				string=string+"<input type='radio' onchange='saveInfo(12,1)' name='loopPlay'>循环</input>";
+				string=string+"<input type='radio' onchange='saveInfo(12,0)' checked='true' name='loopPlay'>不循环</input></span>";
+			}
+			
 			string=string+"<br></form>";
 			$("#myDiary").append(string);
 		}
@@ -510,8 +652,36 @@ function saveInfo(which,value){
 		url=url+"&perpageNum="+value;
 	}else if(t=="9"){//家歌
 		url=url+"&UHomeSong="+document.info.homesong.value;
+	}else if(t=="10"){//出生日期
+		var year=document.info.year.value+"";
+		var month=document.info.month.value+"";
+		var day=document.info.day.value+"";
+		if(isNaN(year)||isNaN(month)||isNaN(day)){
+			alert("输入错误");
+			return;
+		}
+		if(year.length!=4){
+			alert("年输入错误");
+			return;
+		}
+		if(month.length>2||month.length==0||day.length>2||day.length==0){
+			alert("月或日输入错误");
+			return;
+		}
+		var c=confirm("确认保存你的生日嘛？保存后不可修改呢。");
+		if(c==false){
+			return;
+		}
+		var birth=document.info.year.value+"-"+document.info.month.value+"-"+document.info.day.value;
+		url=url+"&UBornTime="+birth;
+	}else if(t=="11"){
+		url=url+"&listStyle="+value;
+	}else if(t=="12"){//
+		url=url+"&loopPlay="+value;
+	}else{
+		alert("开发中，暂不支持此项编辑^_^")
 	}
-	
+	alert(url)
 	$.ajax({
 		url:url,
 		type:"get",
@@ -525,28 +695,31 @@ function saveInfo(which,value){
 			}
 		}
 	});
+	openSetting();
 }
 /**
  * 15.加载我关注的人
+ * @param which
+ * @param page
+ * @param perPage
  */
-function loadMyAtten(){
+function loadMyAtten(which,page,perPage){
 	$("#myDiary").text('');
 	$(".pages").text('');
 	if(user==""){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("attention").style.color="red";
-	document.getElementById("comment").style.color="black";
 	$.ajax({
-		url:"note/notice/getMyAtten.do?userId="+user,
+		url:"note/notice/getMyAtten.do",
 		type:"get",
 		async:false,
+		data:{
+			userId:user,
+			author:user,
+			page:page,
+			perPage:perPage
+		},
 		dataType:"Json",
 		success:function(res){
 			if(res.code==200){
@@ -554,10 +727,10 @@ function loadMyAtten(){
 				if(data.length<1){
 					$("#myDiary").append("<center>你还没有关注别人呢，快去关注你喜欢的人吧！</center>");
 				}else{
-					$("#myDiary").append("<center>你共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
+//					$("#myDiary").append("<center>你共关注了<font color='red' size='2px'>"+data.length+"</font>个小伙伴</center>");
 				}
 				for(var i=0;i<data.length;i++){
-					$("#myDiary").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					$("#myDiary").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticedId+"' target='_blank'>"+data[i].noticedName+"</a>&emsp;<font color='gray' size='1px'>"+data[i].fanNums+"粉丝</font>&emsp;<font  color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
 					
 				}
 			}else{
@@ -565,6 +738,9 @@ function loadMyAtten(){
 			}
 		}
 	});
+	curPage=parseInt(page);
+	perPage=parseInt(perPage);
+	setPage1(which,perPage);
 }
 /**
  * 16.检测访问设备，手机返回true，其他返回false
@@ -587,17 +763,23 @@ function isPhone(){
 }
 /**
  * 17.将userId移出不看他列表
+ * @param which 1:不看列表，0：不被看列表
  * @param userId
+ * @param userName
  */
-function removeFromList(userId,userName)
+function removeFromList(which,userId,userName)
 {
-	var r=window.confirm("确定从不看列表移出‘"+userName+"’？");
+	var w="不看";
+	if(which==0){
+		w="不给看";
+	}
+	var r=window.confirm("确定从"+w+"列表移出‘"+userName+"’？");
 	if(r==false){
 		return;
 	}
 	//user:当前登录用户,userId:待移除用户
 	$.ajax({
-		url:"note/userinfo/addToOrRemoveFromList.do?type=1&user="+user+"&userId="+userId,
+		url:"note/userinfo/addToOrRemoveFromList.do?type=1&user="+user+"&userId="+userId+"&which="+which,
 		type:"get",
 		async:false,
 		dataType:"Json",
@@ -619,13 +801,6 @@ function loadMyCom(){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="black";
-	document.getElementById("comment").style.color="red";
 	$.ajax({
 		url:"note/comment/getMyComment.do?userId="+user,
 		type:"get",
@@ -641,6 +816,9 @@ function loadMyCom(){
 			}
 			for(var i=0;i<res.length;i++){
 				var con=res[i].reviewCon+"";
+				if(con.length>15){
+					con=con.substring(0,15)+"...";
+				}
 				$("#myDiary").append("<div class='notice'>你评论了<a href='author.html?author="+res[i].reviewed+"' target='_blank'>"+res[i].viewedName+"</a>&emsp;的日记&emsp;<a href='diary.html?id="+res[i].diaryId+"' target='_blank'>"+res[i].diaryTitle+"</a>&emsp;<font style='color:gray;font-size:5px;'>"+con+"</font><font color='gray' size='2px'><span>"+res[i].reviewTime+"</span></font></div><hr>");
 			}
 		}
@@ -648,25 +826,27 @@ function loadMyCom(){
 }
 /**
  * 18.加载当前登录人的粉丝
+ * @param which
+ * @param page
+ * @param perPage
  */
-function loadMyFans(){
+function loadMyFans(which,page,perPage){
 	$("#myDiary").text('');
 	$(".pages").text('');
 	if(user==""){
 		alert("请登录");
 		return;
 	}
-	document.getElementById("my").style.color="black";
-	document.getElementById("love").style.color="black";
-	document.getElementById("store").style.color="black";
-	document.getElementById("setting").style.color="black";
-	document.getElementById("attention").style.color="black";
-	document.getElementById("fans").style.color="red";
-	document.getElementById("comment").style.color="black";
 	$.ajax({
-		url:"note/notice/getMyMessage.do?userId="+user,
+		url:"note/notice/getMyMessage.do",
 		type:"get",
 		async:false,
+		data:{
+			userId:user,
+			author:user,
+			page:page,
+			perPage:perPage
+		},
 		dataType:"Json",
 		success:function(res){
 			if(res.code==200){
@@ -674,15 +854,247 @@ function loadMyFans(){
 				if(data.length<1){
 					$("#myDiary").append("<center>还没有人关注你呢，快去找喜欢你的人关注你吧！</center>");
 				}else{
-					$("#myDiary").append("<center>共<font color='red' size='2px'>"+data.length+"</font>个小伙伴关注了你</center>");
+//					$("#myDiary").append("<center>共<font color='red' size='2px'>"+data.length+"</font>个小伙伴关注了你</center>");
 				}
 				for(var i=0;i<data.length;i++){
-					$("#myDiary").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticerId+"' target='_blank'>"+data[i].noticerName+"</a><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
+					$("#myDiary").append("<div class='notice'><img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].noticerId+"' target='_blank'>"+data[i].noticerName+"</a>&emsp;<font color='gray' size='1px'>"+data[i].fanNums+"粉丝</font>&emsp;<font  color='gray' size='1px'>"+data[i].joinDay+"天共"+data[i].diaryNum+"篇日记</font><font color='gray' size='2px'><span>"+data[i].noticeTime+"</span></font></div><hr>");
 					
 				}
 			}else{
 				alert("查询失败");
 			}
+		}
+	});
+	curPage=parseInt(page);
+	perPage=parseInt(perPage);
+	setPage1(which,perPage);
+}
+/**
+ * 19.tab切换
+ * @param which
+ */
+function openTab(which){
+	$(".settingInfo").text('');
+	$(".settingTab").text('');
+	$("#settingAll").css('min-height',"0");
+	$(".settingTab").css('height',"0");
+	//01-27 用以下代码避免在各个方法中写代码来控制tab颜色
+	var tabs=new Array("my","love","store","comment","attention","fans","setting");
+	for(var i=0;i<7;i++){
+		if(i==which){
+//			$("#"+tabs[i]).css("background","black");
+			$("#"+tabs[i]).css("color","black");
+		}else{
+//			$("#"+tabs[i]).css("background","white");
+			$("#"+tabs[i]).css("color","white");
+		}
+	}
+	if(which==0){
+		loadMyDiary('0','1','10');
+	}else if(which==1){
+		loadMyLove('1','1','10')
+	}else if(which==2){
+		loadMyStore('2','1','10')
+	}else if(which==3){
+		loadMyCom()
+	}else if(which==4){
+		loadMyAtten('3','1','10')
+	}else if(which==5){
+		loadMyFans('4','1','10')
+	}else if(which==6){
+		openSetting()
+	}
+}
+/**
+ * 20.设置tab中子tab的切换
+ */
+function switchTab(which){
+	var tabs=new Array("basicS","showS","writeS","audioS","backgroundS");
+	for(var i=0;i<5;i++){
+		if(i==which){
+			$("#"+tabs[i]).css("color","black");
+		}else{
+			$("#"+tabs[i]).css("color","white");
+		}
+	}
+	$(".settingInfo").text('');
+//	alert("3"+data);
+	var sex=data.uuserSex+"";//性别：1男，2女
+	var showNum=data.uShowWordnum+"";//是否显示日记字数
+	var perpageNum=data.perpageNum+"";//每页展示日记数量
+	var homesongName=data.homeSongName+"";
+	var homesong=data.uhomeSong+"";
+	//不看
+	var blackNameIds=data.blackNameList+"";//用户id
+	var blackIds=blackNameIds.split(",");
+	var blackNames=data.blackNames+"";//用户名
+	var blacks=blackNames.split(",");
+	//不给看
+	var bIds=data.blackList+"";//用户id
+	var bIdss=bIds.split(",");
+	var bNames=data.blacks+"";//用户名
+	var bNamess=bNames.split(",");
+	
+	var bornTime=data.ubornTime+"";//2020-01-27新增
+	var year="",month="",day="";
+	if(bornTime.length>5){//有出生日期
+		year=bornTime.substring(0,4);
+		month=bornTime.substring(5,7);
+		day=bornTime.substring(8,10);
+	}
+	var listStyle=data.listStyle;
+	var loopPlay=data.loopPlay;
+//	alert(loopPlay);
+	var string="<form name='info'>";
+	switch(which){
+		case 0:
+			string=string+"<span>昵称：</span><input name='nickName' value='"+data.uuserName+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(1)' title='点击保存'>&#xe676;</i><br>";
+			string=string+"<span>个性签名：</span><input name='signature' value='"+data.signature+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(2)' title='点击保存'>&#xe676;</i><br>";
+			if(day!=""){//有出生日期的不可再设置
+				string=string+"<span>出生日期：</span><span>"+bornTime+"</span>&nbsp;<span style='color:gray'>(出生日期设置后不可更改)</span><br>";
+			}else{
+				string=string+"<span>出生日期：</span><input name='year' value='"+year+"' style='width:45px;'>-<input name='month' value='"+month+"' style='width:35px;'>-<input name='day' value='"+day+"' style='width:35px;'>&nbsp;<i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(10)' title='点击保存'>&#xe676;</i>&nbsp;<span style='color:gray'>(请于三个框中分别输入年、月、日并点击保存，谨慎输入！设置后不可更改)</span><br>";
+			}
+			
+			if(sex=="1"){
+				string=string+"<span>性别:<input type='radio' onchange='saveInfo(7,1)' name='sex' checked='true'>男</input>";
+				string=string+"<input type='radio' onchange='saveInfo(7,0)' name='sex'>女</input></span><br>";
+			}else if(sex=="0"){
+				string=string+"<span>性别:<input type='radio' onchange='saveInfo(7,1)' name='sex'>男</input>";
+				string=string+"<input type='radio' onchange='saveInfo(7,0)' name='sex' checked='true'>女</input></span><br>";
+			}else{
+				string=string+"<span>性别:<input type='radio' onchange='saveInfo(7,1)' name='sex'>男</input>";
+				string=string+"<input type='radio' onchange='saveInfo(7,0)' name='sex'>女</input></span><br>";
+			}
+			break;
+		case 1:
+			if(listStyle=="1"){
+				string=string+"<span>列表显示格式:<input type='radio' onchange='saveInfo(11,1)' checked='true' name='listStyle'>仅标题</input>";
+				string=string+"<input type='radio' onchange='saveInfo(11,0)' name='listStyle'>标题和内容</input></span><br>";
+			}else{
+				string=string+"<span>列表显示格式:<input type='radio' onchange='saveInfo(11,1)' name='listStyle'>仅标题</input>";
+				string=string+"<input type='radio' onchange='saveInfo(11,0)' checked='true' name='listStyle'>标题和内容</input></span><br>";
+			}
+			string=string+"<span>首页默认加载tab：</span><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(15)' title='点击保存'>&#xe676;</i><br>";
+
+			if(showNum=="1"){
+				string=string+"<span>首页显示日记字数:<input type='radio' onchange='saveInfo(6,1)' name='wordsize' value='' checked='true'>显示</input>";
+				string=string+"<input type='radio' onchange='saveInfo(6,0)' name='wordsize' value=''>隐藏</input></span>";
+			}else if(showNum=="0"){
+				string=string+"<span>首页显示日记字数:<input type='radio' onchange='saveInfo(6,1)' name='wordsize' value=''>显示</input>";
+				string=string+"<input type='radio' onchange='saveInfo(6,0)' name='wordsize' value='' checked='true'>隐藏</input></span>";
+			}else{
+				string=string+"<span>首页显示日记字数:<input type='radio' onchange='saveInfo(6,1)' name='wordsize' value=''>显示</input>";
+				string=string+"<input type='radio' onchange='saveInfo(6,0)' name='wordsize' value=''>隐藏</input></span>";
+			}
+			
+//			每页加载日记篇数设置
+			var per=new Array("0","10","20","30","40","50");
+			string=string+"<br><span>每页加载日记篇数：<select onchange='saveInfo(8,options[selectedIndex].value)'>";
+			for(var i in per){
+				if(per[i]==perpageNum){
+					string=string+"<option value='"+per[i]+"' selected>&emsp;"+per[i]+"&emsp;</option>";
+				}else{
+					string=string+"<option value='"+per[i]+"'>&emsp;"+per[i]+"&emsp;</option>";
+				}
+			}
+			string=string+"</select>&emsp;(0表示显示下拉列表,可切换每页篇数)</span>&nbsp;<span style='color:gray'>(每页加载篇数越多耗时越长，请谨慎选择)</span>";
+			
+			string=string+"<br><span>不看名单(你看不到列表中的用户在首页的日记，点击可移出):";
+//			for(var i=0;i<blackIds.length;i++){
+//				string=string+"<a onclick='removeFromList(\""+blackIds[i]+"\",\""+blacks[i]+"\")' style='color:red'>"+blacks[i]+"</a>&emsp;&emsp;";
+//			}
+			//另一种for循环
+			for(var key in blackIds){
+				string=string+"<a onclick='removeFromList(\"1\",\""+blackIds[key]+"\",\""+blacks[key]+"\")' style='color:red'>"+blacks[key]+"</a>&emsp;&emsp;";
+			}
+			string=string+"</span><br>";
+			
+			string=string+"<span>不给看名单(列表中的用户在首页看不到你的日记，点击可移出):";
+			for(var key in bIdss){
+				string=string+"<a onclick='removeFromList(\"0\",\""+bIdss[key]+"\",\""+bNamess[key]+"\")' style='color:red'>"+bNamess[key]+"</a>&emsp;&emsp;";
+			}
+			string=string+"</span><br>";
+			
+			break;
+		case 2:
+			string=string+"<span>默认地址：</span><input name='location' value='"+data.location+"'><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(3)' title='点击保存'>&#xe676;</i><br>";
+			string=string+"<span>默认天气：</span><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(13)' title='点击保存'>&#xe676;</i><br>";
+			string=string+"<span>默认心情：</span><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(14)' title='点击保存'>&#xe676;</i><br>";
+			string=string+"<span>编辑器：</span><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(15)' title='点击保存'>&#xe676;</i><br>";
+			string=string+"<span>默认显示表情：</span><i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(15)' title='点击保存'>&#xe676;</i><br>";
+			var cates=new Array("生活日记","工作笔记","idea","诗词（文学）","深度好文");
+			string=string+"<span>默认分类：</span><select onchange='saveInfo(16,options[selectedIndex].value)'>";
+			/*for(var i in cates){
+				if(cates[i]==perpageNum){
+					string=string+"<option value='"+cates[i]+"' selected>&emsp;"+cates[i]+"&emsp;</option>";
+				}else{
+					string=string+"<option value='"+cates[i]+"'>&emsp;"+cates[i]+"&emsp;</option>";
+				}
+			}*/
+			string=string+"</select><br>";
+
+			var aus=new Array("完全公开","自己可见","登录可见");
+			string=string+"<span>默认权限：</span><select onchange='saveInfo(16,options[selectedIndex].value)'>";
+			/*for(var i in aus){
+				if(aus[i]==perpageNum){
+					string=string+"<option value='"+aus[i]+"' selected>&emsp;"+aus[i]+"&emsp;</option>";
+				}else{
+					string=string+"<option value='"+aus[i]+"'>&emsp;"+aus[i]+"&emsp;</option>";
+				}
+			}*/
+			string=string+"</select>";
+			break;
+		case 3:
+			string=string+"<span>家歌选择(其他用户访问你的家园时会播放家歌)：";
+			string=string+"<input name='homesongName' id='songName' readonly value='"+homesongName+"'>";
+			string=string+"<input name='homesong' style='display: none' id='sourceId' readonly value='"+homesong+"'>";
+			string=string+"<a onclick='openMusic()' title='点击搜索歌曲'><font color='red'>切换</font></a>&emsp;";
+			string=string+"<a id='clearBtn' style='display:none' onClick='clearSong()'>清空所选歌曲</a>&emsp;";
+			string=string+"<i class=\"Hui-iconfont\" style='cursor:pointer' onclick='saveInfo(9)' title='点击保存'>&#xe676;</i>";
+			string=string+"</span><br>";
+			string=string+"<span>音频自动播放(日记音频及用户家歌)：</span>";
+			var play=data.autoPlay;
+			var tips=new Array("弹出提示是否播放","自动播放","不自动播放");
+			for(var i=0;i<tips.length;i++){
+				if(i==play){
+					string=string+"<input type='radio' name='autoplay' onchange='saveInfo(5,"+i+")' value='"+i+"' checked='true'>"+tips[i]+"</input>&emsp;";
+				}else{
+					string=string+"<input type='radio' name='autoplay' onchange='saveInfo(5,"+i+")' value='"+i+"'>"+tips[i]+"</input>&emsp;";
+				}
+			}
+			string=string+"<br><span>音频循环播放(日记音频及用户家歌)：";
+			if(loopPlay=="1"){
+				string=string+"<input type='radio' onchange='saveInfo(12,1)' checked='true' name='loopPlay'>循环</input>";
+				string=string+"<input type='radio' onchange='saveInfo(12,0)' name='loopPlay'>不循环</input></span>";
+			}else{
+				string=string+"<input type='radio' onchange='saveInfo(12,1)' name='loopPlay'>循环</input>";
+				string=string+"<input type='radio' onchange='saveInfo(12,0)' checked='true' name='loopPlay'>不循环</input></span>";
+			}
+			break;
+		case 4:
+			loadAllBack();
+			break;
+		default:
+			break;
+	}
+	string=string+"<br></form>";
+	$(".settingInfo").append(string);
+}
+/**
+ * 21.查询用户信息，配合函数20做另一种设置tab使用
+ */
+function loadUserInfo()
+{
+	//加载出作者信息以供编辑
+	$.ajax({
+		url:"note/userinfo/getAuthorInfoByUserId.do?UUserId="+author,
+		type:"get",
+		async:false,
+		dataType:"Json",
+		success:function(res){
+			data=res.result;
+//			alert("1"+data);
 		}
 	});
 }

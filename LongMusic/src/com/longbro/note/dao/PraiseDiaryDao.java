@@ -41,11 +41,11 @@ public class PraiseDiaryDao extends BaseDao{
 		// TODO Auto-generated method stub
 		return (PraiseDiary)this.selectOne(getNamespace()+".get", diary);
 	}
-	public int getPraiseNum(Map<String,Object> map){
-		return (Integer)this.selectOne(getNamespace()+".getPraiseNum", map);
+	public int getPraiseNum(PraiseDiary diary){
+		return (Integer)this.selectOne(getNamespace()+".getPraiseNum", diary);
 	}
-	public List<PraiseDiary> getLikeDiarybyUser(String userId){
-		return (List<PraiseDiary>)this.selectList(getNamespace()+".getLikeDiarybyUser", userId);
+	public List<PraiseDiary> getLikeDiarybyUser(HashMap<String,Object> map){
+		return (List<PraiseDiary>)this.selectList(getNamespace()+".getLikeDiarybyUser", map);
 	}
 	//2019-11-16设置所有未读消息为已读
 	public void setAsReaded(String userId){

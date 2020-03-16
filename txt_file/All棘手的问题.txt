@@ -22,6 +22,13 @@
 	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/" reloadable="true"/> 
       </Host>
 
+SELECT VERSION();用于获取当前 Mysql 的版本。
+
+2020-01-25
+1.另一种方法实现文件上传：MultipartFile，多个文件时定义数组
+2.不定义id实现css设置submit格式，.rights form input[type=submit]{
+3.REST风格的网站url
+
 412902197305064278
 
 develop-20191028-risk-3.0

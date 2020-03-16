@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <base href="<%=basePath%>">
+    <title>使用Math、img-测试画圆</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	<!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+
+  </head>
+  
+  <body>
+  	<span onclick="rotate()">旋转</span><br>
+  	<span onclick="stop()">停止</span>
+    <script>
+  //功能：画实心圆
+  //参数：圆心坐标，半径，精确度，背景颜色
+  function SolidCircle(cx, cy, r, p, color){
+      var s = 1/(r/p);
+      for (var i = 0; i < Math.PI*2; i+=s) {
+          var div = document.createElement("div");
+          div.style.position = "absolute";
+          div.style.left = Math.sin(i)*r+cx+"px";
+          div.style.top = Math.cos(i)*r+cy+"px";
+          div.style.width = p+"px";
+          div.style.height = p+"px";
+          div.style.backgroundColor = color;
+          document.body.appendChild(div);
+      }
+  }
+  SolidCircle(450, 200, 200, 5, "green");
+    
+  	//参数：圆心坐标，半径，精确度，背景颜色
+    function drawCircle(centreX, centreY, radius, precision, color){
+    	var cx=Math.abs(parseInt(centreX));
+    	var cy=Math.abs(parseInt(centreY));
+    	var r = parseInt(radius<2 ? 60 : radius);
+    	var p = parseInt(precision<1 ? 1 : precision);
+    	var c = color;
+    	var y;
+    	for(var x=cx-r; x<=cx+r; x+=p){
+    		  y = cy - Math.sqrt(Math.pow(r, 2) - Math.pow(cx - x, 2));
+    		  document.write('<img style="background:'+c+'; border:1 solid '+c+'; width:'+p+'; height:'+parseInt(2*Math.sqrt(Math.pow(r, 2) - Math.pow(cx - x, 2)))+'; position:absolute; top:'+parseInt(y)+'; left:'+parseInt(x)+';">');
+    	}
+    }
+	document.write("<div style='float:right;margin-top:22px;'>");
+
+    drawCircle(450, 100, 70, 1, "black");//black
+    drawCircle(450, 100, 35, 1, "white");
+    drawCircle(450, 100, 32, 1, "#cd3f11");//
+    document.write('<span id="logoword" style="font-size:8px;color:white;position:absolute; top:90px; left:423px;">DoraNote</span>');
+	document.write("</div>");
+	var deg=1;
+	function rotateLogo(){
+		document.getElementById("logoword").style.transform="rotate("+deg+"deg)";//
+		deg=deg+1;
+	}
+	function rotate(){
+		thread=window.setInterval("rotateLogo()", "50");
+	}
+	function stop(){
+		window.clearInterval(thread);
+	}
+    </script>
+  </body>
+</html>

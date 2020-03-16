@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,6 +19,15 @@ import java.net.URL;
  */
 public class DownImage {
 	public static void main(String[] args) throws IOException {
+//		spideMk();
+		String url="http://www.17419.vip/wp-content/themes/LightSNS_1.6.14/images/member_bg/";
+		for(int i=10;i<20;i++){
+			downImage(url+""+i+"_thum.jpg","background"+i+".jpg");
+		}
+	}
+
+	private static void spideMk() throws FileNotFoundException, IOException,
+			UnsupportedEncodingException {
 		String path="D:/aaaaaaa/LongBro/LongMusic/src/小表情/image.txt";
 		
 		String url="https://mkblog.cn/wp-content/themes/mkBlog/images/emoji/aru/";
@@ -71,7 +81,6 @@ public class DownImage {
 			
 //			System.out.println("---------------------------------------------");
 		}
-		
 	}
 	
 	public static void downImage(String url,String name){

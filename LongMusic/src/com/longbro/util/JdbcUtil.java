@@ -17,7 +17,7 @@ public class JdbcUtil {
 	public static Statement getCon(){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/music?useUnicode=true&characterEncoding=utf-8", "root", "123456");
+			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/music?useUnicode=true&characterEncoding=utf-8", "root", "ZCLZY");
 			st=con.createStatement();
 
 		} catch (Exception e) {

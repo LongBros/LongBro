@@ -23,10 +23,13 @@ if(request.getParameter("type").equals("1")){//加载单句歌词
 	if(sid.contains(".html")){//QQ音乐的歌词
 		sid=sid.substring(0, sid.indexOf(".html"));
 		try{
-			File file=new File("E:/AAAA/alyric/"+sid+".txt");
+			File file=new File("/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/alyric/"+sid+".txt");
 			if(!file.exists()){
-				out.println("无歌词文件");
-				return ;
+				file=new File("E:/AAAA/alyric/"+sid+".txt");
+				if(!file.exists()){
+					out.println("无歌词文件");
+					return ;
+				}
 			}
 			byte[] s=new byte[2048];
 			FileInputStream fis=new FileInputStream(file);
@@ -58,10 +61,13 @@ if(request.getParameter("type").equals("1")){//加载单句歌词
 		}catch(Exception e){
 		}
 	}else{//网易云
-		File file=new File("E:/AAAA/alyric/"+sid+".txt");
+		File file=new File("/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/alyric/"+sid+".txt");
 		if(!file.exists()){
-			out.println("无歌词文件");
-			return ;
+			file=new File("E:/AAAA/alyric/"+sid+".txt");
+			if(!file.exists()){
+				out.println("无歌词文件");
+				return;
+			}
 		}
 		try {
 			//此处使用流没问题，若使用FileReader会乱码

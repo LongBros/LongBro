@@ -206,12 +206,15 @@ function oocImage(type,from){
  * @param img
  * @param from 0：写日记，1：写评论
  */
-
 function appendValue(img,from){
-//	var con=document.form.content.value;
-//	document.form.content.value=con+img;
-	if(from=="0")
-		ue.setContent(ue.getContent()+img);
+	if(from=="0"){
+		if(isPhone()){//电脑端不能让content中有值
+			var con=document.form.content.value;
+			document.form.content.value=con+img;
+		}else{
+			ue.setContent(ue.getContent()+img);
+		}
+	}
 	else if(from=="1"){//评论时赋值评论的表情
 		var con=document.getElementById("content").value;
 		document.getElementById("content").value=con+img;

@@ -17,9 +17,12 @@
 		<result property="password" column="u_Password" jdbcType="VARCHAR"/>
 		<result property="location" column="u_Location" jdbcType="VARCHAR"/>
 		<result property="autoPlay" column="u_autoplay_audio" jdbcType="NUMERIC"/>
+		<result property="loopPlay" column="u_loop_play" jdbcType="NUMERIC"/>
 		<result property="lastLogin" column="u_recent_login" jdbcType="VARCHAR"/>
 		<result property="back" column="u_default_back" jdbcType="VARCHAR"/>
 		<result property="perpageNum" column="u_perpage_num" jdbcType="NUMERIC"/>
+		<result property="blackList" column="u_black_list" jdbcType="VARCHAR"/>
+		<result property="listStyle" column="u_list_style" jdbcType="NUMERIC"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.longbro.note.bean.UserInfo">
@@ -40,8 +43,8 @@
 	
 	<select id="get" parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Author">
 		SELECT u_Id UId,u_User_Name UUserName,u_User_Id UUserId,u_User_Sex UUserSex,
-		u_show_wordnum uShowWordnum,u_Join_Time UJoinTime,
-		u_Status UStatus,u_Born_Time UBornTime,u_perpage_num perpageNum,
+		u_show_wordnum uShowWordnum,u_Join_Time UJoinTime,u_list_style listStyle,
+		u_Status UStatus,u_Born_Time UBornTime,u_perpage_num perpageNum,u_loop_play loopPlay,
 		u_recent_login lastLogin,u_Head_Image headImage,
 		u_Home_Song UHomeSong,s.songName homeSongName,u_Signature signature,
 		u_autoplay_audio autoPlay,u_Location location,u_default_back back,
@@ -55,6 +58,10 @@
 		<!-- 12-10添加黑名单的name -->
 		(SELECT GROUP_CONCAT(u_User_Id) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_namelist)) blackNameList,
 		(SELECT GROUP_CONCAT(u_User_Name) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_namelist)) blackNames,
+		<!-- 2020-01-28添加不给看名单 -->
+		(SELECT GROUP_CONCAT(u_User_Id) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_list)) blackList,
+		(SELECT GROUP_CONCAT(u_User_Name) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_list)) blacks,
+		
 		(SELECT COUNT(DISTINCT LEFT(n_Time,10)) FROM d_diary WHERE n_Writter=#{UUserId}) diaryDayNum
 		FROM d_user_info dui
 		LEFT JOIN song s ON dui.u_Home_Song=s.sourceId
@@ -132,7 +139,19 @@
 				u_show_player=#{showPlayer,jdbcType=NUMERIC},
 			</if>
 			<if test="textEditor != null">
-				u_text_editor=#{textEditor,jdbcType=NUMERIC}
+				u_text_editor=#{textEditor,jdbcType=NUMERIC},
+			</if>
+			<if test="headImage != null">
+				u_Head_Image=#{headImage,jdbcType=VARCHAR},
+			</if>
+			<if test="blackList != null">
+				u_black_list=#{blackList,jdbcType=VARCHAR},
+			</if>
+			<if test="listStyle != null">
+				u_list_style=#{listStyle,jdbcType=NUMERIC},
+			</if>
+			<if test="loopPlay != null">
+				u_loop_play=#{loopPlay,jdbcType=NUMERIC}
 			</if>
 		</set>
 		WHERE
