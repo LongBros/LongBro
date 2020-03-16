@@ -451,7 +451,8 @@ function openSetting(){
 	$(".settingTab").append('<span onclick="switchTab(1)" id="showS">显示设置</span><br><br>');
 	$(".settingTab").append('<span onclick="switchTab(2)" id="writeS">写日记设置</span><br><br>');
 	$(".settingTab").append('<span onclick="switchTab(3)" id="audioS">音频设置</span><br><br>');
-	$(".settingTab").append('<span onclick="switchTab(4)" id="backgroundS">背景选择</span><br><br>');
+	$(".settingTab").append('<span onclick="switchTab(4)" id="backgroundS">PC端背景</span><br><br>');
+	$(".settingTab").append('<span onclick="switchTab(5)" id="backgroundM">移动端背景</span><br><br>');
 	switchTab(0);
 	
 	//法二：设置选项不分tab
@@ -464,27 +465,43 @@ function openSetting(){
  * 11.
  * 12-01 加载所有的背景图
  */
-function loadAllBack(){
-	var array=new Array("back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg"
+function loadAllBack(which){
+	var array=new Array();
+	var PC=new Array("back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg"
 			,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png","back8.png","back9.png","back10.png","back11.png"
 			,"back0.gif","back1.gif","back2.gif","back3.gif","back4.gif","back5.gif","back6.gif");
-//	$("#myDiary").append("<div style='height:100px;'>");
+	var MB=new Array("back1.jpg","back2.jpg","back3.jpg","back4.jpg","back7.jpg"
+			,"back3.png","back4.png","back5.png","back6.png","back7.png","back8.png","back9.png","back10.png","back11.png"
+			,"back2.gif","back4.gif","back5.gif","back6.gif");
+	if(which==0){
+		array=PC;
+	}else{
+		array=MB;
+	}
+	//	$("#myDiary").append("<div style='height:100px;'>");
 	for(var i=0;i<array.length;i++){
 		if(i%5==0&&i!=0){
 			$(".settingInfo").append("<br>");
 		}
-		$(".settingInfo").append("<img src='res/images/back/"+array[i]+"' title='点击即可设置当前\r背景为朕的背景^_^' class='backDemo' onclick='setBackground(\""+array[i]+"\")'>");
-	}
+		$(".settingInfo").append("<img src='res/images/back/"+array[i]+"' title='点击即可设置当前\r背景为朕的背景^_^' class='backDemo' onclick='setBackground(\""+array[i]+"\","+which+")'>");
 //	$("#myDiary").append("</div>");
+	}
 }
 
 /**
- *12. 设置背景
+ * 12. 设置背景
+ * @param which 背景的名称
+ * @param pom 移动端还是pc端
  */
-function setBackground(which){
+function setBackground(which,pom){
 	var body=document.getElementById("bodys");
 	body.style.background="url(res/images/back/"+which+")";
-	saveInfo(4,which);//保存背景设置至数据库
+	if(pom==0){//PC端
+		saveInfo(4,which);//保存背景设置至数据库
+	}else{
+		saveInfo(13,which);//保存背景设置至数据库
+	}
+	
 }
 /**
  * 13.加载作者信息并赋值到设置项
@@ -678,10 +695,11 @@ function saveInfo(which,value){
 		url=url+"&listStyle="+value;
 	}else if(t=="12"){//
 		url=url+"&loopPlay="+value;
+	}else if(t=="13"){//2020-03-15 移动端背景
+		url=url+"&mback="+value;
 	}else{
 		alert("开发中，暂不支持此项编辑^_^")
 	}
-	alert(url)
 	$.ajax({
 		url:url,
 		type:"get",
@@ -909,8 +927,8 @@ function openTab(which){
  * 20.设置tab中子tab的切换
  */
 function switchTab(which){
-	var tabs=new Array("basicS","showS","writeS","audioS","backgroundS");
-	for(var i=0;i<5;i++){
+	var tabs=new Array("basicS","showS","writeS","audioS","backgroundS","backgroundM");
+	for(var i=0;i<6;i++){
 		if(i==which){
 			$("#"+tabs[i]).css("color","black");
 		}else{
@@ -1073,7 +1091,10 @@ function switchTab(which){
 			}
 			break;
 		case 4:
-			loadAllBack();
+			loadAllBack(0);//PC端
+			break;
+		case 5:
+			loadAllBack(1);//移动端
 			break;
 		default:
 			break;

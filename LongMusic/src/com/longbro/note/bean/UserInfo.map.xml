@@ -20,16 +20,18 @@
 		<result property="loopPlay" column="u_loop_play" jdbcType="NUMERIC"/>
 		<result property="lastLogin" column="u_recent_login" jdbcType="VARCHAR"/>
 		<result property="back" column="u_default_back" jdbcType="VARCHAR"/>
+		<result property="mback" column="u_mobile_back" jdbcType="VARCHAR"/>
 		<result property="perpageNum" column="u_perpage_num" jdbcType="NUMERIC"/>
 		<result property="blackList" column="u_black_list" jdbcType="VARCHAR"/>
 		<result property="listStyle" column="u_list_style" jdbcType="NUMERIC"/>
+		<result property="dislikeDiary" column="u_dislike_diary" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<insert id="create" parameterType="com.longbro.note.bean.UserInfo">
 		INSERT INTO d_user_info
 		(u_Id,u_User_Name,u_User_Id,u_User_Sex,u_show_wordnum,u_black_namelist,u_Join_Time,u_Status,u_Born_Time,u_Home_Song,u_autoplay_audio,
 		u_recent_login,u_Head_Image,u_Password,
-		u_Location,u_default_back,u_inviter)
+		u_Location,u_default_back,u_inviter,u_mobile_back,u_dislike_diary)
 		VALUES 
 		(#{UId,jdbcType=NUMERIC}, #{UUserName,jdbcType=VARCHAR}, #{UUserId,jdbcType=NUMERIC}, 
 		#{UUserSex,jdbcType=NUMERIC}, #{uShowWordnum,jdbcType=NUMERIC}, 
@@ -38,7 +40,8 @@
 		#{UHomeSong,jdbcType=VARCHAR},#{autoPlay,jdbcType=NUMERIC},
 		#{lastLogin,jdbcType=VARCHAR},#{headImage,jdbcType=VARCHAR},
 		#{password,jdbcType=VARCHAR},
-		#{location,jdbcType=VARCHAR},#{back,jdbcType=VARCHAR},#{inviter,jdbcType=VARCHAR})
+		#{location,jdbcType=VARCHAR},#{back,jdbcType=VARCHAR},#{inviter,jdbcType=VARCHAR},#{mback,jdbcType=VARCHAR},
+		#{dislikeDiary,jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="get" parameterType="java.lang.Integer" resultType="com.longbro.note.bean.Author">
@@ -47,7 +50,7 @@
 		u_Status UStatus,u_Born_Time UBornTime,u_perpage_num perpageNum,u_loop_play loopPlay,
 		u_recent_login lastLogin,u_Head_Image headImage,
 		u_Home_Song UHomeSong,s.songName homeSongName,u_Signature signature,
-		u_autoplay_audio autoPlay,u_Location location,u_default_back back,
+		u_autoplay_audio autoPlay,u_Location location,u_default_back back,u_mobile_back mback,
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=#{UUserId}) likeNum,
 		(SELECT COUNT(1) FROM d_store WHERE s_Storer=#{UUserId}) storeNum,
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=#{UUserId}) praisedNum,
@@ -151,8 +154,15 @@
 				u_list_style=#{listStyle,jdbcType=NUMERIC},
 			</if>
 			<if test="loopPlay != null">
-				u_loop_play=#{loopPlay,jdbcType=NUMERIC}
+				u_loop_play=#{loopPlay,jdbcType=NUMERIC},
 			</if>
+			<if test="mback != null">
+				u_mobile_back=#{mback,jdbcType=VARCHAR},
+			</if>
+			<if test="dislikeDiary != null">
+				u_dislike_diary=#{dislikeDiary,jdbcType=VARCHAR},
+			</if>
+			
 		</set>
 		WHERE
 		u_User_Id=#{UUserId}

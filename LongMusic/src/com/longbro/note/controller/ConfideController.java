@@ -46,7 +46,7 @@ public class ConfideController{
 //    	confide.setWConfideTime(TimeUtil.getToday());
     	confideService.create(confide);
     	result.setCode(200);
-    	result.setMessage("吐露成功");
+    	result.setMessage("倾诉成功");
     	result.setResult(null);
     	return result;
     }

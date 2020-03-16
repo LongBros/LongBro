@@ -6,7 +6,8 @@
  * @param author
  */
 function loadMyLove(which,page,perPage,author){
-	
+	$("#diarys").text('');
+	$(".pages").text('');
 	if(user==""){
 		alert("请先登录，登录后方可查看作者喜欢的日记");
 		login_popup();
@@ -63,7 +64,8 @@ function loadMyLove(which,page,perPage,author){
  * @param author
  */
 function loadMyStore(which,page,perPage,author){
-	
+	$("#diarys").text('');
+	$(".pages").text('');
 	if(user==""){
 		alert("请先登录，登录后方可查看作者收藏的日记");
 		login_popup();
@@ -130,7 +132,8 @@ function loadMyFeet(author){
  * @param author
  */
 function loadMyAtten(which,page,perPage,author){
-	
+	$("#diarys").text('');
+	$(".pages").text('');
 	if(user==""){
 		alert("请先登录，登录后方可查看作者关注的用户");
 		login_popup();
@@ -177,7 +180,8 @@ function loadMyAtten(which,page,perPage,author){
  * 5.加载他的评论
  */
 function loadMyCom(author){
-	
+	$("#diarys").text('');
+	$(".pages").text('');
 	if(user==""){
 		alert("请登录");
 		login_popup();
@@ -214,7 +218,8 @@ function loadMyCom(author){
  * @param author
  */
 function loadMyFans(which,page,perPage,author){
-	
+	$("#diarys").text('');
+	$(".pages").text('');
 	if(user==""){
 		alert("请先登录，登录后方可查看作者的粉丝");
 		login_popup();

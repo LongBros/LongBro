@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.gson.Gson;
 import com.longbro.bean.AlarmUser;
 import com.longbro.house.bean.BaseResult;
+import com.longbro.note.bean.Attention;
 import com.longbro.note.bean.Author;
 import com.longbro.note.bean.UserInfo;
 import com.longbro.note.service.AttentionService;
@@ -40,6 +41,7 @@ import com.longbro.note.service.UserInfoService;
 import com.longbro.service.CommentService;
 import com.longbro.util.Strings;
 import com.longbro.util.TimeUtil;
+
 import common.Logger;
 /**
  * d_user_info控制器
@@ -465,16 +467,25 @@ public class UserInfoController{
     	//随机生成家歌和背景
     	int hs=new Random().nextInt(Strings.id.length);
     	int hi=new Random().nextInt(Strings.backs.length);
+    	int him=new Random().nextInt(Strings.mbacks.length);
     	ui.setHeadImage("dlam1");
     	ui.setUHomeSong(Strings.id[hs]);
     	ui.setAutoPlay(0);
     	ui.setBack(Strings.backs[hi]);
+    	ui.setMback(Strings.mbacks[him]);//2020-03-15
     	//						古诗网      FatLuo   Yigongzi JinYong  MoYan		LuXun	 一只小兔几
     	ui.setBlackNameList("66666666,12345678,15577347,96664270,54343391,88007770,65313340");
     	ui.setUUserSex(0);
     	ui.setUJoinTime(TimeUtil.time());
     	ui.setLastLogin(TimeUtil.time());
     	userInfoService.create(ui);
+    	//注册默认关注官方账号
+    	Attention att=new Attention();
+    	att.setNNoticed("1314521");
+    	att.setNNoticer(doraId);
+    	att.setNNoticeTime(TimeUtil.time());
+    	att.setNReadStatus(0);
+    	attentionService.create(att);
     	
     	//存cookie
 		Cookie cookie=new Cookie("userId", doraId);

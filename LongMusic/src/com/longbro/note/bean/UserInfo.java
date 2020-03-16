@@ -27,6 +27,7 @@ public class UserInfo{
 	private Integer autoPlay;//自动播放带音频日记的音频(0:提示，1:自动播放，2:不播放) 
 	private String lastLogin;//最近登录
 	private String back;//网站背景2019-12-01
+	private String mback;//2020-03-15移动端背景
 	protected Integer perpageNum; //12-21默认每页加载多少篇(0：显示下拉列表，1：显示）
 	private Integer inviter;//12-27	邀请者哆啦id
 	private Integer showWhichTab;//12-27首页默认加载tab(0:推荐，1:关注，2:时间轴)
@@ -35,6 +36,7 @@ public class UserInfo{
 	protected String blackList; //2020-01-28不给看名单
 	protected int listStyle;//2020-01-29日记列表显示样式(默认0:标题+部分内容，1:仅标题)
 	protected int loopPlay;//2020-01-30音频是否循环播放 0:不循环，1:循环
+	protected String dislikeDiary;//2020-03-15不喜欢的日记
 	public Integer getUId() {
 		return this.UId;
 	}
@@ -182,6 +184,13 @@ public class UserInfo{
 	public void setBack(String back) {
 		this.back = back;
 	}
+	
+	public String getMback() {
+		return mback;
+	}
+	public void setMback(String mback) {
+		this.mback = mback;
+	}
 	public Integer getPerpageNum() {
 		return perpageNum;
 	}
@@ -229,6 +238,12 @@ public class UserInfo{
 	}
 	public void setLoopPlay(int loopPlay) {
 		this.loopPlay = loopPlay;
+	}
+	public String getDislikeDiary() {
+		return dislikeDiary;
+	}
+	public void setDislikeDiary(String dislikeDiary) {
+		this.dislikeDiary = dislikeDiary;
 	}
 	
 }

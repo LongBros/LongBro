@@ -221,14 +221,14 @@ function openOther(type,value,au){
 		if(user||au=="0"){
 			window.open("diary.html?"+value, "_blank")
 		}else{
-			alert("当前日记登录方可查看")
+			alert("这是一篇登录可见的日记喔，亲需要登录方可查看")
 			login_popup();
 		}
 	}else if(type==1){
 		if(user){
 			window.open("author.html?"+value, "_blank");
 		}else{
-			alert("登录方可查看用户的信息")
+			alert("亲，登录方可查看作者页的信息")
 			login_popup();	
 		}
 	}

@@ -210,6 +210,9 @@ public class Strings {
 	public static String backs[]={"back0.jpg","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg"
 		,"back0.png","back1.png","back2.png","back3.png","back4.png","back5.png","back6.png","back7.png"
 		,"back0.gif","back1.gif","back2.gif"};
+	public static String mbacks[]={"back1.jpg","back2.jpg","back3.jpg","back4.jpg","back7.jpg"
+		,"back3.png","back4.png","back5.png","back6.png","back7.png","back8.png","back9.png","back10.png","back11.png"
+		,"back2.gif","back4.gif","back5.gif","back6.gif"};
 	/**
 	 * @desc 随机生成n个max以内的正整数
 	 * @author zcl

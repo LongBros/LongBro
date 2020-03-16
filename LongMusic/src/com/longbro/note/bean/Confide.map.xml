@@ -26,6 +26,7 @@
 		LEFT JOIN d_user_info dui on dui.u_User_Id=dpw.w_confider
 		WHERE 
 		dpw.w_confided=#{author}
+		ORDER BY dpw.w_confide_Time desc
 	</select>
 	
 	<select id="query" parameterType="java.util.Map" resultMap="Confide">
