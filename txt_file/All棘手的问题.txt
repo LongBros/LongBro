@@ -1,7 +1,7 @@
 41138119951016421X	18620101642	6217002440004113429
 *************
 
-	
+<br><p style="text-align: right;">摘自《心灵鸡汤正能量励志》</p>
 	
 <Host name="alarm.duola.vip"  appBase="webapps"
             unpackWARs="true" autoDeploy="true">
@@ -25,6 +25,50 @@
 412902197305064278
 
 develop-20191028-risk-3.0
+
+2020-03-13周五
+1. <input name="return_case_type" id="return_case_type" class="mini-radiobuttonlist rxc"  plugins="mini-radiobuttonlist" label="return_case_type" textname="return_case_type_name" length="20" defaultvalue="" from="dic" dickey="TALX" mwidth="0" wunit="px" mheight="0" hunit="px" textfield="name" valuefield="key" />
+原本return_case_type_name存不进数据库，后来在上面代码中加入from="dic" dickey="TALX"后成功存进去
+2.银行放款汇总表`proc_report3_0_business_bank_summary`一直存在的一个bug，
+ 如下，转按的前两个sum应该调至if的外部，组合贷款等其他产品的原本做法就是正确的
+SET @aroundSql = CONCAT('
+SELECT F_LOAN_SUB_BANK,
+
+if(',@sqlIfHfund,',IFNULL(sum(ROUND(',@hfundLoanAmount,'/',@unit,',2)),0),0) aroundHfundLoanAmount,-------------------此句中的sum要放到if外面
+if(',@sqlIfBus,',IFNULL(sum(ROUND(',@busLoanAmount,'/',@unit,',2)),0),0) aroundBusLoanAmount,-------------------此句中的sum要放到if外面
+
+SUM(if(',@sqlIfBus,' or ',@sqlIfHfund,',1,0)) aroundCaseCount
+FROM (',@drSql,@sqlWhereO,') t1 where TYPE_ID_ = 26 group by F_LOAN_BANK,F_LOAN_SUB_BANK');
+
+
+2020-03-12周四
+1.数据字典的数据页面中默认设值时，要用value=，defaultvalue是不生效的，下拉列表适用、单选按钮不适用
+2.是否家庭唯一住房改为“是否业主家庭唯一住房”，多加了两个字导致格式混乱问题~解决办法：调整高度，使用line-height解决两行字间距较大的问题
+
+2020-03-02
+1.数据字典中的证件类型通过执行sql语句添加后，被添加的类型没有在界面中立即显示，而且即使清除缓存后也没显示，这个时候如果不是添加错误，就考虑重启服务器
+2.修改流程节点名称：在act_ge_bytearray表中以blob格式存储
+修改节点名称：
+更新数据库节点名称：
+UPDATE `liangce_loan_bpm`.`bpm_node_jump` set NODE_NAME_='委托确认书' where NODE_NAME_='上数' and ACT_DEF_ID_='anjieyewu:6:2510000021070007';
+UPDATE `liangce_loan_bpm`.`act_hi_taskinst` set name_='委托确认书' where name_='上数' and PROC_DEF_ID_='anjieyewu:6:2510000021070007';
+UPDATE `liangce_loan_bpm`.`act_ru_task` set name_='委托确认书' where name_='上数' and PROC_DEF_ID_='anjieyewu:6:2510000021070007';
+
+UPDATE `liangce_loan_bpm`.`sys_dic` set NAME_='委托确认书' where NAME_='上数';
+UPDATE `liangce_loan_bpm`.`loan_nodetype` set TYPE_NAME_='委托确认书' where TYPE_NAME_='上数';
+UPDATE `liangce_loan_bpm`.`bpm_form_view` set NAME_='委托确认书' where NAME_='上数';
+UPDATE `liangce_loan_bpm`.`bpm_sol_fv` set NODE_TEXT_='委托确认书' where NODE_TEXT_='上数' ;
+UPDATE `liangce_loan_bpm`.`bpm_sol_user` set NODE_NAME_='委托确认书' where NODE_NAME_='上数' AND ACT_DEF_ID_='anjieyewu:6:2510000021070007';
+
+
+2020-02-09
+因破解过idea导致idea的激活码无法使用。通过撤销原破解效果使其可以再次使用
+撤销方法：将C:\Users\pc\.IntelliJIdea2018.3\config路径下的  idea64.exe.vmoptions中对jar文件的调用去掉（D盘中也有，最好也去掉）
+
+2020-01-21
+使用find_in_set与使用or
+WHERE  F_STATUS = "2" or F_STATUS = "3" or F_STATUS = "4"  AND F_IS_PRIMARY = "1"  
+与find_in_set(F_STATUS,"2,3,4") AND F_IS_PRIMARY = "1"  
 
 2019-12-18
 getDetail接口问题(65正常，线上出问题)

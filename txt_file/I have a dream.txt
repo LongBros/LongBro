@@ -4,6 +4,18 @@ db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&charac
 db.username=mysqlrd
 db.password=123456
 
+根据key去sys_tree表查询typeId，再根据typeId去sys_dic表查询对应的字典
+
+miniUI的grid中的列使用renderer属性举例：
+<div field="formatTime" width="100" headerAlign="center" align="center" renderer="formatTime">操作时间</div>
+
+2020-03-11
+将checkAmount函数由各表单移至bpmTaskToStart.jsp，避免多表单重复写，修改时都要修改
+
+淘宝					微信
+
+小半一个				王勃号
+爸的tb51823112			我的号
 
 1.消息设置、添加系统通知
 2.写日记或评论时可@
@@ -16,10 +28,15 @@ cp -rf LongMusic $(date +%Y%m%d_%H%M%S)
 #db.username=root
 #db.password=123456
 
-
+测试数据
 统计表机构
 2530000022937712
 
+广州按揭：2510000009694995
+
+线上数据
+农行ID：2510000009745468
+交通ID：2520000009941106
 
 有一个访问者必执行的方法，只要访问本站无论哪里均会执行，
 如何判断某用户今日访问了？写一个方法，该方法将访问者cookie带入后端，若某人某天访问过了，则将其连续访问天数加1.若某天中断访问（到第二天了还没访问），则连续访问清零

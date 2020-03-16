@@ -16,7 +16,7 @@ import java.util.List;
 * @author:huasi_lin
 * @date:2018年3月22日上午9:51:28
  */
-public class patchPagUtil {
+public class PatchPagUtilHome {
 
     public static String patchFile="C:/Users/Administrator/Desktop/packet/2020-01-051.txt";//补丁文件
       
