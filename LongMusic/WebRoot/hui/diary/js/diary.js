@@ -75,7 +75,8 @@ function loadDiary(id){
 //					$("#diary").append("<span style='float:right;margin-right:28px;'>文章于<font color='red'>"+updTime+"</font>被更新</span><br>");
 //				}
 				
-				$("#diary").append("<br>&emsp;&emsp;&emsp;<span>本文链接：<font color='blue'>"+document.URL+"</font>，全文"+data.wordSize+"字符，主人公：<a href='author.html?author="+author+"' style='color:red'>"+data.userName+"</a>，如需分享请注明出处，谢谢喜欢！</span><br>");
+				$("#diary").append("<br>&emsp;&emsp;&emsp;<span>本文链接：<font color='blue'>"+document.URL+"</font>，全文"+data.wordSize+"字符，主人公：<a href='author.html?author="+author+"' style='color:red'>"+data.userName+"</a>");
+				$("#diary").append("<br>&emsp;&emsp;&emsp;如需分享请注明出处，谢谢喜欢！</span><br>");
 
 				if(data.nallowComment==1){//不允许评论
 					$("#comment").text("");
