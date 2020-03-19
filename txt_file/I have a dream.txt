@@ -5,7 +5,6 @@ db.username=mysqlrd
 db.password=123456
 <br><p style="text-align: right;">摘自《深响》</p>
 
-<<<<<<< HEAD
 根据key去sys_tree表查询typeId，再根据typeId去sys_dic表查询对应的字典
 
 miniUI的grid中的列使用renderer属性举例：
@@ -18,7 +17,7 @@ miniUI的grid中的列使用renderer属性举例：
 
 小半一个				王勃号
 爸的tb51823112			我的号
-=======
+
 tadmin@gzaj.com lc1q2w3e
 
 #D92E2E;
