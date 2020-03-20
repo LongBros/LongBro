@@ -24,7 +24,9 @@ import com.longbro.util.DownloadUtil;
 import com.longbro.util.TimeUtil;
 /**
  * 1.添加歌曲2.分页查询歌曲3.关键词搜索歌曲4.根据歌手搜索歌曲5.根据id搜索歌曲
- * 9.查询今日、昨日、本周、本月、一日内、一周内、一月内……录入歌曲的数量
+ * 6.强力搜索功能-根据关键词同时搜索歌曲名、歌手、歌词~分别使用三条sql查询 7.根据id搜索歌曲 8.编辑歌曲 9.根据播放列表中的id批量查询歌曲 10.查询热播榜
+ * 11.查询今日、昨日、本周、本月、一日内、一周内、一月内……录入歌曲的数量 12.查询所有的歌手 13.根据资源id得到资源信息
+ * 14.强力搜索功能2-根据关键词同时搜索歌曲名、歌手、歌词~合并为一条sql查询
  * @author 赵成龙
  * @website www.longqcloud.cn & www.zy52113.com
  * @date 2019年5月4日 上午3:24:57
@@ -113,7 +115,6 @@ public class SongController {
 	 * @param response
 	 * @return
 	 */
-	
 	@RequestMapping (value="querySongs",method=RequestMethod.GET)
 	@ResponseBody
 	public List<Song> querySongs(HttpServletRequest request,HttpServletResponse response)
@@ -154,8 +155,7 @@ public class SongController {
 		return list;
 	}
 	/**
-	 * 6.强力搜索功能-根据关键词同时搜索歌曲名、歌手、歌词~分别使用三条sql查询
-	 * @desc 
+	 * @desc 6.强力搜索功能-根据关键词同时搜索歌曲名、歌手、歌词~分别使用三条sql查询
 	 * @author zcl
 	 * @date 2019年8月5日
 	 * @param request

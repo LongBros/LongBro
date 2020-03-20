@@ -55,7 +55,7 @@ public class DownloadUtil {
 
 	}
 	/**
-	 *下载单首mp3歌曲
+	 *1.下载单首mp3歌曲
 	 * @desc 下载歌曲文件较大时，不能像下载单词发音那样，而要使用逐字节下载
 	 * @author zcl
 	 * @date 2019年5月1日
@@ -111,7 +111,7 @@ public class DownloadUtil {
 		
 	}
 	/**
-	 * 把路径为fPath的文件复制到
+	 * 2.把路径为fPath的文件复制到
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年7月25日
@@ -135,7 +135,7 @@ public class DownloadUtil {
 	}
 	/**
 	 * 
-	 * @desc 
+	 * @desc 3.爬取歌词
 	 * @author zcl
 	 * @date 2019年4月23日
 	 * @param id	歌曲id
@@ -167,7 +167,7 @@ public class DownloadUtil {
 	}
 	/**
 	 * 
-	 * @desc 
+	 * @desc 4.歌词写入文件
 	 * @author zcl
 	 * @date 2019年4月7日
 	 * @param lyric 歌词

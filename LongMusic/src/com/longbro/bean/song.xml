@@ -103,10 +103,46 @@
 	<select id="queryAllSinger" resultType="java.util.HashMap">
 		SELECT DISTINCT singer FROM song;
 	</select>
-	
+	<!-- 2020-03-20修改接口 -->
 	<select id="strongQuerySongs" resultType="java.util.HashMap">
-		SELECT *,1 AS match_type FROM song WHERE songName like concat ('%',#{_parameter},'%')
+		<!-- 终极版 既可以去重，又可以得到更详细的匹配的类型 -->
+		SELECT *,
+		CASE 
+		WHEN songName like concat ('%',#{_parameter},'%') AND singer like concat ('%',#{_parameter},'%') 
+			 AND lyric like concat ('%',#{_parameter},'%') THEN 1 <!--歌名、歌手、歌词中均含有-->
+		WHEN songName like concat ('%',#{_parameter},'%') AND singer like concat ('%',#{_parameter},'%') THEN 2 <!--歌名、歌手含有-->
+		WHEN songName like concat ('%',#{_parameter},'%') AND lyric like concat ('%',#{_parameter},'%') THEN 3 <!--歌名、歌词含有-->
+		WHEN singer like concat ('%',#{_parameter},'%') AND lyric like concat ('%',#{_parameter},'%') THEN 4 <!--歌名、歌词含有-->
+		
+		WHEN songName like concat ('%',#{_parameter},'%') then 5 <!--歌名含有-->
+		WHEN singer like concat ('%',#{_parameter},'%') then 6 <!--歌手含有-->
+		WHEN lyric like concat ('%',#{_parameter},'%') then 7 <!--歌词含有-->
+		ELSE 0 <!--均不含有-->
+		END match_type
+		 FROM song WHERE (songName like concat ('%',#{_parameter},'%')) or (singer like concat ('%',#{_parameter},'%')) or (lyric like concat ('%',#{_parameter},'%') )
+				
+		<!-- 最终版 既可以去重，又可以得到匹配的类型 -->
+		SELECT *,
+		CASE 
+		WHEN songName like concat ('%',#{_parameter},'%') then 1
+		WHEN singer like concat ('%',#{_parameter},'%') then 2
+		WHEN lyric like concat ('%',#{_parameter},'%') then 3
+		ELSE 0
+		END match_type
+		 FROM song 
+		 WHERE (songName like concat ('%',#{_parameter},'%')) 
+		 or (singer like concat ('%',#{_parameter},'%')) 
+		 or (lyric like concat ('%',#{_parameter},'%'));
+		<!-- 使用distinct既可以去重，但不可以得到匹配的类型 -->
+		<!-- SELECT DISTINCT(id),sourceId,songName,singer,duration,album,imgPath,releaseTime,website,descr,
+				inputTime,lyric,playNum1,sortNum,playNum,status,use_time,can_play FROM(
+			SELECT *,1 AS match_type FROM song WHERE songName like concat ('%',#{_parameter},'%')
+			UNION SELECT *,2 AS match_type FROM song WHERE singer like concat ('%',#{_parameter},'%')
+			UNION SELECT *,3 AS match_type FROM song WHERE lyric like concat ('%',#{_parameter},'%') 
+		) song; -->
+		<!-- 原本的sql，可以得到匹配的类型，但不能去重 -->
+		<!-- SELECT *,1 AS match_type FROM song WHERE songName like concat ('%',#{_parameter},'%')
 		UNION SELECT *,2 AS match_type FROM song WHERE singer like concat ('%',#{_parameter},'%')
-		UNION SELECT *,3 AS match_type FROM song WHERE lyric like concat ('%',#{_parameter},'%') ;
+		UNION SELECT *,3 AS match_type FROM song WHERE lyric like concat ('%',#{_parameter},'%') ; -->
 	</select>
 </mapper>

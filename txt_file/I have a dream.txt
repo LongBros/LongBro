@@ -3,7 +3,7 @@ ZCL19952019.
 db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
 db.username=mysqlrd
 db.password=123456
-<br><p style="text-align: right;">摘自《深响》</p>
+<br><p style="text-align: right;">摘自《 资本深探》</p>
 
 根据key去sys_tree表查询typeId，再根据typeId去sys_dic表查询对应的字典
 
@@ -22,10 +22,21 @@ tadmin@gzaj.com lc1q2w3e
 
 #D92E2E;
 
+2020-03-19
+1.将553Music已录的未下载的歌曲下载下来
+2.处理我的喜欢和喜欢我的中的喜欢的评论也显示的问题
+3.添加家园功能，用户之间可以邀请组建家园
+4.添加记录修改记录的功能，记录用户个人信息的修改记录
+5.可上传图片日记
+6.聆听模块的设计，可实现单音频跨网页收听，多个音频可以有播放列表，可上一曲下一曲
+7.实现不给看他，当前日记设置权限，当前用户不喜欢的日记
+8.学习公司系统登录界面的设计
+9.手机端“他的墙”的设计
+
 2020-01-20
 1.仿照souler的隐身助手，发布者可隐身，其实就跟QQ的那个发秘密差不多
 2.souler有一个不好的地方是，楼主回复评论者评论后，这条回复不是直接在评论下面
->>>>>>> 23f48a032d5e3e044eddb585f938374895e37d4f
+
 
 1.消息设置、添加系统通知
 2.写日记或评论时可@
