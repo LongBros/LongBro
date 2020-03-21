@@ -49,7 +49,7 @@
 		u_show_wordnum uShowWordnum,u_Join_Time UJoinTime,u_list_style listStyle,
 		u_Status UStatus,u_Born_Time UBornTime,u_perpage_num perpageNum,u_loop_play loopPlay,
 		u_recent_login lastLogin,u_Head_Image headImage,
-		u_Home_Song UHomeSong,s.songName homeSongName,u_Signature signature,
+		u_Home_Song UHomeSong,CONCAT(s.songName,'-',s.singer) homeSongName,u_Signature signature,
 		u_autoplay_audio autoPlay,u_Location location,u_default_back back,u_mobile_back mback,
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praiser=#{UUserId}) likeNum,
 		(SELECT COUNT(1) FROM d_store WHERE s_Storer=#{UUserId}) storeNum,

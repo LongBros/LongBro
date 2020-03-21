@@ -479,6 +479,8 @@ function playAudio(sid){
 		url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
 	}else if(sid.substring(sid.length-3)==".kw"){
 		url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
+	}else if(sid.substring(sid.length-4)==".553"){
+		url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
 	}else if(sid.substring(sid.length-4)==".aac"||sid.substring(sid.length-4)==".m4a"||sid.substring(sid.length-4)==".mp3"){
 		url=sid;
 	}else{

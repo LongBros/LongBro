@@ -38,7 +38,9 @@
 	<select id="queryAllSongs"  resultType="com.longbro.bean.Song">
 		select 
 		*
-		from song order by sortNum desc limit #{start},50;
+		from song 
+		where can_play=1
+		order by sortNum desc limit #{start},50;
 	</select>
 	<select id="querySongById"  resultType="com.longbro.bean.Song">
 		select

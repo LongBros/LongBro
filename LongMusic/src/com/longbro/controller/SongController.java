@@ -99,7 +99,7 @@ public class SongController {
 	@RequestMapping (value="queryAllSongs",method=RequestMethod.GET)
 	@ResponseBody
 	public List<Song> queryAllSongs(HttpServletRequest request,HttpServletResponse response)
-	{		
+	{
 		System.out.println(getClassName()+".queryAllSongs:"+request.getParameter("page"));
 		List<Song> list=service.queryAllSongs(Integer.parseInt(request.getParameter("page")));
 		return list;

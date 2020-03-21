@@ -76,7 +76,7 @@ public class UserInfoController{
     	BaseResult<String> result=new BaseResult<String>();
     	if(UUserId<1000000){
     		result.setCode(100);
-    		result.setMessage("哆啦id不正确");
+    		result.setMessage("哆啦id不正确!!!");
     		return result;
     	}
     	Author au=userInfoService.get(UUserId);

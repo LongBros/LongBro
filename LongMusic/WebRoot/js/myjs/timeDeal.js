@@ -133,3 +133,64 @@ function getTime(time) {//根据秒换算为分和秒
     }
     return min+":"+sec;
 }
+//9.根据时间获取相对于当前时间的 2020-03-08 23:16:11
+function handleTime(time){
+	var stime=time+"";
+	
+	if(stime.length>19){//含有星期
+		stime=stime.substring(0,19);
+	}
+	stime = stime.replace(/-/g,'/');
+	var date=new Date(stime);
+
+	//转化为时间戳
+	var launchTime=date.getTime();//发布时间
+	var nowTime=new Date().getTime();//当前时间
+	if(launchTime>nowTime){
+		return time;
+	}else{
+		//时间差
+		var t=convertTo1(parseInt((nowTime-launchTime)/1000));
+		return t;
+	}
+}
+//10.秒轉換為相對於當前時間的格式  1h=3600
+function convertTo(time){
+	if(time>0&&time<60){
+		return time+"秒前";
+	}else if(time>=60&&time<=3600){
+		if(time%60==0){
+			return parseInt(time/60)+"分钟前";
+		}else{
+			return parseInt(time/60)+"分钟"+parseInt(time%60)+"秒前";
+		}
+	}else if(time>3600&time<=60*60*24){//1~24h
+		return parseInt(time/3600)+"小时"+parseInt(parseInt(time%3600)/60)+"分钟前";
+	}else if(time>(60*60*24)&&time<=(60*60*24*7)){//1~7天
+		return parseInt(time/(60*60*24))+"天"+(parseInt(parseInt(time%(60*60*24))/3600))+"小时前";
+		//return parseInt(time/(60*60*24))+"天前";
+	}else if(time>(60*60*24*7)&&time<=(60*60*24*31)){//1周~1月
+		return parseInt(time/(60*60*24*7))+"周前";
+	}else if(time>(60*60*24*31)&&time<=(60*60*24*31*12)){//1月~12月
+		return parseInt(time/(60*60*24*31))+"月前";
+	}else if(time>(60*60*24*31*12)){
+		return parseInt(time/(60*60*24*31*12))+"年前";
+	}
+}
+//11.第二種 秒轉換為相對於當前時間的格式  1h=3600
+function convertTo1(time){
+	if(time>0&&time<60){
+		return time+"秒前";
+	}else if(time>=60&&time<=3600){
+		if(time%60==0){
+			return parseInt(time/60)+"分钟前";
+		}else{
+			return parseInt(time/60)+"分钟"+parseInt(time%60)+"秒前";
+		}
+	}else if(time>3600&time<=60*60*24){//1~24h
+		return parseInt(time/3600)+"小时"+parseInt(parseInt(time%3600)/60)+"分钟前";
+	}else if(time>(60*60*24)&&time<=(60*60*24*3365)){//1~3365天
+		return parseInt(time/(60*60*24))+"天"+(parseInt(parseInt(time%(60*60*24))/3600))+"小时前";
+		//return parseInt(time/(60*60*24))+"天前";
+	}
+}

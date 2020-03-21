@@ -561,8 +561,9 @@ function loadConfide(){
 				if(data[k].headImg){
 					img=data[k].headImg;
 				}
+				var confideTime=handleTime(data[k].confideTime);
 				$('#comments').append("<img src='image/tx/"+img+".jpg'>");
-				$('#comments').append(href+"&nbsp;&nbsp;<span style='color:gray;font-size:10px;float:right;margin-right:20px'>"+data[k].confideTime+"</span>");
+				$('#comments').append(href+"&nbsp;&nbsp;<span style='color:gray;font-size:10px;float:right;margin-right:20px'>"+confideTime+"</span>");
 				$('#comments').append("<br><div class='content1'>"+con+"</div>");
 				
 				l--;

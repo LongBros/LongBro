@@ -411,8 +411,9 @@ function loadCom(){
 				if(data[k].headImg){
 					img=data[k].headImg;
 				}
+				var reviewTime=handleTime(data[k].reviewTime);
 				$('#comments').append("<img src='image/tx/"+img+".jpg'>");
-				$('#comments').append(href+"&nbsp;&nbsp;<span style='color:gray;font-size:10px;float:right;margin-right:20px'>"+data[k].reviewTime+"</span>");
+				$('#comments').append(href+"&nbsp;&nbsp;<span style='color:gray;font-size:10px;float:right;margin-right:20px'>"+reviewTime+"</span>");
 				$('#comments').append("<br><div class='content1'>"+con+"</div>");
 				
 				
@@ -712,7 +713,8 @@ function loadAllReply(cId){
 			if(data.length>0){
 				$('#comments').append("&emsp;&emsp;<font color='red'>"+data.length+"</font>条回复");
 				for(var i=0;i<data.length;i++){
-					$('#comments').append("<br>&emsp;&emsp;&emsp;<img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].replyer+"' target='_blank'>"+data[i].replyerName+"</a>&emsp;"+data[i].content+"&emsp;<span style='color:gray;font-size:10px;float:right;margin-right:20px'>"+data[i].time+"</span>");
+					var replyTime=handleTime(data[i].time);
+					$('#comments').append("<br>&emsp;&emsp;&emsp;<img src='image/tx/"+data[i].headImg+".jpg'><a href='author.html?author="+data[i].replyer+"' target='_blank'>"+data[i].replyerName+"</a>&emsp;"+data[i].content+"&emsp;<span style='color:gray;font-size:10px;float:right;margin-right:20px'>"+replyTime+"</span>");
 				}
 			}
 		}
