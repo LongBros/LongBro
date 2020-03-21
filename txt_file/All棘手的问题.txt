@@ -11,7 +11,7 @@
 	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/current/index0.jsp" reloadable="true"/> 
       </Host>
 	  
-	  
+
 	  
 	  
 	   <Host name="localhost"  appBase="webapps"
@@ -24,14 +24,11 @@
 
 SELECT VERSION();用于获取当前 Mysql 的版本。
 
-2020-01-25
-1.另一种方法实现文件上传：MultipartFile，多个文件时定义数组
-2.不定义id实现css设置submit格式，.rights form input[type=submit]{
-3.REST风格的网站url
+2020-03-19
+1.MINI的input的textfield属性的值应表示要显示在下拉列表的选项，valuefield表示下拉列表选项对应的value
 
-412902197305064278
-
-develop-20191028-risk-3.0
+2.给全职赋予了导出权限后，他的对应报表的导出按钮还是置灰状态解决办法：
+需要先通过sadmin在‘机构类型’那里给按揭公司-良策网络机构赋予权限，然后再登录良策网络机构账号给全职分配权限
 
 2020-03-13周五
 1. <input name="return_case_type" id="return_case_type" class="mini-radiobuttonlist rxc"  plugins="mini-radiobuttonlist" label="return_case_type" textname="return_case_type_name" length="20" defaultvalue="" from="dic" dickey="TALX" mwidth="0" wunit="px" mheight="0" hunit="px" textfield="name" valuefield="key" />
@@ -76,6 +73,13 @@ UPDATE `liangce_loan_bpm`.`bpm_sol_user` set NODE_NAME_='委托确认书' where NODE_
 使用find_in_set与使用or
 WHERE  F_STATUS = "2" or F_STATUS = "3" or F_STATUS = "4"  AND F_IS_PRIMARY = "1"  
 与find_in_set(F_STATUS,"2,3,4") AND F_IS_PRIMARY = "1"  
+
+2020-01-25
+1.另一种方法实现文件上传：MultipartFile，多个文件时定义数组
+2.不定义id实现css设置submit格式，.rights form input[type=submit]{
+3.REST风格的网站url
+
+412902197305064278
 
 2019-12-18
 getDetail接口问题(65正常，线上出问题)
@@ -215,11 +219,7 @@ IDEA快捷键：
 2.双击Enter可唤起文件查找窗口
 3.Ctrl+Z撤销，Ctrl+Shift+Z取消撤销
 
-四期优化项：9,10,11，13,18,19，30，31，34
 
-涉及前端新版界面：2,3,17,20,24，27
-取消优化的：5,8,15,16
-涉及流程的：6,25,29，33
 2019-10-23
 签件界面选择组合贷款时出现rollback错误
 
@@ -228,8 +228,7 @@ eclipse或Myeclipse中web项目没有run on server
 刷新web项目，在项目->右击->Properties->Project Facets->Modify Project，选择Java和Dynamic Web Module。点击ok关闭。
 
 
-alc20191017		MyEclipse
-alc201910171	Intell idea
+
 
 解决tomcat控制台乱码问题
 

@@ -12,6 +12,7 @@ public class Author extends UserInfo{
 	private String blackNames;//blackNameList是黑名单id，这个是黑名单用户名
 	private int diaryDayNum;//12-15新增总写日记天数
 	private String blacks;//2020-01-28不给看名单昵称
+	private int diaryNum;//2020-03-17日记数量
 	public int getNoticeNum() {
 		return noticeNum;
 	}
@@ -77,6 +78,12 @@ public class Author extends UserInfo{
 	}
 	public void setBlacks(String blacks) {
 		this.blacks = blacks;
+	}
+	public int getDiaryNum() {
+		return diaryNum;
+	}
+	public void setDiaryNum(int diaryNum) {
+		this.diaryNum = diaryNum;
 	}
 	
 }

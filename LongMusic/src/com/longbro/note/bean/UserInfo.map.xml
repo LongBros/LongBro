@@ -65,7 +65,8 @@
 		(SELECT GROUP_CONCAT(u_User_Id) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_list)) blackList,
 		(SELECT GROUP_CONCAT(u_User_Name) FROM d_user_info WHERE FIND_IN_SET(u_User_Id,dui.u_black_list)) blacks,
 		
-		(SELECT COUNT(DISTINCT LEFT(n_Time,10)) FROM d_diary WHERE n_Writter=#{UUserId}) diaryDayNum
+		(SELECT COUNT(DISTINCT LEFT(n_Time,10)) FROM d_diary WHERE n_Writter=#{UUserId}) diaryDayNum,
+		(SELECT COUNT(1) FROM d_diary WHERE n_Writter=#{UUserId}) diaryNum
 		FROM d_user_info dui
 		LEFT JOIN song s ON dui.u_Home_Song=s.sourceId
 		WHERE 
@@ -176,8 +177,8 @@
 	<select id="loginNote"  resultMap="UserInfo">
 		select * from d_user_info where u_User_Id=#{acc} and u_Password=#{pass};
 	</select>
-	<!-- 查询某用户或所有用户的未读 -->
-	<select id="queryUnReadNum" resultType="java.util.HashMap">
+	
+	<select id="queryUnReadNum" resultType="java.util.HashMap"><!-- 查询某用户或所有用户的未读 -->
 		SELECT d.u_User_Id,d.u_User_Name,
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=d.u_User_Id AND p_Read_Status=0) praiseNum,
 		(SELECT COUNT(1) FROM d_comment WHERE c_Reviewed=d.u_User_Id AND c_Read_Status=0) comNum,
@@ -190,8 +191,8 @@
 		</if>
 		;
 	</select>
-	<!-- 查询某用户或所有用户的互动信息：赞、评论、收藏、关注,被赞、被评论、被收藏、被关注 -->
-	<select id="queryInteractNum" resultType="java.util.HashMap">
+	
+	<select id="queryInteractNum" resultType="java.util.HashMap"><!-- 查询某用户或所有用户的互动信息：赞、评论、收藏、关注,被赞、被评论、被收藏、被关注 -->
 		SELECT d.u_User_Id,d.u_User_Name,
 		(SELECT COUNT(1) FROM d_praise WHERE p_Praised=d.u_User_Id) praisedNum,
 		(SELECT COUNT(1) FROM d_comment WHERE c_Reviewed=d.u_User_Id) comedNum,
