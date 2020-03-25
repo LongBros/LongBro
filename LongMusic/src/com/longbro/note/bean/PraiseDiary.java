@@ -5,7 +5,7 @@ package com.longbro.note.bean;
  * 作者：longbro
  * 邮箱: 1459892910@qq.com
  * 日期:2019-10-25 21:51:50
- * 版权：多啦学娱网络科技有限公司
+ * 版权：哆啦学娱网络科技有限公司www.duola.vip
  * </pre>
  */
 public class PraiseDiary{

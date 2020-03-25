@@ -5,7 +5,7 @@ package com.longbro.note.bean;
  * 作者：longbro
  * 邮箱: 1459892910@qq.com
  * 日期:2019-12-31 23:03:47
- * 版权：多啦学娱网络科技有限公司
+ * 版权：哆啦学娱网络科技有限公司www.duola.vip
  * </pre>
  */
 public class Call{
