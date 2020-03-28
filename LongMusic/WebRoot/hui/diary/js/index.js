@@ -806,3 +806,49 @@ function changeMode(){
 	p.setAttribute("loop", "loop");
 //	alert("已切换为循环播放")
 }
+//.底部栏功能切换
+function tabOnItem(which){
+	if(which=="0"){//每日一句
+		window.open("/LongBlog/msgboard.jsp", "_blank");
+	}else if(which=="1"){//用户使用指南
+		window.open("https://support.qq.com/products/136712/team/","_blank");
+	}else if(which=="2"){//赞赏支持
+		var si=document.getElementById("sponsorImage").style.display;
+		if(si=="none"){
+			document.getElementById("sponsorImage").style.display="inline-block";
+			document.getElementById("sponsor").style.color="red";
+		}else{
+			document.getElementById("sponsorImage").style.display="none";
+			document.getElementById("sponsor").style.color="black";
+		}
+	}else if(which=="3"){//联系作者
+		window.open("https://support.qq.com/products/136712","_blank");
+	}else if(which=="4"){//赞助记录
+		window.open("/LongBlog/sponsor/showSponsor.jsp","_blank");
+	}
+}
+//.支付宝、微信、QQ收款码切换
+function switchImg(which) {
+	if(which=="pay"){
+		document.getElementById("paypal").style.display="inline-block";
+		document.getElementById("wechat").style.display="none";
+		document.getElementById("qq").style.display="none";
+		document.getElementById("payBtn").style.color="red";
+		document.getElementById("weBtn").style.color="black";
+		document.getElementById("qqBtn").style.color="black";
+	}else if(which=="we"){
+		document.getElementById("wechat").style.display="inline-block";
+		document.getElementById("paypal").style.display="none";
+		document.getElementById("qq").style.display="none";
+		document.getElementById("payBtn").style.color="black";
+		document.getElementById("weBtn").style.color="red";
+		document.getElementById("qqBtn").style.color="black";
+	}else{
+		document.getElementById("paypal").style.display="none";
+		document.getElementById("wechat").style.display="none";
+		document.getElementById("qq").style.display="inline-block";
+		document.getElementById("payBtn").style.color="black";
+		document.getElementById("weBtn").style.color="black";
+		document.getElementById("qqBtn").style.color="red";
+	}
+}

@@ -1,112 +1,114 @@
 .contents{
-		width: 55%;
-		margin-left: 420px;
-		margin-top: 30px;
-		background:white ;
-	}
-	.tabs{
-		padding-top: 10px;
-		cursor:pointer;
-	}
-	.tabs span{
-		padding-left: 66px;
-	}
-	.diarys{
-	}
+	width: 55%;
+	margin-left: 420px;
+	margin-top: 15px;
+	margin-bottom:50px;
+	background:white ;
+}
+.tabs{
+	padding-top: 10px;
+	cursor:pointer;
+}
+.tabs span{
+	padding-left: 66px;
+}
+.diarys{
+}
+
+.diary{
+	padding: 10px;
+	background-color: white;
+	padding-bottom: 5px;
+	cursor: pointer;
+}
+.diary a{
 	
-	.diary{
-		padding: 10px;
-		background-color: white;
-		padding-bottom: 5px;
-		cursor: pointer;
-	}
-	.diary a{
-		
-	}
-	.diary a:hover{
-		text-decoration: none;
-	}
-	.diary img{
-		width: 20px;
-		height: 24px;
-		padding: 1px;
-	}
-	.diarys .touxiang{
-		width: 50px;
-		height: 44px;
-		padding: 1px;
-		border-radius:5px;
-	}
-	.rights{
-		top: 75px;
-		left:38px;
-		width:356px;
-		position:fixed;
-		float: right;
-		background:white;
-		overflow: scroll;
-	}
-	.rights::-webkit-scrollbar {
-    	display: none;
-	}
-	.website{
-		margin-left: 10px;
-	}
-	.statistic{
-		margin-left: 10px;
-	}
-	.alluser{
-		margin-left: 10px;
-		margin-bottom: 20px;
-		margin-top: 10px;
-		cursor: pointer;
-		overflow: auto;
-		height:280px;
-	}
-	.alluser img{
-		width: 30px;
-		height: 34px;
-		margin-right: 5px;
-	}
-	.alluser .user{
-		margin-top: 3px;
-		margin-bottom: 3px;
-	}
-	.info{
-		color: gray;
-		font-size: 10px;
-	}
-	.zan{
-		float:right;
-		margin-right: 15px;
-	}
-	.pages{
-		vertical-align: middle;
-		text-align: center;
-		padding-top: 20px;
-		padding-bottom: 20px;
-	}
-	.pages span{
-		width:30px;
-		height:30px;
-		text-align:center;
-		line-height:30px;
-		display:inline-block;
-		background-color:#e2e2e2; 
-	}
-	/*顶部横幅及小喇叭*/
-	.banner{
-		height: 20px;
-		margin-top:20px;
-		margin-left:10px; 
-		color: blue;
-	}
-	/*小喇叭图片*/
-	.banner img{
-		width: 18px;
-		height: 18px;
-	}
-	/*小喇叭广播文本*/
-	.banner span{
-		color: red;
-	}
+}
+.diary a:hover{
+	text-decoration: none;
+}
+.diary img{
+	width: 20px;
+	height: 24px;
+	padding: 1px;
+}
+.diarys .touxiang{
+	width: 50px;
+	height: 44px;
+	padding: 1px;
+	border-radius:5px;
+}
+.rights{
+	top: 60px;
+	left:38px;
+	width:356px;
+	margin-bottom:55px;
+	position:fixed;
+	float: right;
+	background:white;
+	overflow: scroll;
+}
+.rights::-webkit-scrollbar {
+   	display: none;
+}
+.website{
+	margin-left: 10px;
+}
+.statistic{
+	margin-left: 10px;
+}
+.alluser{
+	margin-left: 10px;
+	margin-bottom: 20px;
+	margin-top: 10px;
+	cursor: pointer;
+	overflow: auto;
+	height:280px;
+}
+.alluser img{
+	width: 30px;
+	height: 34px;
+	margin-right: 5px;
+}
+.alluser .user{
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+.info{
+	color: gray;
+	font-size: 10px;
+}
+.zan{
+	float:right;
+	margin-right: 15px;
+}
+.pages{
+	vertical-align: middle;
+	text-align: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.pages span{
+	width:30px;
+	height:30px;
+	text-align:center;
+	line-height:30px;
+	display:inline-block;
+	background-color:#e2e2e2; 
+}
+/*顶部横幅及小喇叭*/
+.banner{
+	height: 20px;
+	margin-top:20px;
+	margin-left:10px; 
+	color: blue;
+}
+/*小喇叭图片*/
+.banner img{
+	width: 18px;
+	height: 18px;
+}
+/*小喇叭广播文本*/
+.banner span{
+	color: red;
+}

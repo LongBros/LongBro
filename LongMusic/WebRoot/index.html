@@ -27,6 +27,7 @@
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="hui/diary/js/index.js"></script>
 	<script type="text/javascript" src="hui/diary/js/index1.js"></script>
+	<script type="text/javascript" src="js/myjs/timeDeal.js"></script><!-- 时间处理函数 -->
 	<!--[if IE 6]>
 	<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 	<script>DD_belatedPNG.fix('*');</script>
@@ -47,6 +48,7 @@
 							<li><a href="javascript:;" id="myHome" style="display:none" onClick="openNewPage('2')">我的家园</a></li>
 							<li><a href="javascript:;" id="write" style="display:none" onClick="openNewPage('3')">写日记</a></li>
 							<li><a href="javascript:;" id="exit" style="display:none" onClick="openNewPage('6')">退出</a></li>
+							<li><a href="https://support.qq.com/products/136712" target="_blank">留言板</a></li>
 							<li><a class="login" id="login" style="display:block">登录</a></li>
 						</ul>
 					</li>
@@ -177,14 +179,36 @@
 				<a href="https://www.autopiano.cn/" target="_blank">自由钢琴</a>&emsp;
 				<a href="http://blog.duola.vip/msgboard.jsp" target="_blank">每日一句</a>&emsp;
 				<a href="http://47.111.255.86:8090/" target="_blank">一颗新鲜大韭菜</a>
-				<br><center><a href="http://www.beian.miit.gov.cn/" target="_blank">豫ICP备19043404号</a></center>
-
+<!-- 				<br><center><a href="http://www.beian.miit.gov.cn/" target="_blank">豫ICP备19043404号</a></center>
+ -->
 			</div>
 		</div>
 		<audio id="audio" src="" autoplay="autoplay" controls="controls" style="float: left;margin-left: 20px;margin-top: 10px;display:none"></audio>
 	</div>
 	<div class="toTop">
 		<a href="#" title="点我回顶部喔">^^</a>
+	</div>
+	<div id="sponsorImage" style="display:none;background:#009688;width:200px;bottom:50px;height:240px;position:fixed;cursor: pointer;">
+		
+		<img id="paypal" alt="" style="margin-left: 20px;display:inline-block" src="image/picture/paypal.jpg" width="160px" height="219px">
+    	<img id="wechat" alt="" style="margin-left: 20px;display: none" src="image/picture/wechat.jpg" width="160px" height="219px">
+    	<img id="qq" alt="" style="margin-left: 20px;display: none" src="image/picture/qq.jpg" width="160px" height="219px">
+    	<div style="background-color: pink;padding-bottom: 8px;padding-top: 4px;">
+			<span id="payBtn" style="float: left;margin-left: 20px;color:red" onclick="switchImg('pay')">支付宝</span>&emsp;
+			<span id="weBtn" style="float: center;margin-left: 17px;margin-right: 20px" onclick="switchImg('we')">微信</span>&emsp;
+			<span id="qqBtn" style="float: right;margin-right: 18px" onclick="switchImg('qq')">QQ</span>
+		</div>
+    </div>
+	<div style="background: #fff;position:fixed;bottom:0; left:0px;width:100%;height:30px;cursor:pointer; ">
+		
+		<div style="margin-left:50px;padding-top:1px;font-size: 13px;float: left;">
+			<span id="sponsor" onclick="tabOnItem('2')">赞赏支持</span>&nbsp;<i class="Hui-iconfont" title="赞助记录" onclick="tabOnItem('4')" style="font-size:18px">&#xe627;</i>&nbsp;|&emsp;
+			<span onclick="tabOnItem('0')">每日一句</span>&emsp;|&emsp;
+			<span onclick="tabOnItem('1')">用户使用指南</span>&nbsp;<img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif">&nbsp;|&emsp;
+			<span onclick="tabOnItem('3')" title="给作者留下你的珍贵性建议">留言作者</span>&emsp;<!-- |&emsp;
+			<span onclick="tabOnItem('5')">哆啦统计</span><img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif"> -->
+		</div>
+		<span style="margin-right:50px;padding-top:3px;font-size: 15px;float: right;"><a href="http://www.duola.vip" style="text-decoration: none">www.duola.vip</a> © 2018~2020	&emsp;|&emsp;<a href="http://www.duola.vip" style="text-decoration: none">豫ICP备19043404号-1</a></span>
 	</div>
 	<!--_footer 作为公共模版分离出去-->
 	<script type="text/javascript" src="hui/lib/jquery/1.9.1/jquery.min.js"></script> 

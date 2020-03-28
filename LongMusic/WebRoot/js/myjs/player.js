@@ -1,4 +1,3 @@
-
 var nowplay=0;//当前播放歌曲的序号
 var mode="order";//播放模式---默认为顺序播放模式
 var sid="";//资源id，QQ音乐含.html以区分QQ音乐与网易云音乐加载歌词

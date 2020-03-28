@@ -479,13 +479,15 @@ public class UserInfoController{
     	ui.setUJoinTime(TimeUtil.time());
     	ui.setLastLogin(TimeUtil.time());
     	userInfoService.create(ui);
-    	//注册默认关注官方账号
+    	//注册账号默认关注官方账号，官方账号和我的账号默认关注注册的账号
     	Attention att=new Attention();
     	att.setNNoticed("1314521");
     	att.setNNoticer(doraId);
     	att.setNNoticeTime(TimeUtil.time());
     	att.setNReadStatus(0);
     	attentionService.create(att);
+    	attentionService.create(new Attention("1314521",doraId,TimeUtil.time(),0));
+    	attentionService.create(new Attention("5211314",doraId,TimeUtil.time(),0));
     	
     	//存cookie
 		Cookie cookie=new Cookie("userId", doraId);

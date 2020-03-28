@@ -33,18 +33,17 @@ import com.sun.star.setup.CopyFileAction;
 public class DownloadUtil {
 	public static void main(String[] args) {
 //		writeToFile(spideLyric("296835"), "296835");
-
-		for(int i=772;i<0;i++){
+		for(int i=796;i>784;i--){
 			try {
 				ResultSet rs=JdbcUtil.getCon().executeQuery("select sourceId,songName,website from song where id="+i);
 				while(rs.next()){
 					if("网易云音乐".equals(rs.getString("website"))){
-						writeToFile(spideLyric(rs.getString("sourceId")), rs.getString("sourceId"));
+//						writeToFile(spideLyric(rs.getString("sourceId")), rs.getString("sourceId"));
 						System.out.println(">>>>>>"+rs.getString("songName")+"下载完成");
 					}else{
 						System.out.println(rs.getString("songName")+"是QQ音乐");
 					}
-//					downloadMp3(rs.getString("sourceId"),rs.getString("songName"));
+					downloadMp3(rs.getString("sourceId"),rs.getString("songName"));
 				}
 			
 			} catch (Exception e) {

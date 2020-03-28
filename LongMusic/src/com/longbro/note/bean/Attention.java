@@ -17,7 +17,17 @@ public class Attention{
 	protected String NNoticeTime; //关注时间
 	protected Integer NReadStatus; //关注消息的被读状态(0:未读,1:已读)
 	
-	
+	public Attention(){
+		
+	}
+	public Attention(String nNoticer, String nNoticed, String nNoticeTime,
+			Integer nReadStatus) {
+		super();
+		NNoticer = nNoticer;
+		NNoticed = nNoticed;
+		NNoticeTime = nNoticeTime;
+		NReadStatus = nReadStatus;
+	}
 	public Integer getNId() {
 		return this.NId;
 	}

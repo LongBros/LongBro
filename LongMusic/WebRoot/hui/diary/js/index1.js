@@ -124,12 +124,20 @@ function loadDiary(from,author,page,perPage,userId){
 						au="<img src='image/male.png' style='width:16px;height:17px;'><span style='cursor:pointer' onclick='openOther(1,\""+data[i].nwritter+"\")'>"+userName+"</span>&emsp;";
 					}
 				}
-				
+				var ifPraise=data[i].ifPraise;
+				if(ifPraise==0){
+					color="gray";
+				}else{
+					color="red";
+				}
 				//onclick='openOther(0,"+data[i].nid+")'	href=\"diary.html?"+data[i].nid+"\"
 				$("#diarys").append("<div class=\"diary\">"+tx+"<a  onclick='openOther(0,"+data[i].nid+","+data[i].nauthority+")' "+ti+">"+con+"</a><br>"
 				+"<div class='info'>"+au+"<i class=\"Hui-iconfont\">&#xe690;</i>"+data[i].ntime
 				+"&emsp;<i class=\"Hui-iconfont\">&#xe681;</i>"+cate+"&nbsp;:<span title='"+data[i].ntitle+"'>"+title+"</span>&nbsp;<span>"+(music=='1'?'<font color=\'red\' title=\'有音频喔\'>'+wordSize+'音</font>':'<font color=\'red\'>'+wordSize+'</font>')+"</span>&emsp;<i class=\"Hui-iconfont\">&#xe6c9;</i><span title='"+data[i].nlocation+"'>"+loc
-				+"</span><div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum+com+"&nbsp;<i class=\"Hui-iconfont\">&#xe66d;</i><span>"+data[i].praiseNum
+				+"</span><div class='zan'><i class=\"Hui-iconfont\">&#xe725;</i>"+data[i].visitNum+com
+				
+				+"&nbsp;<i class=\"Hui-iconfont\" style=\"color:"+color+"\"  onclick='praiseDiary("+data[i].nid+","+data[i].nwritter+","+i+")'  id=\"diary"+i+"\">&#xe66d;</i><span id=\"praiseNum"+i+"\" >"+data[i].praiseNum
+				
 				+"</span>&nbsp;<i class=\"Hui-iconfont\">&#xe630;</i><span>"+data[i].storeNum
 				+"</span>"+nsh+top+"</div></div>"
 				+"</div><hr width='100%'>");//740px
@@ -720,3 +728,27 @@ $(function(){
 		 alert("aaa")
 	})
 })
+//16.点赞、取消点赞日记
+function praiseDiary(diaryId,author,index){
+	if(!user){
+		alert("点赞失败，请先登录");
+		login_popup();
+		return;
+	}
+	var url='';
+	var back=document.getElementById("diary"+index).style.color+"";
+	if(back=="gray"){
+		url='note/praise/praiseDiary.do?PPraiser='+user+'&PDiary='+diaryId+'&type=0&PPraised='+author+'&PPraiseTime='+formatW2(new Date()+"");
+		document.getElementById("diary"+index).style.color="red";
+		document.getElementById("praiseNum"+index).innerText=parseInt($("#praiseNum"+index).text())+1;
+	}else{
+		url='note/praise/removePraiseDiary.do?PPraiser='+user+'&PDiary='+diaryId+'&type=0&PPraised='+author;
+		document.getElementById("diary"+index).style.color="gray";
+		document.getElementById("praiseNum"+index).innerText=parseInt($("#praiseNum"+index).text())-1;
+	}
+	$.ajax({
+		url:url,
+		type:"get",
+		async:true
+	});
+}
