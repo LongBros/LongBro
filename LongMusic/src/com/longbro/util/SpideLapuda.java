@@ -133,13 +133,14 @@ public class SpideLapuda {
 		int ids6[]={66813,66762,66718,66661,66614,66567,66519,66458,66409,66358,66289,66206,66085,65957,65881,65797,65749,65704,65632,65584,65539,65496};
 		//庆兔兔日记 2-25~3-14
 		int ids7[]={98459,98599,98735,98884,99038,99185,99319,99453,99619,99791,99967,100134,100266,100429,100590,100746,100893,101043,101201};
-		int ids9[]={};
-		
-		int ids[]=ids9;
+		//庆兔兔日记 03-30~04-07
+		int ids9[]={103720,103904,104082,104226,104999,104861,104738,104580,104441};
+		int ids10[]={};
+		int ids[]=ids10;
 		Document doc;
 //		System.out.println(ids.length+">>");//200-500
 		try {
-			int j=3654;
+			int j=3937;
 //			int file=100;
 //			File f=null;
 
@@ -163,7 +164,7 @@ public class SpideLapuda {
 				s=s.substring(s.indexOf("title\">")+8, s.indexOf("</h1>")-1);
 				s1=s1.substring(s1.indexOf("time\">")+6, s1.indexOf("</span>"));
 				s2=s2.substring(s2.indexOf("<pre>"), s2.indexOf("</div>"));*/
-				String sql="INSERT INTO `music`.`d_diary` (`n_Id`, `n_Type`, `n_BookId`, `n_Writter`, `n_Title`, `n_Content`, `n_Time`, `n_Weather`, `n_Mood`, `n_Location`, `n_AllowComment`, `n_Authority`, `n_song_id`, `n_top`, `n_user_top`, `n_update_time`) VALUES ('"+j+"', '0', NULL, '65313340', '"+(map.get("title")==null?ids[i]+"":map.get("title"))+"', '"+map.get("content")+"', '"+map.get("time")+"', '0', '0', '兔子窝', '0', '0', NULL, '0', '0', NULL);";
+				String sql="INSERT INTO `dora_web_longbro`.`d_diary` (`n_Id`, `n_Type`, `n_BookId`, `n_Writter`, `n_Title`, `n_Content`, `n_Time`, `n_Weather`, `n_Mood`, `n_Location`, `n_AllowComment`, `n_Authority`, `n_song_id`, `n_top`, `n_user_top`, `n_update_time`) VALUES ('"+j+"', '0', NULL, '65313340', '"+(map.get("title")==null?ids[i]+"":map.get("title"))+"', '"+map.get("content")+"', '"+map.get("time")+"', '0', '0', '兔子窝', '0', '0', NULL, '0', '0', NULL);";
 				System.out.println(sql);
 //				FileWriter fw=new FileWriter(f);
 //				FileReader fr=new FileReader(f);
@@ -173,7 +174,7 @@ public class SpideLapuda {
 //				for(char c1:c){
 //					fw.append(c1);
 //				}
-				j--;
+				j++;
 
 			}
 			

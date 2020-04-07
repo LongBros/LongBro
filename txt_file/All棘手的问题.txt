@@ -21,9 +21,21 @@
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/" reloadable="true"/> 
       </Host>
-
+2020-04-07
+1.使用对象较map的好处之一是使用对象可以方便的看到里面有哪些属性，而使用map时必须要到XML中才可以看到
+2.sql中如果想要获得某条记录在所有记录中的排序，可定义变量set @xu;然后在sql中这样引用@xu:=@xu+1
+3.上传图片报错：org/bouncycastle/jce/spec/ECPublicKeySpec，重启服务器可解决
+4.别人将新分支推到远程后，需git pull后才能切到这个新分支，不能直接切
+	  
 SELECT VERSION();用于获取当前 Mysql 的版本。
 
+2020-03-30
+1.关于表单需要注意的几点
+  name、id、textname(实现一个组件同时赋值或获取数据库的ID和name)都要一一对应，textfield、valuefield也要对应，
+  valuefromselect="true" 不可乱加，会导致数据无法回显
+  其中textname实现一个组件同时赋值或获取数据库的ID和name，textfield和valuefield来自下拉列表数据获取的接口中
+2.formOperatorInfo = mini.get("grid_operator_info").getData()中并没有定义id为grid_operator_info的组件，但如果加上name为operator_info的表单却不报错，去掉却报错了。不知为什么
+3. data.person_type = person_type||1;//zcl 2020 -03-30后加||1实现类别默认选中个人
 2020-03-19
 1.MINI的input的textfield属性的值应表示要显示在下拉列表的选项，valuefield表示下拉列表选项对应的value
 

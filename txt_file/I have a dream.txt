@@ -22,6 +22,23 @@ tadmin@gzaj.com lc1q2w3e
 
 #D92E2E;
 
+2020-04-02
+1.电脑端做图片的预览，使用公司预览的代码，模仿手机端
+生成邮箱验证码：com/redxun/saweb/controller/CaptchaController.java		 调用com.redxun.core.mail下的MailTools来下发邮箱信息
+发送短信验证码：com/redxun/sys/core/controller/SysAccountController.java 调用com.redxun.callApi.util下的SmsUtil来下发短信
+forgetPwd.jsp
+
+2020-04-01
+1.移动端注册时不需填写哆啦ID、邀请码，简化注册流程。注册后哆啦ID和出生日期一样有一次修改机会
+11:50新增用户的Ip：118.120.65.206 四川省南充市
+2020-03-28
+接口与前端代码的优化
+
+
+2020-03-26
+发布按钮点击后置灰并移除事件
+2020-03-25
+为避免重复点赞，需在后端做下限制如已赞过则不再插入，同时开两个网页，在两个网页中点赞会导致重复点赞
 2020-03-21
 1.数据库命名更换为dora_web_longbro
 2.官方账号和我的账号默认关注注册的账号

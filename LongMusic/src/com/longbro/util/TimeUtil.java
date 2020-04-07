@@ -15,6 +15,9 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 /**
  * Date date=new Date();后面的参数若为全局变量会有问题--时间不会变
+ * 0.返回yyyy-MM-dd HH:mm:ss格式的时间  1.得到今天的年-月-日2.得到当前月 3.得到昨天的年月日 4.得到n天前的时间点 5.得到汉语星期几6.得到英语星期？,如Sunday
+ * 7.利用数组得到汉语星期几8.随机生成时间  HH:mm:ss9.补0操作，若m为个位数，则在其前补零10.得到上月：例：2019-12的上月是2019-11
+ * 11.得到当前年12.得到上一年13.返回几分钟之前或几秒钟之前的时间14.~分钟之前转为yyyy-MM-dd HH:mm:ss 15.得到当前小时
  * @author 赵成龙
  * @website www.longqcloud.cn & www.zy52113.com
  * @date 2019年10月1日 下午6:52:37
@@ -43,7 +46,7 @@ public class TimeUtil {
 	public static String user="root";
 	public static String pass="ZCLZY";
 	/**
-	 * 1.返回yyyy-MM-dd HH:mm:ss格式的时间
+	 * 0.返回yyyy-MM-dd HH:mm:ss格式的时间
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年9月14日
@@ -55,7 +58,7 @@ public class TimeUtil {
 		return time;
 	}
 	/**
-	 * 2.得到今天的年-月-日
+	 * 1.得到今天的年-月-日
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年9月20日
@@ -65,7 +68,7 @@ public class TimeUtil {
 		return time().substring(0, 10);
 	}
 	/**
-	 * 3.得到当前月
+	 * 2.得到当前月
 	 * @desc 
 	 * @author zcl
 	 * @date 2019年9月22日
@@ -196,13 +199,20 @@ public class TimeUtil {
 	 * @return
 	 */
 	public static String getLastMonth(){
-		int mon=Integer.parseInt(getThisMonth().substring(5, 7));
+		String y_m=getThisMonth();//当前年月
+		int mon=Integer.parseInt(y_m.substring(5, 7));//当前月
+		int year=Integer.parseInt(y_m.substring(0, 4));//当前年
 		if(mon==1){
 			mon=12;
+			year--;
 		}else{
 			mon--;
 		}
-		return getThisMonth().substring(0, 5)+mon;
+		if(mon<10){
+			return year+"-0"+mon;
+		}else{
+			return year+"-"+mon;
+		}
 	}
 	/**
 	 * 11.得到当前年，例：2019
@@ -256,7 +266,7 @@ public class TimeUtil {
 			return getThisMonth()+"-"+time.substring(2,4)+" "+time.substring(6);
 		}else if(time.contains("上月")){//上月21日 21:36:46 星期四
 			return getLastMonth()+"-"+time.substring(2,4)+" "+time.substring(6);
-		}else if(time.contains("今年")){
+		}else if(time.contains("今年")){//
 			return getThisYear()+"-"+time.substring(2,4)+"-"+time.substring(5,7)+time.substring(8);
 		}else if(time.contains("去年")){//去年12月28日 14:25:27 星期五
 			return getLastYear()+"-"+time.substring(2,4)+"-"+time.substring(5,7)+time.substring(8);
