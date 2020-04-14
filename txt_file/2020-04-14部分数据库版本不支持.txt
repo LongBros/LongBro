@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redxun.reportForm.report.dao.UserDataRestDao">
+    <!--获取拓展的数据信息-->
+    <select id="getUserPerformanceInfoBy" resultType="com.redxun.reportForm.report.entity.UserPerformanceData">
+        SELECT  u.FULLNAME_ as userName,
+                IFNULL(pm.MISSION_COUNT_,0) as positionTask,
+                IFNULL(SUM(tempdata.REAL_IN_PERFORMANCE*tempdata.F_COUNT),0) as realInPerfomance,
+                CONCAT(ifnull(CAST(
+                              if(IFNULL(SUM(tempdata.REAL_IN_PERFORMANCE*tempdata.F_COUNT),0)>0,IFNULL(SUM(tempdata.REAL_IN_PERFORMANCE*tempdata.F_COUNT),0),0)
+                                *100/IFNULL(pm.MISSION_COUNT_,0) AS decimal(18,2)),0),"%") completeRate,<!--实收金额小于0时，完成率为0-->
+                IFNULL(SUM(tempdata.realCount),0) as realInCount,
+                IFNULL(SUM(tempdata.READY_SURE_PERFORMANCE*tempdata.F_COUNT),0) as readySurePerfomance,
+                IFNULL(SUM(tempdata.REAL_IN_PERFORMANCE*tempdata.F_COUNT),0)+IFNULL(SUM(READY_SURE_PERFORMANCE*tempdata.F_COUNT),0) allPerformance
+        from
+        os_user u
+        left join os_user_position_mission pm on pm.USER_ID_=u.USER_ID_  and pm.BEGIN_TIME &lt;= #{month} and #{month} &lt;= pm.END_TIME
+        left JOIN (
+                    <!-- 风控待确认-->
+                    SELECT
+                    nwri.F_INST_BILL_NO_,
+                    `o`.`F_USER_ID` AS `USER_ID_`,
+                    `o`.`F_USER_NAME` AS `USER_NAME`,
+                    `o`.`F_IS_PRIMARY` AS `F_IS_PRIMARY`,
+                    `o`.`F_COUNT` AS `F_COUNT`,
+                    0  AS `REAL_IN_PERFORMANCE`,
+                    `fc`.`realInPerformance` AS `READY_SURE_PERFORMANCE`,
+                    0  realCount
+                    FROM
+                    w_new_risk_info nwri
+                    INNER JOIN w_operator_info o ON `nwri`.`ID_` = `o`.`REF_ID_`
+                    INNER JOIN w_new_risk_info_subjoin wnris ON nwri.ID_=wnris.REF_ID_
+                    INNER JOIN (
+                            SELECT lfc.CASE_ID_,lfc.INST_STATUS_,lfcr.AMOUNT_DATE CHARGE_DATE_,CASE_TYPE, SUM(COALESCE(ANSWER_AMOUNT,0)) - (SELECT
+                            IFNULL(SUM(COALESCE(ANSWER_AMOUNT, 0)),0)
+                            FROM
+                            loan_finance_charge_record lfcr1
+                            INNER JOIN loan_finance_case lfc1 ON lfc1.ID_ = lfcr1.REF_ID
+                            WHERE
+                            lfc1.CASE_ID_ = lfc.CASE_ID_
+                            AND CHARGE_CHARACTER = 3 AND IFNULL(lfc1.INST_STATUS_,'-1') !='SUCCESS_END' AND DATE_FORMAT(lfcr1.AMOUNT_DATE,"%Y-%m") = #{month}) realInPerformance
+                            FROM loan_finance_charge_record lfcr
+                            INNER JOIN loan_finance_case lfc ON lfc.ID_ = lfcr.REF_ID
+                            WHERE  CHARGE_CHARACTER =1
+                            AND IFNULL(lfc.INST_STATUS_,'-1') !='SUCCESS_END' AND DATE_FORMAT(lfcr.AMOUNT_DATE,"%Y-%m") =#{month} GROUP BY lfc.CASE_ID_
+                    ) fc ON `nwri`.`ID_` = `fc`.`CASE_ID_`
+                   WHERE !FIND_IN_SET(nwri.F_STATUS,'2,3,4')
+                    GROUP BY nwri.ID_ ,o.F_USER_ID
+
+                    UNION
+                        <!-- 风控实际实收-->
+                        SELECT
+                        nwri.F_INST_BILL_NO_,
+                        `o`.`F_USER_ID` AS `USER_ID_`,
+                        `o`.`F_USER_NAME` AS `USER_NAME`,
+                        `o`.`F_IS_PRIMARY` AS `F_IS_PRIMARY`,
+                        `o`.`F_COUNT` AS `F_COUNT`,
+                        `fc`.`realInPerformance`  AS `REAL_IN_PERFORMANCE`,
+                        0 AS `READY_SURE_PERFORMANCE`,
+                        IF(FIND_IN_SET('2,3,4',nwri.f_status) OR IFNULL(o.F_IS_PRIMARY,0)!=1,0,1) realCount
+                        FROM
+                        w_new_risk_info nwri
+                        INNER JOIN w_operator_info o ON `nwri`.`ID_` = `o`.`REF_ID_`
+                        INNER JOIN w_new_risk_info_subjoin wnris ON nwri.ID_=wnris.REF_ID_
+                        INNER  JOIN (
+                                SELECT CASE_ID_, SUM(REAL_IN_PERFORMANCE) realInPerformance,INST_STATUS_,CHARGE_DATE_,CASE_TYPE FROM loan_finance_case
+                                WHERE INST_STATUS_ ='SUCCESS_END'
+                                AND DATE_FORMAT(CHARGE_DATE_,"%Y-%m") =#{month} GROUP BY CASE_ID_
+                        ) fc ON fc.CASE_ID_ = nwri.ID_ AND realInPerformance &lt;&gt; 0
+                       WHERE !FIND_IN_SET(nwri.F_STATUS,'2,3,4')
+                        GROUP BY nwri.ID_,o.F_USER_ID
+
+                        UNION
+
+                        <!-- 按揭实际实收-->
+                        SELECT
+                        c.F_CASE_NUMBER,
+                        `o`.`F_USER_ID` AS `USER_ID_`,
+                        `o`.`F_USER_NAME` AS `USER_NAME`,
+                        `o`.`F_IS_PRIMARY` AS `F_IS_PRIMARY`,
+                        `o`.`F_COUNT` AS `F_COUNT`,
+                        `fc1`.`realInPerformance`  AS `REAL_IN_PERFORMANCE`,
+                        0 `READY_SURE_PERFORMANCE`,
+                        IF(c.f_status=3 OR IFNULL(o.F_IS_PRIMARY,0)!=1,0,1) realCount<!--不是主拓展不计入宗数-->
+                        FROM
+                        w_case_info  c
+                        INNER JOIN w_operator_info o ON `c`.`ID_` = `o`.`REF_ID_`
+                        INNER  JOIN (
+                                SELECT CASE_ID_,CASE_NUMBER_, SUM(REAL_IN_PERFORMANCE) realInPerformance,INST_STATUS_,CHARGE_DATE_,CASE_TYPE FROM loan_finance_case
+                                WHERE INST_STATUS_ ='SUCCESS_END'
+                                AND DATE_FORMAT(CHARGE_DATE_,"%Y-%m") =#{month} GROUP BY CASE_ID_
+                        ) fc1 ON fc1.CASE_ID_ = c.ID_  AND realInPerformance &lt;&gt; 0
+                        WHERE c.f_status!=3
+                        GROUP BY c.ID_,o.F_USER_ID
+
+                        UNION
+                        <!-- 按揭待确认-->
+                        SELECT
+                        c.F_CASE_NUMBER,
+                        `o`.`F_USER_ID` AS `USER_ID_`,
+                        `o`.`F_USER_NAME` AS `USER_NAME`,
+                        `o`.`F_IS_PRIMARY` AS `F_IS_PRIMARY`,
+                        `o`.`F_COUNT` AS `F_COUNT`,
+                        0 `REAL_IN_PERFORMANCE`,
+                        `fc`.`realInPerformance` AS `READY_SURE_PERFORMANCE`,
+                        0 realCount
+                        FROM
+                        w_case_info  c
+                        INNER JOIN w_operator_info o ON `c`.`ID_` = `o`.`REF_ID_`
+                        INNER JOIN (
+                                SELECT lfc.CASE_ID_,lfc.INST_STATUS_,lfcr.AMOUNT_DATE CHARGE_DATE_,CASE_TYPE, SUM(COALESCE(ANSWER_AMOUNT,0)) - (SELECT
+                                IFNULL(SUM(COALESCE(ANSWER_AMOUNT, 0)),0)
+                                FROM
+                                loan_finance_charge_record lfcr1
+                                INNER JOIN loan_finance_case lfc1 ON lfc1.ID_ = lfcr1.REF_ID
+                                WHERE
+                                lfc1.CASE_ID_ = lfc.CASE_ID_
+                                AND CHARGE_CHARACTER = 3 AND IFNULL(lfc1.INST_STATUS_,'-1') !='SUCCESS_END' AND DATE_FORMAT(lfcr1.AMOUNT_DATE,"%Y-%m") =#{month}) realInPerformance
+                                FROM loan_finance_charge_record lfcr
+                                INNER JOIN loan_finance_case lfc ON lfc.ID_ = lfcr.REF_ID
+                                WHERE  CHARGE_CHARACTER =1
+                                AND IFNULL(lfc.INST_STATUS_,'-1') !='SUCCESS_END' AND DATE_FORMAT(lfcr.AMOUNT_DATE,"%Y-%m") =#{month} GROUP BY lfc.CASE_ID_
+                        ) fc ON `c`.`ID_` = `fc`.`CASE_ID_`
+                     WHERE c.f_status!=3
+                        GROUP BY c.ID_ ,o.F_USER_ID
+                        <!--银行服务费-->
+                        UNION
+                        SELECT bsf.ID_,woi.F_USER_ID_ USER_ID_,woi.F_USER_NAME_ USER_NAME,'' F_IS_PRIMARY,1 F_COUNT,
+                               woi.F_PERFORMANCE_ REAL_IN_PERFORMANCE,0 READY_SURE_PERFORMANCE,0 realCount
+                        FROM bank_serve_fee bsf INNER JOIN bank_serve_fee_operate woi ON bsf.BATCH_ID_=woi.REF_ID_ AND woi.F_USER_ID_= #{userId}
+                        WHERE bsf.CHARGE_DATE_=#{month} AND bsf.TENANT_ID_=#{tenantId}
+        ) tempdata ON tempdata.USER_ID_=u.USER_ID_ WHERE u.MOBILE_=#{phone};
+    </select>
+    <!--得到拓展的排名-->
+    <select id="getUserPaiming" resultType="java.lang.Integer">
+        <set>
+            @xu=0;
+        </set>
+        <set>
+            @num=4000000000;<!--实收业绩中间值，以判断前后是否相等排名是否需加1-->
+        </set>
+        SELECT temp.xuhao from(
+            SELECT CASE WHEN @num=temp.userPerformance THEN @xu:=@xu<!--前后实收业绩一样，排名不变-->
+                        else  @xu:=@xu+1
+                        END xuhao,
+                        @num:=temp.userPerformance,
+                        temp.phone
+            from(
+                SELECT ou.USER_ID_ as userId,
+                       ou.FULLNAME_ as userName,
+                        IFNULL(SUM(tempdata.REAL_IN_PERFORMANCE*tempdata.F_COUNT),0) as userPerformance,
+                       IFNULL(ou.MOBILE_ ,"") as phone
+                FROM os_user ou
+                LEFT JOIN (
+
+                            <!--风控实际实收-->
+                            SELECT
+                            nwri.F_INST_BILL_NO_,
+                            `o`.`F_USER_ID` AS `USER_ID_`,
+                            `o`.`F_USER_NAME` AS `USER_NAME`,
+                            `o`.`F_IS_PRIMARY` AS `F_IS_PRIMARY`,
+                            `o`.`F_COUNT` AS `F_COUNT`,
+                            `fc`.`realInPerformance`  AS `REAL_IN_PERFORMANCE`
+                            FROM
+                            w_new_risk_info nwri
+                            INNER JOIN w_operator_info o ON `nwri`.`ID_` = `o`.`REF_ID_`
+                            INNER JOIN w_new_risk_info_subjoin wnris ON nwri.ID_=wnris.REF_ID_
+                            INNER  JOIN (
+                            SELECT CASE_ID_, SUM(REAL_IN_PERFORMANCE) realInPerformance,INST_STATUS_,CHARGE_DATE_,CASE_TYPE FROM loan_finance_case
+                            WHERE INST_STATUS_ ='SUCCESS_END'
+                            AND DATE_FORMAT(CHARGE_DATE_,"%Y-%m") =#{month} GROUP BY CASE_ID_
+                            ) fc ON fc.CASE_ID_ = nwri.ID_ AND realInPerformance &lt;&gt; 0
+                           WHERE !FIND_IN_SET(nwri.F_STATUS,'2,3,4')
+                            GROUP BY nwri.ID_,o.F_USER_ID
+
+                            UNION
+
+                            <!-- 按揭实际实收-->
+                            SELECT
+                            c.F_CASE_NUMBER,
+                            `o`.`F_USER_ID` AS `USER_ID_`,
+                            `o`.`F_USER_NAME` AS `USER_NAME`,
+                            `o`.`F_IS_PRIMARY` AS `F_IS_PRIMARY`,
+                            `o`.`F_COUNT` AS `F_COUNT`,
+                            `fc1`.`realInPerformance`  AS `REAL_IN_PERFORMANCE`
+                            FROM
+                            w_case_info  c
+                            INNER JOIN w_operator_info o ON `c`.`ID_` = `o`.`REF_ID_`
+                            INNER  JOIN (
+                            SELECT CASE_ID_,CASE_NUMBER_, SUM(REAL_IN_PERFORMANCE) realInPerformance,INST_STATUS_,CHARGE_DATE_,CASE_TYPE FROM loan_finance_case
+                            WHERE INST_STATUS_ ='SUCCESS_END'
+                            AND DATE_FORMAT(CHARGE_DATE_,"%Y-%m") =#{month} GROUP BY CASE_ID_
+                            ) fc1 ON fc1.CASE_ID_ = c.ID_  AND realInPerformance &lt;&gt; 0
+                           WHERE c.f_status!=3
+                            GROUP BY c.ID_,o.F_USER_ID
+
+
+                        <!--银行服务费-->
+                         UNION
+                                    SELECT bsf.ID_,woi.F_USER_ID_ USER_ID_,woi.F_USER_NAME_ USER_NAME,'' F_IS_PRIMARY,'' F_COUNT, woi.F_PERFORMANCE_ REAL_IN_PERFORMANCE
+                                    FROM bank_serve_fee bsf
+                                    left JOIN bank_serve_fee_operate woi ON bsf.BATCH_ID_=woi.REF_ID_ AND woi.F_USER_ID_= #{userId}
+                                    WHERE bsf.CHARGE_DATE_=#{month} AND bsf.TENANT_ID_=#{tenantId}
+
+                            ) tempData on tempData.USER_ID_=ou.USER_ID_
+                            WHERE ou.POSITION_TYPE_='2510000028840034' <!--岗位类型为拓展-->
+                                  and ou.TENANT_ID_=#{tenantId}
+                            GROUP BY ou.USER_ID_
+             )temp ORDER BY userPerformance desc,userName asc
+        )temp WHERE temp.phone=#{phone} ;
+    </select>
+    <!--获取签件的数据信息-->
+    <select id="getQianjianUserPerform" resultType="com.redxun.reportForm.report.entity.UserPerformanceData">
+            <set>
+                @xu=0;<!-- 排名-->
+            </set>
+            <set>
+                @num=100000;<!--签件数中间值，以判断前后是否相等排名是否需加1-->
+            </set>
+            SELECT temp.paiming,temp.userName,temp.positionTask,temp.qianjianNum,temp.completeRate,temp.MOBILE_ FROM(
+                SELECT <!-- 排名-->
+                        CASE WHEN @num=temp.qianjianNum THEN @xu:=@xu<!--前后签件单数一样，排名不变-->
+                        else  @xu:=@xu+1
+                        END paiming,
+                        @num:=temp.qianjianNum,<!--赋值签件数中间值，以判断前后是否相等排名是否需加1-->
+                        temp.userName,temp.positionTask,temp.qianjianNum,temp.completeRate,temp.MOBILE_
+                   from (
+                        SELECT  ou.USER_ID_,ou.FULLNAME_ userName, <!-- 签件名-->
+                                IFNULL(pm.MISSION_COUNT_,0) as positionTask, <!-- 职级任务数-->
+                                IFNULL(sum(tempData.type),0) qianjianNum,<!-- 当月签件数= 当月总签件数- 非当月签件但在当月退案数 -->
+                                CONCAT(ifnull(CAST(  if(IFNULL(sum(tempData.type),0)>0,IFNULL(sum(tempData.type),0),0)*100/IFNULL(pm.MISSION_COUNT_,0) AS decimal(18,2)),0),"%") completeRate,  <!-- 完成率-->
+                                ou.MOBILE_
+                        FROM os_user ou
+                        left join os_user_position_mission pm on pm.USER_ID_=ou.USER_ID_  and pm.BEGIN_TIME &lt;= #{month} and #{month} &lt;= pm.END_TIME
+                        LEFT JOIN (
+                        <!--风控-->
+                            SELECT
+                            nwri.F_INST_BILL_NO_,
+                            wnris.F_QIANJIAN,
+                            CASE  when (DATE_FORMAT(wnris.F_QIANJIAN_DATE,"%Y-%m") = #{month} AND !find_in_set(IFNULL(nwri.F_STATUS,0),"2,3,4")) then 1
+                                  WHEN (DATE_FORMAT(wnris.F_QIANJIAN_DATE,"%Y-%m") !=#{month} AND DATE_FORMAT(nwri.F_RETURN_CASE_DATE, "%Y-%m")=#{month}) THEN -1<!-- 非当月签件但在当月退案数 -->
+                                  END type
+                            FROM
+                            w_new_risk_info nwri
+                            INNER JOIN w_new_risk_info_subjoin wnris ON nwri.ID_=wnris.REF_ID_
+                            LEFT JOIN loan_finance_case fc ON fc.CASE_ID_ = nwri.ID_
+                            WHERE (DATE_FORMAT(wnris.F_QIANJIAN_DATE, "%Y-%m")=#{month} AND !find_in_set(IFNULL(nwri.F_STATUS,0),"2,3,4"))<!--当月签单-->
+                                    OR
+                                  <!--非当月签单且当月退单且当月实收-已收<=0且应收大于0，需统计出来后减去-->
+                                  (DATE_FORMAT(wnris.F_QIANJIAN_DATE,"%Y-%m") != #{month} AND DATE_FORMAT(nwri.F_RETURN_CASE_DATE, "%Y-%m")=#{month} and (fc.OUGHT_TO_IN_ALL - fc.REAL_IN_ALL) &lt;= 0 AND fc.OUGHT_TO_IN_ALL &gt; 0)
+                            GROUP BY nwri.ID_
+
+                            UNION
+                        <!--按揭-->
+                            SELECT
+                            c.F_CASE_NUMBER,
+                            c.F_QIANJIAN,
+                            CASE  when (DATE_FORMAT(c.F_QIANJIAN_DATE,"%Y-%m") = #{month} AND c.F_STATUS!="3") then 1
+                                  WHEN (DATE_FORMAT(c.F_QIANJIAN_DATE,"%Y-%m") != #{month} AND DATE_FORMAT(c.F_RETURN_CASE_DATE, "%Y-%m")=#{month}) THEN -1<!-- 非当月签件但在当月退案数，此处可以不必加费用的条件 -->
+                                  END type
+                            FROM
+                            w_case_info  c
+                            LEFT JOIN loan_finance_case fc ON fc.CASE_ID_ = c.ID_
+                            WHERE (DATE_FORMAT(c.F_QIANJIAN_DATE, "%Y-%m")=#{month} AND c.F_STATUS!=3) or
+                                  <!--非本月签件，但在本月退案的且当月实收-已收<=0且应收大于0，需统计出来后减去-->
+                                  (DATE_FORMAT(c.F_QIANJIAN_DATE, "%Y-%m") !=#{month} AND DATE_FORMAT(c.F_RETURN_CASE_DATE, "%Y-%m")=#{month} and (fc.OUGHT_TO_IN_ALL - fc.REAL_IN_ALL) &lt;= 0 AND fc.OUGHT_TO_IN_ALL &gt; 0)
+                            GROUP BY c.ID_
+                         ) tempData on tempData.F_QIANJIAN=ou.USER_ID_
+                        WHERE ou.TENANT_ID_=#{tenantId}
+                              AND ou.POSITION_TYPE_='2510000027860005'<!--岗位类型为签件-->
+                        GROUP BY ou.USER_ID_
+              )temp  ORDER BY qianjianNum DESC,userName desc
+            )temp 	WHERE temp.MOBILE_=#{phone}
+    </select>
+</mapper>

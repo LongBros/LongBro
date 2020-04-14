@@ -21,6 +21,58 @@
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/" reloadable="true"/> 
       </Host>
+2020-04-14
+因为数据库版本问题导致65不可以直接通过XML获取排行，
+在将排行的获取由XML移至方法中时，开始将返回的集合定义为List<HashMap<String,String>>这导致了某个字段比如userPerformance为double型时报错->java.lang.ClassCastException: java.lang.Double cannot be cast to java.lang.String，
+后将返回类型改为List<HashMap<String,Object>> 就解决了。
+
+2020-04-13周一
+1.os_user用户表的一个手机号可能对应多条用户，因此不能通过手机号获取用户ID、机构id，所以采用多传用户ID、机构id的方式。
+  而APP那边调用的时候，无法使用ContextUtil类来获取用户ID、机构id
+
+	  
+2020-04-09~~~完成BPM首页报表数据的呈现
+1.银行服务费表的设计，设计时的批次ID在不同机构下也不同，比如a机构有1、2、3批次，b机构下也可以有1、2、3批次
+  所以在关联服务费拓展表的时候，不能单纯的将批次ID与拓展表对应，还需要将机构也对应。
+  所以系统中可能有的地方的设计是有误的，特别是报表，不过多数后面跟机构条件的是正确的。
+2.使用DecimalFormat df = new DecimalFormat("0.00");df.format(double)将保留小数点后两位
+3.PortalScript里的使用		
+  消息盒子的模版，d表示InsMsgBoxEntity实体，url、icon、count、title、boxData是实体的属性(其中boxData是map型，有个key是solCounts)
+<div class="card">
+ <ol class="cardUl">
+ <#list data.obj as d>
+ <li class="p_top">
+ <#if d.url><a href="${ctxPath}${d.url}" target="_blank"></#if>
+  <#if d.url==null><a href="javascript:;"></#if>
+ <div class="cardBox" url="${ctxPath}${d.url}">
+ <div class="cardBox_right">
+ <div class="tubiao_right">
+ <span class="iconfont ${d.icon}">
+</span>
+ </div>
+ </div>
+ <div class="cardBox_left">
+ <p class="num"  style="font-size:18px;">
+<#if d.boxData.solCounts>${d.boxData.solCounts}</#if>
+<#if d.boxData.solCounts==null>${d.count}</#if>
+
+</p>
+<br>
+ <h5>
+${d.title}</h5>
+ </div>
+ </div>
+  </a>
+ </li>
+ </#list>
+ <h1 class="clearfix">
+</h1>
+ </ol>
+ </div>
+4.Java实现千位分隔符
+DecimalFormat df = new DecimalFormat("#,##0.00");
+df.format(num);//实现千位分隔符
+
 2020-04-07
 1.使用对象较map的好处之一是使用对象可以方便的看到里面有哪些属性，而使用map时必须要到XML中才可以看到
 2.sql中如果想要获得某条记录在所有记录中的排序，可定义变量set @xu;然后在sql中这样引用@xu:=@xu+1

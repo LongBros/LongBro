@@ -21,6 +21,17 @@ miniUI的grid中的列使用renderer属性举例：
 tadmin@gzaj.com lc1q2w3e
 
 #D92E2E;
+2020-04-10
+启用bookID字段
+日记本，每本可写六十篇日记，日记加入日记本后不可撤销，从日记本删除后不可恢复
+默认每人都有两个日记本，拉一个新人获得一个日记本。或拉新奖励哆啦币，哆啦币可兑换日记本
+
+2020-04-09
+推荐用户模块改为每次随机加载5个或10个用户
+
+2020-04-08
+1.可以设置回自己的历史头像
+2.可以切换账号登录
 
 2020-04-02
 1.电脑端做图片的预览，使用公司预览的代码，模仿手机端
@@ -90,19 +101,6 @@ forgetPwd.jsp
 cp -rf LongMusic $(date +%Y%m%d_%H%M%S)
 
 
-#db.url=jdbc:mysql://112.74.173.44:3306/liangce_loan_bpm?useUnicode=true&characterEncoding=utf-8
-#db.username=root
-#db.password=123456
-
-测试数据
-统计表机构
-2530000022937712
-
-广州按揭：2510000009694995
-
-线上数据
-农行ID：2510000009745468
-交通ID：2520000009941106
 
 有一个访问者必执行的方法，只要访问本站无论哪里均会执行，
 如何判断某用户今日访问了？写一个方法，该方法将访问者cookie带入后端，若某人某天访问过了，则将其连续访问天数加1.若某天中断访问（到第二天了还没访问），则连续访问清零
@@ -175,13 +173,7 @@ C:\Users\pc\Desktop\longbro\图片\back
 1.添加关注功能，可以关注歌手，直接进入关注歌手的歌曲
 2.摒弃QQ音乐，将QQ音乐特殊显示为不可用
 
-99	95
-100 98
-24*60*60=24*3600=86400
 
-机构2510000010210022	
-产品2510000013000424、
-	i有车2510000010370093
 
 2019-10-09
 经过了四个月时间的实习，以及三个月的试用期，很高兴自己在很多方面都有了显著的提高。
@@ -204,17 +196,17 @@ TOMCAT控制台中文乱码解决办法
 
 
  /**
-         *
-         * @param str 判断中英文
-         * @returns {boolean} 中文返回true，其他返回false
-         */
-        function isChinese(str) {
-            var entryVal = str;
-            var cnChar = entryVal.match(/[^\x00-\x80]/g);
-            if (cnChar != null && cnChar.length > 0)
-                return true;
-            return false;
-        }
+ *
+ * @param str 判断中英文
+ * @returns {boolean} 中文返回true，其他返回false
+ */
+function isChinese(str) {
+	var entryVal = str;
+	var cnChar = entryVal.match(/[^\x00-\x80]/g);
+	if (cnChar != null && cnChar.length > 0)
+		return true;
+	return false;
+}
 
 
 
@@ -233,8 +225,8 @@ windows->preference->content types
 <!--[if IE 9]> 仅IE9可识别 <![endif]-->
 
 09-28
-多啦日记本------建立机器账号：1.每天自动写一篇歌曲歌词作为日记，名字起为歌词网；2.每天自动写一首唐诗宋词作为日记，名字起为诗词网；3.
-多啦歌词网
+哆啦日记本------建立机器账号：1.每天自动写一篇歌曲歌词作为日记，名字起为歌词网；2.每天自动写一首唐诗宋词作为日记，名字起为诗词网；3.
+哆啦歌词网
 哆啦记账
 
 09-24
