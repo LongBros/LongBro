@@ -511,4 +511,20 @@ public class UserInfoController{
     	result.setResult(doraId);
     	return result;
     }
+	
+	@RequestMapping({"listAllPic"})
+  @ResponseBody
+  public BaseResult<ArrayList<String>> listAllPic(String userId, int page)
+  {
+    BaseResult<ArrayList<String>> result = new BaseResult();
+    if (StringUtils.isEmpty(page)) {
+      page = 1;
+    }
+    ArrayList<String> files = FileProduce.getAllFiles(userId, "/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/images/diary/");
+    result.setResult(files.subList(6 * (page - 1), 6 * page));
+    result.setCode(200);
+    result.setMessage("" + userId + "" + page + "");
+    result.setNum(files.size());
+    return result;
+  }
 }
