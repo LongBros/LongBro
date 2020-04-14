@@ -1,0 +1,265 @@
+【五期优化19】信用贷，部分同意的贷款利率选择按基准时，右边输入框不应该要求必填
+【五期优化16】各业务品种录入、审核环节必填项字段的调整
+【五期优化15】按揭贷款签件页面，删除“是否需要递件”选项，即都是需要递件，“递件日期”代替原来“是否需要递件”的位置
+【五期优化13】成交物业信息-评估价录入0，也要视为有效金额（即允许录入0）
+【五期优化29】各业务品种的信息补录、录入、审核、贷款审批页面中，对贷款申请信息及成交物业信息涉及到金额的录入，都增加预警值，若录入结果超出预警值有弹窗提醒
+【五期优化30】各业务品种的信息补录、录入、审核、送放款、退资料的工作台中，交易人员基本信息及交易人员映像资料tab中，用交易身份信息替换掉原来的买卖方信息
+【五期优化39】文字叫法更改，由“与业主关系”修改为“与主卖家关系”
+
+已上验收
+12-在组织部门/机构的组织架构页面，新增搜索组名的功能—测试验证已Ok
+
+
+4、6、9、10、11、
+13、14、15、16、19、
+20、21、22、24、28、
+29、30、39已上线
+
+
+
+25在验收
+
+12、27、41
+32在测试
+
+17、34、35、36、37、38
+
+分支develop-optimize-V5.1-20200224
+
+27 增加编辑功能（已合到develop）
+WEB-INF/jsp/sys/org/osUserEditLoan.jsp
+WEB-INF/jsp/sys/org/osUserEdit.jsp
+WEB-INF/jsp/sys/org/osUserEditTask.jsp
+com/redxun/sys/org/controller/UserMissionTargetController.java
+com/redxun/sys/org/controller/UserPositionMissionController.java
+com/redxun/sys/org/manager/UserPositionMissionManager.java
+com/redxun/sys/org/dao/UserPositionMissionQueryDao.java
+mybatis/sys/org/UserPositionMission.map.xml		
+
+23 接收初评添加评估公司（已合到develop）
+WEB-INF/表单HTML/信用贷款-新版/xydk_jieshouchuping.jsp
+WEB-INF/表单HTML/按揭表单-新版/aj_jieshouchuping.jsp
+
+
+WEB-INF/表单HTML/风控表单-新版/fk_yewushenqing.jsp
+scripts/fengkong3.0/fk_yewushenqing.js
+
+INSERT INTO `liangce_loan_bpm`.`sys_tree` (`TREE_ID_`, `NAME_`, `PATH_`, `DEPTH_`, `PARENT_ID_`, `KEY_`, `CODE_`, `DESCP_`, `CAT_KEY_`, `SN_`, `DATA_SHOW_TYPE_`, `CHILDS_`, `USER_ID_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('61370000000000149', '退案类型', '0.1.2.3.61370000000000149.', '4', '3', 'TALX', '', '', 'CAT_DIM', '1', 'FLAT', NULL, NULL, '1', '1', '2020-03-12 18:51:06', NULL, NULL);
+
+INSERT INTO `liangce_loan_bpm`.`sys_dic` (`DIC_ID_`, `TYPE_ID_`, `KEY_`, `NAME_`, `VALUE_`, `DESCP_`, `SN_`, `PATH_`, `PARENT_ID_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('61370000000000151', '61370000000000149', '1', '未收款（不影响退案率）', '1', '未收款（不影响退案率）', '1', '0.61370000000000151.', '0', '1', '1', '2020-03-12 18:52:00', '1', '2020-03-12 18:54:25');
+INSERT INTO `liangce_loan_bpm`.`sys_dic` (`DIC_ID_`, `TYPE_ID_`, `KEY_`, `NAME_`, `VALUE_`, `DESCP_`, `SN_`, `PATH_`, `PARENT_ID_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('61370000000000152', '61370000000000149', '2', '退费后仍达最低收费标准（不影响退案率）', '2', '退费后仍达最低收费标准（不影响退案率）', '2', '0.61370000000000152.', '0', '1', '1', '2020-03-12 18:53:10', '1', '2020-03-12 18:54:25');
+INSERT INTO `liangce_loan_bpm`.`sys_dic` (`DIC_ID_`, `TYPE_ID_`, `KEY_`, `NAME_`, `VALUE_`, `DESCP_`, `SN_`, `PATH_`, `PARENT_ID_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('61370000000000153', '61370000000000149', '3', '费用全退（影响退案率）', '3', '费用全退（影响退案率）', '3', '0.61370000000000153.', '0', '1', '1', '2020-03-12 18:53:45', '1', '2020-03-12 18:54:25');
+INSERT INTO `liangce_loan_bpm`.`sys_dic` (`DIC_ID_`, `TYPE_ID_`, `KEY_`, `NAME_`, `VALUE_`, `DESCP_`, `SN_`, `PATH_`, `PARENT_ID_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('61370000000000154', '61370000000000149', '4', '退费后未达最低收费标准（影响退案率）', '4', '退费后未达最低收费标准（影响退案率）', '4', '0.61370000000000154.', '0', '1', '1', '2020-03-12 18:54:25', NULL, NULL);
+
+
+INSERT INTO `liangce_loan_bpm`.`sys_bo_attr` (`ID_`, `ENT_ID_`, `NAME_`, `FIELD_NAME_`, `COMMENT_`, `DATA_TYPE_`, `LENGTH_`, `DECIMAL_LENGTH_`, `CONTROL_`, `EXT_JSON_`, `HAS_GEN_`, `STATUS_`, `IS_SINGLE_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('61370000000000189', '2530000022020053', 'return_case_type', 'F_return_case_type', '退案类型', 'varchar', '20', '0', 'mini-textbox', '{/"allowinput/":true,/"vtype/":/"/",/"format/":/"/",/"from/":/"/",/"sequence/":/"/",/"script/":/"/",/"required/":false}', NULL, 'base', '1', '1', '1', '2020-03-12 21:22:24', '1', '2020-03-12 22:24:14');
+INSERT INTO `liangce_loan_bpm`.`sys_bo_attr` (`ID_`, `ENT_ID_`, `NAME_`, `FIELD_NAME_`, `COMMENT_`, `DATA_TYPE_`, `LENGTH_`, `DECIMAL_LENGTH_`, `CONTROL_`, `EXT_JSON_`, `HAS_GEN_`, `STATUS_`, `IS_SINGLE_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('61370000000000202', '2530000022020053', 'return_case_type_name', 'F_return_case_type_name', '退案类型名', 'varchar', '20', '0', 'mini-textbox', '{/"allowinput/":true,/"vtype/":/"/",/"format/":/"/",/"from/":/"/",/"sequence/":/"/",/"script/":/"/",/"required/":false}', NULL, 'base', '1', '1', '1', '2020-03-12 21:22:24', NULL, NULL);
+
+ALTER TABLE `w_case_info_subjoin`
+ADD COLUMN `F_RETURN_CASE_TYPE`  varchar(20) NULL AFTER `F_NOTARY_OPERATOR_NAME`,
+ADD COLUMN `F_RETURN_CASE_TYPE_NAME`  varchar(55) NULL AFTER `F_RETURN_CASE_TYPE`;
+
+4.商业、公积金、组合贷款的案件，发起退案申请时，新增选择退案原因功能，且选择结果需要在“数据报表-财务-原始数据-退案业绩表”中有体现（2020-03-13上线并合到develop）
+com/redxun/loan/wcaseinfo/entity/WCaseInfoSubjoin.java
+mybatis/loan/wcaseinfo/WCaseInfoSubjoin.map.xml
+WEB-INF/表单HTML/按揭表单-新版/aj_zhuguanshenpi_tuian.jsp
+WEB-INF/jsp/reportForms/financial/tuiAnReportv3_0.jsp
+scripts/caseInfo/caseView.js
+src/main/webapp/scripts/caseInfo/caseViewUi.js
+WEB-INF/jsp/loan/caseInfo/caseViewUi.jsp
+
+proc_3_0_report_financial_case_back
+
+proc_report3_0_business_bank_summary
+
+4.退案业绩表新增退案类型筛选项（2020-03-20上线并合到develop）
+WEB-INF/表单HTML/按揭表单-新版/aj_zhuguanshenpi_tuian.jsp
+
+WEB-INF/jsp/reportForms/financial/tuiAnReportv3_0.jsp
+WEB-INF/mybatis/reportForm/report/FinancialStatement.map.ext.xml
+src/main/java/com/redxun/reportForm/report/req/ReportFormReq.java
+src/main/java/com/redxun/reportForm/report/req/FinancialCaseReq.java
+proc_3_0_report_financial_case_back
+
+com/redxun/reportForm/report/manager/FinancialStatementManager.java
+scripts/caseInfo/caseView.js
+
+APP2.1.0相关功能
+mybatis/loan/wcaseinfo/WCaseInfo.map.ext.xml
+com/redxun/restApi/business/controller/CaseInfoRestController.java
+com/redxun/loan/wcaseinfo/dao/WCaseInfoQueryDao.java	添加传jfOrderNum到XML中
+
+23.案件处理时效管理功能的配置及正常使用
+WEB-INF/jsp/loan/bizinfo/dealTimelimit.jsp
+loan/bizinfo/dealTimelimit/getTimelimitList.do、loan/bizinfo/dealTimelimit/saveConfig.do
+
+
+分支develop-optimize-V5.0-20200222（2020-03-25上线完毕并合到develop）
+
+src/main/webapp/WEB-INF/表单HTML/一次性业务表单-新版/ycxyw_luru.jsp
+src/main/webapp/WEB-INF/表单HTML/信用贷款-新版/xydk_luru.jsp
+src/main/webapp/WEB-INF/表单HTML/按揭表单-新版/aj_luru.jsp
+src/main/webapp/WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_songfangkuan.jsp
+WEB-INF/表单HTML/信用贷款-新版/xydk_shenhe.jsp
+WEB-INF/表单HTML/按揭表单-新版/aj_tuiziliao.jsp-------添加产品类型隐藏表单，以根据它来判断该让商业还是公积金贷款申请表必填
+
+1.WEB-INF/表单HTML/一次性业务表单-新版/ycxyw_tuiziliao.jsp
+2.WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_tuiziliao.jsp
+3.WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_shenhe.jsp
+4.WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_songfangkuan.jsp
+5.com/redxun/loan/customer/controller/CustomerFormController.java
+WEB-INF/classes/com/redxun/loan/customer/manager/CustomerManager.class
+WEB-INF/classes/com/redxun/loan/customer/dao/CustomerQueryDao.class
+WEB-INF/mybatis/loan/customer/Customer.map.xml
+6.WEB-INF/表单HTML/按揭表单-新版/aj_shangye_songfangkuan.jsp
+7.WEB-INF/表单HTML/按揭表单-新版/aj_gongjijin_songfangkuan.jsp
+8.WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_luru.jsp
+修改办法
+1.第二个person_type！=2改为person_type==2，注释掉取消必填项的代码，修改设置值，买方后面一定要跟$(".xgzm").show()，不然点击卖方再点击买方后相关证明的title就没了
+2.去掉一手房的必填项的特殊性、显示所有资料
+3.required=""改为required="false"
+4.去掉上传委托书后面的*
+6.去掉一手房的必填项的特殊性、添加首期款/定金收据或凭证、定义mfgzwts_text以赋值买/卖家公证委托书、mustpicArr.concat(buyerMustpicArr)改为mustpicArr=mustpicArr.concat(buyerMustpicArr)
+7.mustpicArr.concat(buyerMustpicArr)改为mustpicArr=mustpicArr.concat(buyerMustpicArr)、添加首期款/定金收据或凭证
+8.isRequired中把非必填项注释掉
+
+-- 2020-03-19上线的文件
+src/main/webapp/WEB-INF/jsp/loan/caseInfo/caseViewUi.jsp
+modified:   src/main/webapp/WEB-INF/jsp/loan/product/productEdit.jsp
+modified:   "src/main/webapp/WEB-INF/\350\241\250\345\215\225HTML/\344\273\243\345\212\236\344\270\232\345\212\241-\346\226\260\347\211\210/dbyw_qianjian.jsp"
+modified:   "src/main/webapp/WEB-INF/\350\241\250\345\215\225HTML/\346\214\211\346\217\255\350\241\250\345\215\225-\346\226\260\347\211\210/aj_shanye_fangkuan.jsp"
+
+
+2020-03-19修复商业、公积金审核无法保存银行机构人员的问题
+mainData.bank_handler_info = JSON.stringify(bank_handler_info_arr)//2020-03-19 zcl 修复银行经办人员无法保存问题所添代码
+
+
+*6.递件派单环节及递件环节的工作台，都将“最新递件信息表”tab调整至最前（最靠左）显示
+
+	修改html，同时修改默认显示tab的数据内容
+	修改文件	src/main/webapp/WEB-INF/表单HTML/按揭表单-新版/aj_dijianpaidang.jsp
+				src/main/webapp/WEB-INF/表单HTML/按揭表单-新版/aj_dijian.jsp
+				src/main/webapp/WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_dijianpaidang.jsp
+				src/main/webapp/WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_dijian.jsp
+				src/main/webapp/WEB-INF/表单HTML/一次性业务表单-新版/ycxyw_dijian.jsp
+				WEB-INF/表单HTML/一次性业务表单-新版/ycxyw_dijianpaidan.jsp
+*9.组合、商业、公积金贷款案件，客户确认贷款审批结果环节，客户接受时，需要确认商业及公积金的同贷日期、贷款金额、首期、成交价等
+WEB-INF/表单HTML/按揭表单-新版/aj_kehugoutongjieguo.jsp
+首期、成交价字段需添加物业信息对于表单的隐藏域，HTML如下
+<div class="form container-1000" style="padding-top: 20px;" id="form_property_info" relationtype="onetoone" tablename="property_info">
+    <div class="hidden">
+        <input name="payment_amount" class="mini-hidden rxc" plugins="mini-textbox" />
+        <input name="contract_price" class="mini-hidden rxc" plugins="mini-textbox" />
+    </div>
+</div>
+
+
+*10.证件类型增加“港澳台身份证”选项，不做录入合法性校验~~~~~注意，通过sql语句插入后，需要再页面刷新后才生效
+
+	INSERT INTO `liangce_loan_bpm`.`sys_dic` (`DIC_ID_`, `TYPE_ID_`, `KEY_`, `NAME_`, `VALUE_`, `DESCP_`, `SN_`, `PATH_`, `PARENT_ID_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('58870000000010178', '2510000001220526', '12', '港澳台身份证', '12', '港澳台身份证', '12', '0.58870000000010178.', '0', '1', '1', '2020-02-22 15:03:34', NULL, NULL);
+
+
+*11.代办业务签件，将之前的送审、同贷、放款日期，拆分成商业和公积金各自录入，同时新增“委托确认书日期”（即上数日期）在已处理案件详情页中也要对应处理。
+
+	添加日期，注意字段ID的命名
+	修改文件	src/main/webapp/WEB-INF/表单HTML/代办业务-新版/dbyw_qianjian.jsp
+				WEB-INF/jsp/loan/caseInfo/caseViewUi.jsp
+				scripts/caseInfo/caseViewUi.js
+				func_agree_loan_date
+*13.成交物业信息-评估价录入0，也要视为有效金额（即允许录入0）
+	src/main/webapp/WEB-INF/jsp/bpm/core/bpmTaskToStart.jsp、
+	WEB-INF/表单HTML/按揭表单-新版/aj_luru.jsp
+	WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_luru.jsp
+	有个奇怪的问题，评估价为0时，不满足0==""if条件但却进入里面了，所以加入相应代码判断使得评估价允许为0
+
+	未修改WEB-INF/jsp/loan/caseInfo/cjwyxx.jsp、WEB-INF/表单HTML/信用贷款-新版/xydk_luru.jsp
+*14.将工作台的“本案概要信息”由之前的默认收起改为默认展开显示（可点击收起）
+	将默认展开相关代码自动执行
+ 修改文件 src/main/webapp/WEB-INF/jsp/bpm/core/bpmTaskToStart.jsp
+*15.按揭贷款签件页面，删除“是否需要递件”选项，即都是需要递件，“递件日期”代替原来“是否需要递件”的位置
+	1.使用style="display:none"  隐藏 “是否需要递件”
+	2.改变递件日期的class为has_yuyue_deliver，去掉后面的_show
+	3.注释掉// onHasYuyueDeliver({value:mini.get("has_deliver").getValue()})
+	4.原本是根据是否需要递件获取，修改为以下代码将是否需要递件默认为是
+	 case_info_subjoin.has_deliver = 1;
+		case_info_subjoin.has_deliver_name = "是";
+*16、各业务品种录入、审核环节必填项字段的调整
+含有交易人员信息的表单：录入、审核
+含有物业信息模块的表单：录入、审核、补录
+含有贷款信息模块的表单：录入、审核、补录
+initPic
+按揭的方法：initRequiredFieldd、initJobRequiredItem
+纯抵押、信用贷的方法：initmustRequired、initJobRequiredItem
+纯抵押有的：isRequired
+WEB-INF/表单HTML/按揭表单-新版/aj_luru.jsp
+
+WEB-INF/表单HTML/按揭表单-新版/aj_shangyeshenhe.jsp
+WEB-INF/表单HTML/按揭表单-新版/aj_gongjijingshenhe.jsp
+
+WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_luru.jsp
+WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_shenhe.jsp
+
+WEB-INF/表单HTML/信用贷款-新版/xydk_luru.jsp
+
+*19.信用贷，部分同意的贷款利率选择按基准时，右边输入框不应该要求必填
+WEB-INF/表单HTML/信用贷款-新版/xydk_daikuanshenpi.jsp
+
+
+*29、各业务品种的信息补录、录入、审核、贷款审批页面中，对贷款申请信息及成交物业信息涉及到金额的录入，都增加预警值，若录入结果超出预警值有弹窗提醒
+信息补录、按揭录入、信用贷录入、纯抵押录入、一次性录入、
+公积金审核、商业审核、纯抵押审核、信用贷审核
+商业贷款审批、公积金贷款审批、纯抵押贷款审批、信用贷款审批
+   
+WEB-INF/jsp/loan/caseInfo/newSupplement.jsp
+
+WEB-INF/表单HTML/按揭表单-新版/aj_luru.jsp
+WEB-INF/表单HTML/信用贷款-新版/xydk_luru.jsp
+WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_luru.jsp、
+WEB-INF/表单HTML/一次性业务表单-新版/ycxyw_luru.jsp
+
+WEB-INF/表单HTML/按揭表单-新版/aj_gongjijingshenhe.jsp、
+WEB-INF/表单HTML/按揭表单-新版/aj_shangyeshenhe.jsp、
+WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_shenhe.jsp、
+WEB-INF/表单HTML/信用贷款-新版/xydk_shenhe.jsp
+
+WEB-INF/表单HTML/按揭表单-新版/aj_gongjijindaikuanshenpi.jsp
+WEB-INF/表单HTML/按揭表单-新版/aj_shangyedaikuanshenpi.jsp
+WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_daikuashenpi.jsp
+WEB-INF/表单HTML/信用贷款-新版/xydk_daikuanshenpi.jsp
+
+*30.各业务品种的信息补录、录入、审核、送放款、退资料的工作台中，交易人员基本信息及交易人员映像资料tab中，用交易身份信息替换掉原来的买卖方信息
+-- 信息补录、按揭录入、信用贷录入、纯抵押录入、一次性录入、
+   公积金审核、商业审核、纯抵押审核、信用贷审核
+   公积金送放款、商业送放款、纯抵押送放款、
+   按揭退资料、纯抵押退资料、一次性退资料
+WEB-INF/jsp/loan/caseInfo/newSupplement.jsp
+WEB-INF/表单HTML/按揭表单-新版/aj_luru.jsp
+WEB-INF/表单HTML/信用贷款-新版/xydk_luru.jsp
+WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_luru.jsp、
+WEB-INF/表单HTML/一次性业务表单-新版/ycxyw_luru.jsp
+
+WEB-INF/表单HTML/按揭表单-新版/aj_gongjijingshenhe.jsp、
+WEB-INF/表单HTML/按揭表单-新版/aj_shangyeshenhe.jsp、
+WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_shenhe.jsp、
+WEB-INF/表单HTML/信用贷款-新版/xydk_shenhe.jsp
+
+WEB-INF/表单HTML/按揭表单-新版/aj_gongjijin_songfangkuan.jsp
+WEB-INF/表单HTML/按揭表单-新版/aj_shangye_songfangkuan.jsp
+WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_songfangkuan.jsp
+
+		WEB-INF/表单HTML/按揭表单-新版/aj_tuiziliao.jsp
+		WEB-INF/表单HTML/纯抵押贷款-新版/cdydk_tuiziliao.jsp
+		WEB-INF/表单HTML/一次性业务表单-新版/ycxyw_tuiziliao.jsp
+
+*39 文字叫法更改----按揭录入、商业审核、公积金审核、商业送放款、公积金送放款、信息补录、按揭退资料
+WEB-INF/jsp/loan/caseInfo/caseViewUi.jsp
+
+WEB-INF/表单HTML/按揭表单-新版/aj_luru.jsp
+WEB-INF/jsp/loan/caseInfo/newSupplement.jsp
+WEB-INF/表单HTML/按揭表单-新版/aj_shangyeshenhe.jsp
+WEB-INF/表单HTML/按揭表单-新版/aj_gongjijingshenhe.jsp
+WEB-INF/表单HTML/按揭表单-新版/aj_shangye_songfangkuan.jsp
+WEB-INF/表单HTML/按揭表单-新版/aj_gongjijin_songfangkuan.jsp
+WEB-INF/表单HTML/按揭表单-新版/aj_tuiziliao.jsp
+WEB-INF/表单HTML/一次性业务表单-新版/ycxyw_tuiziliao.jsp
+WEB-INF/表单HTML/一次性业务表单-新版/ycxyw_luru.jsp
