@@ -14,13 +14,40 @@
 
 	  
 	  
-	   <Host name="localhost"  appBase="webapps"
+<Host name="localhost"  appBase="webapps"
             unpackWARs="true" autoDeploy="true">
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
                prefix="localhost_access_log" suffix=".txt"
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/" reloadable="true"/> 
-      </Host>
+</Host>
+
+2020-04-16
+1.<if test='riskNodesName.indexOf("等待") == -1 and riskNodesName.indexOf("触发") == -1 
+					and riskNodesName.indexOf("退案") == -1 and riskNodesName.indexOf("结案") == -1 and riskNodesName.indexOf("中止") == -1 
+					and riskNodesName.indexOf("审批不通过") == -1 and riskNodesName.indexOf("扣款成功回款") == -1 and riskNodesName.indexOf("未扣款回款") == -1 
+					and riskNodesName.indexOf("他项权证解保") == -1 and riskNodesName.indexOf("保函作废解保") == -1 '>
+					and exists(select * from act_ru_task art1 where art1.PROC_INST_ID_ = b.ACT_INST_ID_ and art1.NAME_ like '%${riskNodesName}%')
+				</if>
+2.BPM首页报表数据的设计，由于盒子位置的调换，导致出现问题。
+  04-17解决办法是再次定义一个全局变量times，记录盒子对应接口执行的次数，当为6的倍数次时重新调用获取业绩信息的方法
+  通过这个，对全局变量也有了一个新的认识
+3. 用reset命令，可以回退到某次提交，那该提交之后的提交都会回滚，不过这种覆盖是不可逆的，之前的提交记录都没有了。所以平时开发中尽量注意
+	git  reset --hard 25339f7c2470e98cda29ed74412efa91e4917dea
+4.重命名git分支名称
+?1、git branch -m 要改的本地分支名 修改后的分支名(修改本地分支)
+
+?2、 git push origin :远程修改前的分支名（删除远程分支）
+
+?3、git push origin 修改后的分支名:修改后的分支名（push 到远程分支）
+
+?4、git branch --set-upstream? 修改后的分支名 origin/修改后的分支名（绑定远程分支）
+
+
+2020-04-15
+原来idea自带反编译class文件的功能，MyEclipse可能也可以
+row++;//实现譬如 1、1、2、2、3、4、5、5 的排名->排名连续
+row=i+1;//实现譬如 1、1、3、3、5、6、7、8 的排名->排名间断
 2020-04-14
 因为数据库版本问题导致65不可以直接通过XML获取排行，
 在将排行的获取由XML移至方法中时，开始将返回的集合定义为List<HashMap<String,String>>这导致了某个字段比如userPerformance为double型时报错->java.lang.ClassCastException: java.lang.Double cannot be cast to java.lang.String，
@@ -112,6 +139,8 @@ FROM (',@drSql,@sqlWhereO,') t1 where TYPE_ID_ = 26 group by F_LOAN_BANK,F_LOAN_
 2020-03-12周四
 1.数据字典的数据页面中默认设值时，要用value=，defaultvalue是不生效的，下拉列表适用、单选按钮不适用
 2.是否家庭唯一住房改为“是否业主家庭唯一住房”，多加了两个字导致格式混乱问题~解决办法：调整高度，使用line-height解决两行字间距较大的问题
+2020-03-11
+将checkAmount函数由各表单移至bpmTaskToStart.jsp，避免多表单重复写，修改时都要修改
 
 2020-03-02
 1.数据字典中的证件类型通过执行sql语句添加后，被添加的类型没有在界面中立即显示，而且即使清除缓存后也没显示，这个时候如果不是添加错误，就考虑重启服务器

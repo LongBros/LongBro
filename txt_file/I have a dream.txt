@@ -10,17 +10,19 @@ db.password=123456
 miniUI的grid中的列使用renderer属性举例：
 <div field="formatTime" width="100" headerAlign="center" align="center" renderer="formatTime">操作时间</div>
 
-2020-03-11
-将checkAmount函数由各表单移至bpmTaskToStart.jsp，避免多表单重复写，修改时都要修改
 
 淘宝					微信
 
 小半一个				王勃号
 爸的tb51823112			我的号
 
-tadmin@gzaj.com lc1q2w3e
 
 #D92E2E;
+2020-04-17
+一年的开发时间，我觉得我越来越可以得心应手了，老大安排的任务基本都可以在很快的时间内完成，不再像当初那样虽然也可以完成，但总要费很大的功夫。
+或许我的工作已经缺乏挑战性了
+
+
 2020-04-10
 启用bookID字段
 日记本，每本可写六十篇日记，日记加入日记本后不可撤销，从日记本删除后不可恢复
