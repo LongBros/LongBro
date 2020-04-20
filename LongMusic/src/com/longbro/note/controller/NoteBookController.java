@@ -1,10 +1,17 @@
 package com.longbro.note.controller;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageProducer;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -396,44 +403,66 @@ public class NoteBookController{
     	return result;
     }
     
-    @RequestMapping(value="uploadImage",method=RequestMethod.POST)
-    @ResponseBody
-    public void uploadImage(HttpServletRequest request,HttpServletResponse response,
-    		@RequestParam(value="pic",required=false) MultipartFile attach) throws Exception{
+    @RequestMapping(value={"uploadImage"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	  @ResponseBody
+	  public BaseResult<List<HashMap<String, Object>>> uploadImage(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="pic", required=false) MultipartFile[] attachs)
+		throws Exception
+	  {
+		BaseResult<List<HashMap<String, Object>>> result = new BaseResult();
 		response.setCharacterEncoding("utf-8");
-		String userId="";
-		userId=request.getParameter("userId");
-//		 System.out.println(">>>>>>>>>>>>"+attach.getOriginalFilename());
-    	
-		if(attach.isEmpty()){
-			response.getWriter().write("你还未选择头像图片");
-			return;
+		if (attachs.length == 0)
+		{
+		  result.setCode(100);
+		  result.setMessage("");
+		  return result;
 		}
-		String path=request.getSession().getServletContext().
-				getRealPath("res"+File.separator+"images"+File.separator+"diary"+File.separator);
-		long fname=System.currentTimeMillis();
-		String prefix=FilenameUtils.getExtension(attach.getOriginalFilename());
-		int fileSize=2*1024*1024;
-		if(attach.getSize()>fileSize){//限制上传大小为2兆内的图片
-			response.getWriter().write("请选择两兆以内大小的图片");
-			request.setAttribute("uploadFileError","请选择两兆以内大小的图片");
-		}else{
-			if(prefix.equalsIgnoreCase("jpg")||prefix.equalsIgnoreCase("png")
-					||prefix.equalsIgnoreCase("png")||prefix.equalsIgnoreCase("png")){
-//				File dir=new File("D:/apache-tomcat-8.5.35/webapps/LongMusic/image/tx/");
-				File file=new File(path,userId+"_"+fname+".jpg");
-//				if(!dir.exists()){
-//					file=new File("/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/image/tx/",userId+"_"+fname+".jpg");
-//				}
-				attach.transferTo(file);
-				UserInfo user=new UserInfo();
-				user.setHeadImage(userId+"_"+fname+"");
-				user.setUUserId(Integer.parseInt(userId));
-				response.sendRedirect("../../myHome.html");
-			}else{
-				response.getWriter().write("请选择图片文件");
-				request.setAttribute("uploadFileError","上传图片的格式不正确");
-			}
+		String userId = "";
+		userId = request.getParameter("userId");
+		String path = request.getSession().getServletContext()
+		  .getRealPath("res" + File.separator + "images" + File.separator + "diary" + File.separator);
+		ArrayList<HashMap<String, Object>> list = new ArrayList();
+		for (int i = 0; i < attachs.length; i++)
+		{
+		  HashMap<String, Object> map = new HashMap();
+		  MultipartFile attach = attachs[i];
+		  long fname = System.currentTimeMillis();
+		  String prefix = FilenameUtils.getExtension(attach.getOriginalFilename());
+		  int fileSize = 2097152;
+		  if (attach.getSize() > fileSize)
+		  {
+			request.setAttribute("uploadFileError", "");
+		  }
+		  else if ((prefix.equalsIgnoreCase("jpg")) || (prefix.equalsIgnoreCase("png")) || (prefix.equalsIgnoreCase("jpeg")) || (prefix.equalsIgnoreCase("pneg")) || (prefix.equalsIgnoreCase("gif")))
+		  {
+			File file = new File(path, userId + "_" + fname + "_" + i + ".jpg");
+			attach.transferTo(file);
+			map.put("url", "http://www.duola.vip/res/images/diary/" + userId + "_" + fname + "_" + i + ".jpg");
+			map.put("isImage", Boolean.valueOf(true));
+			list.add(map);
+		  }
+		  else
+		  {
+			request.setAttribute("uploadFileError", "");
+		  }
 		}
-    }
+		result.setCode(200);
+		result.setMessage("");
+		result.setResult(list);
+		return result;
+	  }
+	 @RequestMapping({"markImage"})
+  @ResponseBody
+  public void markImage(String imgurl, HttpServletResponse res)
+    throws IOException
+  {
+    String filePath = "/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/images/diary/" + imgurl;
+    BufferedImage bi = ImageProduce.markText(filePath, "DoraWeb: www.duola.vip", new Font("����", 1, 36), Color.PINK, 30, 31);
+    
+    res.setContentType("image/jpeg");
+    
+    res.setDateHeader("expries", -1L);
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Pragma", "no-cache");
+    ImageIO.write(bi, "jpg", res.getOutputStream());
+  }
 }
