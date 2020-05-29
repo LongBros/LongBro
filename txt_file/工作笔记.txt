@@ -21,6 +21,166 @@
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/" reloadable="true"/> 
 </Host>
+AppGroupController		/app/group/workbench/getEffectiveDepts	获取用户负责的有效部门及部门里面的签件、拓展情况
+BusinessController		/app/report/business/getUserList		获取用户排名列表，参数 type：tuozhan/qianjian
+
+
+处理进度表
+http://mg.lcbpm.com/loan/taskmgr/taskHistoryList.do?taskId=2530000038422179&instId=2530000038422128&_=1589250127622
+http://mg.lcbpm.com/loan/bizinfo/dealTimelimit/getTimelimitList.do?productId=2530000016410006&deptId=2530000023001609&_=1589250127625
+
+流程图
+http://mg.lcbpm.com/bpm/activiti/processImage.do?taskId=2530000038422276
+ProcessImageController
+
+流转历史~2019111200014
+http://mg.lcbpm.com/bpm/core/bpmNodeJump/listForInst.do?actInstId=2530000038422139
+
+pageIndex: 0
+pageSize: 1000
+2020-05-23
+PortalScript在spring-bean.xml
+FlowScript在spring-activiti.xml
+appBeanUtil在spring-base.xml
+
+2020-05-28
+1.修复APP这边待确认业绩与bpm有出入的问题：
+  APP这边用的写法	and lfcr.CHARGE_CHARACTER in (1,3) 有问题（1和3不冲突），改为原本的1在外，3在内，有1才有3
+
+2020-05-20 
+1.进度执行结果新增放款日期字段，改为一对四，根据产品来隐藏不需字段
+2.判断该取哪个部门的
+  部门拓展、部门签件
+
+2020-05-19
+待签约案件添加个状态：已认领。已认领的案件虽然可以在大家的待签约列表看到，但只有认领的人才可以操作
+2020-05-18
+1.BPM的进度表等三个接口
+2.去掉我写的新版APP下单到BPM
+3.优化项遗留bug
+
+2020-05-13
+1.优化存储过程
+2.BPM的进度表等三个接口
+3.接口文档
+4.优化项
+
+2020-05-11
+1.待完成：取主管的业绩最好的部门显示，龙虎榜中仅有效部门参与排名
+2.BPM首页数据修改为从新项目接口中取
+3.进度表接口数据处理
+
+2020-05-09
+因旧数据没有案件附属表对应信息而导致的bug，需用以下代码->(data.sub.case_info_subjoin &&data.sub.case_info_subjoin.deliver_receipt)||''
+										   不能直接->data.sub.case_info_subjoin.deliver_receipt
+
+查询部门下的拓展用户排名：
+1.查询上月风控、按揭、服务费的
+2.查询本月风控、按揭、服务费的
+3.查询上月
+
+										   
+查询龙虎榜：
+1.查询上月风控、按揭、服务费的
+2.查询本月风控、按揭、服务费的
+	3.利用1的临时表取得上月部门数据
+	4.利用2的临时表取得本月部门数据
+5.关联3和4的sql求出所有部门的排名、环比上月等
+6.查询出各部门主管得到龙虎榜并返回
+
+
+主管的拓展、签件数据类似于个人的，传部门所有人的ID
+		查询主管部门拓展的排名
+		1.查询本月风控、按揭、服务费的
+			2.利用临时表取得本月部门数据
+		3.利用2的sql求出各部门的排名
+		4.根据部门ID得到该部门的排名
+
+		查询主管部门签件的排名
+		1.查询本月签件的按揭、风控数据
+			2.利用临时表取的本月部门数据
+		3.调用2的sql求出排名
+		4.根据部门ID得到该部门的排名
+
+2020-05-07
+1.程序里面整数相除不会保留小数，而是四舍五入了，例3/6会等于0，这个时候要采用3*1.0/6
+2.sql里面a and b and (c or d) 必须将后面部分括住
+
+2020-05-05
+主管查询上月的时候，需不需要考虑人员调动？
+龙虎榜参与排名的是机构下的所有部门，还是只是有效部门（至少含有一个签件或拓展）？
+龙虎榜
+1.机构下所有部门的排名
+
+2020-04-29
+1.SELECT DATE_FORMAT(fc.CHARGE_DATE_, "%Y-%m-%d")
+
+
+
+2020-04-28
+1.在一个查询中创建的临时表在另外的查询中不可用
+Run Configurations->Arguments：--spring.application.name=bpmmgr-dev
+
+3.EffectiveDeptInfo edis= osGroupMapper.getEffectiveDepts(accountId+"").get(0);//查询主管负责的部门信息
+	HashMap<String,String> map=new HashMap<>();
+	map.put("userId", user.getUserId());
+	map.put("instId", user.getTenantId());
+	map.put("phone", user.getMobile());
+	map.put("lastMon",DateUtil.dateFormat(DateUtil.addDate(Calendar.MONTH, -1),"yyyy-MM"));
+	map.put("thisMon",DateUtil.dateFormat(new Date(),"yyyy-MM"));
+	map.put("matchDay",com.liangce.lcfex.utils.DateUtil.getLastMonthSameDay());
+	if(edis.getTuozhanNum()>0) {//只要有拓展，均查询拓展数据
+		map.put("type","tuozhan");
+		businessZhuguanMapper.generateData(map);
+		businessZhuguanMapper.getZhuguanOperData(user.getUserId(), edis.getGroupId(),
+				DateUtil.dateFormat(new Date(),"yyyy-MM"));
+	}else if(edis.getQianjianNum()>0) {
+		map.put("type","qianjian");
+		businessZhuguanMapper.generateData(map);
+	}
+
+2020-04-27
+根据手机号判断人员：1.签件 2.拓展 3.主管 4.其他
+
+如是主管，查询其主管的所有人员数不为0的部门，查询部门里所有人的业绩
+
+主管的拓展->
+法1		查出所有拓展的ID，根据拓展ID查询所有的单个数据，排名特殊计算
+法2		查出主管的部门，根据部门查询出
+职级任务：主管的用户职级任务
+排名：龙虎榜中的排名，即所有部门里面的排名
+实际实收宗数：部门下所有人的宗数
+实收业绩：部门下所有人的业绩
+待确认业绩：部门下所有人的待确认业绩
+总业绩：实收业绩+待确认业绩
+实收业绩环比上月：
+实收宗数环比上月：
+总业绩环比上月：
+
+主管的签件：
+职级任务 
+签件数
+完成率
+签件数环比上月
+
+
+
+
+
+1.存储过程中一定要注意单引号、双引号的使用，银行服务费报错的原因就是字段赋空值时使用了单引号和外面冲突
+2.自动生成代码工具唤起命令界面方法：按住shift键，右击对应文件夹，会多出一个选项，点击即可
+
+2020-04-24
+1.纯抵押、信用贷客户沟通结果环节同贷日期录不上的原因：字段命名错误，应该是bus_agree_loan_date而不是agree_loan_date
+2.必填项校验失败的原因，最终返回        return {checked:checked,errorMsg:errorMsg}没有实际用到，且在其上一个方法_preProcessing中需要添加判断为false时直接return的代码
+3.是否主拓展回显出错的原因：应用record.tmp_is_primary==1而非record.tmp_is_primary
+return record.tmp_is_primary==1 ? '<input type="radio" onclick="onTmpIsPrimaryChanged(this)" checked name="tmp_is_primary"/>' : '<input type="radio" onclick="onTmpIsPrimaryChanged(this)" name="tmp_is_primary"/>';
+
+2020-04-23
+修复纯抵押送放款交易资料tab不显示的原因：纯抵押无评估价，在HTML中去掉后在js中没有去掉导致出错
+2020-04-22
+当表单中的某个元素处于hide状态时，required不会再对其必填项做校验，所以需要程序中处理
+mini的datagrid有个方法，双击某行执行 onrowdblclick ="showTask(e)"
 
 2020-04-16
 1.<if test='riskNodesName.indexOf("等待") == -1 and riskNodesName.indexOf("触发") == -1 
