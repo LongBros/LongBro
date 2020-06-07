@@ -1,3 +1,133 @@
+develop-20200402-App-2.1.1(2020-04-16合并到develop)
+INSERT INTO `liangce_loan_bpm`.`ins_msg_def` (`MSG_ID_`, `COLOR_`, `URL_`, `ICON_`, `CONTENT_`, `DS_NAME_`, `DS_ALIAS_`, `SQL_FUNC_`, `TYPE_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64310000000000021', NULL, '', ' icon-shixiang', '本月任务完成进度', NULL, NULL, 'portalScript.getUserInfo(0)', 'function', '1', '1', '2020-04-08 18:11:28', '1', '2020-04-09 18:10:59');
+INSERT INTO `liangce_loan_bpm`.`ins_msg_def` (`MSG_ID_`, `COLOR_`, `URL_`, `ICON_`, `CONTENT_`, `DS_NAME_`, `DS_ALIAS_`, `SQL_FUNC_`, `TYPE_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64310000000000031', NULL, '', ' icon-selectAll', '本月任务完成量', NULL, NULL, 'portalScript.getUserInfo(1)\n', 'function', '1', '1', '2020-04-08 18:17:02', '1', '2020-04-09 18:11:12');
+INSERT INTO `liangce_loan_bpm`.`ins_msg_def` (`MSG_ID_`, `COLOR_`, `URL_`, `ICON_`, `CONTENT_`, `DS_NAME_`, `DS_ALIAS_`, `SQL_FUNC_`, `TYPE_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64310000000000032', NULL, '', ' icon-rowafter', '本月职级任务', NULL, NULL, 'portalScript.getUserInfo(2)\n', 'function', '1', '1', '2020-04-08 18:17:26', '1', '2020-04-09 18:11:21');
+INSERT INTO `liangce_loan_bpm`.`ins_msg_def` (`MSG_ID_`, `COLOR_`, `URL_`, `ICON_`, `CONTENT_`, `DS_NAME_`, `DS_ALIAS_`, `SQL_FUNC_`, `TYPE_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64310000000000033', NULL, '', ' icon-jichushuju', '本月排名', NULL, NULL, 'portalScript.getUserInfo(3)\n', 'function', '1', '1', '2020-04-08 18:17:37', '1', '2020-04-09 18:11:29');
+INSERT INTO `liangce_loan_bpm`.`ins_msg_def` (`MSG_ID_`, `COLOR_`, `URL_`, `ICON_`, `CONTENT_`, `DS_NAME_`, `DS_ALIAS_`, `SQL_FUNC_`, `TYPE_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64310000000000034', NULL, '', ' icon-jingbiaozhong', '本月待确认业绩', NULL, NULL, 'portalScript.getUserInfo(4)\n', 'function', '1', '1', '2020-04-08 18:17:52', '1', '2020-04-09 18:11:37');
+INSERT INTO `liangce_loan_bpm`.`ins_msg_def` (`MSG_ID_`, `COLOR_`, `URL_`, `ICON_`, `CONTENT_`, `DS_NAME_`, `DS_ALIAS_`, `SQL_FUNC_`, `TYPE_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64310000000000035', NULL, '', ' icon-caogao01', '本月实收业绩宗数', NULL, NULL, 'portalScript.getUserInfo(5)\n', 'function', '1', '1', '2020-04-08 18:18:11', '1', '2020-04-09 18:11:46');
+
+
+UPDATE `liangce_loan_bpm`.`ins_column_def` SET `COL_ID_`='2400000003411003', `NAME_`='消息盒', `KEY_`='msgBox', `DATA_URL_`='1', `IS_DEFAULT_`='1', `TEMPLET_`='<div class=\"card\">\r\n <ol class=\"cardUl\">\r\n <#list data.obj as d>\r\n <li class=\"p_top\">\r\n <a href=\"${ctxPath}${d.url}\" target=\"_blank\">\r\n <div class=\"cardBox\" url=\"${ctxPath}${d.url}\">\r\n <div class=\"cardBox_right\">\r\n <div class=\"tubiao_right\">\r\n <span class=\"iconfont ${d.icon}\">\r\n</span>\r\n </div>\r\n </div>\r\n <div class=\"cardBox_left\">\r\n <p class=\"num\">\r\n<#if d.boxData.solCounts>${d.boxData.solCounts}</#if>\r\n<#if d.boxData.solCounts==null>${d.count}</#if>\r\n\r\n</p>\r\n <h5>\r\n${d.title}</h5>\r\n </div>\r\n </div>\r\n </a>\r\n </li>\r\n </#list>\r\n <h1 class=\"clearfix\">\r\n</h1>\r\n </ol>\r\n </div>\r\n', `FUNCTION_`='portalScript.getPortalMsgBox(\"msgbox\")', `IS_NEWS_`='NO', `TENANT_ID_`='1', `CREATE_BY_`='1', `CREATE_TIME_`=NULL, `UPDATE_BY_`=NULL, `UPDATE_TIME_`=NULL, `IS_PUBLIC_`=NULL, `type_`='', `TABGROUPS_`=NULL WHERE (`COL_ID_`='2400000003411003');
+
+INSERT INTO `liangce_loan_bpm`.`ins_msgbox_box_def` (`ID_`, `BOX_ID_`, `MSG_ID_`, `SN_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64760000000000001', '2400000007849001', '64310000000000021', '1', '1', '1', '2020-04-09 18:13:29', NULL, NULL);
+INSERT INTO `liangce_loan_bpm`.`ins_msgbox_box_def` (`ID_`, `BOX_ID_`, `MSG_ID_`, `SN_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64760000000000002', '2400000007849001', '64310000000000031', '2', '1', '1', '2020-04-09 18:13:29', NULL, NULL);
+INSERT INTO `liangce_loan_bpm`.`ins_msgbox_box_def` (`ID_`, `BOX_ID_`, `MSG_ID_`, `SN_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64760000000000003', '2400000007849001', '64310000000000032', '3', '1', '1', '2020-04-09 18:13:29', NULL, NULL);
+INSERT INTO `liangce_loan_bpm`.`ins_msgbox_box_def` (`ID_`, `BOX_ID_`, `MSG_ID_`, `SN_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64760000000000004', '2400000007849001', '64310000000000033', '4', '1', '1', '2020-04-09 18:13:29', NULL, NULL);
+INSERT INTO `liangce_loan_bpm`.`ins_msgbox_box_def` (`ID_`, `BOX_ID_`, `MSG_ID_`, `SN_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64760000000000005', '2400000007849001', '64310000000000034', '5', '1', '1', '2020-04-09 18:13:29', NULL, NULL);
+INSERT INTO `liangce_loan_bpm`.`ins_msgbox_box_def` (`ID_`, `BOX_ID_`, `MSG_ID_`, `SN_`, `TENANT_ID_`, `CREATE_BY_`, `CREATE_TIME_`, `UPDATE_BY_`, `UPDATE_TIME_`) VALUES ('64760000000000006', '2400000007849001', '64310000000000035', '6', '1', '1', '2020-04-09 18:13:29', NULL, NULL);
+
+
+<div class="card">
+ <ol class="cardUl">
+ <#list data.obj as d>
+ <li class="p_top">
+ <#if d.url><a href="${ctxPath}${d.url}" target="_blank"></#if>
+  <#if d.url==null><a href="javascript:;"></#if>
+ <div class="cardBox" url="${ctxPath}${d.url}">
+ <div class="cardBox_right">
+ <div class="tubiao_right">
+ <span class="iconfont ${d.icon}">
+</span>
+ </div>
+ </div>
+ <div class="cardBox_left">
+ <p class="num"  style="font-size:18px;">
+<#if d.boxData.solCounts>${d.boxData.solCounts}</#if>
+<#if d.boxData.solCounts==null>${d.count}</#if>
+
+</p>
+<br>
+ <h5>
+${d.title}</h5>
+ </div>
+ </div>
+  </a>
+ </li>
+ </#list>
+ <h1 class="clearfix">
+</h1>
+ </ol>
+ </div>
+
+
+ins_column_def
+ins_portal_def
+oa/info/insMsgboxBoxDef/saveMsgEntity.do
+com/redxun/oa/info/controller/InsPortalDefController.java	oa/info/insPortalDef/getPersonalPort.do
+insMsgDef
+ins_msg_def
+
+
+src/main/java/com/redxun/reportForm/report/dao/UserDataRestDao.java
+src/main/java/com/redxun/reportForm/report/entity/UserPerformanceData.java
+src/main/java/com/redxun/reportForm/report/manager/UserDataRestManager.java
+src/main/java/com/redxun/restApi/business/controller/UserDataRestController.java
+src/main/java/com/redxun/sys/org/dao/OsUserQueryDao.java
+src/main/java/com/redxun/sys/org/manager/OsUserManager.java
+src/main/resources/config/app.properties
+src/main/resources/mybatis/reportForm/report/UserData.map.xml
+src/main/resources/mybatis/sys/org/OsUser.map.xml
+src/main/java/com/redxun/oa/script/PortalScript.java
+
+分支develop-20200317-button-permission（03-31最新合并develop到这个分支，04-15上线并合并到develop）
+
+WEB-INF/jsp/reportForms/business/metaDataReport.jsp
+
+WEB-INF/jsp/reportForms/business/SongShenMingXiReport_3.0.jsp
+src/main/webapp/WEB-INF/jsp/reportForms/business/CommercialLoanReport_3.0.jsp
+src/main/webapp/WEB-INF/jsp/reportForms/business/DanBaoYeWuZBReport_3.0.jsp
+src/main/webapp/WEB-INF/jsp/reportForms/business/SongShenHZReport_3.0.jsp
+src/main/webapp/WEB-INF/jsp/reportForms/business/YinHangFKHuizongReport_3.0.jsp
+src/main/webapp/WEB-INF/jsp/reportForms/business/YinHangZhuanJieReport_3.0.jsp
+
+src/main/webapp/WEB-INF/jsp/reportForms/personnel/shiShouReport3_0.jsp
+WEB-INF/jsp/reportForms/personnel/heZuoZhongJieReport.jsp
+WEB-INF/jsp/reportForms/personnel/paihangbangReport3_0.jsp
+WEB-INF/jsp/reportForms/personnel/qianJianYeJiReport.jsp
+WEB-INF/jsp/reportForms/personnel/departYeJiQiGaoReport.jsp
+WEB-INF/jsp/reportForms/personnel/tuoZhanYeJiQiGaoReport.jsp
+WEB-INF/jsp/reportForms/personnel/settingTypeReport.jsp
+WEB-INF/jsp/reportForms/personnel/tiChengSheZhi.jsp
+
+WEB-INF/jsp/reportForms/operate/rawDataReport3_0.jsp
+WEB-INF/jsp/reportForms/personnel/chartsReport3_0.jsp
+
+WEB-INF/jsp/reportForms/financial/tichengReportv3_0.jsp
+WEB-INF/jsp/reportForms/financial/tuiAnReportv3_0.jsp
+WEB-INF/jsp/reportForms/financial/leiXingHuiZongReportv3_0.jsp
+WEB-INF/jsp/reportForms/financial/shouZhiTotalReportv3_0.jsp
+WEB-INF/jsp/reportForms/financial/chengBenReportv3_0.jsp
+WEB-INF/jsp/reportForms/financial/chongXiaoTotalReportv3_0_1.jsp
+WEB-INF/jsp/reportForms/financial/invoiceReportv3_0.jsp
+WEB-INF/jsp/reportForms/financial/kehudanganReport.jsp
+
+WEB-INF/jsp/reportForms/financial/ztcPersonReport.jsp
+WEB-INF/jsp/reportForms/financial/ztcDepartReport.jsp
+WEB-INF/jsp/reportForms/financial/zhTiChengSheZhi.jsp
+WEB-INF/jsp/reportForms/financial/ywtcMingXiReport.jsp
+WEB-INF/jsp/reportForms/financial/bmtcHuiZongReport.jsp
+WEB-INF/jsp/reportForms/financial/cftcMingXiReport.jsp
+WEB-INF/jsp/reportForms/financial/cftcHuiZongReport.jsp
+WEB-INF/jsp/reportForms/financial/ywZhuGuanMingXiReport.jsp
+WEB-INF/jsp/reportForms/financial/ywzgHuiZongReport.jsp
+WEB-INF/jsp/reportForms/financial/fgtcxzHeJiReport.jsp
+WEB-INF/jsp/reportForms/financial/fgtcfgHeJiReport.jsp
+WEB-INF/jsp/reportForms/financial/fgTiChengGeRen.jsp
+WEB-INF/jsp/reportForms/financial/qtTiChengSetting.jsp
+WEB-INF/jsp/reportForms/financial/qttcAnDanShuMingXiReport.jsp
+WEB-INF/jsp/reportForms/financial/qttcAnDanShuHuiZongReport.jsp
+WEB-INF/jsp/reportForms/financial/qttcAnYeJiBLMingXiReport.jsp
+WEB-INF/jsp/reportForms/financial/qttcAnYeJiBLHuiZongReport.jsp
+WEB-INF/jsp/reportForms/financial/qttcAnGongSiYJMingXiReport.jsp
+
+WEB-INF/jsp/reportForms/financial/ywtcHuiZongReport.jsp
+
+
+相关接口
+sys/core/sysMenuMgr/listAllSubSys.do
+
+sys/core/sysMenuMgr/saveMenu.do
+sys/org/osGroup/saveGrant.do
 【五期优化19】信用贷，部分同意的贷款利率选择按基准时，右边输入框不应该要求必填
 【五期优化16】各业务品种录入、审核环节必填项字段的调整
 【五期优化15】按揭贷款签件页面，删除“是否需要递件”选项，即都是需要递件，“递件日期”代替原来“是否需要递件”的位置
@@ -6,26 +136,8 @@
 【五期优化30】各业务品种的信息补录、录入、审核、送放款、退资料的工作台中，交易人员基本信息及交易人员映像资料tab中，用交易身份信息替换掉原来的买卖方信息
 【五期优化39】文字叫法更改，由“与业主关系”修改为“与主卖家关系”
 
-已上验收
-12-在组织部门/机构的组织架构页面，新增搜索组名的功能—测试验证已Ok
-
-
-4、6、9、10、11、
-13、14、15、16、19、
-20、21、22、24、28、
-29、30、39已上线
-
-
-
-25在验收
-
-12、27、41
-32在测试
-
-17、34、35、36、37、38
 
 分支develop-optimize-V5.1-20200224
-
 27 增加编辑功能（已合到develop）
 WEB-INF/jsp/sys/org/osUserEditLoan.jsp
 WEB-INF/jsp/sys/org/osUserEdit.jsp
@@ -95,7 +207,6 @@ loan/bizinfo/dealTimelimit/getTimelimitList.do、loan/bizinfo/dealTimelimit/save
 
 
 分支develop-optimize-V5.0-20200222（2020-03-25上线完毕并合到develop）
-
 src/main/webapp/WEB-INF/表单HTML/一次性业务表单-新版/ycxyw_luru.jsp
 src/main/webapp/WEB-INF/表单HTML/信用贷款-新版/xydk_luru.jsp
 src/main/webapp/WEB-INF/表单HTML/按揭表单-新版/aj_luru.jsp

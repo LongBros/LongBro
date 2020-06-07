@@ -430,7 +430,7 @@ public class NoteBookController{
 		String userId = "";
 		userId = request.getParameter("userId");
 		String path = request.getSession().getServletContext()
-		  .getRealPath("res" + File.separator + "images" + File.separator + "diary" + File.separator);
+		  .getRealPath("image" + File.separator + "diary" + File.separator);
 		ArrayList<HashMap<String, Object>> list = new ArrayList();
 		for (int i = 0; i < attachs.length; i++)
 		{
@@ -447,7 +447,7 @@ public class NoteBookController{
 		  {
 			File file = new File(path, userId + "_" + fname + "_" + i + ".jpg");
 			attach.transferTo(file);
-			map.put("url", "http://www.duola.vip/res/images/diary/" + userId + "_" + fname + "_" + i + ".jpg");
+			map.put("url", "http://www.duola.vip/image/diary/" + userId + "_" + fname + "_" + i + ".jpg");
 			map.put("isImage", Boolean.valueOf(true));
 			list.add(map);
 		  }

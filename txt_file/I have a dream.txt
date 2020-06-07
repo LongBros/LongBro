@@ -10,21 +10,63 @@ db.password=123456
 miniUI的grid中的列使用renderer属性举例：
 <div field="formatTime" width="100" headerAlign="center" align="center" renderer="formatTime">操作时间</div>
 
-2020-03-11
-将checkAmount函数由各表单移至bpmTaskToStart.jsp，避免多表单重复写，修改时都要修改
 
 淘宝					微信
 
 小半一个				王勃号
 爸的tb51823112			我的号
 
-tadmin@gzaj.com lc1q2w3e
 
 754后面的网易云音乐歌曲已下载
 2020-04-27
 如果参数为月，必须传入对应年，避免查询大量数据
 
-#D92E2E;
+
+2020-05-29
+业务提出需求->产品整理需求->开发解决需求
+
+2020-05-27
+1、st.stream().sorted(Comparator.comparing(类::属性一).reversed().thenComparing(类::属性二).reversed());
+2、st.stream().sorted(Comparator.comparing(类::属性一).thenComparing(类::属性二,Comparator.reverseOrder()));
+
+2020-05-21
+注入的几种方式：1.使用Spring的@Autowired 2.使用Javax的@Resource 3.像BPM系统里面使用wCaseInfoManager = AppBeanUtil.getBean(WCaseInfoManager.class);
+
+2020-05-19
+1.脚本不要嵌套太多的sql，尽量放到Java里面处理
+2.方法命名要注意，内容修改后名字、备注也要对应修改
+3.使用数组的方式
+
+①   := 与 = 的区别
+
+:=   赋值的意思。在set update select 中表示赋值的意思，用的比较少一般都用=，但是在用变量实现行号时（比如本文标题获取排列序号），一定要用:=。
+
+ =   等于的意思，只有当set 和 update时，和:=的意思是一样的，表示赋值，其余情况都是等于的意思。
+
+② 用户变量 @
+
+@rank 是对一个叫rank的参数进行赋值。对用户变量赋值有两种方式，一种直接用"="另一种用":="。其区别在于使用set命令对用户变量赋值时，两种方式都可以使用；当使用select语句对用户变量进行赋值时，只能使用“:=”方式，因为在select语句中，“=”被看做是比较操作符。
+
+
+2020-05-12
+1.将账单表和歌曲表拆分出来到其他数据库中，同时将对应的程序拆分到新建的项目中，各个项目变得相互独立，
+  同时又可相互联系
+
+2020-04-24
+BPM系统的所有接口（除对外接口）都需登录才能使用，例http://10.10.1.83:8082/loan/taskmgr/myTasks.do?actKey=anjieyewu
+
+2020-04-23
+mons=mons.reverse();实现将数组mons倒序
+
+2020-04-20
+测试是来找麻烦的，开发是来解决麻烦的
+<div v-if="index>0">
+	<div class="w_date" v-if="mainData.day!=contentData[index-1].day" style="height:20px;background:#f8f8f8;width:100%">
+		<span>{{mainData.day}}</span><span class="right" style="margin-right:30px;"><span v-if="dayOut>0">支出：{{dayOut}}</span>，<span v-if="dayIn>0">收入：{{dayIn}}</span></span>
+	</div>
+	<div v-if="mainData.day==contentData[index-1].day&&mainData.in_out == '收入'">{{dayIn=dayIn+mainData.amount}}</div>
+	<div v-if="mainData.day==contentData[index-1].day&&mainData.in_out == '支出'">{{dayOut=dayOut+mainData.amount}}</div>
+</div>
 2020-04-19
 1.账单的设计
 2.手机端搜索歌曲支持歌手、歌词搜索
@@ -32,6 +74,11 @@ tadmin@gzaj.com lc1q2w3e
 2020-04-17
 1.完成查看历史头像功能
 2.解决微信里面的音频不能播放的问题
+
+一年的开发时间，我觉得我越来越可以得心应手了，老大安排的任务基本都可以在很快的时间内完成，不再像当初那样虽然也可以完成，但总要费很大的功夫。
+或许我的工作已经缺乏挑战性了
+
+
 2020-04-10
 启用bookID字段
 日记本，每本可写六十篇日记，日记加入日记本后不可撤销，从日记本删除后不可恢复
