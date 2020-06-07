@@ -74,5 +74,17 @@ public class NoteBookDao extends BaseDao{
 		map.put("n", n);
 		return this.selectList(pre+"noticeUserDiary",map);
 	}
+	/**
+	 * 日记阅读量0，评论1，赞2，收藏3	加1
+	 * 2020-06-07
+	 * @param diaryId
+	 * @param type
+	 */
+	public void alterTypeNumAdd(String diaryId,int type){
+		HashMap<String, Object> map=new HashMap<>();
+		map.put("diaryId", diaryId);
+		map.put("type", type);
+		this.update(pre+"alterTypeNumAdd", map);
+	}
 }
 

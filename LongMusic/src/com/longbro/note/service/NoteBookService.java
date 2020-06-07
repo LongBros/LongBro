@@ -66,5 +66,14 @@ public class NoteBookService{
 	public List<Diary> noticeUserDiary(String user,Integer n){
 		return dao.noticeUserDiary(user,n);
 	}
+	/**
+	 * 日记阅读量0，评论1，赞2，收藏3	加1
+	 * 2020-06-07
+	 * @param diaryId
+	 * @param type
+	 */
+	public void alterTypeNumAdd(String diaryId,int type){
+		dao.alterTypeNumAdd(diaryId, type);
+	}
 }
 

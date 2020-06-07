@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.longbro.note.bean.StoreDiary;
 import com.longbro.note.bean.Visit;
+import com.longbro.note.service.NoteBookService;
 import com.longbro.note.service.VisitService;
 import com.longbro.util.TimeUtil;
 /**
@@ -24,10 +25,12 @@ import com.longbro.util.TimeUtil;
  * @copyright 多啦学娱网络科技有限公司
  */
 @Controller
-@RequestMapping("/note/visit/")
+@RequestMapping("note/visit/")
 public class VisitController{
     @Autowired
     VisitService visitService;
+    @Autowired 
+    NoteBookService noteBookService;
     /**
      * @desc 添加用户访问日记的记录
      * @author zcl
@@ -40,5 +43,7 @@ public class VisitController{
     	visit.setVVisitTime(TimeUtil.time());
     	visit.setVReadStatus("0");
     	visitService.create(visit);
+    	
+    	noteBookService.alterTypeNumAdd(visit.getVDiary(), 0);
     }
 }

@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.longbro.house.bean.BaseResult;
 import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.bean.StoreDiary;
+import com.longbro.note.service.NoteBookService;
 import com.longbro.note.service.StoreDiaryService;
 
 import common.Logger;
@@ -34,6 +35,8 @@ import common.Logger;
 public class StoreDiaryController{
     @Autowired
     StoreDiaryService storeDiaryService;
+    @Autowired 
+    NoteBookService noteBookService;
     private Logger logger=Logger.getLogger(PraiseDiaryController.class);
     /**
      * @desc 1.添加收藏记录
@@ -45,6 +48,7 @@ public class StoreDiaryController{
     @ResponseBody
     public void storeDiary(StoreDiary diary){
     	storeDiaryService.create(diary);
+    	noteBookService.alterTypeNumAdd(diary.getSDiary(), 3);
     }
     /**
      * @desc 2.取消收藏

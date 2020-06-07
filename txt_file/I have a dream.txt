@@ -1,5 +1,4 @@
-112.74.173.44
-ZCL19952019.
+
 db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
 db.username=mysqlrd
 db.password=123456
@@ -11,15 +10,8 @@ miniUI的grid中的列使用renderer属性举例：
 <div field="formatTime" width="100" headerAlign="center" align="center" renderer="formatTime">操作时间</div>
 
 
-淘宝					微信
-
-小半一个				王勃号
-爸的tb51823112			我的号
-
-
-754后面的网易云音乐歌曲已下载
-2020-04-27
-如果参数为月，必须传入对应年，避免查询大量数据
+2020-06-07
+拆分出阅读量、评论量、赞、收藏量至日记表的实现
 
 
 2020-05-29
@@ -51,6 +43,10 @@ miniUI的grid中的列使用renderer属性举例：
 2020-05-12
 1.将账单表和歌曲表拆分出来到其他数据库中，同时将对应的程序拆分到新建的项目中，各个项目变得相互独立，
   同时又可相互联系
+
+754后面的网易云音乐歌曲已下载
+2020-04-27
+如果参数为月，必须传入对应年，避免查询大量数据
 
 2020-04-24
 BPM系统的所有接口（除对外接口）都需登录才能使用，例http://10.10.1.83:8082/loan/taskmgr/myTasks.do?actKey=anjieyewu

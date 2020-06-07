@@ -471,22 +471,22 @@ function play(obj,k) {
 		dataType:"Json",
 		success:function(data){
 			sid=data.sourceId+"";
-//			if(sid.substring(sid.length-5)==".html"){
-//				url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
-//			}else if(sid.substring(sid.length-3)==".kw"){
-//				url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
-//			}else if(sid.substring(sid.length-4)==".553"){
-//				url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
-//			}else{
-//				url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
-//			}
+			if(sid.substring(sid.length-5)==".html"){
+				url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
+			}else if(sid.substring(sid.length-3)==".kw"){
+				url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
+			}else if(sid.substring(sid.length-4)==".553"){
+				url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
+			}else{
+				url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
+			}
 			//设置播放资源路径
 			if(sid.substring(sid.length-5)==".html"){//QQ音乐截去.html，其他无需截取
 				ssid=sid.substring(0, sid.indexOf(".html"));
 			}else{
 				ssid=sid;
 			}
-			url="http://localhost/util/songs/"+ssid+".mp3";
+//			url="http://localhost/util/songs/"+ssid+".mp3";
 //			url="file:///F:/Music/songs/"+ssid+".mp3";
 			name=data.songName+"-"+data.singer;
 			//设置图片

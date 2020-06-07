@@ -287,4 +287,23 @@
 				  and dn.n_Noticer=#{user} 
 		ORDER BY d.n_Time DESC LIMIT 0,#{n};
 	</select>
+	<!-- 日记阅读量0，评论1，赞2，收藏3	加1 -->
+	<update id="alterTypeNumAdd" parameterType="java.util.Map">
+		update d_diary
+		<set>
+			<if test="type==0">
+				n_visit_num=n_visit_num+1
+			</if>
+			<if test="type==1">
+				n_com_num=n_com_num+1
+			</if>
+			<if test="type==2">
+				n_praise_num=n_praise_num+1
+			</if>
+			<if test="type==3">
+				n_store_num=n_store_num+1
+			</if>
+		</set>
+		where n_Id=#{diaryId};
+	</update>
 </mapper>
