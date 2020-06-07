@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>粉丝、关注</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<!-- 引入样式文件 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.4/lib/index.css">
+	<link rel="stylesheet" type="text/css" href="css/base.css"/>
+</head>
+<body>
+<div id="app" v-cloak>
+	<ul class="user_list">
+		
+		<van-list
+			  v-model="loading"
+			  :finished="finished"
+			  finished-text="没有更多了"
+			  @load="onLoad"
+			>
+			<van-cell v-for="(item,index) in zanData"  />
+			<a :href="'author.html?author='+item.userId">
+			<div class="user_list_left" style="display: flex;">
+				<img style="width: 55px!important;height: 55px!important" class="userinfo_img w45" :src="'http://www.duola.vip/image/tx/'+item.headImg+'.jpg'" >
+				<div style="flex: 1;margin-left: 8px">
+					<p class="zan_name">
+						<span v-if="type==1">{{item.userName}}</span><span v-if="type==0">{{item.userName}}</span>
+					</p>
+					<p class="zan_juli">&emsp;<span>{{item.fanNums}}粉丝</span>&emsp;<span>{{item.joinDay}}天</span>共<span>{{item.diaryNum}}篇日记</span></p>
+					<p class="zan_juli"><span v-if="type==1">被</span>关注时间&emsp;{{item.noticeTime}}</p>
+				</div>
+			</div>
+			<p style="">
+				<img v-if="item.is_image==1" style="height: 60px;width: 60px" :src="item.file_url" >
+			</p>
+		</a>
+		</van-list>
+	</ul>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.4/lib/vant.min.js"></script>
+<script>
+	var author=getQueryString('author');
+	var type=getQueryString('type');
+	var app=new Vue({
+		el:'#app',
+		data:{
+			zanData:[],
+			loading: false,
+			finished: false,
+			type:type,
+			page:1
+		},
+		created:function(){
+			
+		},
+		methods:{
+			onLoad(){
+				
+				var url="";
+				if(type==1){//type=1加载粉丝
+					url="http://www.duola.vip/note/notice/getMyMessage.do?userId="+author+"&author="+author+"&page="+app.page+"&perPage=5";
+					document.title=author+"的粉丝";
+				}else if(type==0){//type=0加载关注
+					url="http://www.duola.vip/note/notice/getMyAtten.do?userId="+author+"&author="+author+"&page="+app.page+"&perPage=5";
+					document.title=author+"关注的人";
+				}
+				axios.get(url)
+				.then(function (response) {
+					console.log(response.data);
+					if (response.data.code==200&&response.data.result.length!=0) {
+						console.log('ssssssssss');
+						var tempData=response.data.result;
+						for(var i=0;i<tempData.length;i++){
+							if(type==1){
+								tempData[i].userId=tempData[i].noticerId;
+								tempData[i].userName=tempData[i].noticerName;
+							}else if(type==0){
+								tempData[i].userId=tempData[i].noticedId;
+								tempData[i].userName=tempData[i].noticedName;
+							}
+						}
+						app.zanData.push(...tempData);
+						console.log('页码')
+						console.log(app.page)
+						app.page++;
+						app.loading = false;
+						app.finished = false;
+					}
+					if (response.data.result.length==0) {
+						app.finished = true;
+					}
+				})
+				.catch(function (error) {
+					console.log(error);
+				})
+			}
+		}
+	})
+	function getQueryString(name) {
+	        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+	        var r = window.location.search.substr(1).match(reg); 
+	        if (r != null) return unescape(r[2]); 
+	        return null; 
+	    }
+</script>
+</body>
+</html>

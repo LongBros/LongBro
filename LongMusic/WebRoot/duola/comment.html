@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>我评论的</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<!-- 引入样式文件 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.4/lib/index.css">
+	<link rel="stylesheet" type="text/css" href="css/base.css"/>
+	<script type="text/javascript" src="http://duola.vip/js/myjs/timeDeal.js"></script>
+	<script type="text/javascript" src="http://duola.vip/hui/diary/js/index.js"></script>
+</head>
+<body  id="bodys">
+<div id="app" v-cloak>
+	<ul class="user_list">
+		<p class="null_tip" v-if="comData.length == 0">无数据！</p>
+		<li v-for="item in comData">
+			<a>
+			<div class="user_list_left" style="display: flex;">
+				<div style="flex: 1;margin-left: 8px">
+					<p class="zan_juli">{{item.diaryTitle}}~{{item.viewedName}}&emsp;&emsp;<span style="float:right;font-size:11px;">{{item.reviewTime}}</span></p>
+					<br>
+					<p class="zan_name">
+						<span>{{item.reviewCon}}</span>
+					</p>
+				</div>
+			</div>
+			<p style="">
+				<img v-if="item.is_image==1" style="height: 60px;width: 60px" :src="item.file_url" >
+			</p>
+			</a>
+		</li>
+		
+	</ul>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.4/lib/vant.min.js"></script>
+<script>
+	var user="";
+	user=getCookie("userId")+"";
+	var author=getQueryString('author');
+	
+	var app=new Vue({
+		el:'#app',
+		data:{
+			comData:[]
+		},
+		created:function(){
+			console.log('开始请求数据');
+			axios.get('http://www.duola.vip/note/comment/getMyComment.do?userId=' + author )
+			.then(function (response) {
+				if (response.data.code==200) {
+					console.log(response.data.result);
+					var comData=response.data.result;
+					for(var i=0;i<comData.length;i++){
+						var title=comData[i].diaryTitle;
+						if(title.length>10){
+							comData[i].diaryTitle=title.substring(0,10)+"...";
+						}
+						comData[i].reviewTime=handleTime(comData[i].reviewTime);
+						
+						var con=comData[i].reviewCon;
+						con=con.replace(new RegExp("&amp;","gm"), "&");
+						con=con.replace(new RegExp("&lt;","gm"), "<");
+						con=con.replace(new RegExp("::::","gm"), ".jpg'>");
+						con=con.replace(new RegExp(":::","gm"), ".png'>");
+						con=con.replace(new RegExp("::","gm"), ".gif'>");
+						con=con.replace(new RegExp("<<<","gm"), "<img alt='' src='http://www.duola.vip/image/expre/newtieba/");
+						con=con.replace(new RegExp("<<","gm"), "<img alt='' src='http://www.duola.vip/image/expre/tieba/");
+						con=con.replace(new RegExp("&&&&","gm"), "<img alt='' src='http://www.duola.vip/image/expre/weibo/");
+						con=con.replace(new RegExp("&&&","gm"), "<img alt='' src='http://www.duola.vip/image/expre/huang/");
+						con=con.replace(new RegExp("&&","gm"),"<img alt='' src='http://www.duola.vip/image/expre/aodamiao/");
+						comData[i].reviewCon=con;
+					}
+					app.comData=comData;
+					
+				}
+			})
+			.catch(function (error) {
+				console.log(error);
+			})
+			
+			axios.get('http://www.duola.vip/note/userinfo/getAuthorInfoByUserId.do?UUserId='+author)
+			.then(function (response) {
+				console.log(response.data);
+				if (response.data.code==200) {
+					var userData=response.data.result;
+					authorName=userData.uuserName;
+					app.userData=userData;
+					var body=document.getElementById("bodys");
+					if(userData.mback){
+						body.style.background="url(http://www.duola.vip/res/images/back/"+userData.mback+")";
+					}
+					if(user==""||user!=author){
+						document.title="‘"+userData.uuserName+"’评论的";
+					}
+				}
+			})
+		}
+	})
+	function getQueryString(name) {
+	        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+	        var r = window.location.search.substr(1).match(reg); 
+	        if (r != null) return unescape(r[2]); 
+	        return null; 
+	    }
+</script>
+</body>
+</html>

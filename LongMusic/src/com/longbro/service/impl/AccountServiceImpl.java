@@ -84,4 +84,8 @@ public class AccountServiceImpl implements AccountService{
 	public List<CateAmountVo> getCateByYom(String yom, String ioo, String d){
 		return dao.getCateByYom(yom, ioo, d);
 	}
+	@Override
+	public List<Account> queryBillsBy(HashMap map) {
+		return dao.queryBillsBy(map);
+	}
 }

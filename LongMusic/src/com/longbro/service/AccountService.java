@@ -21,5 +21,6 @@ public interface AccountService {
 	public ArrayList getAllMonth(String yom);
 	public String getAmount(String yom, String ioo, String d);
 	public List<CateAmountVo> getCateByYom(String yom, String ioo, String d);
+	public List<Account> queryBillsBy(HashMap map);
 
 }

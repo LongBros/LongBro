@@ -39,6 +39,7 @@ import com.longbro.note.service.PraiseDiaryService;
 import com.longbro.note.service.StoreDiaryService;
 import com.longbro.note.service.UserInfoService;
 import com.longbro.service.CommentService;
+import com.longbro.util.FileProduce;
 import com.longbro.util.Strings;
 import com.longbro.util.TimeUtil;
 
@@ -263,74 +264,59 @@ public class UserInfoController{
      * @param request
      * @throws Exception
      */
-    @RequestMapping(value="uploadHeadImage",method=RequestMethod.POST)
+    @RequestMapping(value={"uploadHeadImage"}, method={RequestMethod.POST})
     @ResponseBody
-    public void uploadHeadImage(HttpServletRequest request,HttpServletResponse response,
-    		@RequestParam(value="pic",required=false) MultipartFile attach) throws Exception{
-		response.setCharacterEncoding("utf-8");
-		String userId="";
-		userId=request.getParameter("userId");
-		logger.debug("==========>"+new Gson().toJson(request.getParameterMap()));
-//		 System.out.println(">>>>>>>>>>>>"+attach.getOriginalFilename());
-    	/*		 
-    	String pname="";
-		//创建 FileItem 对象的工厂
-		DiskFileItemFactory factory=new DiskFileItemFactory();
-		//ServletFileUpload 负责处理上传的文件数据，并将表单中每个输入项封装成一个 FileItem 对象中
-    	ServletFileUpload upload=new ServletFileUpload(factory);//2、创建一个文件上传解析器
-		upload.setHeaderEncoding("utf-8");////解决上传文件名的中文乱码
-		List<FileItem> items=upload.parseRequest(request);
-		System.out.println(new Gson().toJson(items));
-		Iterator<FileItem> ite=items.iterator();
-		while(ite.hasNext()){
-			FileItem fi=(FileItem)ite.next();
-			if(fi.isFormField()){//为普通表单字段，则调用getFieldName、getString方法得到字段名和字段值
-				if(fi.getFieldName().equals("userId")){
-					userId=fi.getString("userId");
-				}
-			}else{//为上传文件，则调用getInputStream方法得到数据输入流，从而读取上传数据。编码实现文件上传
-				if(fi.getName()!=null&&!fi.getName().equals("")){
-					  long fname=System.currentTimeMillis();
-					  pname=fname+".jpg";
-					  File file=new File("D:/apache-tomcat-8.5.35/webapps/",pname);
-					  //法一：使用fileitem直接向服务器写数据
-					  fi.write(file);
-				}else{
-				}
-			}
-		}*/
-		if(attach.isEmpty()){
-			response.getWriter().write("你还未选择头像图片");
-			return;
-		}
-		String path=request.getSession().getServletContext().
-				getRealPath("image"+File.separator+"tx"+File.separator);
-		logger.debug("==========>"+path);
-		long fname=System.currentTimeMillis();
-		String prefix=FilenameUtils.getExtension(attach.getOriginalFilename());
-		int fileSize=2*1024*1024;
-		if(attach.getSize()>fileSize){//限制上传大小为2兆内的图片
-			response.getWriter().write("请选择两兆以内大小的图片");
-			request.setAttribute("uploadFileError","请选择两兆以内大小的图片");
-		}else{
-			if(prefix.equalsIgnoreCase("jpg")||prefix.equalsIgnoreCase("png")
-					||prefix.equalsIgnoreCase("png")||prefix.equalsIgnoreCase("png")){
-//				File dir=new File("D:/apache-tomcat-8.5.35/webapps/LongMusic/image/tx/");
-				File file=new File(path,userId+"_"+fname+".jpg");
-//				if(!dir.exists()){
-//					file=new File("/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/image/tx/",userId+"_"+fname+".jpg");
-//				}
-				attach.transferTo(file);
-				UserInfo user=new UserInfo();
-				user.setHeadImage(userId+"_"+fname+"");
-				user.setUUserId(Integer.parseInt(userId));
-				updateUserInfo(response,user);
-				response.sendRedirect("../../myHome.html");
-			}else{
-				response.getWriter().write("请选择图片文件");
-				request.setAttribute("uploadFileError","上传图片的格式不正确");
-			}
-		}
+    public BaseResult uploadHeadImage(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="pic", required=false) MultipartFile attach)
+      throws Exception
+    {
+      BaseResult result = new BaseResult();
+      response.setCharacterEncoding("utf-8");
+      String userId = "";
+      userId = request.getParameter("userId");
+      this.logger.debug("==========>" + new Gson().toJson(request.getParameterMap()));
+      if (attach.isEmpty())
+      {
+        result.setCode(100);
+        result.setMessage("你还未选择头像图片");
+        response.getWriter().write("你还未选择头像图片");
+        return result;
+      }
+      String path = request.getSession().getServletContext()
+        .getRealPath("image" + File.separator + "tx" + File.separator);
+      this.logger.debug("==========>" + path);
+      long fname = System.currentTimeMillis();
+      String prefix = FilenameUtils.getExtension(attach.getOriginalFilename());
+      int fileSize = 2097152;
+      if (attach.getSize() > fileSize)
+      {
+        result.setCode(100);
+        result.setMessage("请选择两兆以内的图片作为头像");
+        
+        request.setAttribute("uploadFileError", "请选择两兆以内的图片作为头像");
+        
+        return result;
+      }
+      this.logger.debug("==========>执行到了这里,原图片名为" + attach.getOriginalFilename());
+      if ((prefix.equalsIgnoreCase("jpg")) || (prefix.equalsIgnoreCase("png")) || 
+        (prefix.equalsIgnoreCase("jpeg")) || (prefix.equalsIgnoreCase("gif")))
+      {
+        File file = new File(path, userId + "_" + fname + ".jpg");
+        
+        this.logger.debug("==========>开始上传");
+        attach.transferTo(file);
+        UserInfo user = new UserInfo();
+        user.setHeadImage(userId + "_" + fname);
+        user.setUUserId(Integer.valueOf(Integer.parseInt(userId)));
+        updateUserInfo(response, user);
+      }
+      else
+      {
+        request.setAttribute("uploadFileError", "上传图片格式不正确");
+      }
+      result.setCode(200);
+      result.setMessage("头像图片上传成功");
+      result.setResult(userId + "_" + fname);
+      return result;
     }
     /**
      * @desc 9.查询用户数、日记数量的统计信息
@@ -511,20 +497,30 @@ public class UserInfoController{
     	result.setResult(doraId);
     	return result;
     }
-	
-	@RequestMapping({"listAllPic"})
-  @ResponseBody
-  public BaseResult<ArrayList<String>> listAllPic(String userId, int page)
-  {
-    BaseResult<ArrayList<String>> result = new BaseResult();
-    if (StringUtils.isEmpty(page)) {
-      page = 1;
-    }
-    ArrayList<String> files = FileProduce.getAllFiles(userId, "/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/images/diary/");
-    result.setResult(files.subList(6 * (page - 1), 6 * page));
-    result.setCode(200);
-    result.setMessage("" + userId + "" + page + "");
-    result.setNum(files.size());
-    return result;
-  }
+	/**
+	 * 12.列出用户的历史头像
+	 * @date 2020-04-17
+	 * @param userId
+	 * @param page 页码，每页6张，page为0时加载所有图片
+	 * @return
+	 */
+	@RequestMapping({"listAllHeadImg"})
+	  @ResponseBody
+	  public BaseResult<ArrayList<String>> listAllPic(String userId, int page)
+	  {
+	    BaseResult<ArrayList<String>> result = new BaseResult();
+	    if (StringUtils.isEmpty(page+"")) {
+	      page = 1;
+	    }
+	    ArrayList<String> files = FileProduce.getAllFiles(userId, "/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/image/tx/");
+	    if(page==0){
+		    result.setResult(files);
+	    }else{
+		    result.setResult(files.subList(6 * (page - 1), 6 * page));
+	    }
+	    result.setCode(200);
+	    result.setMessage("" + userId + "" + page + "");
+	    result.setNum(files.size());
+	    return result;
+	  }
 }

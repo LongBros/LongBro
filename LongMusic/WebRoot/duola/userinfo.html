@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>个人信息</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<!-- 引入样式文件 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.4/lib/index.css">
+	<link rel="stylesheet" type="text/css" href="css/base.css"/>
+	<script type="text/javascript" src="http://duola.vip/hui/diary/js/index.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+	<div class="content">
+		<van-action-sheet v-model="searchBox" :title="searchTitle">
+		  <div style="margin: 0 15px;background-color: #FAF7F8;bottom: 0;left: 0;right: 0;">
+			  <van-search van-icon-search show-action v-model="key" :placeholder="goodTip"/>
+			  <div style="color: #78D36E;" @click="search" slot="action" >搜索</div>
+		  </div>
+		  <div class="content" id="commentBox" style="overflow-y:scroll;min-height: 460px;">
+			  <div v-if="songs.length==0&&searchTitle!=''" style="text-align:center"><br><br><br>嗨，没有搜到喔^_^，换个关键词试一下</div>
+			  <div v-if="songs.length==0&&searchTitle==''" style="text-align:center"><br><br><br>输入关键词搜搜试下吧^_^</div>
+			  <div v-for="(song,index) in songs" class="flex">
+				  <div class="flex_right">
+					  <p class="com_title">
+						  <span style="color:red" v-if="song.match_type==3">{{index+1}}.&emsp;</span><span style="color:green" v-if="song.match_type!=3">{{index+1}}.&emsp;</span>
+						  <span @click="chooseSong(song.sourceId,song.songName+'-'+song.singer)">
+							  <span style="color:red" v-if="song.match_type==1">{{song.songName}}</span><span v-if="song.match_type!=1">{{song.songName}}</span>
+								-
+							  <span style="color:red" v-if="song.match_type==2">{{song.singer}}</span><span v-if="song.match_type!=2">{{song.singer}}</span>
+						 </span>
+						 <span class="right"><a style="color:green" @click="playAudio(song.sourceId,song.songName)">试听</a></span>
+					  </p>
+				  </div>
+			  </div>
+		  </div>
+		  
+		</van-action-sheet>
+	</div>
+	<ul class="user_list">
+		<li>
+			<a href="#">
+			<div class="user_list_left">
+				<span class="list_text txt00" style="line-height: 85px">头像</span>
+				&emsp;<span class="list_text txt00" style="margin-left: 45px;font-size:10px;" @click="historyHeadImg()">查看历史头像</span>
+			</div>
+			
+			<p style="">
+				<!-- <span class="account_num">17835417305</span> -->
+				<!-- <img class="userinfo_img" :src="'http://www.duola.vip/image/tx/'+headImage+'.jpg'" > -->
+				<van-uploader max-count="1" :deletable="false" :after-read="afterRead" v-model="image" preview-size="80">
+				  <div class="upload_div">
+					  <van-icon :name="'http://www.duola.vip/image/tx/'+headImage+'.jpg'" size="60" color="#969696"/>
+				  </div>
+				</van-uploader>
+			</p>
+			</a>
+		</li>
+		<li>
+			<span class="list_text txt00" style="margin-right: 25px">哆啦ID</span>
+			<p style="">
+				<span style="color: #666;" class="van-field__control">{{uuserId}}</span>
+			</p>
+		</li>
+		<li>
+			<span class="list_text txt00" style="margin-right: 25px">生日</span>
+			<p style="">
+				<span style="color: #666;" class="van-field__control">{{birthday}}</span>
+			</p>
+		</li>
+		
+		<li>
+			<span class="list_text txt00" style="margin-right: 25px">昵称</span>
+			<p style="">
+				<input style="color: #666" v-model="uuserName" @change="onChange(3)" class="van-field__control" type="text">
+			</p>
+		</li>
+		<li @click="alertMenu(0)">
+			<div class="user_list_left">
+				<span class="list_text txt00">性别</span>
+				<span style="margin-left: 25px">{{uuserSex}}</span>
+			</div>
+			<p style="">
+				<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+			</p>
+		</li>
+		<li>
+			<span class="list_text txt00" style="margin-right: 25px">个性签名</span>
+			<p style="">
+				<input style="color: #666" v-model="signature" @change="onChange(4)" class="van-field__control" type="text">
+			</p>
+		</li>
+		<li>
+			<span class="list_text txt00" style="margin-right: 25px">默认位置</span>
+			<p style="">
+				<input style="color: #666" v-model="location" @change="onChange(5)" class="van-field__control" type="text">
+			</p>
+		</li>
+		
+		<li >
+			<div class="user_list_left">
+				<span class="list_text txt00">家歌</span>
+				<span style="margin-left: 25px">{{homeSongName}}</span>
+			</div>
+			<!--<p style="" @click="alertMenu(3)">
+				<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+			</p>-->
+			<span style="color:green;margin-left:15px;margin-top:4px;font-size:12px;" @click="openSearBox()">搜搜</span>
+		</li>
+		<li @click="alertMenu(1)">
+			<div class="user_list_left">
+				<span class="list_text txt00">音频自动播放</span>
+				<span style="margin-left: 25px">{{autoPlay}}</span>
+			</div>
+			<p style="">
+				<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+			</p>
+		</li>
+		<li @click="alertMenu(2)">
+			<div class="user_list_left">
+				<span class="list_text txt00">音频循环播放</span>
+				<span style="margin-left: 25px">{{loopPlay}}</span>
+			</div>
+			<p style="">
+				<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+			</p>
+		</li>
+		<li @click="alertMenu(4)">
+			<div class="user_list_left">
+				<span class="list_text txt00">不看名单</span>
+				<span style="margin-left: 25px">{{blackNames}}</span>
+			</div>
+			<p style="">
+				<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+			</p>
+		</li>
+		<li @click="alertMenu(5)">
+			<div class="user_list_left">
+				<span class="list_text txt00">不给看名单</span>
+				<span style="margin-left: 25px">{{blacks}}</span>
+			</div>
+			<p style="">
+				<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+			</p>
+		</li>
+		<li @click="alertMenu(6)">
+			<div class="user_list_left">
+				<span class="list_text txt00">日记列表显示形式</span>
+				<span style="margin-left: 25px">{{listStyle}}</span>
+			</div>
+			<p style="">
+				<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+			</p>
+		</li>
+		<li @click="alertMenu(7)">
+			<div class="user_list_left">
+				<span class="list_text txt00">列表显示字数</span>
+				<span style="margin-left: 25px">{{showWordSize}}</span>
+			</div>
+			<p style="">
+				<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+			</p>
+		</li>
+		<li @click="alertMenu(8)">
+			<div class="user_list_left">
+				<span class="list_text txt00">单页加载日记篇数</span>
+				<span style="margin-left: 25px">{{perPage}}</span>
+			</div>
+			<p style="">
+				<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+			</p>
+		</li>
+			<!-- <van-button type="primary" @click="alertMenu">弹出菜单</van-button> -->
+			<van-action-sheet v-model="show" close-on-click-action :description="whichPage" :actions="actions" bind:close="onClose" @select="onSelect"/>
+			
+			
+	</ul>
+</div>
+<div style="text-align:center"><audio id="audio" src="" autoplay="autoplay" controls="controls"  style="float: left;margin-left: 20px;margin-top: 10px;display:none"></audio></div>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.4/lib/vant.min.js"></script>
+<script type="text/javascript">
+	
+	var user="";
+	user=getCookie("userId")+"";
+	var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
+	
+	var author=user;
+	var app=new Vue({
+		el:'#app',
+		data:{
+			// user_id:65,
+			value:'',
+			show: false,
+			headImage:'',
+			UUserId:'',
+			uuserName:'',
+			userData:[],
+			birthday:"",
+			uuserSex:'',
+			signature:'',
+			location:'',
+			homeSongName:'',
+			homeSongId:'',
+			loopPlay:'',
+			autoPlay:'',
+			blackNames:'',
+			blackNameList:'',
+			blackList:'',
+			blacks:'',
+			listStyle:'',
+			showWordSize:'',
+    		actions: [],
+			perPage:'显示下拉列表',
+			image:[],
+			whichPage:'请选择',
+			songs:[],//搜索到达歌曲集合
+			key:'',//待搜索的关键字
+			searchBox:false,//搜索框的显示与否
+			searchTitle:'',
+			goodTip:'输入歌名、歌手或歌词',
+			showDate:false//是否显示日期选择器
+		
+		},
+		created:function(){
+			console.log('开始请求数据');
+			axios.get('http://www.duola.vip/note/userinfo/getAuthorInfoByUserId.do?UUserId=' + author )
+			.then(function (response) {
+				console.log(response.data);
+				if (response.data.code==200) {
+					var userData=response.data.result;
+					app.headImage=userData.headImage;
+					app.uuserId=userData.uuserId;//哆啦ID
+					app.birthday=userData.ubornTime;
+					app.uuserName=userData.uuserName;
+					app.uuserSex=userData.uuserSex;
+					app.signature=userData.signature;
+					app.location=userData.location;
+					app.homeSongName=userData.homeSongName;
+					app.autoPlay=userData.autoPlay;
+					app.loopPlay=userData.loopPlay;
+					if(userData.uuserSex==1){
+						app.uuserSex='男'
+					}else{app.uuserSex='女'}
+					
+					if(userData.loopPlay==1){
+						app.loopPlay='是'
+					}else{app.loopPlay='否'}
+					
+					if(userData.autoPlay==1){
+						app.autoPlay='是'
+					}else{app.autoPlay='否'}
+					
+					app.blackNames=userData.blackNames;
+					app.blackNameList=userData.blackNameList;
+					
+					app.blackList=userData.blackList;
+					app.blacks=userData.blacks;
+					if(userData.listStyle==1){
+						app.listStyle='仅显示日记标题';
+					}else{
+						app.listStyle='显示日记部分内容';
+					}
+					if(userData.uShowWordnum==1){
+						app.showWordSize='显示字数';
+					}else{
+						app.showWordSize='隐藏字数';
+					}
+					
+					if(userData.perpageNum==0){
+						app.perPage="显示下拉列表";
+					}else{
+						app.perPage=userData.perpageNum+"篇";
+					}
+					console.log(userData.uuserSex);
+					// console.log(response.data.data);
+				}
+			})
+			.catch(function (error) {
+				console.log(error);
+			})
+		},
+		methods:{
+			onChange:function(type){
+				// 发送给后台修改昵称
+				console.log("onChange"+type);
+				console.log(event.name);
+
+				this.updateInfo(type);
+			},chooseBir(){
+				//vant.Toast("...");
+				//app.showDate=true;
+			
+			},historyHeadImg(){//查看历史头像
+				vant.Toast("暂时还不支持呢");
+				let img=[];
+				axios.get('http://www.duola.vip/note/userinfo/listAllHeadImg.do?userId='+author+'&page=0')
+				.then(function (response) {
+					console.log(response.data);
+					var pic=response.data.result;
+					for(var i=0;i<response.data.result.length;i++){
+						img.push("http://www.duola.vip/image/tx/"+pic[i]);
+					}
+				})
+				.catch(function (error) {
+					console.log(error);
+				})	
+				
+				//console.log(img);
+				vant.ImagePreview(img)
+			},openSearBox(){
+				var index = Math.floor(Math.random()*100);
+				var page=random(1, 17);
+				if(index>30){//百分之七十的概率
+					vant.Toast("欢迎使用搜搜选歌功能^_^");
+					app.goodTip="滑动时请放在歌名上滑动";
+				}else if(index<30){//百分之七十的概率
+					vant.Toast("将默认为你加载第"+page+"页的歌曲");
+					app.goodTip="滑动时请手指放在歌名上上下滑动";
+				}
+				this.searchBox=true;
+				app.searchTitle="将为你加载第"+page+"页的歌曲";
+				axios.get('http://www.duola.vip/queryAllSongs.do?page='+page)
+				.then(function (response) {
+					console.log(response.data);
+					app.songs=response.data;
+					
+					app.searchTitle="已为你加载出第"+page+"页的歌曲，看看有没有喜欢哒";
+					app.goodTip="输入歌名、歌手或歌词";
+				})
+				.catch(function (error) {
+					console.log(error);
+				})
+				
+			},search(){
+				let key=app.key;
+				if(key==""){
+					vant.Toast("还是输入点关键词吧^_^");
+					return ;
+				}
+				//strongQuerySongs
+				//axios.get('http://www.duola.vip/querySongs.do?key='+key)
+				//.then(function (response) {
+				//	console.log(response.data);
+				//	app.songs=response.data;
+				//	app.searchTitle="共搜索到"+response.data.length+"首歌曲";
+					//for(var i=0;i<data.length;i++){
+					//	data[i].name=data[i].songName+"-"+data[i].singer;//+"&emsp;<a>试听</a>"
+					//}
+					//vant.Toast(data[0].songName);
+					
+				//})
+				//.catch(function (error) {
+				//	console.log(error);
+				//})
+				
+				axios.get('http://www.duola.vip/strongQuerySongs2.do?key='+key)
+				.then(function (response) {
+					console.log(response.data);
+					if(response.data.code==200){
+						app.songs=response.data.result;
+						app.searchTitle="共搜索到"+response.data.num+"首歌曲";
+					}
+					
+					
+				})
+				.catch(function (error) {
+					console.log(error);
+				})
+			},chooseSong(sourceId,name){
+				this.homeSongName=name;
+				this.homeSongId=sourceId;
+				this.searchBox=false;
+				this.updateInfo(6);
+				//document.getElementById("listenBtn").style.display="inline-block";
+			},playAudio(sourceId,songName){
+				let sid="";
+				if(sourceId){//试听搜素到的歌曲
+					vant.Toast("开始试听歌曲->"+songName);
+					sid=sourceId;
+				}else{//试听已选择的歌曲
+					if(app.audioName){
+						vant.Toast("开始试听歌曲->"+app.audioName);
+					}
+					sid=app.audio;
+				}
+				
+				var url="";
+				if(sid.substring(sid.length-5)==".html"){
+					url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
+				}else if(sid.substring(sid.length-3)==".kw"){
+					url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
+				}else if(sid.substring(sid.length-4)==".553"){
+					url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
+				}else if(sid.substring(sid.length-4)==".aac"||sid.substring(sid.length-4)==".m4a"||sid.substring(sid.length-4)==".mp3"){
+					url=sid;
+				}else{
+					url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
+				}
+				var song=document.getElementById("audio");
+				//song.style.display="inline-block";
+				song.src=url;
+				song.play();
+				
+			},alertMenu:function(type) {
+				if(type==0){//性别
+					app.whichPage="你是公主呢，还是王子呢？";
+					app.actions=[{id:1,name:"男",type:"性别"},{id:0,name:"女",type:"性别"}];
+				}else if(type==1){//音频自动播放
+					app.whichPage="是否开启音频自动播放功能呢？";
+					app.actions=[{id:1,name:"是",type:"自动播放"},{id:0,name:"否",type:"自动播放"}];
+				}else if(type==2){//音频循环播放
+					app.whichPage="是否开启音频循环播放功能呢？";
+					app.actions=[{id:1,name:"是",type:"循环播放"},{id:0,name:"否",type:"循环播放"}];
+				}else if(type==3){//家歌
+					app.actions=[{loading:true},{loading: true },{loading: true },{loading: true },{loading: true }];//2020-04-05
+					var page=random(1, 17);
+					app.whichPage="将为你加载第"+page+"页的歌曲";
+					axios.get('http://www.duola.vip/queryAllSongs.do?page='+page)
+					.then(function (response) {
+						console.log(response.data);
+						var data=response.data;
+						data[0].type="家歌";
+						for(var i=0;i<data.length;i++){
+							data[i].name=data[i].songName+"-"+data[i].singer;
+						}
+						//vant.Toast(data[0].songName);
+						app.actions=data;
+						app.whichPage="已为你加载出第"+page+"页的歌曲，看看有没有喜欢哒";
+					})
+					.catch(function (error) {
+						console.log(error);
+					})
+					
+				}else if(type==4){//不看名单
+					app.whichPage="点击即可移出不看名单喔";
+					var blackNameIds=app.blackNameList+"";//用户id
+					var blackIds=blackNameIds.split(",");
+					var blackNames=app.blackNames+"";//用户名
+					var blacks=blackNames.split(",");
+					app.actions=[];
+					for(var key in blackIds){
+						app.actions.push({id:blackIds[key],name:blacks[key],type:"不看名单"});
+						//string=string+"<a onclick='removeFromList(\"1\",\""+blackIds[key]+"\",\""+blacks[key]+"\")' style='color:red'>"+blacks[key]+"</a>&emsp;&emsp;";
+					}
+				}else if(type==5){//不给看名单
+					app.whichPage="点击即可移出不给看名单喔";
+					var bIds=app.blackList+"";//用户id
+					var bIdss=bIds.split(",");
+					var bNames=app.blacks+"";//用户名
+					var bNamess=bNames.split(",");
+					app.actions=[];//清空
+					for(var key in bIdss){
+						app.actions.push({id:bIdss[key],name:bNamess[key],type:"不给看名单"});
+						//string=string+"<a onclick='removeFromList(\"1\",\""+blackIds[key]+"\",\""+blacks[key]+"\")' style='color:red'>"+blacks[key]+"</a>&emsp;&emsp;";
+					}
+					
+				}else if(type==6){//显示样式
+					app.whichPage="你希望你的日记列表如何显示？";
+					app.actions=[{id:1,name:"仅显示日记标题",type:"显示样式"},{id:0,name:"显示日记部分内容",type:"显示样式"}];
+				}else if(type==7){//是否显示日记字数
+					app.whichPage="你希望你的日记列表显示日记字数吗？";
+					app.actions=[{id:1,name:"显示字数",type:"是否显示日记字数"},{id:0,name:"隐藏字数",type:"是否显示字数"}];
+				}else if(type==8){//单页加载日记篇数
+					app.whichPage="系统每页为你加载多少篇日记？";
+					app.actions=[{id:0,name:"显示下拉列表",type:"单页加载日记篇数"},{id:1,name:"10篇",type:"单页加载日记篇数"},{id:2,name:"20篇",type:"单页加载日记篇数"},{id:3,name:"30篇",type:"单页加载日记篇数"},{id:4,name:"40篇",type:"单页加载日记篇数"},{id:5,name:"50篇",type:"单页加载日记篇数"}];
+				}
+				app.show = true;
+				//console.log("event:"+event);
+    			//console.log("event.detail:"+event.detail);
+  			},onSelect:function(item){
+				var ac=app.actions[0].type;
+			    if(ac.indexOf("性别")!=-1){//性别
+					this.uuserSex=item.name;
+					//this.authority=item.id;
+					this.updateInfo(0);
+				}else if(ac.indexOf("自动播放")!=-1){//自动播放
+					this.autoPlay=item.name;
+					this.updateInfo(1);
+					//this.category=item.id;
+				}else if(ac.indexOf("循环播放")!=-1){//循环播放
+					this.loopPlay=item.name;
+					this.updateInfo(2);
+					//this.category=item.id;
+				}else if(ac.indexOf("家歌")!=-1){//家歌
+					this.homeSongName=item.songName;
+					this.homeSongId=item.sourceId;
+					this.updateInfo(6);
+				}else if(ac.indexOf("不看名单")!=-1){//不看名单
+					this.removeFromList(1,item.id,item.name);
+					vant.Toast("从不看名单移出‘"+item.name+"’成功");
+					//window.location="http://www.duola.vip/duola/userinfo.html";
+				}else if(ac.indexOf("不给看名单")!=-1){//不给看名单
+					this.removeFromList(0,item.id,item.name);
+					vant.Toast("从不看名单移出‘"+item.name+"’成功");
+					//window.location="http://www.duola.vip/duola/userinfo.html";
+				}else if(ac.indexOf("显示样式")!=-1){//显示样式
+					this.listStyle=item.name;
+					this.updateInfo(7);
+				}else if(ac.indexOf("是否显示日记字数")!=-1){//是否显示日记字数
+					this.showWordSize=item.name;
+					this.updateInfo(8);
+				}else if(ac.indexOf("单页加载日记篇数")!=-1){//单页加载日记篇数
+					this.perPage=item.name;
+					this.updateInfo(9);
+				}
+  			},// 更新数据
+			updateInfo:function(type){
+
+				let data1="";
+				if(type==0){//性别
+					let sex=0;
+					if(app.uuserSex=='男'){sex=1}else if(app.uuserSex=='女'){sex=0;}
+					data1="UUserId="+author+"&UUserSex="+sex;
+				}else if(type==1){//是否自动播放
+					let auto=0;
+					if(app.autoPlay=='是'){auto=1}else if(app.autoPlay=='否'){auto=0;}
+					data1="UUserId="+author+"&autoPlay="+auto;
+				}else if(type==2){//是否循环播放
+					let loop=0;
+					if(app.loopPlay=='是'){loop=1}else if(app.loopPlay=='否'){loop=0;}
+					data1="UUserId="+author+"&loopPlay="+loop;
+				}else if(type==3){//昵称
+					data1="UUserId="+author+"&UUserName="+app.uuserName;
+				}else if(type==4){//个性签名
+					data1="UUserId="+author+"&signature="+app.signature;
+				}else if(type==5){//默认地址
+					data1="UUserId="+author+"&location="+app.location;
+				}else if(type==6){//家歌
+					data1="UUserId="+author+"&UHomeSong="+app.homeSongId;
+				}else if(type==7){//显示样式
+					let li=1;
+					if(app.listStyle=='仅显示日记标题'){li=1}else if(app.listStyle=='显示日记部分内容'){li=0;}
+					data1="UUserId="+author+"&listStyle="+li;
+				}else if(type==8){//是否显示日记字数
+					let show=1;
+					if(app.showWordSize=='显示字数'){show=1}else if(app.showWordSize=='隐藏字数'){show=0;}
+					data1="UUserId="+author+"&uShowWordnum="+show;
+				}else if(type==9){//单页加载日记篇数
+					let per=0;
+					if(app.perPage=='显示下拉列表'){per=0}else if(app.perPage=='10篇'){per=10;}else if(app.perPage=='20篇'){per=20;}else if(app.perPage=='30篇'){per=30;}else if(app.perPage=='40篇'){per=40;}else if(app.perPage=='50篇'){per=50;}
+					data1="UUserId="+author+"&perpageNum="+per;
+				}
+				//vant.Toast(data1);
+				axios.post('http://www.duola.vip/note/userinfo/updateUserInfo.do', data1
+				,{ headers:{ 'Content-Type':'application/x-www-form-urlencoded;charset=utf-8' }},
+				  )
+				  .then(function (response) {
+				    //console.log(response.data);
+					if(response.data.code==200){
+						vant.Toast('修改成功');
+					}
+				  })
+				  .catch(function (error) {
+				    console.log(error);
+				  });
+			},removeFromList:function(which,userId,userName){
+				var w="不看";
+				if(which==0){
+					w="不给看";
+				}
+				var r=window.confirm("确定从"+w+"列表移出‘"+userName+"’？");
+				if(r==false){
+					return;
+				}
+				let data="type=1&user="+user+"&userId="+userId+"&which="+which;
+				axios.post('http://www.duola.vip/note/userinfo/addToOrRemoveFromList.do',data
+				,{ headers:{ 'Content-Type':'application/x-www-form-urlencoded;charset=utf-8' }},
+				  )
+			  .then(function (response) {
+				if(response.data.code==200){
+					alert(response.data.message);
+				}
+			  })
+			  .catch(function (error) {
+				console.log(error);
+			  });
+				
+			},afterRead(file) {
+				// 此时可以自行将文件上传至服务器
+				// let file1 = file.target.files[0];
+				let param = new FormData();
+				
+				param.append('pic',file.file);
+				param.append('userId',user);
+				console.log(param.get('pic'));
+				let url="http://www.duola.vip/note/userinfo/uploadHeadImage.do";
+				axios.post(url, param
+				,{ headers:{ 'Content-Type':'application/x-www-form-urlencoded' }},
+				  ).then(function (response) {
+					console.log(response.data);
+					if(response.data.code==200){
+						vant.Toast('上传成功');
+						// app.imgPath.push(response.data.data);
+						app.headImage=response.data.result;
+					}
+				  })
+				  .catch(function (error) {
+					console.log(error);
+				  });
+			}
+				
+				
+		}
+	})
+	
+	//生成随机数
+	function random(min, max){
+		// 若max不存在 min 赋值给max,并重新赋值min
+		if(max == null){
+			max = min;  
+			min = 0;
+		}
+		return min+ Math.floor(Math.random()*(max-min+1))
+	}
+	
+	
+</script>
+</body>
+</html>

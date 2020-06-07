@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no">
+    <title>注册</title>
+    <link rel="stylesheet" href="css/style.css">
+	<script type="text/javascript" src="http://duola.vip/hui/diary/js/index.js"></script>
+</head>
+<body class="login-bg">
+<div class="login-contain">
+    <div class="login-header">
+        <p>欢迎注册哆啦网</p>
+    </div>
+    <div class="form-group">
+        <div class="form-item" style="display:none">
+            <label for="username">
+                <img src="images/user.png">
+            </label>
+            <input id="username" type="text" placeholder="请输入8位哆啦号(可空)">
+        </div>
+		<div class="form-item">
+            <label for="username">
+                <img src="images/user.png">
+            </label>
+            <input id="usernick" type="text" placeholder="请输入昵称(4~15位)">
+        </div>
+        <div class="form-item">
+            <label for="password">
+                <img src="images/password.png" alt="">
+            </label>
+            <input id="password" type="password" placeholder="请输入密码(3~15位)">
+        </div>
+		<div class="form-item">
+            <label for="password">
+                <img src="images/password.png" alt="">
+            </label>
+            <input id="password1" type="password" placeholder="请确认密码">
+        </div>
+		<div class="form-item" style="display:none">
+            <label for="username">
+                <img src="images/user.png">
+            </label>
+            <input id="inviter" type="text" placeholder="请输入邀请码(可不填)">
+        </div>
+    </div>
+    <div class="button-group">
+        <button class="login-btn" id="doLogin" onclick="register()">注册</button>
+    </div>
+	<div class="order-login">
+        <p class="order-login-line">已有账号？><a href="login.html">登录</a></p>
+    </div>
+    <!--<div class="order-login">
+        <p class="order-login-line">其他登录方式</p>
+        <div class="order-login-box">
+            <div>
+                <a href="#">
+                    <img src="images/wechat-login.png" alt="" style="width: 45px;height: 45px;">
+                    <p>微信登录</p>
+                </a>
+            </div>
+        </div>
+    </div>-->
+</div>
+
+<script src="js/jquery.js"></script>
+<script>
+    $(function(){
+		
+		var user="";
+		user=getCookie("userId")+"";
+		var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
+		if(user){
+			var c=confirm("系统检测到你已登录，是否立即前往首页？");
+			if(c==true){
+				window.location="http://www.duola.vip/duola";
+			}
+		}
+		
+        $(window).resize();
+    });
+	function login(){
+		var acc=document.getElementById("username").value;//账号，即哆啦id
+		var pass=document.getElementById("password").value;
+		var url="http://www.duola.vip/note/userinfo/loginNote.do?acc="+acc+"&pass="+pass;
+		$.ajax({
+			url:url,
+			async:true,
+			type:"POST",
+			dataType:"Json",
+			success:function(data){
+				if(data.code=="200"){//存cookie过程放至后端代码
+					window.location="http://www.duola.vip/duola";
+				}else{
+					alert('未匹配到你输入的账号')
+				}
+
+			}
+		});
+	}
+	function register(){
+		var doraId=document.getElementById("username").value;//账号，即哆啦id
+		var userNick=document.getElementById("usernick").value;
+		var pass=document.getElementById("password").value;
+		var pass1=document.getElementById("password1").value;
+		var inviter=document.getElementById("inviter").value;//邀请者哆啦id
+
+		if(userNick.length<4||userNick.length>15){
+			alert("用户名字数应在4和15之间");
+			vant.Toast("用户名字数应在4和15之间");
+			return;
+		}
+		if(pass.length<3||pass.length>15){
+			alert("密码字数应在3和15之间");
+			vant.Toast("密码字数应在3和15之间");
+			return;
+		}
+		if(pass1.length<3||pass1.length>15){
+			alert("密码字数应在3和15之间");
+			vant.Toast("密码字数应在3和15之间");
+			return;
+		}
+		if(pass!=pass1){
+			alert("密码和确认密码输入不一致");
+			vant.Toast("密码和确认密码输入不一致");
+			return;
+		}
+		if(doraId.length>0&&(doraId.length!==8||isNaN(doraId))){
+			alert("哆啦id需要为8位阿拉伯数字，你也可以不输入由系统为你分配");
+			vant.Toast("哆啦id需要为8位阿拉伯数字，你也可以不输入由系统为你分配");
+			return;
+		}
+		if(inviter.length>0){//如果输入邀请码，判断所输入是否正确
+			var re=0;//是否返回
+			$.ajax({
+				url:"http://www.duola.vip/note/userinfo/getAuthorInfoByUserId.do?UUserId="+inviter,
+				type:"get",
+				async:false,
+				dataType:"Json",
+				success:function(res){
+					if(res.code==100){
+						alert("你输入的邀请码有误，需为邀请者哆啦id，请重新输入或置空");
+						vant.Toast("你输入的邀请码有误，需为邀请者哆啦id，请重新输入或置空");
+						re=1;
+					}
+				}
+			});
+			if(re==1){
+				return;
+			}
+		}else{
+			inviter="5211314";
+		}
+		var url="http://www.duola.vip/note/userinfo/register.do";
+		$.ajax({
+			url:url,
+			async:false,
+			type:"POST",
+			data:{
+				doraId:doraId,
+				userName:userNick,
+				password:pass,
+				inviter:inviter
+			},
+			dataType:"Json",
+			success:function(data){
+				if(data.code=="200"){
+					alert(data.message);
+					window.location="http://www.duola.vip/duola";
+				}else{
+					alert(data.message)
+				}
+
+			}
+		});
+		
+	}
+    //js设置居中
+    $(window).resize(function(){
+        $(".login-contain").css({
+            position: "absolute",
+            left: ($(window).width() - $(".login-contain").outerWidth())/2,
+            top: ($(window).height() - $(".login-contain").outerHeight())/2
+        });
+    });
+</script>
+
+</body>
+</html>

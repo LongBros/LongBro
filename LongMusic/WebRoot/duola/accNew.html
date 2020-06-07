@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>添加账单</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<!-- 引入样式文件 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.4/lib/index.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css"/>
+		<script type="text/javascript" src="http://duola.vip/js/myjs/timeDeal.js"></script>
+		<script type="text/javascript" src="http://duola.vip/js/myjs/jsutil.js"></script>
+		<script type="text/javascript" src="http://duola.vip/hui/diary/js/index.js"></script>
+		<style>
+			#app{margin: 15px;font-size: 15px;}
+			.fabu{float: right;outline: none;background-color: #8bd226;color: #fff;border: none;padding: 5px 18px;border-radius: 3px;}
+			.textarea_div{margin-top: 25px;border-bottom: 1px solid #EDEDED;padding-bottom: 15px;}
+			.jt123{width: 6px;}
+			.w_input{border: 1px solid #c8cccf;border-radius: 4px;outline: none;font-size: 12px;padding:0 5px;}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+		
+			<div class="">
+				<a href="/duola/accList.html"><span style="color: #000;">返回</span></a>
+				<button @click="addAcc" class="fabu">添加</button>
+			</div>
+			
+			<div class="input_div flex" style="padding: 15px 0;display: flex;">
+				<span style="color: #4C526C;">收支方式：</span>
+				<p @click="selectp(1)" class="flexs" style="flex: 1;"><span style="flex: 1;color: #000000;">{{selWhich}}</span><img class="jt123" src="http://m.lianzhigou.cn/public/images/arrow.png" ></p>
+			</div>
+			<div class="flexs" style="padding: 15px 0;display: flex;">
+				<span style="color: #4C526C;">支/收：</span>
+				<p @click="selectp(2)" class="flexs" style="flex: 1;"><span style="flex: 1;color: #000000;">{{selInOut}}</span><img class="jt123" src="http://m.lianzhigou.cn/public/images/arrow.png" ></p>
+			</div>
+			<div class="flexs" style="padding: 15px 0;display: flex;">
+				<span style="color: #4C526C;">分类：</span>
+				<p @click="selectp(3)" class="flexs" style="flex: 1;"><span style="flex: 1;color: #000000;">{{selType}}</span><img class="jt123" src="http://m.lianzhigou.cn/public/images/arrow.png" ></p>
+			</div>
+			<div class="input_div flexs" style="padding: 15px 0;display: flex;">
+				<span style="color: #4C526C;margin-top: 5px;">金额：</span>
+				<input class="w_input"  v-model="amount" placeholder="请输入金额" style="margin-left:50px;display: flex;flex:1;"></input>
+			</div>
+			<div class="flexs input_div" style="padding: 15px 0;display: flex;">
+				<span style="color: #4C526C;margin-top: 5px;">备注：</span>
+				<input class="w_input" v-model="remark" placeholder="请输入备注" style="margin-left:50px;display: flex;flex:1;"></input>
+			</div>
+			<div @click="openTime()"  class="flexs input_div" style="padding: 15px 0;display: flex;">
+				<span style="color: #4C526C;margin-top: 5px;">时间：</span>
+				<p class="flexs" style="flex: 1;"><span style="margin-left:50px;flex: 1;color: #000000;">{{time}}</span><img class="jt123" src="http://m.lianzhigou.cn/public/images/arrow.png" ></p>
+			</div>
+			<van-popup v-model="showTime" position="top">
+				<van-datetime-picker
+				  v-model="currentDate"
+				  type="datetime"
+				  :min-date="minDate"
+				  :max-date="maxDate"
+				  @confirm="changeMon" @cancel="cancel"
+				/>
+			</van-popup>
+			<van-action-sheet v-model="selshow" :actions="actions" :description="whichPage" @select="onSelect" />
+			
+		</div>
+		<div style="text-align:center"><audio id="audio" src="" autoplay="autoplay" controls="controls"  style="float: left;margin-left: 20px;margin-top: 10px;display:none"></audio></div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vant@2.4/lib/vant.min.js"></script>
+	<script>
+		var user="";
+		user=getCookie("userId")+"";
+		var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
+		var userAddr=decodeURI(decodeURI(getCookie("userAddr")+""));
+		//document.getElementById("location").value=userAddr;
+		if(user){
+		}else{
+			vant.Toast("请先登录");
+			window.location="http://www.duola.vip/duola/login.html";
+		}
+		
+		function GetQueryString(name)
+		{
+			 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+			 var r = window.location.search.substr(1).match(reg);
+			 if(r!=null)return  unescape(r[2]); return null;
+		}
+		
+		//var url=window.location+"";
+		var id=GetQueryString("id");
+		
+		var localNames=[];//上传前的文件名集合
+		var serverNames=[];//上传到服务器返回的文件名集合
+		
+		var app=new Vue({
+			el:'#app',
+			data:{
+				user:user,
+				time:'',
+				amount:'',
+				imgList: [
+				        // { url: 'https://img.yzcdn.cn/vant/leaf.jpg' },
+				        // Uploader 根据文件后缀来判断是否为图片文件
+				        // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+				        // { url: 'https://img.yzcdn.cn/vant/leaf.jpg', isImage: true }
+				      ],
+				
+				selWhich:'支付宝',
+				which:'2',
+				selInOut:'支出',
+				inOut:1,
+				
+				selType:'交通',
+				category:'0',
+				
+				remark:'',
+				
+				selshow:false,
+				actions: [],
+				audio:'',
+				audioName:'',
+				checked:true,
+				whichPage:'',
+				songs:[],//搜索到达歌曲集合
+				key:'',//待搜索的关键字
+				searchBox:false,//搜索框的显示与否
+				searchTitle:'',
+				goodTip:'输入歌名关键词',
+				showTime:false,
+				minDate:new Date(2010,9,1),
+				maxDate:new Date(),
+				currentDate:new Date()
+			},
+			created:function(){
+				this.time=formatW2(new Date()+"");
+				if(id){//有id表示是编辑日记
+					document.title="编辑日记";
+					axios.get('http://www.duola.vip/note/diary/getDiaryById.do?id='+id)
+					  .then(function (response) {
+					    app.title=response.data.ntitle;
+						app.value=response.data.ncontent;
+						app.mood=response.data.nmood;
+						app.selMood=getMoodById(response.data.nmood);
+						
+						app.selCate=getCateById(response.data.ntype);
+						app.category=response.data.ntype;
+						
+
+						app.wea=response.data.nweather;
+						app.selWea=getWeaById(response.data.nweather);
+						
+						app.authority=response.data.nauthority;
+						app.selAuthor=getAuthById(response.data.nauthority);
+						app.location=response.data.nlocation;
+						
+						app.audio=response.data.nSongId;
+						app.audioName=response.data.audioInfo;
+						//回显是否允许评论
+						//法一
+						response.data.nallowComment==0?app.checked=true:app.checked=false;
+						//法二
+						//if(response.data.nallowComment==0){
+						//	app.checked=true;
+						//}else{
+							//app.checked=false;
+						//}
+					  })
+					  .catch(function (error) {
+					    console.log(error);
+					  });
+				}
+			},
+			methods:{
+				changeMon: function(val) {
+					let year = val.getFullYear()
+					let month = addZero(val.getMonth() + 1)
+					let day = addZero(val.getDate())
+					let hour = addZero(val.getHours())
+					let minute = addZero(val.getMinutes())
+					let sec = addZero(val.getSeconds())
+					//console.log(year + '-' + month)
+					console.log(val)
+					console.log(sec)
+					let t = year + '-' + month+'-'+day+' '+hour+':'+minute+':16';
+					app.time = t;
+					
+					app.showTime = false;
+				},
+				cancel() {
+					app.showTime = false;
+				},
+				openTime:function(){
+					//console.log(app.showTime);
+					app.showTime=true;
+					//console.log(app.showTime);
+				},
+				selectp(type){
+					if(type==1){//收支方式
+						app.whichPage="请选择收支方式";
+						app.actions=[{id:0,name:"现金"},{id:1,name:"微信"},{id:2,name:"支付宝"},{id:2,name:"银行卡"}];
+					}else if(type==2){//收支
+						app.whichPage="请选择收/支";
+						app.actions=[{id:0,name:'收入'},{id:1,name:'支出'}];
+					}else if(type==3){//分类
+						app.whichPage="请选择账单分类";
+						if(this.inOut==0){
+							app.actions=[{id:0,name:'刷单'},{id:1,name:'工资'},{id:2,name:'兼职'},{id:3,name:'软件'},{id:4,name:'代缴电费'},{id:5,name:'其他'}];
+						}else{
+							app.actions=[{id:0,name:'交通'},{id:1,name:'早餐'},{id:2,name:'午餐'},{id:3,name:'晚餐'},{id:4,name:'生活'},{id:5,name:'话费'},{id:6,name:'住'},{id:7,name:'娱乐'},{id:8,name:'日常'},{id:9,name:'They'},{id:10,name:'零食'},{id:11,name:'饮料'},{id:12,name:'服装'},{id:13,name:'学习'}];
+						}
+					
+					}else if(type==4){//音频
+					    app.actions=[{loading: true },{loading: true },{loading: true },{loading: true },{loading: true }];//2020-04-05
+						var page=random(1, 17);
+						app.whichPage="将为你加载第"+page+"页的歌曲";
+
+						axios.get('http://www.duola.vip/queryAllSongs.do?page='+page)
+						.then(function (response) {
+							console.log(response.data);
+							var data=response.data;
+							for(var i=0;i<data.length;i++){
+								data[i].name=data[i].songName+"-"+data[i].singer;//+"&emsp;<a>试听</a>"
+							}
+							//vant.Toast(data[0].songName);
+							app.actions=data;
+							app.whichPage="已为你加载出第"+page+"页的歌曲，看看有没有喜欢哒";
+						})
+						.catch(function (error) {
+							console.log(error);
+						})	
+					}
+					this.selshow=true
+				},onSelect(item) {
+				      // 默认情况下点击选项时不会自动收起
+				      // 可以通过 close-on-click-action 属性开启自动收起
+				      this.selshow = false;
+					  //根据actions来判断当前是哪个
+					  var ac=app.actions[0].name;
+					  if(ac.indexOf("现金")!=-1){//权限
+							this.selWhich=item.name;
+							this.which=item.id;
+						}else if(ac.indexOf("收入")!=-1){//分类
+							this.selInOut=item.name;
+							this.inOut=item.id;
+							if(this.inOut==0){
+								this.selType="刷单";
+								this.category=0;
+							}else{
+								this.selType="交通";
+								this.category=0;
+							}
+						}else if(ac.indexOf("交通")!=-1||ac.indexOf("刷单")!=-1){//分类
+							this.selType=item.name;
+							this.category=item.id;
+						}
+					  
+				      vant.Toast(item.name);
+				},addAcc(){
+					//校验
+					if(!this.amount){
+						vant.Toast("金额不能为空，若无请输入0");
+						return;
+					}
+					let param = new FormData();
+					param.append('payutil',this.selWhich);
+					param.append('in_out',this.selInOut);
+					param.append('category',this.selType);
+					param.append('amount',this.amount);
+					param.append('remark',this.remark);
+					param.append('time',this.time);
+					let time=(this.time+"");//.substring(0,20)
+					let remark=this.remark?this.remark:this.selType;//备注为空时备注分类
+					axios.get('http://www.duola.vip/addBill.do?payutil='+this.selWhich+'&in_out='+this.selInOut+'&category='+this.selType+'&amount='+this.amount+'&remark='+remark+'&time='+time+'&userId='+user
+					,{ headers:{ 'Content-Type':'multipart/form-data' }},
+					  )
+					  .then(function (response) {
+					    console.log(response.data);
+						
+					  })
+					  .catch(function (error) {
+					    console.log(error);
+					  });
+					  vant.Toast("账单添加成功，点击返回查看，或继续记账");
+				}
+			}
+		})
+		function addZero(val) {
+			if (val < 10) {
+				return "0" + val;
+			} else {
+				return val;
+			}
+		}
+
+		function delZero(val) {
+			if (val > 10) {
+				return (val + "").substring(1, 2);
+			} else {
+				return val;
+			}
+		}
+		//生成随机数
+		function random(min, max){
+			// 若max不存在 min 赋值给max,并重新赋值min
+			if(max == null){
+				max = min;  
+				min = 0;
+			}
+			return min+ Math.floor(Math.random()*(max-min+1))
+		}
+	</script>
+	</body>
+</html>

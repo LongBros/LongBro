@@ -4,9 +4,9 @@
 <mapper namespace="com.longbro.bean.account">
 	<!--将值放入一个map中，dao层接口参数传入一个map,xml中用#{key}取值。同时xml中parameterType声明为java.util.Map。 -->
 	<insert id="addAccount" parameterType="java.util.HashMap">
-		INSERT INTO account (`time`, `payutil`, `in_out`, `category`, `amount`, `remark`, `picture`)
+		INSERT INTO account (`time`,`userId`, `payutil`, `in_out`, `category`, `amount`, `remark`, `picture`)
 		 VALUES 
-		(#{time},#{payutil},#{in_out},#{category},#{amount},#{remark},#{picture});
+		(#{time},#{userId},#{payutil},#{in_out},#{category},#{amount},#{remark},#{picture});
 	</insert>
 	
 	<select id="queryAllBill"  resultType="com.longbro.bean.Account">
@@ -128,4 +128,11 @@
 			FROM account WHERE in_out=#{ioo} and left(time,4)=#{d} ORDER BY amount DESC;
  		</if>
  	</select>
+ 	<!-- 根据用户id、查询某用户某月下的账单 -->
+ 	<select id="queryBillsBy" parameterType="java.util.HashMap" resultType="com.longbro.bean.Account">
+		select 
+		*
+		from account 
+		where userId=#{userId} and left(time,7)=#{month} order by time desc;
+	</select>
 </mapper>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>我的日记</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<!-- 引入样式文件 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.4/lib/index.css">
+	<link rel="stylesheet" type="text/css" href="css/base.css"/>
+	<script type="text/javascript" src="http://duola.vip/hui/diary/js/index.js"></script>
+	<script type="text/javascript" src="http://duola.vip/js/myjs/timeDeal.js"></script>
+</head>
+<body>
+<div id="app">
+	<div style="padding: 15px;">
+	
+		<van-action-sheet v-model="comShow" :title="comTitle">
+		  <div class="content" style="min-height: 460px;overflow:auto">
+			  <div v-if="comments.length==0" style="text-align:center"><br><br><br>嗨，留下你的神评呗^_^，一楼属于你哒</div>
+			  <div v-for="comment in comments" class="flex">
+				  <div class="flex_left"><a :href="'author.html?author='+comment.reviewer"><img width="" :src="'http://www.duola.vip/image/tx/'+comment.headImg+'.jpg'" ></a></div>
+				  <div class="flex_right">
+					  <div class="list_top">
+						<p class="com_name">
+							<a :href="'author.html?author='+comment.reviewer">{{comment.reviewerName}}</a>
+							<span>{{comment.reviewTime}}</span>
+							<span class="right"><a @click="alertMenu(0,comment.reviewer,comment.reviewerName,2)"><img width="16px" src="images/dian.png"></a></span>
+						</p>
+					  </div>
+					  <p class="com_title">{{comment.reviewContent}}</p>
+					  
+				  </div>
+			  </div>
+		  </div>
+		  <div style="margin: 0 15px;background-color: #FAF7F8;position: absolute;bottom: 0;left: 0;right: 0;">
+			  <van-search left-icon show-action v-model="comValue" placeholder="写点儿什么叭..." />
+			  <div style="color: #78D36E;" @click="comSend" slot="action" >发送</div>
+		  </div>
+		</van-action-sheet>
+		
+		<audio id="audio" src="" autoplay="autoplay" controls="controls"  style="float: left;margin-left: 20px;margin-top: 10px;display:none"></audio>
+		<van-list
+			  v-model="loading"
+			  :finished="finished"
+			  :finished-text="finishedText"
+			  @load="onLoad"
+			  :loading-text="loadingText"
+			>
+			<van-cell v-for="(mainData,index) in contentData"  />
+			<!--<div class="flex" v-for="(mainData,index) in contentData">-->			<!--两个for循环，自然会出错，当注释-->
+				<!--<div class="flex_left">
+					<img :src="'http://www.duola.vip/image/tx/'+mainData.headImage+'.jpg'" >
+				</div>-->
+				<div class="flex_right">
+					<div class="list_top">
+						<p>{{mainData.ntitle}}
+						<span v-if="mainData.nSongId!=''&mainData.nSongId!=null" @click="playAudio(mainData.nSongId,index,mainData.audioInfo)" :id="'playBtn'+index" style="color:red">
+							<van-icon name="play-circle-o" />
+						</span>&emsp;
+						<span v-if="user==author" class="right del_p" @click="editDiary(index)">编辑</span>
+						<span v-if="user==author" class="right del_p" @click="deleteDiary(index)">删除</span><br>
+						<span style="font-size: 12px;color: #737373;">{{mainData.nlocation}}</span>
+							&emsp;<span style="font-size: 12px;color: #737373;float:right">时间：{{mainData.ntime}}</span>
+						</p>
+					</div>
+					<div class="list_main">
+						<p class="ellipsis">
+							<span v-if="mainData.ncontent.length<150">{{mainData.ncontent}}</span>
+							<span v-if="mainData.ncontent.length>150" :id="'content'+index">{{mainData.ncontent.substring(0,150)}}...&nbsp;<a @click="expandMore(index,mainData.ncontent)" style="color:blue">展开更多</a></span>
+							<span v-if="mainData.nauthority==2&&user==''">&nbsp;<a href="login.html" style="color:red">登录</a>&nbsp;后可见喔。<br>(pc端访问哆啦网www.duola.vip，优先体验更丰富的功能。)</span>
+						</p>
+						<div v-if="mainData.images"  class="list_media">
+							<van-grid :border="false" :column-num="3">
+							  <van-grid-item   v-for="(item,index) in mainData.images">
+								<van-image @click="yulanImg(index,mainData.images)" height="93" :src="item" />
+							  </van-grid-item>
+							</van-grid>
+						</div>
+						<van-row>
+						  <van-col span="3"><p style="text-align: left;"><img src="http://www.duola.vip/res/images/weather_sun.png" ><span>{{mainData.nweather}}</span></p></van-col>
+						  <van-col span="4"><p style="text-align: left;"><img src="http://www.duola.vip/res/images/cup.png" ><span>{{mainData.nmood}}</span></p></van-col>
+						  <van-col span="6"><p style="text-align: left;"><img  src="http://www.duola.vip/res/images/flag_catalonia.png" ><span style="">{{mainData.ntype}}</span></p></van-col>
+						  <van-col span="2"></van-col>
+
+						  <van-col span="3"><p style="text-align: center;"><img src="http://blog.duola.vip/images/useful/view.png" ><span>{{mainData.visitNum}}</span></p></van-col>
+						  <van-col span="3"><p @click="comment(mainData.nid,mainData.nwritter,mainData.nallowComment,index)" style="text-align: center;"><img src="http://m.lianzhigou.cn/public/images/pinlun.png" ><span>{{mainData.commentNum}}</span></p></van-col>
+						  <van-col span="3"><p @click="dianzan(mainData.nid,mainData.nwritter,index)" style="text-align: right;"><img v-if="mainData.ifPraise==0" src="http://m.lianzhigou.cn/public/images/good.png"><img v-if="mainData.ifPraise==1" src="http://m.lianzhigou.cn/public/images/goodyes.png"><span style="">{{mainData.praiseNum}}</span></p></van-col>
+						</van-row>
+					</div>
+				</div>
+			<!--</div>-->
+		</van-list>
+	</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.4/lib/vant.min.js"></script>
+<script type="text/javascript">
+
+	var author="5211314";
+	function GetQueryString(name)
+	{
+		 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		 var r = window.location.search.substr(1).match(reg);
+		 if(r!=null)return  unescape(r[2]); return null;
+	}
+	
+	var url=window.location+"";
+	var au="0";
+
+	var user="";
+	user=getCookie("userId")+"";
+	var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
+	if(user){//登录用户权限赋予
+		au="0,2";
+	}
+	
+	if(url.indexOf("?author")!=-1){//http://duola.vip/author.html?author=35631224
+		author=GetQueryString("author");
+		document.title="‘"+author+"’的日记";
+	}else if(url.indexOf("?")!=-1){//http://duola.vip/author.html?35631224
+		author=url.substring(url.indexOf("?")+1);
+		document.title="‘"+author+"’的日记";
+	}else{//当前登录人查看自己的日记
+		author=user;
+		au="0,1,2";
+		document.title="我的日记";
+	}
+	var app=new Vue({
+		el:'#app',
+		data:{
+			author:author,
+			user:user,
+			authorName:'',
+			contentData:[],
+			loading: false,
+			finished: false,
+			page:1,
+			finishedText:'',
+			loadingText:'',
+			comShow:false,
+			comValue:'',
+			comDiary:"",
+			comAuthor:"",
+			comments:[],
+			comTitle:"",
+			comIndex:-1
+		},
+		created:function(){
+			
+		},
+		methods:{
+			expandMore:function(index,allCon){
+				document.getElementById("content"+index).innerText=allCon;
+				console.log(allCon)
+			},
+			yulanImg:function(index,images){
+				console.log('预览图片');
+				let img=[images];
+				console.log(img);
+				vant.ImagePreview(images)
+			},
+			onLoad() {
+				axios.get('http://www.duola.vip/note/diary/getDiaryBy.do?author='+author+'&page='+app.page+'&authority='+au+'&perPage=5')
+				.then(function (response) {
+					console.log(response);
+					var tempData=response.data;
+					if(tempData.length!=0){
+						var reg=/<[^<>]+>/g ;
+						for(var i=0;i<tempData.length;i++){
+							//tempData[i].headImage="http://www.duola.vip/image/tx/"+tempData[i].headImage+".jpg";
+							var mood="";
+							if(tempData[i].nmood=="0"){
+								mood="开心";
+							}else if(tempData[i].nmood=="1"){
+								mood="微笑";
+							}else if(tempData[i].nmood=="2"){
+								mood="哭脸";
+							}else if(tempData[i].nmood=="3"){
+								mood="愤怒";
+							}
+							tempData[i].nmood=mood;
+							
+							var cate="";
+							if(tempData[i].ntype=="0"){
+								cate="生活日记";
+							}else if(tempData[i].ntype=="1"){
+								cate="工作笔记";
+							}else if(tempData[i].ntype=="2"){
+								cate="idea";
+							}else if(tempData[i].ntype=="3"){
+								cate="诗词(文学)";
+							}else if(tempData[i].ntype=="4"){
+								cate="深度好文";
+							}	
+							tempData[i].ntype=cate;
+							tempData[i].ntime=handleTime(tempData[i].ntime);
+							var wea="";
+							if(tempData[i].nweather=="0"){
+								wea="晴";
+							}else if(tempData[i].nweather=="1"){
+								wea="雾";
+							}else if(tempData[i].nweather=="2"){
+								wea="霾";
+							}else if(tempData[i].nweather=="3"){
+								wea="阴";
+							}else if(tempData[i].nweather=="4"){
+								wea="雨";
+							}else if(tempData[i].nweather=="5"){
+								wea="雪";
+							}
+							tempData[i].nweather=wea;
+							
+							if(tempData[i].nauthority==2&&user==""){
+								if(tempData[i].nSongId){
+									tempData[i].ncontent="亲爱的访客朋友，这篇含音频的日记";
+								}else{
+									tempData[i].ncontent="亲爱的访客朋友，这篇日记";
+								}
+							}else{
+								var con=tempData[i].ncontent+"";
+								tempData[i].images=[];
+								if(con.indexOf("ppiiccttuurree")!=-1){//2020-03-29 若含有图片
+									//console.log("原内容："+con);
+									var pics=con.substring(con.indexOf("ppiiccttuurree")+14).split("&");
+									console.log(""+pics);
+									for(var k in pics){
+										console.log(pics[k]);
+										if(pics[k].indexOf("public")!=-1){
+											tempData[i].images.push("http://m.lianzhigou.cn"+pics[k]);
+										}else{
+											//tempData[i].images.push("http://www.duola.vip/res/images/diary/"+pics[k]);
+											tempData[i].images.push(pics[k]);
+										}
+									}
+									con=con.substring(0,con.indexOf("ppiiccttuurree"));
+									console.log("去除图片的内容："+con);
+									console.log("图片："+tempData[i].images);
+								}
+								con=con.replace(reg, "");
+								con=con.replace(new RegExp(":","gm"), "");
+								con=con.replace(new RegExp("<","gm"), "");
+								con=con.replace(new RegExp("&","gm"), "");
+								
+								tempData[i].ncontent=con;
+							
+							}
+							
+						}
+						console.log('页码')
+						console.log(app.page)
+						app.contentData.push(...tempData);
+						app.loadingText="加载中...当前已加载"+app.contentData.length+"篇日记";
+						app.page++;
+						app.loading = false;
+						app.finished = false;
+					}else{
+						app.finished =true;
+						if(app.contentData.length!=0){
+							app.finishedText="我也是有底线的，共为你加载出"+app.authorName+"的"+app.contentData.length+"篇日记";
+						}else{
+							app.finishedText="ta还没有写过日记嘞";
+						}
+					}
+					
+					
+				})
+			},
+			editDiary:function(index){
+				var c=confirm("将跳转到编辑日记界面"+app.contentData[index].nid);
+				if(c==true){
+					window.location="http://www.duola.vip/duola/new.html?id="+app.contentData[index].nid;
+					//this.$toast("暂不支持编辑日记");
+				}
+			},
+			deleteDiary:function(index){
+				var c=confirm("你确定删除这篇日记嘛？"+app.contentData[index].nid);
+				if(c==true){
+					axios.post('http://duola.vip/note/diary/addOrEditNote.do','NId='+app.contentData[index].nid+'&nAuthority=3')
+					.then(function (response) {
+						
+					})
+					this.$toast("已删除");
+					window.location=document.URL;
+				}
+			},dianzan:function(diaryId,author,index){
+					if(!user){
+						vant.Toast("请先登录");
+						window.location="http://www.duola.vip/duola/login.html";
+						return;
+					}
+					var ifPraise=app.contentData[index].ifPraise;
+					var url='';
+					if(ifPraise==0){
+						console.log('点赞了');
+						url='http://www.duola.vip/note/praise/praiseDiary.do?PPraiser='+user+'&PDiary='+diaryId+'&type=0&PPraised='+author+'&PPraiseTime='+formatW2(new Date()+"");
+					}else{
+						url='http://www.duola.vip/note/praise/removePraiseDiary.do?PPraiser='+user+'&PDiary='+diaryId+'&type=0&PPraised='+author;
+					}
+					axios.get(url)
+					  .then(function (response) {
+						if(ifPraise==0){
+							app.contentData[index].praiseNum++;
+							app.contentData[index].ifPraise=1;
+						}else{
+							app.contentData[index].praiseNum--;
+							app.contentData[index].ifPraise=0;
+						}
+					  })
+					  .catch(function (error) {
+						console.log(error);
+					  });
+			},playAudio(audioId,index,audioInfo){
+				if(audioInfo){
+					vant.Toast("开始播放歌曲->"+audioInfo);
+				}else{
+					vant.Toast("开始播放音频...");			
+				}
+				document.getElementById("playBtn"+index).innerHTML="<img style='width: 13px;height: 13px' src='http://www.duola.vip/LongMusic/image/playing.gif'/>";
+						
+				let sid=audioId;
+				var url="";
+				if(sid.substring(sid.length-5)==".html"){
+					url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
+				}else if(sid.substring(sid.length-3)==".kw"){
+					url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
+				}else if(sid.substring(sid.length-4)==".553"){
+					url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
+				}else if(sid.substring(sid.length-4)==".aac"||sid.substring(sid.length-4)==".m4a"||sid.substring(sid.length-4)==".mp3"||sid.indexOf("http")!=-1){
+					url=sid;
+				}else{
+					url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
+				}
+				var song=document.getElementById("audio");
+				song.style.display="inline-block";
+				song.src=url;
+				song.play();
+				//修改
+				//document.getElementById("playBtn"+index).innerText="||";
+				
+			},comment:function(diaryId,author,ifallow,index){
+				if(ifallow=="1"){
+					vant.Toast("这篇日记作者设置了不允许评论喔");
+					return;
+				}
+				this.$toast('评论日记'+diaryId);
+				app.comShow=true;
+				app.comDiary=diaryId;//赋值被评论的日记id，在comSend中使用
+				app.comAuthor=author;
+				let data1='user_id='+app.user_id+'&content_id='+diaryId;
+				axios.get('http://www.duola.vip/note/comment/getComByDiaryId.do?id='+diaryId)
+				  .then(function (response) {
+					console.log(response);
+					if(response.data.code==200){
+						console.log(response.data.result)
+						app.comTitle="共"+response.data.result.length+"条评论";
+						app.comments=response.data.result;
+					}
+				  })
+				  .catch(function (error) {
+					console.log(error);
+				  });
+				  app.comIndex=index;
+			},comSend(){
+				if(!app.comValue){
+					this.$toast('还是先写点东西吧');
+				}else{
+					let url="http://www.duola.vip/note/comment/commentDiary.do";
+					let data1="CReviewer="+user+"&CReviewedDiary="+app.comDiary+"&CComment="+app.comValue+"&CReviewed="+app.comAuthor;
+					axios.post(url,data1,{ headers:{ 'Content-Type':'application/x-www-form-urlencoded;charset=utf-8' }},
+					)
+					.then(function (response){
+						if(response.code==200){
+							response.message;
+							app.comValue="";
+						}
+					})
+				}
+				app.comShow=false;
+				vant.Toast("发送成功！");
+				app.contentData[app.comIndex].commentNum++;
+			},
+		
+		}
+	})
+	
+</script>
+</body>
+</html>

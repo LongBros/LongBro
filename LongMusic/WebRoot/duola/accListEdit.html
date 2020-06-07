@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>哆啦记账-记录你的每一笔消费</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<!-- 引入样式文件 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.4/lib/index.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+
+		<script type="text/javascript" src="http://duola.vip/hui/diary/js/index.js"></script>
+		<script type="text/javascript" src="http://duola.vip/js/myjs/timeDeal.js"></script>
+		<script type="text/javascript" src="http://duola.vip/js/myjs/jsutil.js"></script>
+		<script type="text/javascript" src="js/animationData.js"></script>
+
+		<link rel="Shortcut Icon" href="http://duola.vip/image/logo/dlam.jpg" />
+
+		<style>
+			.van-grid-item__content{padding: 5px 5px;}
+			.w_border{border-bottom: none;padding: 15px;}
+			.w_cell{padding: 0;}
+			.w_date{padding: 10px 15px;}
+			.w_top{overflow: hidden;}
+			.w_top li{width: 33.333%;float: left;line-height: 1;margin: 15px 0;text-align: center;}
+			.w_topp{margin-bottom: 10px;}
+			.w_red{color: red;}
+			.w_yellow{color: orange;}
+		</style>
+	</head>
+	<body id="bodys">
+		<div style="bottom:30px;" id="app" v-cloak>
+			<header class="header">
+				<div class="header_left" @click="chooseTime()">
+					<span>{{chooseMon}}</span>
+					<van-icon name="arrow-down" />
+					
+					&emsp;<a href="accStatistic.html" style="margin-left:30px;">统计</a>
+				</div>
+				<div class="header_right">
+					<div class="header_img_div">
+						<a v-if="user==''" href="login.html">
+							请登录
+						</a>
+						<a v-if="user!=''" href="myHome.html">
+							<van-icon :name="'http://www.duola.vip/image/tx/'+headImage+'.jpg'" />
+						</a>
+					</div>
+					<div class="header_fabu">
+						<a href="accNew.html">
+							<van-icon name="add-o" />
+							<span style="">记一笔</span>
+						</a>
+					</div>
+				</div>
+			</header>
+			<ul class="w_top main_top">
+				<li><p class="w_topp">支出{{monOutNum}}笔</p><p>{{monOut}}</p></li>
+				<li><p class="w_topp">收入{{monInNum}}笔</p><p class="w_red">+{{monIn}}</p></li>
+				<li><p class="w_topp">结余</p><p class="w_yellow">{{monRest}}</p></li>
+			</ul>
+			<!-- <div class="main_top" style="display: none;">
+				<span style="margin-left:30px;">支出：<span style="color:red">{{monOut}}</span></span>&emsp;
+				<span style="margin-left:30px;">收入：<span style="color:green">{{monIn}}</span></span>&emsp;
+				<span style="margin-left:30px;">结余：<span style="color:orange">{{monRest}}</span></span>&emsp;
+			</div> -->
+			
+			<!-- 结束 -->
+			<van-list v-model="loading" :finished="finished" offset="10">
+				<div v-if="contentData.length==0" style="margin-top:88px;"><center>这个月还没有账单喔，快<a href="newAcc.html">点我</a>去记一笔吧</center></div>
+				<van-cell class="w_cell" v-for="(mainData,index) in contentData" />
+				<div v-if="index>0">
+					<div class="w_date" v-if="mainData.day!=contentData[index-1].day" style="height:20px;background:#f8f8f8;width:100%">
+						<span>{{mainData.day}}</span>
+						<span class="right"  style="margin-right:30px;">
+							<span v-if="mainData.dayOut>0">支出：{{mainData.dayOut}}</span>
+							<span v-if="mainData.dayOut>0&&mainData.dayIn>0">，</span>
+							<span v-if="mainData.dayIn>0">收入：{{mainData.dayIn}}</span>
+						</span>
+					</div>
+					
+				</div>
+				<div v-if="index<1">
+					<div class="w_date" style="height:20px;background:#f8f8f8;width:100%">
+						<span>{{mainData.day}}</span>
+						<span class="right"  style="margin-right:30px;">
+							<span v-if="mainData.dayOut>0">支出：{{mainData.dayOut}}</span>
+							<span v-if="mainData.dayOut>0&&mainData.dayIn>0">，</span>
+							<span v-if="mainData.dayIn>0">收入：{{mainData.dayIn}}</span>
+						</span>
+					</div>
+				</div>
+				<div class="flex add002 w_border" style="">
+					<div class="flex_left">
+						<!--<img src='http://www.duola.vip/duola/images/head.jpg' style='width:30px;height:30px;'><span style="bottom:12px;">{{mainData.cate.substring(0,1)}}</span>-->
+						<span style="bottom:12px;">{{mainData.cate}}</span> 
+						<!--<img avatar="LongBros" style='width:30px;height:30px;border-radius: 50%'>-->
+					</div>
+					<div class="flex_right">
+						<div class="list_top">
+							<p><span style="font-size: 12px;color: #737373;margin-right:25px;">{{mainData.time}}</span>&emsp;<input style="color: #666" v-model="mainData.remark" @change="alterAcc(0,mainData.id)" type="text">
+								<span class="right">￥{{mainData.amount}}</span>
+							</p>
+							<!--<span style="font-size: 12px;color: #737373;">用户：{{ mainData.userId }}</span>&emsp; -->
+						</div>
+					</div>
+				</div>
+			</van-list>
+			<van-popup v-model="show" position="bottom">
+				<van-datetime-picker v-model="currentDate" type="year-month" visible-item-count="4" :show-toolbar=true :formatter="formatter" :min-date="minDate"
+				:max-date="maxDate"
+				 @change="changeMon" @confirm="changeMon" @cancel="cancel" />
+			</van-popup>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+		<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vant@2.4/lib/vant.min.js"></script>
+		<script>
+			var user = "";
+			user = getCookie("userId") + "";
+			var userNick = decodeURI(decodeURI(getCookie("userNick") + ""));
+			var au = "0,2";
+			var index = Math.floor(Math.random() * 100);
+			if (user) {
+				au = "0,2";
+				if (index > 30) { //百分之七十的概率
+					vant.Toast(userNick + "," + toastText())
+				} else {
+					vant.Toast(userNick + ",欢迎你回来")
+				}
+			} else {
+				if (index > 70) { //百分之三十的概率
+					vant.Toast("欢迎注册," + toastText())
+				} else {
+					vant.Toast("请登录后使用更多功能")
+				}
+				var body = document.getElementById("bodys");
+				body.style.background = "url(http://www.duola.vip/res/images/back/back11.png)";
+			}
+			var audios = []; //已加载出的所有音频日记的音频
+			var indexId = -1; //被播放的音频在日记列表中的序号
+			var nowplay = 0;
+			
+			var day='0000-00-00';
+			var dayIn=0;//日收入
+			var dayOut=0;//日支出
+			var app = new Vue({
+				el: '#app',
+				data: {
+					headImage: '',
+					unreadNum: 0,
+					actions: [],
+					show: false,
+					list: [],
+					loading: false,
+					finished: true,
+					page: 1,
+					contentData: [],
+					user: user,
+
+					currentDate: new Date(),
+					chooseMon: '2020-03',
+					minDate:new Date('2010-01'),
+					maxDate:new Date(),
+
+					monIn: 0, //月收入
+					monOut: 0, //月支出
+					monRest: 0, //月结余
+					monInNum:0,//月收入笔数
+					monOutNum:0,//月支出笔数
+					monAllNum:0
+				},
+				created: function() {
+					//if(!user){//2020-04-19 
+					//	vant.Toast('请先登录后方可查看账单');
+					//	setTimeout(function(){ window.location="http://www.duola.vip/duola/register.html"; }, 2000);
+					//	return;
+					//}
+					let year = new Date().getFullYear();
+					let month = addZero(new Date().getMonth() + 1);
+					let day = new Date().getDate();
+					let hour = new Date().getHours();
+					let minute = new Date().getMinutes();
+					console.log(year + '-' + month);
+					
+					let t = year + '-' + month;
+					this.chooseMon = t;
+					
+					axios.get('http://www.duola.vip/queryBillsBy.do?userId=5211314&month='+t)
+						.then(function(response) {
+							console.log('加载数据');
+							var tempData = response.data.result;
+							for (var i = 0; i < tempData.length; i++) {
+								tempData[i].day = formatDay((tempData[i].time + "").substring(0, 10));
+								tempData[i].time = (tempData[i].time + "").substring(11);
+								if (tempData[i].in_out == '支出') {
+									app.monOutNum++;
+									tempData[i].amount = -tempData[i].amount;
+									app.monOut = app.monOut + tempData[i].amount;
+									//求每日的总支出
+									if(day!=tempData[i].day){
+										dayOut=dayOut+tempData[i].amount;
+										day=tempData[i].day;
+									}else{
+										tempData[i].dayOut=dayOut;
+										dayOut=0;
+									}
+									
+								} else {
+									app.monInNum++;
+									app.monIn = app.monIn + tempData[i].amount;
+									//求每日的总收入
+									if(day!=tempData[i].day){
+										dayIn=dayIn+tempData[i].amount;
+										day=tempData[i].day;
+									}else{
+										tempData[i].dayIn=dayIn;
+										dayIn=0;
+									}
+									
+								}
+								if (tempData[i].remark == "")
+									tempData[i].remark = tempData[i].cate;
+							}
+							app.monOut = parseDouble(app.monOut)
+							app.monIn = parseDouble(app.monIn)
+							app.monRest = parseDouble(app.monIn - (-app.monOut))
+							console.log(tempData);
+							var reg = /<[^<>]+>/g;
+
+							app.contentData.push(...tempData);
+
+						})
+						.catch(function(error) {
+							//console.log(error);
+						});
+
+					axios.get('http://www.duola.vip/note/userinfo/getAuthorInfoByUserId.do?UUserId=' + user)
+					.then(function(response) {
+						console.log(response.data);
+						if (response.data.code == 200) {
+							var userData = response.data.result;
+							app.headImage = userData.headImage;
+							var body = document.getElementById("bodys");
+							body.style.background = "url(http://www.duola.vip/res/images/back/" + userData.mback + ")";
+						}
+					})
+					.catch(function(error) {
+						console.log(error);
+					})
+				},
+				methods: {
+					alterAcc(type,id){//编辑类型，日记id
+						vant.Toast(id);
+						var data='id='+id+'&remark=大号';
+						axios.post('http://www.duola.vip/updateBillById.do', data
+						,{ headers:{ 'Content-Type':'application/x-www-form-urlencoded;charset=utf-8' }},
+						  )
+						  .then(function (response) {
+							//console.log(response.data);
+							if(response.data.code==200){
+								vant.Toast('修改成功');
+							}
+						  })
+						  .catch(function (error) {
+							console.log(error);
+						  });
+						
+							
+					},chooseTime: function() {
+						if(!user){//2020-04-19 
+							vant.Toast('请先登录后方可查看各月账单');
+							setTimeout(function(){ window.location="http://www.duola.vip/duola/register.html"; }, 2000);
+							return;
+						}
+						app.show = true;
+					}, // 选项格式化函数
+					formatter(type, value) {
+						if (type === 'year') {
+							return `${value}年`
+						} else if (type === 'month') {
+							return `${value}月`
+						} else if (type === 'day') {
+							return `${value}日`
+						} else if (type === 'hour') {
+							return `${value}时`
+						} else if (type === 'minute') {
+							return `${value}分`
+						} else if (type === 'second') {
+							return `${value}秒`
+						}
+						return value
+					},
+					changeMon: function(val) {
+						let year = val.getFullYear()
+						let month = addZero(val.getMonth() + 1)
+						let day = val.getDate()
+						let hour = val.getHours()
+						let minute = val.getMinutes()
+						console.log(year + '-' + month)
+						app.monRest = 0;
+						app.monIn = 0;
+						app.monOut = 0;
+						app.monInNum=0;
+						app.monOutNum=0;
+						let t = year + '-' + month;
+						app.chooseMon = t;
+						vant.Toast('稍等片刻，马上为亲加载'+year+'年'+month+'月的账单');
+						axios.get('http://www.duola.vip/queryBillsBy.do?userId='+user+'&month=' + t)
+							.then(function(response) {
+								console.log('加载数据');
+								var tempData = response.data.result;
+								for (var i = 0; i < tempData.length; i++) {
+									if (tempData[i].in_out == '支出') {
+										app.monOutNum++;
+										tempData[i].amount = -tempData[i].amount;
+										app.monOut = app.monOut + tempData[i].amount;
+										//求每日的总支出
+										if(i>0){
+											if(day!=tempData[i].day){
+												dayOut=dayOut+tempData[i].amount;
+												day=tempData[i].day;
+											}else{
+												tempData[i-1].dayOut=dayOut;
+												dayOut=0;
+											}
+										}else{
+											day=tempData[i].day;
+											dayOut=tempData[i].amount;
+										}
+										
+										
+									} else {
+										app.monInNum++;
+										app.monIn = app.monIn + tempData[i].amount;
+										//求每日的总收入
+										if(i>0){
+											if(day!=tempData[i].day){
+												dayIn=dayIn+tempData[i].amount;
+												day=tempData[i].day;
+											}else{
+												tempData[i-1].dayIn=dayIn;
+												dayIn=0;
+											}
+										}else{
+											day=tempData[i].day;
+											dayIn=tempData[i].amount;
+										}
+										
+									}
+									tempData[i].day = formatDay((tempData[i].time + "").substring(0, 10));
+									tempData[i].time = (tempData[i].time + "").substring(11);
+									if (tempData[i].remark == "")
+										tempData[i].remark = tempData[i].cate;
+								}
+								app.monOut = parseDouble(app.monOut)
+								app.monIn = parseDouble(app.monIn)
+								app.monRest = parseDouble(app.monIn - (-app.monOut))
+								console.log(tempData);
+								app.contentData = [];
+								app.contentData.push(...tempData);
+							})
+							.catch(function(error) {
+								//console.log(error);
+							});
+						app.show = false;
+					},
+					cancel() {
+						app.show = false;
+					}
+				}
+			});
+
+			function addZero(val) {
+				if (val < 10) {
+					return "0" + val;
+				} else {
+					return val;
+				}
+			}
+
+			function delZero(val) {
+				if (val > 10) {
+					return (val + "").substring(1, 2);
+				} else {
+					return val;
+				}
+			}
+			//2020-04-19转换为2020年4月19日
+			function formatDay(day) {
+				var year = day.substring(0, 3);
+				var mon = day.substring(5, 7);
+				var d = day.substring(8, 11);
+
+				return mon + "月" + d + "日";
+			}
+
+			function parseDouble(num) {
+				var n = num + "";
+				if (n.indexOf(".") != -1) {
+					n = n.substring(0, n.indexOf(".") + 3);
+				}
+				return n;
+			}
+
+			function toastText() {
+				var date = new Date();
+				var hour = date.getHours();
+				var minute = date.getMinutes();
+				var text = '';
+				if (hour >= 6 && hour < 9) {
+					text = getRandomText(helloText01);
+				} else if (hour >= 9 && hour < 12) {
+					text = getRandomText(helloText02);
+				} else if (hour >= 12 && hour < 13) {
+					text = getRandomText(helloText03);
+				} else if (hour == 13 && minute < 30) {
+					text = getRandomText(helloText04);
+				} else if (hour >= 13 && hour < 18) {
+					text = getRandomText(helloText05);
+				} else if (hour >= 18 && hour < 20) {
+					text = getRandomText(helloText06);
+				} else if (hour >= 20 && hour < 23) {
+					text = getRandomText(helloText07);
+				} else if (hour >= 23 || hour < 3) {
+					text = getRandomText(helloText08);
+				} else if (hour >= 3 && hour < 6) {
+					text = getRandomText(helloText09);
+				} else {
+					text = '欢迎你回来'
+				}
+				return text;
+			}
+
+			function getRandomText(textArray) {
+				var index = Math.floor(Math.random() * textArray.length);
+				return textArray[index]
+			}
+		</script>
+	</body>
+</html>

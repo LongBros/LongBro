@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title id="title"></title>
+ 
+</head>
+<body>
+<audio id="player" autoplay controls></audio>
+<p>
+ <button onclick="start_reco()">开始录音</button>
+</p>
+<p>
+ <button onclick="ai_reco()" style="background-color: cornflowerblue">发送语音指令</button>
+</p>
+</body>
+<script type="application/javascript" src="http://duola.vip/js/jquery2.2.2.min.js"></script>
+<script type="text/javascript" src="http://duola.vip/duola/js/recorder.js"></script>
+<script type="application/javascript">
+ var reco = null;
+ var audio_context = new AudioContext();//音频内容对象
+ navigator.getUserMedia = (navigator.getUserMedia ||
+  navigator.webkitGetUserMedia ||
+  navigator.mozGetUserMedia ||
+  navigator.msGetUserMedia); // 兼容其他浏览器
+ 
+ navigator.getUserMedia({audio: true}, create_stream, function (err) {
+  console.log(err)
+ });
+ 
+ function create_stream(user_media) {
+  var stream_input = audio_context.createMediaStreamSource(user_media);
+  reco = new Recorder(stream_input);
+ }
+ 
+ 
+ function start_reco() {
+  reco.record();
+ }
+ 
+ function ai_reco() {
+  reco.stop();
+ 
+  reco.exportWAV(function (wav_file) {
+   console.log(wav_file);
+   var formdata = new FormData(); // form 表单 {key:value}
+   formdata.append("audio", wav_file); // form input type="file"
+   $.ajax({
+    url: "http://www.duola.vip/note/diary/uploadAudio.do?userId=5211314",
+    type: 'post',
+    processData: false,
+    contentType: false,
+    data: formdata,
+    dataType: 'json',
+    success: function (data) {
+     console.log(data);
+	 if(data.code==200){
+		document.getElementById("player").src = "http://www.duola.vip/res/audio/" + data.result;
+	 }
+    }
+   })
+  });
+  reco.clear();
+ }
+ 
+</script>
+</html>

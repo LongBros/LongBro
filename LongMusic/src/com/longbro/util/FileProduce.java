@@ -21,24 +21,19 @@ public class FileProduce
     if (file.isDirectory())
     {
       File[] fs = file.listFiles();
-      File[] arrayOfFile1;
-      int j;
-      int i;
       if (StringUtils.isEmpty(userId))
       {
-        j = (arrayOfFile1 = fs).length;
-        for (i = 0; i < j; i++)
+        for (int i = 0; i <fs.length; i++)
         {
-          File f = arrayOfFile1[i];
+          File f = fs[i];
           userFiles.add(f.getName());
         }
       }
-      else
+      else//查询某个用户的
       {
-        j = (arrayOfFile1 = fs).length;
-        for (i = 0; i < j; i++)
+        for (int i = 0; i < fs.length; i++)
         {
-          File f = arrayOfFile1[i];
+          File f = fs[i];
           if ((f.getName().contains("_")) && (userId.equals(f.getName().substring(0, f.getName().indexOf("_"))))) {
             userFiles.add(f.getName());
           }

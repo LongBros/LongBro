@@ -94,4 +94,9 @@ public class AccountDaoImpl extends BaseDao implements AccountDao{
 		map.put("d", d);
 		return (List<CateAmountVo>)this.selectList("com.longbro.bean.account.getCate", map);
 	}
+	@Override
+	public List<Account> queryBillsBy(HashMap map) {
+		// TODO Auto-generated method stub
+		return (List<Account>)this.selectList("com.longbro.bean.account.queryBillsBy",map);
+	}
 }

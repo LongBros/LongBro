@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>新写日记</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<!-- 引入样式文件 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.4/lib/index.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css"/>
+		<script type="text/javascript" src="http://duola.vip/js/myjs/timeDeal.js"></script>
+		<script type="text/javascript" src="http://duola.vip/js/myjs/jsutil.js"></script>
+		<script type="text/javascript" src="http://duola.vip/hui/diary/js/index.js"></script>
+		<style>
+			#app{margin: 15px;font-size: 15px;}
+			.fabu{float: right;outline: none;background-color: #8bd226;color: #fff;border: none;padding: 5px 18px;border-radius: 3px;}
+			.textarea_div{margin-top: 25px;border-bottom: 1px solid #EDEDED;padding-bottom: 15px;}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<div class="">
+				<a href="/reyu/index.html"><span style="color: #000;">返回</span></a>
+				<button @click="fabu" class="fabu">发布</button>
+			</div>
+			<div class="input_div flex">
+				<input v-model="title" placeholder="请输入标题（可选，默认为当前时间）"></input>
+			</div>
+			<div class="textarea_div flex">
+				<textarea v-model="value" placeholder="请输入文字（日记内容最少10字符喔^-^）"></textarea>
+			</div>
+			<div class="" style="margin-top: 15px;border-bottom: 1px solid #EDEDED;padding-bottom: 15px;">
+				<p style="color: #999;margin-bottom: 15px;">添加视频或图片</p>
+				<van-uploader max-count="9" :after-read="afterRead" @delete="deletePic" v-model="imgList" preview-size="80"><!--  multiple="true"后端需做对应处理 :before-delete="beforeDelete"  -->
+				  <div class="upload_div">
+					  <van-icon name="photo-o" size="30" color="#969696"/>
+					  <p>上传图片</p>
+				  </div>
+				</van-uploader>
+				<!--<van-uploader :after-read="upVideo" v-model="videoList" preview-size="80" >
+				  <div class="upload_div">
+					  <van-icon name="photo-o" size="30" color="#969696" />
+					  <p>上传视频</p>
+				  </div>
+				</van-uploader>-->
+				
+			</div>
+			<div class="input_div flex">
+				<span style="color: #4C526C;">位置：</span>
+				<input placeholder="请输入位置" v-model="location" style="margin-left:50px;display: flex;"></input>
+			</div>
+			<div class="flexs" style="padding: 15px 0;display: flex;">
+				<span style="color: #4C526C;">心情：</span>
+				<p @click="selectp(2)" class="flexs" style="flex: 1;"><span style="flex: 1;color: #000000;">{{selMood}}</span><img class="jt123" src="http://m.lianzhigou.cn/public/images/arrow.png" ></p>
+			</div>
+			<div class="flexs" style="padding: 15px 0;display: flex;">
+				<span style="color: #4C526C;">天气：</span>
+				<p @click="selectp(3)" class="flexs" style="flex: 1;"><span style="flex: 1;color: #000000;">{{selWea}}</span><img class="jt123" src="http://m.lianzhigou.cn/public/images/arrow.png" ></p>
+			</div>
+			<div class="flexs" style="padding: 15px 0;display: flex;">
+				<span style="color: #4C526C;">权限：</span>
+				<p @click="selectp(0)" class="flexs" style="flex: 1;"><span style="flex: 1;color: #000000;">{{selAuthor}}</span><img class="jt123" src="http://m.lianzhigou.cn/public/images/arrow.png" ></p>
+			</div>
+			<div class="flexs" style="padding: 15px 0;display: flex;">
+				<span style="color: #4C526C;">分类：</span>
+				<p @click="selectp(1)" class="flexs" style="flex: 1;"><span style="flex: 1;color: #000000;">{{selCate}}</span><img class="jt123" src="http://m.lianzhigou.cn/public/images/arrow.png" ></p>
+			</div>
+			<div class="flexs" style="padding: 15px 0;display: flex;">
+				<span style="color: #4C526C;">音频：</span><span style="font-size:10px;color:red;display:none" id="listenBtn" @click="playAudio()">(试听)</span>
+				<p @click="selectp(4)" class="flexs" style="flex: 1;"><span style="flex: 1;color: #000000;">{{audioName}}</span><img class="jt123" src="http://m.lianzhigou.cn/public/images/arrow.png" ></p>
+			</div>
+			<van-action-sheet v-model="selshow" :actions="actions" @select="onSelect" />
+		</div>
+		<div style="text-align:center"><audio id="audio" src="" autoplay="autoplay" controls="controls"  style="float: left;margin-left: 20px;margin-top: 10px;display:none"></audio></div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vant@2.4/lib/vant.min.js"></script>
+	<script>
+		var user="";
+		user=getCookie("userId")+"";
+		var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
+		var userAddr=decodeURI(decodeURI(getCookie("userAddr")+""));
+		//document.getElementById("location").value=userAddr;
+		if(user){
+		}else{
+			vant.Toast("请先登录");
+			window.location="http://www.duola.vip/duola/login.html";
+		}
+		
+		function GetQueryString(name)
+		{
+			 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+			 var r = window.location.search.substr(1).match(reg);
+			 if(r!=null)return  unescape(r[2]); return null;
+		}
+		
+		//var url=window.location+"";
+		var id=GetQueryString("id");
+		
+		var localNames=[];//上传前的文件名集合
+		var serverNames=[];//上传到服务器返回的文件名集合
+		
+		var app=new Vue({
+			el:'#app',
+			data:{
+				author:user,
+				title:'',
+				value:'',
+				imgList: [
+				        // { url: 'https://img.yzcdn.cn/vant/leaf.jpg' },
+				        // Uploader 根据文件后缀来判断是否为图片文件
+				        // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+				        // { url: 'https://img.yzcdn.cn/vant/leaf.jpg', isImage: true }
+				      ],
+				imgPath:'',
+				videoList:[],
+				selMood:'开心',
+				mood:'0',
+				selWea:'晴',
+				wea:0,
+				selAuthor:'登录可见',
+				authority:2,
+				selCate:'生活日记',
+				category:'0',
+				location:userAddr,
+				videoList:[],
+				selshow:false,
+				allowComment:0,
+				actions: [],
+				audio:'',
+				audioName:'',
+			},
+			created:function(){
+				if(id){//有id表示是编辑日记
+					document.title="编辑日记";
+					axios.get('http://www.duola.vip/note/diary/getDiaryById.do?id='+id)
+					  .then(function (response) {
+					    app.title=response.data.ntitle;
+						app.value=response.data.ncontent;
+						app.mood=response.data.nmood;
+						app.selMood=getMoodById(response.data.nmood);
+						
+						app.selCate=getCateById(response.data.ntype);
+						app.category=response.data.ntype;
+						
+
+						app.wea=response.data.nweather;
+						app.selWea=getWeaById(response.data.nweather);
+						
+						app.authority=response.data.nauthority;
+						app.selAuthor=getAuthById(response.data.nauthority);
+						app.location=response.data.nlocation;
+						
+						app.audio=response.data.nSongId;
+						app.audioName=response.data.audioInfo;
+					  })
+					  .catch(function (error) {
+					    console.log(error);
+					  });
+				}
+			},
+			methods:{
+				selectp(type){
+					if(type==0){//权限
+						app.actions=[{id:0,name:"完全公开"},{id:1,name:"自己可见"},{id:2,name:"登录可见"}];
+					}else if(type==1){//分类
+						app.actions=[{id:0,name:"生活日记"},{id:1,name:"工作笔记"},{id:2,name:"idea"},{id:3,name:"诗词（文学）"},{id:4,name:"深度好文"}];
+					}else if(type==2){//心情
+						app.actions=[{id:0,name:"开心"},{id:1,name:"微笑"},{id:2,name:"哭脸"},{id:3,name:"愤怒"}];
+					}else if(type==3){//天气
+						app.actions=[{id:0,name:"晴"},{id:1,name:"雾"},{id:2,name:"霾"},{id:3,name:"阴"},{id:3,name:"雨"},{id:3,name:"雪"}];
+					}else if(type==4){//音频
+					    var page=random(1, 16);
+						axios.get('http://www.duola.vip/queryAllSongs.do?page='+page)
+						.then(function (response) {
+							console.log(response.data);
+							var data=response.data;
+							for(var i=0;i<data.length;i++){
+								data[i].name=data[i].songName+"-"+data[i].singer;//+"&emsp;<a>试听</a>"
+							}
+							//vant.Toast(data[0].songName);
+							app.actions=data;
+						})
+						.catch(function (error) {
+							console.log(error);
+						})	
+					}
+					this.selshow=true
+				},onSelect(item) {
+				      // 默认情况下点击选项时不会自动收起
+				      // 可以通过 close-on-click-action 属性开启自动收起
+				      this.selshow = false;
+					  //根据actions来判断当前是哪个
+					  var ac=app.actions[0].name;
+					  if(ac.indexOf("完全公开")!=-1){//权限
+							this.selAuthor=item.name;
+							this.authority=item.id;
+						}else if(ac.indexOf("生活日记")!=-1){//分类
+							this.selCate=item.name;
+							this.category=item.id;
+						}else if(ac.indexOf("开心")!=-1){//分类
+							this.selMood=item.name;
+							this.mood=item.id;
+						}else if(ac.indexOf("晴")!=-1){//分类
+							this.selWea=item.name;
+							this.wea=item.id;
+						}else if(ac.indexOf("-")!=-1){//音频
+							this.audioName=item.name;
+							this.audio=item.sourceId;
+							document.getElementById("listenBtn").style.display="inline-block";
+						}
+					  
+				      vant.Toast(item.name);
+				},fabu(){
+					console.log('发布文章');
+					//校验
+					if(this.value.length<10){
+						vant.Toast("发表失败，日记内容不得少于10字符");
+						return;
+					}
+					if(!this.title){
+						this.title=formatW2(new Date()+"");
+					}
+					let param = new FormData();
+					if(id){
+						param.append('NId',id);
+					}else{
+						param.append('NId',0);
+					}
+					
+					param.append('NWritter',this.author);
+					param.append('NType',this.category);
+					param.append('NTitle',this.title);
+					if(app.imgPath){//如有图片，则在尾部追加
+						param.append('NContent',this.value+"ppiiccttuurree"+app.imgPath.substring(1));
+					}else{
+						param.append('NContent',this.value);
+					}
+					param.append('NWeather',this.wea);
+					param.append('NMood',this.mood);
+					param.append('NLocation',this.location);
+					param.append('NAllowComment',this.allowComment);
+					param.append('nAuthority',this.authority);
+					param.append('NTime',formatW2(new Date()+""));
+					param.append('nSongId',this.audio);
+					// return ;
+					// let param="user_id="+this.user_id+'&topic_id=1&content='+ this.value +'&is_image=1&is_video=0&url='+JSON.stringify(url);
+					axios.post('http://www.duola.vip/note/diary/addOrEditNote.do', param
+					,{ headers:{ 'Content-Type':'multipart/form-data' }},
+					  )
+					  .then(function (response) {
+					    console.log(response.data);
+						if(response.data.code==200){
+							if(id){
+								vant.Toast('日记编辑成功，2秒后跳转到首页');
+							}else{
+								vant.Toast('日记发布成功，2秒后跳转到首页');
+							}
+							setTimeout(function(){ window.location="http://www.duola.vip/duola"; }, 2000);
+							
+						}
+					  })
+					  .catch(function (error) {
+					    console.log(error);
+					  });
+				},
+				upVideo(file){
+					console.log('上传视频');
+					console.log(file);
+				},
+				afterRead(file) {
+				    // 此时可以自行将文件上传至服务器
+					// let file1 = file.target.files[0];
+					let param = new FormData();
+					//热遇图片上传接口
+					//param.append('userfile[]',file.file);
+					//let url="http://m.lianzhigou.cn/index.php/apicontent/upload";
+					param.append('pic',file.file);
+					param.append('userId',user);
+					console.log(param.get('pic'));
+					let url="http://www.duola.vip/note/diary/uploadImage.do";
+					axios.post(url, param
+					,{ headers:{ 'Content-Type':'application/x-www-form-urlencoded' }},
+					  )
+					  .then(function (response) {
+					    //console.log(response.data);
+						if(response.data.code==200){
+							vant.Toast('上传成功');
+							// app.imgPath.push(response.data.data);
+							app.imgPath=app.imgPath+"&"+response.data.result[0].url;
+							console.log(app.imgPath);
+							localNames.push(file.file.name);
+							serverNames.push(response.data.result[0].url);
+							console.log("原图片名数组："+localNames);
+							console.log("存储在服务器的图片名数组："+serverNames)
+							//app.imgList.push("http://m.lianzhigou.cn"+response.data.data[0]);
+							//console.log(app.imgList);
+						}
+					  })
+					  .catch(function (error) {
+					    console.log(error);
+					  });
+				},deletePic(){
+					//点击删除按钮后需从	imgPath中删除掉
+					var index=0;//被删除图片的序号
+					for(var i=0;i< localNames.length;i++){
+						if(file.file.name==localNames[i]){
+							index=i;
+						}
+					}
+					vant.Toast("被删除图片的序号:"+index);
+					localNames=localNames.splice(index,1);
+					serverNames=serverNames.splice(index,1);
+					alert("11")
+				},beforeDelete(file){
+					//console.log(file);
+					//console.log(file.file.name);
+					var index=0;//被删除图片的序号
+					for(var i=0;i< localNames.length;i++){
+						if(file.file.name==localNames[i]){
+							index=i;
+						}
+					}
+					vant.Toast("被删除图片的序号:"+index);
+				}
+				,playAudio(){
+					if(app.audioName){
+						vant.Toast("开始试听歌曲->"+app.audioName);
+					}
+					let sid=app.audio;
+					var url="";
+					if(sid.substring(sid.length-5)==".html"){
+						url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
+					}else if(sid.substring(sid.length-3)==".kw"){
+						url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
+					}else if(sid.substring(sid.length-4)==".553"){
+						url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
+					}else if(sid.substring(sid.length-4)==".aac"||sid.substring(sid.length-4)==".m4a"||sid.substring(sid.length-4)==".mp3"){
+						url=sid;
+					}else{
+						url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
+					}
+					var song=document.getElementById("audio");
+					//song.style.display="inline-block";
+					song.src=url;
+					song.play();
+					
+				}
+			}
+		})
+		
+		//生成随机数
+		function random(min, max){
+			// 若max不存在 min 赋值给max,并重新赋值min
+			if(max == null){
+				max = min;  
+				min = 0;
+			}
+			return min+ Math.floor(Math.random()*(max-min+1))
+		}
+	</script>
+	</body>
+</html>

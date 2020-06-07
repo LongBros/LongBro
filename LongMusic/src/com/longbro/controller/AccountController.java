@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.longbro.bean.Account;
 import com.longbro.bean.Result;
 import com.longbro.bean.User;
+import com.longbro.house.bean.BaseResult;
 import com.longbro.service.AccountService;
 import com.longbro.service.LoginService;
 import com.longbro.util.DateUtil;
@@ -54,6 +55,7 @@ public class AccountController {
 		if(time.contains("中国")){//时间需转换
 			time=DateUtil.formatDate(time);
 		}
+		String userId=request.getParameter("userId");
 		String payutil=request.getParameter("payutil");
 		String in_out=request.getParameter("in_out");
 		String category=request.getParameter("category");
@@ -63,6 +65,7 @@ public class AccountController {
 
 		Map<Object, Object> map=new HashMap<Object, Object>();
 		map.put("time", time);
+		map.put("userId", userId);
 		map.put("payutil", payutil);
 		map.put("in_out", in_out);
 		map.put("category", category);
@@ -349,5 +352,34 @@ public class AccountController {
 			l.setPercent(percent+"%");
 		}
 		return list;
+	}
+	/**
+	 * 10.查询某用户某个月的账单
+	 * @date 2020年4月18日
+	 * @return
+	 */
+	@RequestMapping(value="queryBillsBy")
+	@ResponseBody
+	public BaseResult<List<Account>> queryBillsBy(HttpServletRequest request){
+		BaseResult<List<Account>> result=new BaseResult<>();
+		String userId=request.getParameter("userId");
+		String month=request.getParameter("month");
+		if(StringUtils.isEmpty(userId)||StringUtils.isEmpty(month)){
+			result.setCode(100);
+			result.setMessage("用户或月份为空");
+			result.setResult(null);
+			return result;
+		}
+		HashMap map=new HashMap<>();
+		map.put("userId", userId);
+		map.put("month", month);
+		
+		List<Account> list=service.queryBillsBy(map);
+		result.setCode(200);
+		result.setNum(list.size());
+		result.setMessage("成功查询"+userId+"的"+month+"数据");
+		result.setResult(list);
+		return result;
+		
 	}
 }

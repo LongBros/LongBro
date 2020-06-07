@@ -32,9 +32,9 @@ import com.sun.star.setup.CopyFileAction;
  */
 public class DownloadUtil {
 	public static void main(String[] args) {
-		writeToFile(spideLyric("407679465"), "407679465");
-		
-
+//		writeToFile(spideLyric("407679465"), "407679465");
+		//https://www.kugou.com/song/152uma13.html
+		downloadMp3("562598081","献世");//
 	}
 	/**
 	 *1.下载单首mp3歌曲
@@ -69,7 +69,7 @@ public class DownloadUtil {
 			
 			byte[] b=new byte[dis.available()];
 			int len=dis.available();
-			File file=new File("D:/apache-tomcat-8.5.35/webapps/util/songs1/"+fName+".mp3");
+			File file=new File("F:/553Music/"+fName+".mp3");
 			file.createNewFile();
 			FileOutputStream fos=new FileOutputStream(file);
 //			DataOutputStream dos=new DataOutputStream(fos);
@@ -85,7 +85,7 @@ public class DownloadUtil {
 				}
 			}
 			System.out.println("下载完成至"+file.getAbsolutePath());
-			copyFile(fName, file,len);
+//			copyFile(fName, file,len);
 			fos.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -157,7 +157,13 @@ public class DownloadUtil {
 	 */
 	public static String writeToFile(String lyric,String name){
 		System.out.println(lyric);
-		File file=new File("E:/AAAA/alyric1/"+name+".txt");
+		File file=null;
+		File dir=new File("F:/553Music");
+		if(!dir.exists()){
+			file=new File("/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/alyric/"+name+".txt");
+		}else{
+			file=new File("F:/553Music/lyric/"+name+".txt");
+		}
 		FileOutputStream fos;
 		try {
 			//歌词保存至文本文件

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>个人中心</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<!-- 引入样式文件 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.4/lib/index.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css"/>
+		<script type="text/javascript" src="http://duola.vip/hui/diary/js/index.js"></script>
+	</head>
+	<body id="bodys">
+		<div style="text-align:center"><audio id="audio" src="" autoplay="autoplay" controls="controls"  style="float: left;margin-left: 20px;margin-top: 10px;display:none"></audio></div>
+
+		<div id="app" v-cloak>
+			<div class="user_top">
+				<div class="flex_left"><van-image @click="yulanImg('http://www.duola.vip/image/tx/'+userData.headImage+'.jpg')" :src="'http://www.duola.vip/image/tx/'+userData.headImage+'.jpg'" /></div>
+				<div class="flex_right">
+					<p class="user_nickname">
+						{{userData.uuserName}}&emsp; 
+						关注：<span style="font-size: 12px;color: #737373;" onclick="openPage(0)">{{userData.noticeNum}}</span>&emsp; 
+						粉丝：<span style="font-size: 12px;color: #737373;" onclick="openPage(1)">{{userData.fanNum}}</span>
+					</p>
+					<img v-if="userData.uuserSex==1" class="user_sex" src="http://www.duola.vip/image/male.png" ><!--http://m.lianzhigou.cn/public/images/nan.png-->
+					<img v-if="userData.uuserSex==0" class="user_sex" src="http://www.duola.vip/image/female.png" ><!--http://m.lianzhigou.cn/public/images/women.png-->
+					&emsp; <span style="font-size: 12px;color: #737373;">哆啦号：{{userData.uuserId}}&emsp;</span>
+					&emsp; <span style="font-size: 12px;color: #737373;" @click="playAudio()">家歌：{{userData.partSongName}}</span>&emsp;<span v-if="userData.uhomeSong!=''&userData.uhomeSong!=null" @click="playAudio()" id="playBtn" style="color:red"><van-icon :name="playLogo"/></span>
+
+				</div>
+				
+			</div>
+			
+			<ul class="user_active">
+				<li>
+					<span class="list_text">写日记天数：</span><span style="font-size: 12px;color: #737373;" id="dayNum" onclick="toast()"></span>
+				</li>
+				<li>
+					<span class="list_text">个性签名：</span><span style="font-size: 12px;color: #737373;">{{userData.signature}}</span>
+				</li>
+				<li>
+					<span class="list_text">阅读量：</span><span style="font-size: 12px;color: #737373;">{{visitNum}}</span>&emsp;&emsp;
+					<span class="list_text">被阅读量：</span><span style="font-size: 12px;color: #737373;">{{userData.visitedNum}}</span>
+				</li>
+				<li>
+					<!-- <img  src="http://www.duola.vip/res/images/time.png" >-->
+					<van-icon name="clock-o"/>
+					<span class="list_text">加入时间：</span>{{userData.ujoinTime}}
+				</li>
+				<li>
+					<van-icon name="clock-o" />
+					<span class="list_text">最近登录：</span>{{userData.lastLogin}}
+				</li>
+			</ul>
+			
+			
+			<!-- 列表 -->
+			<ul class="user_list">
+				<li>
+					<a :href="'myDiary.html?author='+userData.uuserId">
+					<div class="user_list_left">
+						<img  src="http://m.lianzhigou.cn/public/images/mine1.png" >
+						<span class="list_text">ta的日记</span>
+					</div>
+					<p style="">
+						<span style="font-size: 12px;color: #888;margin-right: 5px">{{userData.diaryNum}}</span>
+						<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+					</p>
+					</a>
+				</li>
+				<li>
+					<a :href="'comment.html?author='+userData.uuserId">
+						<div class="user_list_left">
+							<img  src="http://m.lianzhigou.cn/public/images/mine2.png" >
+							<span class="list_text">ta的评论</span>
+						</div>
+						<p style="">
+							<span v-if="userData.commentedNum" class="red_num">{{userData.commentedNum}}</span>
+							<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+						</p>
+					</a>
+				</li>
+				<li>
+					<a :href="'praise.html?author='+userData.uuserId">
+					<div class="user_list_left">
+						<img  src="http://m.lianzhigou.cn/public/images/mine3.png" >
+						<span class="list_text">ta喜欢的</span>
+					</div>
+					<p style="">
+						<span v-if="userData.likeNum" class="red_num">{{userData.likeNum}}</span>
+						<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+					</p>
+					</a>
+				</li>
+				<!-- <li>
+					<a :href="'comment.html?author='+userData.uuserId">
+					<div class="user_list_left">
+						<img  src="http://m.lianzhigou.cn/public/images/mine2.png" >
+						<span class="list_text">ta的墙</span>
+					</div>
+					<p style="">
+						<span v-if="userData.commentedNum" class="red_num">{{userData.commentedNum}}</span>
+						<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+					</p>
+					</a>
+				</li>
+				<li>
+					<a href="message.html">
+					<div class="user_list_left">
+						<img  src="http://m.lianzhigou.cn/public/images/mine3.png" >
+						<span class="list_text">ta收藏的</span>
+					</div>
+					<p style="">
+						<span v-if="userData.storeNum" class="red_num">{{userData.storeNum}}</span>
+						<img class="jiantou" src="http://m.lianzhigou.cn/public/images/smallArrow.png" >
+					</p>
+					</a>
+				</li>-->
+			</ul>
+		</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<!-- <script src="https://cdn.bootcss.com/axios/0.19.1/axios.min.js"></script> -->
+	<script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+	<!-- <script src="https://cdn.bootcss.com/axios/0.18.1/axios.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/vant@2.4/lib/vant.min.js"></script>
+	<script>
+		var user="";
+		user=getCookie("userId")+"";
+		var userNick=decodeURI(decodeURI(getCookie("userNick")+""));
+		
+		var author="5211314";
+		function GetQueryString(name)
+		{
+			 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+			 var r = window.location.search.substr(1).match(reg);
+			 if(r!=null)return  unescape(r[2]); return null;
+		}
+		
+		var url=window.location+"";
+
+		if(url.indexOf("?author")!=-1){//http://duola.vip/author.html?author=35631224
+			author=GetQueryString("author");
+		}else{//http://duola.vip/author.html?35631224
+			author=url.substring(url.indexOf("?")+1);
+		}
+		if(author==user){//被查看的作者与登录人一样是，跳转到家园页
+			window.location="http://www.duola.vip/duola/myHome.html";
+		}
+		var dayNum="";
+		var authorName="";
+		var app=new Vue({
+			el:'#app',
+			data:{
+				user_id:27,
+				test:'sss',
+				userData:[],
+				visitNum:'',
+				myCommentTotal:'',
+				myNoreadCommentTotal:'',
+				upNoreadTotal:'',//点赞我的
+				playLogo:'play-circle-o'//音频播放时的图标
+				
+			},
+			created:function(){
+				console.log('zhix');
+				console.log('开始请求数据');
+				axios.get('http://www.duola.vip/note/userinfo/getAuthorInfoByUserId.do?UUserId='+author)
+				.then(function (response) {
+					console.log(response.data);
+					if (response.data.code==200) {
+						console.log('ssssssssss');
+						var userData=response.data.result;
+						document.getElementById("dayNum").innerHTML=""+getHtmlByDayNum(userData.dayNum);
+						//userData.dayNum=getHtmlByDayNum(userData.dayNum)
+						dayNum=userData.dayNum;
+						authorName=userData.uuserName;
+						app.userData=userData;
+						var body=document.getElementById("bodys");
+						if(userData.mback){
+							body.style.background="url(http://www.duola.vip/res/images/back/"+userData.mback+")";
+						}
+						document.title="‘"+userData.uuserName+"’的家园";
+						console.log(userData.sex);
+						// console.log(response.data.data);
+						if(userData.homeSongName.length>8){
+							userData.partSongName=userData.homeSongName.substring(0,8)+"...";
+						}else{
+							userData.partSongName=userData.homeSongName
+						}
+					}
+				})
+				.catch(function (error) {
+					console.log(error);
+				})
+				
+				
+				axios.get('http://www.duola.vip/note/userinfo/queryInteractNum.do?userId='+author)
+				.then(function (response) {
+					console.log(response.data);
+					if (response.data.code==200) {
+						console.log('ssssssssss');
+						var userData=response.data.result[0];
+						app.visitNum=userData.visitNum;
+						
+					}
+				})
+				.catch(function (error) {
+					console.log(error);
+				})
+				
+			},
+			methods:{
+				playAudio(){
+					var song=document.getElementById("audio");
+					if(song.paused==false){//播放状态时点击暂停播放
+						vant.Toast("暂停播放歌曲->"+app.userData.homeSongName);
+						app.playLogo="play-circle-o";
+						song.pause();
+						return;
+					}
+					if(song.paused==true&&song.src.indexOf("mp3")!=-1){//暂停状态下直接继续播放，不再重新开始播放
+						vant.Toast("继续播放歌曲->"+app.userData.homeSongName);
+						app.playLogo="https://img.zcool.cn/community/01e90b5be3e118a80121ab5df083ec.gif";
+						song.play();
+						return;
+					}
+					if(app.userData.homeSongName){
+						vant.Toast("开始播放歌曲->"+app.userData.homeSongName);
+					}
+					app.playLogo="https://img.zcool.cn/community/01e90b5be3e118a80121ab5df083ec.gif";
+					let sid=app.userData.uhomeSong;
+					var url="";
+					if(sid.substring(sid.length-5)==".html"){
+						url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
+					}else if(sid.substring(sid.length-3)==".kw"){
+						url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
+					}else if(sid.substring(sid.length-4)==".553"){
+						url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
+					}else if(sid.substring(sid.length-4)==".aac"||sid.substring(sid.length-4)==".m4a"||sid.substring(sid.length-4)==".mp3"){
+						url=sid;
+					}else{
+						url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
+					}
+					
+					song.src=url;
+					song.play();
+					
+				},toastSong(allName){
+					vant.Toast(allName);
+				},yulanImg:function(images){
+					console.log('预览图片');
+					let img=[images];
+					console.log(img);
+					vant.ImagePreview(img)
+				},
+			}
+		})
+		
+		function openPage(type){
+			window.open("myFans.html?author="+author+"&type="+type);
+		}
+		
+		function getHtmlByDayNum(num){
+			var text="";
+			var n=7;//级别幅度，如一个太阳=4个月亮，一个月亮=4个星星
+			if(num==0){
+				text="未写过日记呢";
+			}else{
+				if(num/n<1){//少于n天，显示星星
+//					text=getHtml(num,"star");
+					text="<img src='../image/star.png' style='width:12px;height:12px'>"+num;
+				}else{
+					if(num/(n*n)<1){//小于n*n天，显示月亮和星星
+//						text=getHtml(parseInt(num/n),"moon")+getHtml(num%n,"star");
+						text="<img src='../image/moon.png' style='width:12px;height:12px'>"+parseInt(num/n);
+						if(num%n>0){
+							text=text+"  "+"<img src='../image/star.png' style='width:12px;height:12px'>"+num%n;
+						}
+					}else{
+						if(num/(n*n*n)<1){//小于n*n*n天，显示太阳、月亮和星星、例17
+//							text=getHtml(parseInt(num/(n*n)),"sun")+getHtml(parseInt((num%(n*n))/n),"moon")+getHtml((num%(n*n))%n,"star");
+							text="<img src='../image/sun.png' style='width:12px;height:12px'>"+parseInt(num/(n*n));
+							if(parseInt((num%(n*n))/n)>0){
+								text=text+"  "+"<img src='../image/moon.png' style='width:12px;height:12px'>"+parseInt((num%(n*n))/n);
+							}
+							if((num%(n*n))%n>0){
+								text=text+"  "+"<img src='../image/star.png' style='width:12px;height:12px'>"+(num%(n*n))%n;
+							}
+						}else{
+//							text=getHtml(parseInt(num/(n*n*n)),"crown")+getHtml(parseInt((num%(n*n*n))/(n*n)),"sun")+getHtml(parseInt(((num%(n*n*n))%(n*n))/n),"moon")+getHtml(((num%(n*n*n))%(n*n))%n,"star");
+							text="<img src='../image/crown.png' style='width:12px;height:12px'>"+parseInt(num/(n*n*n));
+							if(parseInt((num%(n*n*n))/(n*n))>0){
+								text=text+"  "+"<img src='../image/sun.png' style='width:12px;height:12px'>"+parseInt((num%(n*n*n))/(n*n));
+							}
+							if(parseInt(((num%(n*n*n))%(n*n))/n)>0){
+								text=text+"  "+"<img src='../image/moon.png' style='width:12px;height:12px'>"+parseInt(((num%(n*n*n))%(n*n))/n);
+							}
+							if(((num%(n*n*n))%(n*n))%n>0){
+								text=text+"  "+"<img src='../image/star.png' style='width:12px;height:12px'>"+((num%(n*n*n))%(n*n))%n;
+							}
+						}
+					}
+				}
+			}
+			return text;
+		}
+		
+		function toast(){
+			vant.Toast(authorName+"累积写日记"+dayNum+"天\n图解：星星=1天，月亮="+7+"天，\n太阳="+7*7+"天，皇冠="+7*7*7+"天");
+		}
+	</script>
+	</body>
+</html>

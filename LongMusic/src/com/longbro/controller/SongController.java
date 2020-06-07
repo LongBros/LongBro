@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.longbro.bean.Result;
 import com.longbro.bean.Song;
+import com.longbro.house.bean.BaseResult;
 import com.longbro.service.SongService;
 import com.longbro.util.DownloadUtil;
 import com.longbro.util.TimeUtil;
@@ -350,9 +351,16 @@ public class SongController {
 	 */
 	@RequestMapping (value="strongQuerySongs2",method=RequestMethod.GET)
 	@ResponseBody
-	public List<Song> strongQuerySongs2(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException
+	public BaseResult<List<Song>> strongQuerySongs2(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException
 	{	
-		List<Song> ls=service.strongQuerySongs(request.getParameter("key"));
-		return ls;
+		String key=request.getParameter("key");
+		
+		BaseResult<List<Song>> result=new BaseResult<>();
+		List<Song> ls=service.strongQuerySongs(key);
+		result.setCode(200);
+		result.setMessage("根据关键词“"+key+"”共查询到"+ls.size()+"首歌曲");
+		result.setNum(ls.size());
+		result.setResult(ls);
+		return result;
 	}
 }

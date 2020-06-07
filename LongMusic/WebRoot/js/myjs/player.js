@@ -673,6 +673,7 @@ function monitor() {
 		dataType:"text",
 		success:function(data){
 			document.getElementById("lyric").innerHTML=data;
+			documet.title=data;
 		}
 	});
 	

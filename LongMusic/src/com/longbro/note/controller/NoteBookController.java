@@ -33,9 +33,12 @@ import com.longbro.note.bean.Diary;
 import com.longbro.note.bean.NoteBook;
 import com.longbro.note.bean.UserInfo;
 import com.longbro.note.service.NoteBookService;
+import com.longbro.util.FileProduce;
+import com.longbro.util.ImageProduce;
 import com.longbro.util.SpideLapuda;
 import com.longbro.util.Strings;
 import com.longbro.util.TimeUtil;
+import common.Logger;
 /**
  * 笔记本控制器
  * @author longbro
@@ -48,6 +51,7 @@ public class NoteBookController{
 //	Logger log = Logger.getLogger(AttentionController.class);
     @Autowired
     NoteBookService noteBookService;
+    private Logger logger=Logger.getLogger(NoteBookController.class);
     /**
      * @desc 1.写日记或编辑日记
      * @author zcl
@@ -402,8 +406,15 @@ public class NoteBookController{
     	result.setResult(list);
     	return result;
     }
-    
-    @RequestMapping(value={"uploadImage"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+    /**
+     * 11.上传图片
+     * @param request
+     * @param response
+     * @param attachs
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value={"uploadImage"}, method={RequestMethod.POST})
 	  @ResponseBody
 	  public BaseResult<List<HashMap<String, Object>>> uploadImage(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="pic", required=false) MultipartFile[] attachs)
 		throws Exception
@@ -450,19 +461,98 @@ public class NoteBookController{
 		result.setResult(list);
 		return result;
 	  }
+    /**
+     * 12.给日记图片添加水印
+     * @param imgurl
+     * @param res
+     * @throws IOException
+     */
 	 @RequestMapping({"markImage"})
-  @ResponseBody
-  public void markImage(String imgurl, HttpServletResponse res)
-    throws IOException
-  {
-    String filePath = "/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/images/diary/" + imgurl;
-    BufferedImage bi = ImageProduce.markText(filePath, "DoraWeb: www.duola.vip", new Font("����", 1, 36), Color.PINK, 30, 31);
-    
-    res.setContentType("image/jpeg");
-    
-    res.setDateHeader("expries", -1L);
-    res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Pragma", "no-cache");
-    ImageIO.write(bi, "jpg", res.getOutputStream());
-  }
+	  @ResponseBody
+	  public void markImage(String imgurl, HttpServletResponse res)
+	    throws IOException
+	  {
+	    String filePath = "/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/images/diary/" + imgurl;
+	    BufferedImage bi = ImageProduce.markText(filePath, "DoraWeb: www.duola.vip", new Font("宋体", 1, 36), Color.PINK, 30, 31);
+	    
+	    res.setContentType("image/jpeg");
+	    
+	    res.setDateHeader("expries", -1L);
+	    res.setHeader("Cache-Control", "no-cache");
+	    res.setHeader("Pragma", "no-cache");
+	    ImageIO.write(bi, "jpg", res.getOutputStream());
+	  }
+	 /**
+	  * 13.加载某用户发表过的图片
+	  * @param userId
+	  * @param page
+	  * @return
+	  */
+	 @RequestMapping({"listAllPic"})
+	  @ResponseBody
+	  public BaseResult<ArrayList<String>> listAllPic(String userId, int page)
+	  {
+	    BaseResult<ArrayList<String>> result = new BaseResult();
+	    if (StringUtils.isEmpty(page+"")) {
+	      page = 1;
+	    }
+	    ArrayList<String> files = FileProduce.getAllFiles(userId, "/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/images/diary/");
+	    result.setResult(files.subList(6 * (page - 1), 6 * page));
+	    result.setCode(200);
+	    result.setMessage("" + userId + "" + page + "");
+	    result.setNum(files.size());
+	    return result;
+	  }
+	 
+	 /**
+	     * 11.上传音频
+	     * @param request
+	     * @param response
+	     * @param attachs
+	     * @return
+	     * @throws Exception
+	     */
+	    @RequestMapping(value={"uploadAudio"}, method={RequestMethod.POST})
+		  @ResponseBody
+		  public BaseResult<String> uploadAudio(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="audio", required=false) MultipartFile attach)
+			throws Exception
+		  {
+			BaseResult<String> result = new BaseResult();
+			response.setCharacterEncoding("utf-8");
+			
+			String userId = "";
+			userId = request.getParameter("userId");
+			if(attach.isEmpty()){
+				result.setCode(100);
+				result.setMessage("无音频文件");
+				return result;
+			}
+			String path=request.getSession().getServletContext().
+					getRealPath("res"+File.separator+"audio"+File.separator);
+			logger.debug("==========>"+path);
+			long fname=System.currentTimeMillis();
+			String prefix=FilenameUtils.getExtension(attach.getOriginalFilename());
+			logger.debug("==========>"+prefix);
+			int fileSize=11*1024*1024;
+			if(attach.getSize()>fileSize){//限制上传大小为2兆内的图片
+				result.setCode(100);
+				result.setMessage("音频文件过大");
+				return result;
+			}else{
+				//if(prefix.equalsIgnoreCase("mp3")||prefix.equalsIgnoreCase("wav")){
+					File file=new File(path,userId+"_"+fname+".mp3");
+					attach.transferTo(file);
+					
+				//}else{
+				//	result.setCode(100);
+				//	result.setMessage("非正确音频格式");
+				//	return result;
+				//}
+			}
+			
+			result.setCode(200);
+			result.setMessage("音频文件上传成功");
+			result.setResult(userId+"_"+fname+".mp3");
+			return result;
+		  }
 }
