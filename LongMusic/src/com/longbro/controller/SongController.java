@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.longbro.bean.Result;
 import com.longbro.bean.Song;
-import com.longbro.house.bean.BaseResult;
+import com.longbro.common.BaseResult;
 import com.longbro.service.SongService;
 import com.longbro.util.DownloadUtil;
 import com.longbro.util.TimeUtil;
@@ -205,7 +205,7 @@ public class SongController {
 	 */
 	@RequestMapping (value="editSong",method=RequestMethod.POST)
 	@ResponseBody
-	public void editSong(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException
+	public String editSong(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException
 	{	
 		Song song=new Song();
 		request.setCharacterEncoding("utf-8");
@@ -222,7 +222,7 @@ public class SongController {
 		song.setLyric(request.getParameter("lyric"));
 		service.editSong(song);
 		
-		return;
+		return "修改成功！";
 	}
 	/**
 	 * 9.根据播放列表中的id批量查询歌曲

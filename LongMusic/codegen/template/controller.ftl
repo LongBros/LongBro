@@ -26,6 +26,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ${system}.${domain}.${package}.bean.${class};
 import ${system}.${domain}.${package}.service.${class}Service;
 /**
  * ${comment}控制器
@@ -34,9 +35,13 @@ import ${system}.${domain}.${package}.service.${class}Service;
  * @copyright ${vars.company}
  */
 @Controller
+@RequestMapping("sky/${classVar}/")
 public class ${class}Controller{
     @Autowired
     ${class}Service ${classVar}Service;
     
-    
+    @RequestMapping("create")
+    public void create(${class} bean) {
+		${classVar}Service.create(bean);
+	}
 }

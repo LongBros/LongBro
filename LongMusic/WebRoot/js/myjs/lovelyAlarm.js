@@ -98,7 +98,7 @@ function minusAlarm(){
 	$("#allAlarm").append("<span onclick='closeAll()' class='close'>X</span><br>");
 	
 	$.ajax({
-		url:"getAlarmByUserId.do?userId="+user,
+		url:"../getAlarmByUserId.do?userId="+user,
 		async:true,
 		type:"GET",
 		dataType:"Json",
@@ -138,7 +138,7 @@ function create(){
 	var time=formatW1(hour)+":"+formatW1(minute)+":"+formatW1(second);
 //	time=encodeURI(encodeURI("&"+time));
 	$.ajax({
-		url:"addAlarmForUser.do?userId="+user+"&time="+time+"&tip="+tip+"&music="+music,
+		url:"../addAlarmForUser.do?userId="+user+"&time="+time+"&tip="+tip+"&music="+music,
 		async:true,
 		type:"GET",
 		dataType:"text",
@@ -163,7 +163,7 @@ function getAlarmTime(){
 		alert(source);
 
 		$.ajax({
-			url:"genUserId.do?source="+source,
+			url:"../genUserId.do?source="+source,
 			async:true,
 			type:"GET",
 			dataType:"text",
@@ -184,7 +184,7 @@ function setAlarmText(user){
 	//根据userId得到其设置的闹铃
 	var alarm=document.getElementById("alarm");
 	$.ajax({
-		url:"getAlarmByUserId.do?userId="+user,
+		url:"../getAlarmByUserId.do?userId="+user,
 		async:true,
 		type:"GET",
 		dataType:"Json",
@@ -221,7 +221,7 @@ function changeMode(){
 function delAlarm(id){
 	var user=getCookie("user")+"";
 	$.ajax({
-		url:"delAlarmByAId.do?aId="+id,
+		url:"../delAlarmByAId.do?aId="+id,
 		async:true,
 		type:"GET",
 		dataType:"Json",
@@ -253,7 +253,7 @@ function myInfo(){
 	userId.innerText=getCookie("user");
 	$.ajax({
     	type:"GET",
-    	url:"getByUserId.do",
+    	url:"../getByUserId.do",
     	async:true,
     	dataType:"Json",
     	success:function(data){
@@ -273,7 +273,7 @@ function editInfo(){
 	alert(sign)
 	$.ajax({
     	type:"GET",
-    	url:"updateInfo.do",
+    	url:"../updateInfo.do",
     	async:true,
     	data:{
     		userId:userId,
@@ -295,7 +295,7 @@ function setting(){
 function fillMyGit(){
 	var userId=getCookie("user")+"";
 	$.ajax({
-    	url:"getByUserId.do?userId="+userId,
+    	url:"../getByUserId.do?userId="+userId,
     	type:"GET",
     	async:true,
     	dataType:"Json",
@@ -327,9 +327,9 @@ function fillMyGit(){
 //18.底部栏功能切换
 function tabOnItem(which){
 	if(which=="0"){//每日一句
-		window.open("/LongBlog/msgboard.jsp", "_blank");
+		window.open("../LongBlog/msgboard.jsp", "_blank");
 	}else if(which=="1"){//用户使用指南
-		window.open("setting.html","_blank");
+		window.open("../setting.html","_blank");
 	}else if(which=="2"){//赞赏支持
 		var si=document.getElementById("sponsorImage").style.display;
 		if(si=="none"){
@@ -342,7 +342,7 @@ function tabOnItem(which){
 	}else if(which=="3"){//联系作者
 		window.open("/LongVideos/toast.jsp","_blank");
 	}else if(which=="4"){//赞助记录
-		window.open("/LongBlog/sponsor/showSponsor.jsp","_blank");
+		window.open("..//LongBlog/sponsor/showSponsor.jsp","_blank");
 	}else if(which=="5"){//赞助记录
 		var statistic=document.getElementById("randomSen");
 		$.ajax({
@@ -437,7 +437,7 @@ function getNameBySId(sourceId){
 	$.ajax({
 		type:"Get",
 		async:false,
-		url:"querySongBySId.do?sourceId="+sourceId,
+		url:"../querySongBySId.do?sourceId="+sourceId,
 		dataType:"Json",
 		success:function(data){
 			name=data.songName+"-"+data.singer;

@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
 import com.longbro.bean.AlarmUser;
-import com.longbro.house.bean.BaseResult;
+import com.longbro.common.BaseResult;
 import com.longbro.note.bean.Attention;
 import com.longbro.note.bean.Author;
 import com.longbro.note.bean.UserInfo;

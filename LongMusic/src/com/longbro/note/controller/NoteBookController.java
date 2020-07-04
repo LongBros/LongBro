@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
-import com.longbro.house.bean.BaseResult;
+import com.longbro.common.BaseResult;
 import com.longbro.note.bean.Diary;
 import com.longbro.note.bean.NoteBook;
 import com.longbro.note.bean.UserInfo;
@@ -38,6 +38,7 @@ import com.longbro.util.ImageProduce;
 import com.longbro.util.SpideLapuda;
 import com.longbro.util.Strings;
 import com.longbro.util.TimeUtil;
+
 import common.Logger;
 /**
  * 笔记本控制器

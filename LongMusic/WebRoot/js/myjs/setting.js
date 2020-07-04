@@ -52,6 +52,10 @@ function listen(){
 	var url="";
 	if(sid.substring(sid.length-4)=="html"){//QQ音乐
 		url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
+	}else if(sid.substring(sid.length-3)==".kw"){
+		url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
+	}else if(sid.substring(sid.length-4)==".553"){
+		url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
 	}else{
 		url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
 	}
@@ -104,7 +108,7 @@ function saveData1() {
     var userId=getCookie("user")+"";
     $.ajax({
     	type:"GET",
-    	url:"updateMusicGit.do",
+    	url:"../updateMusicGit.do",
     	async:true,
     	data:{
     		userId:userId,
@@ -118,7 +122,7 @@ function saveData1() {
 
 //加载某页的歌曲
 function loadPage(page){
-	listbox1.setUrl("queryAllSongs.do?page="+page);
+	listbox1.setUrl("../queryAllSongs.do?page="+page);
 }
 //新增提示语
 function saveData2() {

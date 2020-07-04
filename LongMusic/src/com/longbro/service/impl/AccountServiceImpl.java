@@ -62,14 +62,14 @@ public class AccountServiceImpl implements AccountService{
 		return dao.queryNum(key);
 	}
 	@Override
-	public ArrayList getAllMonth(String yom) {
+	public ArrayList getAllMonth(String yom,String userId) {
 		// TODO Auto-generated method stub
-		return dao.getAllMonth(yom);
+		return dao.getAllMonth(yom,userId);
 	}
 	@Override
-	public String getAmount(String yom, String ioo, String d) {
+	public String getAmount(String yom, String ioo, String d,String userId) {
 		// TODO Auto-generated method stub
-		return dao.getAmount(yom, ioo, d);
+		return dao.getAmount(yom, ioo, d,userId);
 	}
 	/**
 	 * 根据年(月)分、支出（收入）得到其下对应的分类、金额
@@ -81,8 +81,8 @@ public class AccountServiceImpl implements AccountService{
 	 * @param d
 	 */
 	@Override
-	public List<CateAmountVo> getCateByYom(String yom, String ioo, String d){
-		return dao.getCateByYom(yom, ioo, d);
+	public List<CateAmountVo> getCateByYom(String yom, String ioo, String d,String userId){
+		return dao.getCateByYom(yom, ioo, d,userId);
 	}
 	@Override
 	public List<Account> queryBillsBy(HashMap map) {

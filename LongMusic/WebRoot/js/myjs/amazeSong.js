@@ -52,7 +52,7 @@ function querySongs(page){
 						"<td title='"+web+"'><a href=\""+url+"\">"+web+"</a></td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\">" +
-						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='/editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");
 //				var s="<tr>";
@@ -107,7 +107,7 @@ function querySongsByKey(){
 						"<td title='"+data[k].website+"'>"+data[k].website+"</td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'>" +
-						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='/editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");				
 			}
@@ -159,7 +159,7 @@ function querySongsBySinger(){
 						"<td title='"+data[k].website+"'>"+data[k].website+"</td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'>" +
-						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='/editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");
 			}

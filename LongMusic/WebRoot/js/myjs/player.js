@@ -64,7 +64,7 @@ function querySongs(page){
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\">" +
-						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='/amaze/editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");
 			}
@@ -127,7 +127,7 @@ function querySongsByKey(){
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'>" +
-						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='/amaze/editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");				
 			}
@@ -201,7 +201,7 @@ function querySongsBySinger(singer){
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'>" +
-						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='/amaze/editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");
 			}
@@ -265,7 +265,7 @@ function strongQuerySongs(){
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[0][k].id+")'>" +
-						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[0][k].id+"' target='_blank'>编辑</a></button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='/amaze/editSong.jsp?id="+data[0][k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");
 			}
@@ -310,7 +310,7 @@ function strongQuerySongs(){
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[1][k].id+")'>" +
-						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[1][k].id+"' target='_blank'>编辑</a></button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='/amaze/editSong.jsp?id="+data[1][k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");
 			}
@@ -352,7 +352,7 @@ function strongQuerySongs(){
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[2][k].id+")'>" +
-						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[2][k].id+"' target='_blank'>编辑</a></button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='/amaze/editSong.jsp?id="+data[2][k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");
 			}
@@ -429,7 +429,7 @@ function querySongList(list){
 						"<td title='"+web+"'><a href=\""+url+"\" target='_blank'>"+web+"</a></td>" +
 						"<td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\">" +
 						"<button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\">" +
-						"<span class=\"am-icon-pencil-square-o\"></span><a href='../editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
+						"<span class=\"am-icon-pencil-square-o\"></span><a href='/amaze/editSong.jsp?id="+data[k].id+"' target='_blank'>编辑</a></button>" +
 						"</div></div></td>" +
 						"</tr>");
 				
@@ -513,7 +513,7 @@ function play(obj,k) {
 			document.getElementById('plist').style.backgroundImage=artist;
 			//加载歌词资源
 			var au="../querySongBySId.do?sourceId="+sid;
-			//var au="../loadLyric3.jsp?sid="+sid+"&type=2&from=1";
+			//var au="/amaze/loadLyric3.jsp?sid="+sid+"&type=2&from=1";
 			$.ajax({
 				type:"Get",
 				async:false,
@@ -665,7 +665,7 @@ function monitor() {
     //设置音乐播放进度条，和音乐已播放时长和总时长
     per.innerText=getTime(ctime)+"/"+getTime(time);
 	pro.value=(p.currentTime/p.duration*100.00);
-	var url="../loadLyric3.jsp?sid="+sid+"&time="+getTime(ctime)+"&type=1&from=0";
+	var url="/amaze/loadLyric3.jsp?sid="+sid+"&time="+getTime(ctime)+"&type=1&from=0";
 	$.ajax({
 		type:"Get",
 		async:false,
@@ -1158,7 +1158,7 @@ function loadSong(id){
 			var purl="http://localhost/util/songs/"+dsid+".mp3";
 			
 			//加载歌词资源
-			var au="../loadLyric3.jsp?sid="+dsid+"&type=2&from=0";
+			var au="/amaze/loadLyric3.jsp?sid="+dsid+"&type=2&from=0";
 			$.ajax({
 				type:"Get",
 				async:false,
@@ -1201,7 +1201,7 @@ function loadLyric(type,dsid){
 	//以下代码加上会导致部分歌曲无法展开全部歌词，去掉会使另外一部分歌曲显示两个“展开全部”按钮
 //	document.getElementById("findAllBtn").style.display="none";
 	//加载歌词资源
-	var au="../loadLyric3.jsp?sid="+dsid+"&type=2&from=0";
+	var au="/amaze/loadLyric3.jsp?sid="+dsid+"&type=2&from=0";
 	$.ajax({
 		type:"Get",
 		async:false,

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
-import com.longbro.house.bean.BaseResult;
+import com.longbro.common.BaseResult;
 import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.bean.StoreDiary;
 import com.longbro.note.service.NoteBookService;

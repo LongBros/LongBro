@@ -65,17 +65,20 @@ public class AccountDaoImpl extends BaseDao implements AccountDao{
 		return (Integer)this.selectOne("com.longbro.bean.account.queryNum", key);
 	}
 	@Override
-	public ArrayList getAllMonth(@Param("yom") String yom) {
-		return (ArrayList)this.selectList("com.longbro.bean.account.getAllMonth",yom);
+	public ArrayList getAllMonth(@Param("yom") String yom,@Param("userId") String userId) {
+		HashMap<String, String> map=new HashMap<>();
+		map.put("yom", yom);
+		map.put("userId", userId);
+		return (ArrayList)this.selectList("com.longbro.bean.account.getAllMonth",map);
 	}
 	/**
 	 * 时间类型，支出/收入，时间
 	 */
 	@Override
-	public String getAmount(String yom, String ioo, String d) {
+	public String getAmount(String yom, String ioo, String d,String userId) {
 		HashMap<String,String> map=new HashMap<String, String>();
 		map.put("yom", yom);map.put("ioo", ioo);
-		map.put("d", d);
+		map.put("d", d);map.put("userId", userId);
 		return (String)this.selectOne("com.longbro.bean.account.getAmount", map);
 	}
 	/**
@@ -88,10 +91,10 @@ public class AccountDaoImpl extends BaseDao implements AccountDao{
 	 * @param d
 	 */
 	@Override
-	public List<CateAmountVo> getCateByYom(String yom, String ioo, String d){
+	public List<CateAmountVo> getCateByYom(String yom, String ioo, String d,String userId){
 		HashMap<String,String> map=new HashMap<String, String>();
 		map.put("yom", yom);map.put("ioo", ioo);
-		map.put("d", d);
+		map.put("d", d);map.put("userId", userId);
 		return (List<CateAmountVo>)this.selectList("com.longbro.bean.account.getCate", map);
 	}
 	@Override

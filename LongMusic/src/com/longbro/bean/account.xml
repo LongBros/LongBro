@@ -96,15 +96,15 @@
 	
  	</select>
  	<!-- 查询所有有账单的年份（月份） -->
- 	<select id="getAllMonth" resultType="java.util.HashMap">
+ 	<select id="getAllMonth" resultType="java.util.HashMap" parameterType="java.util.HashMap">
  		select distinct 
- 		<if test="_parameter=='month'">
+ 		<if test="yom=='month'">
  			left(time,7) 
  		</if>
- 		<if test="_parameter=='year'">
+ 		<if test="yom=='year'">
  			left(time,4) 
  		</if> time
- 		from account;
+ 		from account where userId=#{userId};
  	</select>
  	<!-- 查询某个年份（月份）的总支出（总收入） -->
  	<select id="getAmount" resultType="java.lang.String">
@@ -115,17 +115,18 @@
  		<if test="yom=='year'">
  			and left(time,4) =#{d} 
  		</if>
+ 		and userId=#{userId};
  	</select>
  	<select id="getCate" resultType="com.longbro.vo.CateAmountVo">
  		<if test="yom=='month'">
  			SELECT DISTINCT category cate,
 			(SELECT sum(amount) FROM account WHERE category=cate and left(time,7)=#{d}) amount
-			FROM account WHERE in_out=#{ioo} and left(time,7)=#{d} ORDER BY amount DESC;
+			FROM account WHERE in_out=#{ioo} and left(time,7)=#{d} and userId=#{userId} ORDER BY amount DESC;
  		</if>
  		<if test="yom=='year'">
  			SELECT DISTINCT category cate,
 			(SELECT sum(amount) FROM account WHERE category=cate and left(time,4)=#{d}) amount
-			FROM account WHERE in_out=#{ioo} and left(time,4)=#{d} ORDER BY amount DESC;
+			FROM account WHERE in_out=#{ioo} and left(time,4)=#{d} and userId=#{userId} ORDER BY amount DESC;
  		</if>
  	</select>
  	<!-- 根据用户id、查询某用户某月下的账单 -->

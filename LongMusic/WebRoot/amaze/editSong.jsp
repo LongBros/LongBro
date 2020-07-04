@@ -6,7 +6,7 @@ int id=Integer.parseInt(request.getParameter("id"));
 <html>
 <head>
 	<title>编辑歌曲</title>
-	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="../js/jquery.js"></script>
 
 </head>
 <script type="text/javascript">
@@ -17,7 +17,7 @@ int id=Integer.parseInt(request.getParameter("id"));
   			$.ajax({
   	  			type:"Get",
   	  			async:false,
-  	  			url:"querySongById.do?id="+<%=id%>,
+  	  			url:"../querySongById.do?id="+<%=id%>,
   	  			dataType:"Json",
   	  			success:function(data){
   	  				$('#form').append("id:<input type='text' name='id' value='"+data.id+"'><br>");
@@ -41,7 +41,7 @@ int id=Integer.parseInt(request.getParameter("id"));
   		
   </script>
 <body>
-	<form id="form" action='editSong.do' method='post'>
+	<form id="form" action='../editSong.do' method='post'>
 	</form>
 </body>
 </html>

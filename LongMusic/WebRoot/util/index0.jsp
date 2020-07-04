@@ -8,17 +8,16 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="keywords" content="功能强大的网页版闹铃,实用网页版小闹铃,电脑工作者必备闹铃,哆啦工具,LongBro工具">
     <meta name="description" content="实用网页版小闹铃，网页上的闹铃，电脑工作者必备工具，提供存储多个闹铃设置，自由铃声设置，提示语设置等多重功能,打卡必备工具">
-    <script src="scripts/boot.js" type="text/javascript"></script>
-    <link rel="icon" type="image/png" href="image/logo/dlam.jpg">
+    <link rel="icon" type="image/png" href="../image/logo/dlam.jpg">
     <!-- 使用以下文件的头像 -->
-    <link rel="stylesheet" type="text/css" href="hui/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../hui/lib/Hui-iconfont/1.0.8/iconfont.css" />
     <!-- 使用以下mini文件的alert -->
-    <script src="scripts/boot.js" type="text/javascript"></script>
+    <script src="../scripts/boot.js" type="text/javascript"></script>
     
-    <link rel="stylesheet" type="text/css" href="css/lovelyAlarm.css">
-    <script src="js/myjs/lovelyAlarm.js"></script>
-    <script src="js/myjs/timeDeal.js"></script>
-    <script src="js/myjs/setting.js" type="text/javascript"></script><!-- 填充音乐和提示语以供选择 -->
+    <link rel="stylesheet" type="text/css" href="../css/lovelyAlarm.css">
+    <script src="../js/myjs/lovelyAlarm.js"></script>
+    <script src="../js/myjs/timeDeal.js"></script>
+    <script src="../js/myjs/setting.js" type="text/javascript"></script><!-- 填充音乐和提示语以供选择 -->
 	<style type="text/css">
 	   .logo{
 	      margin-left:20px;
@@ -50,12 +49,12 @@
 </head>
 <body style="background-image: " id="body"> 
 	<div>
-		<span class="logo"><a href="http://www.duola.vip/index0.jsp">哆啦小闹铃</a></span>
+		<span class="logo"><a href="http://m.duola.vip/index0.jsp">哆啦小闹铃</a></span>
 		<!-- <span class="topmenu" title="温馨提示" onmouseover="showTips()" onmouseout="hideTips()">?</span>
 		<span class="topmenu" onclick="notice()" title="通知"><i class="Hui-iconfont" style="font-size:18px">&#xe62f;</i></span>
 		<span class="topmenu" onclick="copyLink()" title="复制并分享"><i class="Hui-iconfont" style="font-size:18px">&#xe6aa;</i></span>
 		<span class="topmenu" onclick="myInfo()" title="个人"><i class="Hui-iconfont" style="font-size:18px">&#xe60a;</i></span>
-		 --><span class="topmenu" onclick="setting()" title="设置"><i class="Hui-iconfont" style="font-size:18px">&#xe61d;</i><img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif"></span>
+		 --><span class="topmenu" onclick="setting()" title="设置"><i class="Hui-iconfont" style="font-size:18px">&#xe61d;</i><img alt="" style="width: 18px;height: 18px;" src="../image/picture/hot1.gif"></span>
 		<span class="topmenu" onclick="changeMode()" title="点击切换背景"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></span>
 	</div>
 	<div><span id="tips"></span></div>
@@ -99,10 +98,10 @@
         <div id="allAlarm" class="allAlarm">
         	
 		</div>
-        <img id="smilePic" src="image/picture/smile1.png">
+        <img id="smilePic" src="../image/picture/smile1.png">
 		<div class="praise">
-			<img id="heart" src="image/picture/heart.png">加油哟，你是最棒哒
-			<img id="hug" src="image/picture/hug.png">
+			<img id="heart" src="../image/picture/heart.png">加油哟，你是最棒哒
+			<img id="hug" src="../image/picture/hug.png">
 		</div>
 		
 		<div id="time"></div>
@@ -142,12 +141,12 @@
 		<div class="sitemap">
 			<dl>
 				<dt>本站他站</dt>
-				<dd><a href="amaze/songsList.jsp" target="_blank">553Music</a></dd>
-				<dd><a href="/LongVideos" target="_blank">553影院</a></dd>
-				<dd><a href="/LongBlog" target="_blank">LongBro博客</a></dd>
+				<dd><a href="../amaze/songsList.jsp" target="_blank">553Music</a></dd>
+				<!-- <dd><a href="/LongVideos" target="_blank">553影院</a></dd> -->
+				<dd><a href="../LongBlog" target="_blank">LongBro博客</a></dd>
 				<dd><a href="http://www.duola.vip/index.html" target="_blank">哆拉日记</a></dd>
-				<dd><a href="hui" target="_blank">LongBro工具</a></dd>
-				<dd><a href="mini/myAccount.html" target="_blank">Mini账单</a></dd>
+				<dd><a href="../hui" target="_blank">LongBro工具</a></dd>
+				<dd><a href="../mini/myAccount.html" target="_blank">Mini账单</a></dd>
 			</dl>
 			<dl>
 				<dt>常用站</dt>
@@ -163,9 +162,9 @@
 	</div>
     <div id="sponsorImage" style="display:none;background:#009688;width:200px;bottom:50px;height:240px;position:fixed;cursor: pointer;">
 		
-		<img id="paypal" alt="" style="margin-left: 20px;display:inline-block" src="image/picture/paypal.jpg" width="160px" height="219px">
-    	<img id="wechat" alt="" style="margin-left: 20px;display: none" src="image/picture/wechat.jpg" width="160px" height="219px">
-    	<img id="qq" alt="" style="margin-left: 20px;display: none" src="image/picture/qq.jpg" width="160px" height="219px">
+		<img id="paypal" alt="" style="margin-left: 20px;display:inline-block" src="../image/picture/paypal.jpg" width="160px" height="219px">
+    	<img id="wechat" alt="" style="margin-left: 20px;display: none" src="../image/picture/wechat.jpg" width="160px" height="219px">
+    	<img id="qq" alt="" style="margin-left: 20px;display: none" src="../image/picture/qq.jpg" width="160px" height="219px">
     	<div style="background-color: pink;padding-bottom: 8px;padding-top: 4px;">
 			<span id="payBtn" style="float: left;margin-left: 20px;color:red" onclick="switchImg('pay')">支付宝</span>&emsp;
 			<span id="weBtn" style="float: center;margin-left: 17px;margin-right: 20px" onclick="switchImg('we')">微信</span>&emsp;
@@ -177,9 +176,9 @@
 		<div style="margin-left:50px;padding-top:6px;font-size: 13px;float: left;">
 			<span id="sponsor" onclick="tabOnItem('2')">赞赏支持</span>&nbsp;<i class="Hui-iconfont" title="赞助记录" onclick="tabOnItem('4')" style="font-size:18px">&#xe627;</i>&nbsp;|&emsp;
 			<span onclick="tabOnItem('0')">每日一句</span>&emsp;|&emsp;
-			<span onclick="tabOnItem('1')">用户使用指南</span><img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif">|&emsp;
+			<span onclick="tabOnItem('1')">用户使用指南</span><img alt="" style="width: 18px;height: 18px;" src="../image/picture/hot1.gif">|&emsp;
 			<span onclick="tabOnItem('3')" title="给作者留下你的珍贵性建议">留言作者</span>&emsp;|&emsp;
-			<span onclick="tabOnItem('5')">哆啦统计</span><img alt="" style="width: 18px;height: 18px;" src="image/picture/hot1.gif">
+			<span onclick="tabOnItem('5')">哆啦统计</span><img alt="" style="width: 18px;height: 18px;" src="../image/picture/hot1.gif">
 		</div>
 		<span style="margin-right:50px;padding-top:8px;font-size: 15px;float: right;"><a href="http://www.duola.vip" style="text-decoration: none">www.duola.vip</a> © 2018~2020	&emsp;|&emsp;<a href="http://www.duola.vip" style="text-decoration: none">豫ICP备19043404号-1</a></span>
 	</div>

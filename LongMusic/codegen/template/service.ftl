@@ -33,7 +33,6 @@ import org.springframework.stereotype.Service;
 public class ${class}Service{
 	@Autowired ${class}Dao dao;
 	public void create(${class} bean) {
-		// TODO Auto-generated method stub
 		dao.create(bean);
 	}
 }

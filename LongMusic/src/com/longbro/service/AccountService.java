@@ -18,9 +18,9 @@ public interface AccountService {
 	public void updateBillById(Account acc);
 	public String deleteAccById(int id);
 	public int queryNum(String key);
-	public ArrayList getAllMonth(String yom);
-	public String getAmount(String yom, String ioo, String d);
-	public List<CateAmountVo> getCateByYom(String yom, String ioo, String d);
+	public ArrayList getAllMonth(String yom,String userId);
+	public String getAmount(String yom, String ioo, String d,String userId);
+	public List<CateAmountVo> getCateByYom(String yom, String ioo, String d,String userId);
 	public List<Account> queryBillsBy(HashMap map);
 
 }

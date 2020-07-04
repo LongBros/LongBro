@@ -368,7 +368,7 @@ function monitor() {
 	pro.value=(p.currentTime/p.duration*100.00);
 	
 	var mname=encodeURI(encodeURI(cname));//编码中文歌词名
-	var url="loadLyric.jsp?name="+mname+"&time="+getTime(ctime)+"&type=1";
+	var url="amaze/loadLyric.jsp?name="+mname+"&time="+getTime(ctime)+"&type=1";
 	xmlHttp.open("post", url, true);
 	xmlHttp.onreadystatechange=function() {
 		//if(xmlHttp.readyState==4){
@@ -501,4 +501,17 @@ function canvas(){
 	//cxt.lineTo(150,50);
 	//cxt.lineTo(10,50);
 	//cxt.stroke();
+}
+/**
+ * 19.显示与隐藏播放列表和歌词
+ */
+function showHide(){
+	var status=document.getElementById("plistAalrc").style.display+"";
+	if(status=="none"){
+		document.getElementById("plistAalrc").style.display="inline-block";
+		document.getElementById("sah").innerHTML="隐藏("+pList.length+")";
+	}else{
+		document.getElementById("plistAalrc").style.display="none";
+		document.getElementById("sah").innerHTML="显示("+pList.length+")";
+	}
 }

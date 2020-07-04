@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.longbro.house.bean.BaseResult;
+import com.longbro.common.BaseResult;
 import com.longbro.note.bean.CommentDiary;
 import com.longbro.note.service.CommentDiaryService;
 import com.longbro.note.service.NoteBookService;
