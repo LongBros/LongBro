@@ -16,8 +16,60 @@ miniUI的grid中的列使用renderer属性举例：
 小半一个				王勃号
 爸的tb51823112			我的号
 
+你在用的 MyBatis 至少有 9 种设计模式：
+1、Builder 模式
 
-#D92E2E;
+例如：SqlSessionFactoryBuilder、XMLConfigBuilder、XMLMapperBuilder、XMLStatementBuilder、CacheBuilder；
+2、工厂模式
+
+例如：SqlSessionFactory、ObjectFactory、MapperProxyFactory；
+3、单例模式
+
+例如：ErrorContext和LogFactory；
+4、代理模式，也是 MyBatis 实现的核心
+
+例如：MapperProxy、ConnectionLogger，用到 JDK 的动态代理；还有 executor.loader 包使用了 CGLIB 或者 Javassist 达到延迟加载的效果；
+5、组合模式
+
+例如：SqlNode 和各个子类 ChooseSqlNode 等；
+6、模板方法模式
+
+例如：BaseExecutor 和 SimpleExecutor，还有 BaseTypeHandler 和所有的子类。比如，IntegerTypeHandler；
+7、适配器模式
+
+例如：Log 的 MyBatis 接口和它对 JDBC、log4j 等各种日志框架的适配实现；
+8、装饰者模式
+
+例如：Cache 包中的 cache.decorators 子包中等各个装饰者的实现；
+9、迭代器模式
+
+例如：迭代器模式 PropertyTokenizer；
+
+不急，冷静！还有几个常问的面试坑，你也不知道？
+1. MyBatis 是如何进行分页的？分页插件的原理是什么？
+2. 简述 MyBatis 的插件运行原理，以及如何编写一个插件？
+3. MyBatis 执行批量插入，能返回数据库主键列表吗？
+4. MyBatis 动态 SQL 是做什么的？都有哪些动态 SQL？能简述一下动态 SQL 的执行原理不？
+5. MyBatis 是如何将 SQL 执行结果封装为目标对象并返回的？都有哪些映射形式？
+6. MyBatis 动态代理机制应用在框架的哪些部分？
+
+2020-06-03
+a("LongBro","Dora");
+public static void a(String... a) {
+	for(String aa:a) {
+		System.out.println(aa);
+	}
+}
+
+2020-06-02 redis
+1.	config set requirepass 145989设置密码	config get requirepass查看密码
+密码设置后
+	
+	a.登录时候输入密码		redis-cli -p 6379 -a 145989
+	b.先登录后输入密码		redis-cli进入	auth 145989 输入密码	进行操作
+2.使用@Aspect时，记得在配置文件中加上<aop:aspectj-autoproxy proxy-target-class="true"/>
+
+	
 2020-05-29
 业务提出需求->产品整理需求->开发解决需求
 

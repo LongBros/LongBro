@@ -38,6 +38,100 @@ http://mg.lcbpm.com/bpm/core/bpmNodeJump/listForInst.do?actInstId=25300000384221
 
 pageIndex: 0
 pageSize: 1000
+¸üÐÂÄÚÈÝ£º
+¸üÐÂ·ÖÖ§£º
+¸üÐÂÎÄ¼þÂ·¾¶£º
+8	ÊêÂ¥
+9	Ìá·Å
+
+
+³ö±£ÀàÓÐÈýÖÖ²úÆ·£¬ÊêÂ¥µ£±££¬ÅÄÂôµ£±££¬½×¶ÎÐÔµ£±£
+
+·¢ÆðÊÕ·Ñ±í¡¢²¿ÃÅÖ÷¹ÜÉóÅú¡¢·ç¿ØÖ÷¹ÜÉóÅú¡¢×Ü¾­ÀíÉóÅú¡¢Ö´ÐÐ¶­ÊÂ¡¢³öÄÉÊÕ¿î¡¢»á¼ÆÉóºË ¡ª¡ªApp´ýÈ·ÈÏÒµ¼¨°üº¬ÁËÕâÀïÈ«²¿Á÷³Ì£¬ÖªµÀ»á¼ÆÉóºË½áÊø²Å»áËãµ½ÊµÊÕÒµ¼¨
+
+com/redxun/dev/cus/controller/CustomDataController.java
+com/redxun/bpm/core/controller/BpmTaskController.java
+http://mg.lcbpm.com/scripts/mini/miniui/themes/default/images/grid/loading1.gif
+
+http://mg.lcbpm.com/loan/caseInfo/caseViewUi.do?from=caiwuluru&key=daibanyewu&fTaskId=2530000039621802&fActInstId=2530000039580199&fInstId=2530000039580197&financeId=2530000039580186&taskId=&progress=%E5%B7%B2%E7%BB%93%E6%A1%88&callbackUrl=1&instId=2530000039580019&caseNo=2530000039580020&menuTab=cwsfqk&billNo=20041550003&actInstId=2530000039580031&fActDefId=2530000039580031&caseType=1&busNatureId=1&caseNumber=20041550003&chargeDate=2020-04-16&ajInstId=&riskId=#cwsfqk
+WEB-INF/jsp/loan/caseInfo/caseViewUi.jsp
+WEB-INF/jsp/loan/caseInfo/caseInfoRecordUi.jsp
+scripts/finance2.0/finance2.0.js
+mybatis/loan/finance/LoanFinanceChargeRecord.map.ext.xml
+com/redxun/loan/finance/controller/LoanFinanceCaseController.java
+WEB-INF/±íµ¥HTML/´¿µÖÑº´û¿î-ÐÂ°æ/cdydk_zhuguanshenpi_qita_tuian.jsp
+
+ÅÐ¶Ï·ÑÓÃÊÇ·ñÒÑÊÕÆë
+
+Boolean rtn= (Boolean) groovyEngine.executeScripts(condition, taskEnt.getVariables());
+
+com/redxun/bpm/core/service/impl/LoanTimeLimitHandler.java
+com/redxun/bpm/listener/ReminderListener.java
+bpm/core/bpmRemindDef/save.do
+bpm/core/bpmRemindDef/listJson.do?solId=2510000001220636&nodeId=sid-1DBCE454-7B79-4146-9A6F-76707925B450
+bpm_remind_def
+com/redxun/core/jms/handler/InnerMsgHandler.java	inf_inner_msg
+
+com/redxun/core/jms/handler/MobilePushMsgHandler.java
+com/redxun/core/jms/handler/MailHandler.java
+com/redxun/core/jms/handler/InnerMsgHandler.java
+
+bpm_remind_def¡¢¡¢bpm_remind_history¡¢bpm_remind_inst
+
+$('#loanStatStr').find('div.content.content-left').html(data[0].loanProgress);
+$('#message').find('div.content.content-left').html(data[0].rspMsg);
+// $('#loanStatStrText').html(data[0].loanProgress)
+// $('#messageText').html(data[0].rspMsg)
+// document.getElementById('loanStatStrText').innerText=data[0].loanProgress;
+// document.getElementById('messageText').innerText=data[0].rspMsg;
+
+
+qrtz_job_details¡¢qrtz_triggers¡¢qrtz_cron_triggers
+INSERT INTO `liangce_loan_bpm`.`qrtz_job_details` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `JOB_CLASS_NAME`, `IS_DURABLE`, `IS_NONCONCURRENT`, `IS_UPDATE_DATA`, `REQUESTS_RECOVERY`, `JOB_DATA`) VALUES ('scheduler', '¶¨Ê±Í¬²½×îÐÂÒøÐÐ¾­°ìÐÅÏ¢Êý¾Ý', 'group1', '¶¨Ê±´Ó°¸¼þÖ÷±í»ñÈ¡ËùÓÐ×îÐÂµÄÒøÐÐ¾­°ìÐÅÏ¢Êý¾Ý£¬´æÈë»º´æ£¬ÒÔÊµÏÖÔÚÑ¡ÔñÍêÒøÐÐÖ§ÐÐºó¿ÉÅäºÏ¼ÓÔØ³ö¶ÔÓ¦µÄÒøÐÐ¾­°ìÐÅÏ¢ÒÔ¹©Ñ¡Ôñ', 'com.redxun.loan.job.SyncBankHandlerInfoJob', '1', '1', '0', '0', '??\0sr\0org.quartz.JobDataMap???åÇ??\0\0xr\0&org.quartz.utils.StringKeyDirtyFlagMap?????](\0Z\0allowsTransientDataxr\0org.quartz.utils.DirtyFlagMap?.?(v\n?\0Z\0dirtyL\0mapt\0Ljava/util/Map;xp\0sr\0java.util.HashMap???`?\0F\0\nloadFactorI\0	thresholdxp?@\0\0\0\0\0w\0\0\0\0\0\0\0x\0');
+
+INSERT INTO `liangce_loan_bpm`.`qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `NEXT_FIRE_TIME`, `PREV_FIRE_TIME`, `PRIORITY`, `TRIGGER_STATE`, `TRIGGER_TYPE`, `START_TIME`, `END_TIME`, `CALENDAR_NAME`, `MISFIRE_INSTR`, `JOB_DATA`) VALUES ('scheduler', 'ÖØÐÂÍ¬²½°¸¼þÖ÷±íµÄÒøÐÐ¾­°ìÐÅÏ¢Êý¾ÝÖÁ»º´æ', 'group1', '¶¨Ê±Í¬²½×îÐÂÒøÐÐ¾­°ìÐÅÏ¢Êý¾Ý', 'group1', 'Ã¿Ìì£º0:0Ö´ÐÐ!', '1592236800000', '-1', '5', 'ERROR', 'CRON', '1592196090000', '0', NULL, '0', '');
+
+INSERT INTO `liangce_loan_bpm`.`qrtz_cron_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `CRON_EXPRESSION`, `TIME_ZONE_ID`) VALUES ('scheduler', 'ÖØÐÂÍ¬²½°¸¼þÖ÷±íµÄÒøÐÐ¾­°ìÐÅÏ¢Êý¾ÝÖÁ»º´æ', 'group1', '0 0 0 ? * *', 'Asia/Shanghai');
+
+
+Ò»´ÎÐÔ£ºÎÞ	³õÆÀ¡¢ÊÕµ½Î¯ÍÐÊéÈÕÆÚ¡¢ËÍÉó¡¢Í¬´û¡¢¿Í»§¹µÍ¨½á¹û~ËÍ·Å¿î¡¢·Å¿î
+´¿µÖÑº£ºÎÞ	ÍøÇ©¡¢Ö»ÓÐËÍÉóÈÕÆÚºÍ±¸×¢¡¢ÎÞÍË°¸ÀàÐÍ
+2020-07-03
+ÅÅÃû¡¢
+ÍØÕ¹¡¢
+Î´ÊÕ·ÑÂÊ¡¢			(Ç©¼þ×ÚÊý-ÊÕ·Ñ×ÚÊý)/Ç©¼þ×ÚÊý
+Î´ÊÕ·Ñ×ÚÊý¡¢		Ç©¼þ×ÚÊý-ÊÕ·Ñ×ÚÊý
+ÊµÊÕ×ÚÊý¡¢			ÊµÊÕ×ÚÊý
+×ÚÊý»·±ÈÉÏÔÂ		ÉÏÔÂÊµÊÕ×ÚÊý¡¢±¾ÔÂÊµÊÕ×ÚÊý
+
+
+2020-06-28
+ÏÈÓÉ³¬¼¶¹ÜÀíÔ±ÅäÖÃºÃ¸÷¸ö²úÆ·×ÜµÄ´ß°ìÌáÐÑ¶¨Òå£¬
+//ÖÐÐÄÁùÇø£º440103 ÀóÍåÇø ,440104Ô½ÐãÇø,440105º£ÖéÇø,440106ÌìºÓÇø,440111°×ÔÆÇø,440112»ÆÆÒÇø,440116ÂÜ¸ÚÇø,440119¿ª·¢Çø
+  int areaArr[] = {440103, 440104, 440105, 440106, 440111, 440112,440116,440119};
+
+2020-06-16
+1.²é·âÈËÊ×´Î´æ²»ÉÏµÄÎÊÌâ£ºonblur·½·¨ÐèÔÚÁíÍâÒ»¸öµØ·½Ò²¶¨Òå
+2.²µ»ØºóÖØÐÂÖ¸ÅÉ²»ÄÜÍ¬²½Ô­Òò£º²µ»ØºóÔÙÖ¸ÅÉ»·½ÚÒÑÓÐÈË£¬Ã»È¡ÐÂÖ¸ÅÉµÄÈË
+ÁÐ±íÖÐµÄ·çÏÕÒ»¼¶ÉóÅúÈËÔ­±¾²ÉÓÃÁËÈç¹ûbpm_node_jump±íÃ»ÓÐ£¬¾Í´Óbpm_inst_user±íÈ¡¡£
+ÕâÑù»¹ÊÇÓÐµãÎÊÌâµÄ£ºÈç¹ûÒ»¸ö°¸¼þ×ß¹ýÒ»¼¶ÉóÅú»·½ÚÓÖ²µ»ØÁË£¬Õâ¸öÊ±ºòÔÙÖ¸ÅÉ£¬ÁÐ±íÖÐÈ¡µÄ¾Í²»ÊÇÖ¸ÅÉµÄÈË£¬ÒòÎªÕâ¸öÊ±ºòbpm_node_jumpÊÇÓÐÊý¾ÝµÄ£¬È¡µÄÊÇ²µ»ØÇ°µÄÄÇ¸öÈË
+
+2020-06-12
+ÒøÐÐ-Ö§ÐÐ	ÒøÐÐ¾­°ìÈËÔ±  ÐÕÃû_µç»°
+
+SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+String nowTime=sdf.format(new Date());
+log.info(">>>>>ÉÏ´ÎÉèÖÃ»º´æÊ±¼ä£º"+lastTime+"£¬µ±Ç°Ê±¼ä£º"+nowTime);
+if (lastTime==null||!nowTime.equals(lastTime)){//Î´ÉèÖÃ¹ý»º´æ£¬»òÎª×òÌìµÄ»º´æ
+	lastTime=nowTime;
+	log.info(">>>>>Î´ÉèÖÃ¹ý»º´æ£¬»òÎª"+lastTime+"µÄ»º´æ");
+	wCaseInfoManager.getAllEffectiveHandler(null);//ÖØÐÂ²éÑ¯ÒøÐÐ¾­°ìÈËÔ±µÄ»º´æ
+}
+
+(SELECT IFNULL(USER_NAMES,'') FROM bpm_inst_user  WHERE NODE_ID_='sid-A8190A0F-4153-4FA8-9FFB-B069DF203999' and INST_ID_=b.INST_ID_) riskFirstApprover
+(select IFNULL(ou.FULLNAME_,'') from bpm_node_jump bnj  LEFT JOIN os_user ou on bnj.HANDLER_ID_=ou.USER_ID_ where bnj.NODE_ID_='sid-A8190A0F-4153-4FA8-9FFB-B069DF203999' AND bnj.act_inst_ID_=b.ACT_INST_ID_ ORDER BY bnj.COMPLETE_TIME_ DESC LIMIT 1) riskFirstApprover
+				
+
 2020-05-23
 PortalScriptÔÚspring-bean.xml
 FlowScriptÔÚspring-activiti.xml
