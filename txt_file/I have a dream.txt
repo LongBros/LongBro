@@ -1,5 +1,4 @@
-112.74.173.44
-ZCL19952019.
+
 db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
 db.username=mysqlrd
 db.password=123456
@@ -11,10 +10,8 @@ miniUI的grid中的列使用renderer属性举例：
 <div field="formatTime" width="100" headerAlign="center" align="center" renderer="formatTime">操作时间</div>
 
 
-淘宝					微信
-
-小半一个				王勃号
-爸的tb51823112			我的号
+2020-06-07
+拆分出阅读量、评论量、赞、收藏量至日记表的实现
 
 你在用的 MyBatis 至少有 9 种设计模式：
 1、Builder 模式
@@ -100,6 +97,10 @@ public static void a(String... a) {
 1.将账单表和歌曲表拆分出来到其他数据库中，同时将对应的程序拆分到新建的项目中，各个项目变得相互独立，
   同时又可相互联系
 
+754后面的网易云音乐歌曲已下载
+2020-04-27
+如果参数为月，必须传入对应年，避免查询大量数据
+
 2020-04-24
 BPM系统的所有接口（除对外接口）都需登录才能使用，例http://10.10.1.83:8082/loan/taskmgr/myTasks.do?actKey=anjieyewu
 
@@ -115,8 +116,14 @@ mons=mons.reverse();实现将数组mons倒序
 	<div v-if="mainData.day==contentData[index-1].day&&mainData.in_out == '收入'">{{dayIn=dayIn+mainData.amount}}</div>
 	<div v-if="mainData.day==contentData[index-1].day&&mainData.in_out == '支出'">{{dayOut=dayOut+mainData.amount}}</div>
 </div>
+2020-04-19
+1.账单的设计
+2.手机端搜索歌曲支持歌手、歌词搜索
 
 2020-04-17
+1.完成查看历史头像功能
+2.解决微信里面的音频不能播放的问题
+
 一年的开发时间，我觉得我越来越可以得心应手了，老大安排的任务基本都可以在很快的时间内完成，不再像当初那样虽然也可以完成，但总要费很大的功夫。
 或许我的工作已经缺乏挑战性了
 

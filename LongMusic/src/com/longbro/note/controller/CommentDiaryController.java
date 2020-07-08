@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.longbro.house.bean.BaseResult;
+import com.longbro.common.BaseResult;
 import com.longbro.note.bean.CommentDiary;
 import com.longbro.note.service.CommentDiaryService;
+import com.longbro.note.service.NoteBookService;
 import com.longbro.util.TimeUtil;
 /**
  * 日记评论表控制器
@@ -31,6 +32,8 @@ import com.longbro.util.TimeUtil;
 public class CommentDiaryController{
     @Autowired
     CommentDiaryService commentDiaryService;
+    @Autowired 
+    NoteBookService noteBookService;
     /**
      * @desc 1.添加评论，评论某日记
      * @author zcl
@@ -47,6 +50,7 @@ public class CommentDiaryController{
     	bs.setCode(200);
     	bs.setMessage("评论成功，请勿重复提交！");
     	bs.setResult(commentDiaryService.create(cd));
+    	noteBookService.alterTypeNumAdd(cd.getCReviewedDiary(),1);
     	return bs;
     }
     /**

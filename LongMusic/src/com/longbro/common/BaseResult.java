@@ -1,4 +1,4 @@
-package com.longbro.house.bean;
+package com.longbro.common;
 
 public class BaseResult<T> {
 	private int code;

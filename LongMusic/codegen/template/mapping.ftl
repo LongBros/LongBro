@@ -9,7 +9,7 @@
 <#assign sub=model.sub>
 <#assign colList=model.columnList>
 <#assign commonList=model.commonList>
-<#assign pk=func.getPk(model) >
+<#assign pk=func.getPkType(model) >
 <#assign pkVar=func.getPkVar(model) >
 <#-- 模板开始  -->
 <?xml version="1.0" encoding="UTF-8"?>

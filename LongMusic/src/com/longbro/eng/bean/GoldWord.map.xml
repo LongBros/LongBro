@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.longbro.eng.bean.GoldWord">
+	<resultMap id="GoldWord" type="com.longbro.eng.bean.GoldWord">
+		<id property="id" column="id" jdbcType="NUMERIC"/>
+		<result property="chinese" column="chi" jdbcType="VARCHAR"/>
+		<result property="english" column="eng" jdbcType="VARCHAR"/>
+		<result property="voiceUrl" column="pron" jdbcType="VARCHAR"/>
+		<result property="pronounce" column="yin" jdbcType="VARCHAR"/>
+		<result property="bookName" column="book" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="create" parameterType="com.longbro.eng.bean.GoldWord">
+		INSERT INTO goldword
+		(id,chi,eng,pron,yin,book)
+		VALUES 
+		(#{id,jdbcType=NUMERIC}, #{chinese,jdbcType=VARCHAR}, #{english,jdbcType=VARCHAR}, #{voiceUrl,jdbcType=VARCHAR}, #{pronounce,jdbcType=VARCHAR}, #{bookName,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="get"   parameterType="java.lang.String" resultMap="GoldWord">
+		SELECT * FROM goldword 
+		WHERE 
+		id=#{id}
+	</select>
+	
+	<select id="query" parameterType="java.util.Map" resultMap="GoldWord">
+		SELECT * FROM goldword
+		<where>
+			<if test="@Ognl@isNotEmpty(whereSql)">
+				${whereSql}
+			</if>
+		</where>
+		<if test="@Ognl@isNotEmpty(orderBySql)">
+			ORDER BY ${orderBySql}
+		</if>
+		<if test="@Ognl@isEmpty(orderBySql)">
+			ORDER BY id DESC
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.longbro.eng.bean.GoldWord">
+		UPDATE goldword
+        <set>
+			<if test="chinese != null">
+				chi=#{chinese,jdbcType=VARCHAR},
+			</if>
+			<if test="english != null">
+				eng=#{english,jdbcType=VARCHAR},
+			</if>
+			<if test="voiceUrl != null">
+				pron=#{voiceUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="pronounce != null">
+				yin=#{pronounce,jdbcType=VARCHAR},
+			</if>
+			<if test="bookName != null">
+				a_time=#{bookName,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE
+		id=#{id}
+	</update>
+	
+	<delete id="remove" parameterType="java.lang.String">
+		DELETE FROM goldword 
+		WHERE
+		id=#{id}
+	</delete>
+	
+	<select id="getWordsBy" resultMap="GoldWord">
+		SELECT * FROM goldword 
+		
+		limit ${page},${perPage};
+	</select>
+	
+</mapper>

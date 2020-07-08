@@ -20,6 +20,8 @@ public class Account {
 	private double amount;//金额
 	private String remark;//备注
 	private String picture;//图片路径
+	private String userId;//账单所属用户	2020-04-18新增
+
 	public String getTime() {
 		return time;
 	}
@@ -62,4 +64,11 @@ public class Account {
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 }

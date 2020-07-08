@@ -138,10 +138,11 @@
 		d.n_Authority nAuthority,d.n_song_id nSongId,di.u_User_Name userName,
 		di.u_Head_Image headImage,n_top nTop,n_user_top nUserTop,di.u_User_Sex authorSex,
 		CHAR_LENGTH(d.n_Content) wordSize,n_write_device nWriteDevice,
-		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
+		<!-- (SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
 		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
 		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,
-		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum,
+		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum, -->
+		n_praise_num praiseNum,n_com_num commentNum,n_store_num storeNum,n_visit_num visitNum,<!-- 2020-05-05数量移至日记表 -->
 		IF(IFNULL(dn.n_Id,0)=0,0,1) ifNotice,IF(IFNULL(dp.p_Id,0)=0,0,1) ifPraise,
 		 CONCAT(s.songName,'-',s.singer) audioInfo
 		 from d_diary d	
@@ -264,15 +265,12 @@
 		n_top nTop,n_user_top nUserTop,n_write_device nWriteDevice,
 		CHAR_LENGTH(d.n_Content) wordSize,
 		di.u_User_Name userName,di.u_Head_Image headImage,di.u_User_Sex authorSex,
-		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
-		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
-		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,
-		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum
+		n_praise_num praiseNum,n_com_num commentNum,n_store_num storeNum,n_visit_num visitNum<!-- 2020-05-05数量移至日记表 -->
 		 from d_diary d
 		 left join d_user_info di on d.n_Writter=di.u_User_Id
 		WHERE  1=1 and find_in_set(n_Authority,'0,2') and find_in_set(n_Id,#{ids});
 	</select>
-	<!-- 12-25随机推荐n篇日记 -->
+	<!-- 12-25关注用户的日记 -->
 	<select id="noticeUserDiary" parameterType="java.util.HashMap" resultType="com.longbro.note.bean.Diary">
 		select d.n_Id NId,d.n_Type NType,d.n_BookId NBookid,d.n_Writter NWritter,
 		d.n_Title NTitle,d.n_Content NContent,d.n_Time NTime,d.n_Weather NWeather,
@@ -281,10 +279,7 @@
 		n_top nTop,n_user_top nUserTop,n_write_device nWriteDevice,
 		CHAR_LENGTH(d.n_Content) wordSize,
 		di.u_User_Name userName,di.u_Head_Image headImage,di.u_User_Sex authorSex,
-		(SELECT count(1) FROM d_praise WHERE p_Diary=d.n_Id) praiseNum,
-		(SELECT count(1) FROM d_comment WHERE c_Reviewed_Diary=d.n_Id) commentNum,
-		(SELECT count(1) FROM d_store WHERE s_Diary=d.n_Id) storeNum,
-		(SELECT count(1) FROM d_visit WHERE v_Diary=d.n_Id) visitNum
+		n_praise_num praiseNum,n_com_num commentNum,n_store_num storeNum,n_visit_num visitNum<!-- 2020-05-05数量移至日记表 -->
 		 from d_diary d
 		 left join d_user_info di on d.n_Writter=di.u_User_Id
 		LEFT JOIN d_notice dn ON dn.n_Noticed=d.n_Writter
@@ -292,4 +287,23 @@
 				  and dn.n_Noticer=#{user} 
 		ORDER BY d.n_Time DESC LIMIT 0,#{n};
 	</select>
+	<!-- 日记阅读量0，评论1，赞2，收藏3	加1 -->
+	<update id="alterTypeNumAdd" parameterType="java.util.Map">
+		update d_diary
+		<set>
+			<if test="type==0">
+				n_visit_num=n_visit_num+1
+			</if>
+			<if test="type==1">
+				n_com_num=n_com_num+1
+			</if>
+			<if test="type==2">
+				n_praise_num=n_praise_num+1
+			</if>
+			<if test="type==3">
+				n_store_num=n_store_num+1
+			</if>
+		</set>
+		where n_Id=#{diaryId};
+	</update>
 </mapper>

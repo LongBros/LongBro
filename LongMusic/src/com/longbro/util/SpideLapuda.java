@@ -2,11 +2,6 @@ package com.longbro.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 
 import org.jsoup.Jsoup;
@@ -14,7 +9,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.google.gson.Gson;
 
 /**
  * 爬取拉普达某用户的日记
@@ -135,8 +129,9 @@ public class SpideLapuda {
 		int ids7[]={98459,98599,98735,98884,99038,99185,99319,99453,99619,99791,99967,100134,100266,100429,100590,100746,100893,101043,101201,103720,103904,104082,104226,104999,104861,104738,104580,104441,105155,105357,105499,105627,105777,105895,106105,106242,106379,106495,106622,106724,106838,106984,107120,107262};
 		//庆兔兔日记 04-23~05-14
 		int ids9[]={109991,109871,109739,109601,109481,109348,109197,109059,108882,108699,108598,108491,108389,108290,108140,107994,107867,107731,107600,107495,107382};
-		int ids10[]={};
-		int ids[]=ids9;
+		//05-15~06-07
+		int ids10[]={110108,110246,110366,110487,110608,110740,110876,111004,111127,111244,111369,111503,111635,111753,111864,111987,112073,112176,112318,112436,112587,112730,112867,113004};
+		int ids[]=ids10;
 		Document doc;
 //		System.out.println(ids.length+">>");//200-500
 		try {
@@ -174,7 +169,7 @@ public class SpideLapuda {
 //				for(char c1:c){
 //					fw.append(c1);
 //				}
-				j++;
+				j--;
 
 			}
 			

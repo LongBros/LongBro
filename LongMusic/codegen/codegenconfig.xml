@@ -17,7 +17,7 @@
         <template id="controller" path="controller.ftl" />
     </templates>
 
-    <files baseDir="D:\aaaaaaa\MyProject\LongBro\LongMusic\src">
+    <files baseDir="D:\MyEclipseProject\tianmu\src">
         <file refTemplate="mapping" filename="{class}.map.xml" dir="{system}\{domain}\{package}\bean"
               sub="true" override="true"/>
         <file refTemplate="dao" filename="{class}Dao.java" dir="{system}\{domain}\{package}\dao" sub="true"  override="true"/>
@@ -28,8 +28,8 @@
             dir="{system}\{domain}\{package}\controller" sub="false" override="true"/>
        
    </files>
-    <table tableName="d_pour_wall">
-        <variable name="class" value="Confide" />
-        <variable name="package" value="note" />
+    <table tableName="t_advertisement_info">
+        <variable name="class" value="Advertisement" />
+        <variable name="package" value="tianmu" />
     </table>
 </config>

@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
-import com.longbro.house.bean.BaseResult;
+import com.longbro.common.BaseResult;
 import com.longbro.note.bean.PraiseDiary;
 import com.longbro.note.bean.StoreDiary;
+import com.longbro.note.service.NoteBookService;
 import com.longbro.note.service.PraiseDiaryService;
+
 import common.Logger;
 /**
  * 日记点赞表控制器
@@ -36,6 +38,8 @@ import common.Logger;
 public class PraiseDiaryController{
     @Autowired
     PraiseDiaryService praiseDiaryService;
+    @Autowired 
+    NoteBookService noteBookService;
     private Logger logger=Logger.getLogger(PraiseDiaryController.class);
     /**
      * @desc 1.添加点赞记录
@@ -47,6 +51,7 @@ public class PraiseDiaryController{
     @ResponseBody
     public void praiseDiary(PraiseDiary diary){
     	praiseDiaryService.create(diary);
+    	noteBookService.alterTypeNumAdd(diary.getPDiary(),2);
     }
     /**
      * @desc 2.取消点赞

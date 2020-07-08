@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/com.sun.java.jdk7.win32.x86_64_1.7.0.u45"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JDK"/>
 	<classpathentry kind="lib" path="D:/aaaaaaa/MyProject/LongBro/LongMusic/WebRoot/WEB-INF/lib/aspectjrt-1.6.8.jar"/>
 	<classpathentry kind="lib" path="D:/aaaaaaa/MyProject/LongBro/LongMusic/WebRoot/WEB-INF/lib/aspectjweaver-1.6.8.jar"/>
 	<classpathentry kind="lib" path="D:/aaaaaaa/MyProject/LongBro/LongMusic/WebRoot/WEB-INF/lib/commons-beanutils-1.7.0.jar"/>

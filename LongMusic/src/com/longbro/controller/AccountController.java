@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.longbro.bean.Account;
 import com.longbro.bean.Result;
 import com.longbro.bean.User;
+import com.longbro.common.BaseResult;
 import com.longbro.service.AccountService;
 import com.longbro.service.LoginService;
 import com.longbro.util.DateUtil;
@@ -54,6 +55,7 @@ public class AccountController {
 		if(time.contains("中国")){//时间需转换
 			time=DateUtil.formatDate(time);
 		}
+		String userId=request.getParameter("userId");
 		String payutil=request.getParameter("payutil");
 		String in_out=request.getParameter("in_out");
 		String category=request.getParameter("category");
@@ -63,6 +65,7 @@ public class AccountController {
 
 		Map<Object, Object> map=new HashMap<Object, Object>();
 		map.put("time", time);
+		map.put("userId", userId);
 		map.put("payutil", payutil);
 		map.put("in_out", in_out);
 		map.put("category", category);
@@ -273,19 +276,20 @@ public class AccountController {
 	public ArrayList<HashMap> getAmountByYoM(HttpServletRequest request){
 		ArrayList<HashMap> arr=new ArrayList<HashMap>();
 		String yom=request.getParameter("yom");//值为year或month
-		ArrayList<HashMap<String, String>> list=service.getAllMonth(yom);//list为所有月份
+		String userId=request.getParameter("userId");
+		ArrayList<HashMap<String, String>> list=service.getAllMonth(yom,userId);//list为所有月份
 //		System.out.println(list);
 		for(HashMap<String, String> s:list){//遍历取出每月份的对应数据
 			HashMap<String, String> map=new HashMap<String, String>();
 			
-			String in=service.getAmount(yom, "收入", s.get("time"));
+			String in=service.getAmount(yom, "收入", s.get("time"),userId);
 			if(StringUtils.isEmpty(in)){
 				in="0";
 			}
 			if(in.contains(".")&&(in.substring(in.indexOf(".")+1).length()>2)){//小数点后大于两位则保留两位
 				in=in.substring(0,in.indexOf(".")+3);
 			}
-			String out =service.getAmount(yom, "支出", s.get("time"));
+			String out =service.getAmount(yom, "支出", s.get("time"),userId);
 			if(StringUtils.isEmpty(out)){
 				out="0";
 			}
@@ -318,6 +322,7 @@ public class AccountController {
 		List<CateAmountVo> list=new ArrayList<CateAmountVo>();
 		String ioo=request.getParameter("ioo");//值为“收入”或“支出”
 		String d=request.getParameter("d");//值为year（例2019）或month（例2019-08）
+		String userId=request.getParameter("userId");
 		String yom;
 		if(d.length()==4){
 			yom="year";
@@ -325,12 +330,12 @@ public class AccountController {
 			yom="month";
 		}
 		//list中只含有分类和总金额。需填充总金额所占百分比并将过长总金额短化
-		list=service.getCateByYom(yom, ioo, d);
+		list=service.getCateByYom(yom, ioo, d,userId);
 		String ino="";//某月/年总支出/收入
 		if(ioo.equals("收入")){
-			ino=service.getAmount(yom, "收入", d);
+			ino=service.getAmount(yom, "收入", d,userId);
 		}else{
-			ino=service.getAmount(yom, "支出", d);
+			ino=service.getAmount(yom, "支出", d,userId);
 		}
 		//08-03添加StringUtils.isNotEmpty(ino)解决抛空指针异常问题
 		if(StringUtils.isNotEmpty(ino)&&ino.contains(".")&&(ino.substring(ino.indexOf(".")+1).length()>2)){
@@ -349,5 +354,34 @@ public class AccountController {
 			l.setPercent(percent+"%");
 		}
 		return list;
+	}
+	/**
+	 * 10.查询某用户某个月的账单
+	 * @date 2020年4月18日
+	 * @return
+	 */
+	@RequestMapping(value="queryBillsBy")
+	@ResponseBody
+	public BaseResult<List<Account>> queryBillsBy(HttpServletRequest request){
+		BaseResult<List<Account>> result=new BaseResult<>();
+		String userId=request.getParameter("userId");
+		String month=request.getParameter("month");
+		if(StringUtils.isEmpty(userId)||StringUtils.isEmpty(month)){
+			result.setCode(100);
+			result.setMessage("用户或月份为空");
+			result.setResult(null);
+			return result;
+		}
+		HashMap map=new HashMap<>();
+		map.put("userId", userId);
+		map.put("month", month);
+		
+		List<Account> list=service.queryBillsBy(map);
+		result.setCode(200);
+		result.setNum(list.size());
+		result.setMessage("成功查询"+userId+"的"+month+"数据");
+		result.setResult(list);
+		return result;
+		
 	}
 }

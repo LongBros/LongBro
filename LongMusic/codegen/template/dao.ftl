@@ -14,7 +14,7 @@ package ${system}.${domain}.${package}.dao;
 import java.util.List;
 import ${system}.${domain}.${package}.bean.${class};
 import ${system}.${domain}.${package}.dao.${class}Dao;
-import ${system}.${domain}.common.BaseDao;
+import ${system}.${domain}.${package}.common.BaseDao;
 
 import org.springframework.stereotype.Repository;
 /**
@@ -32,7 +32,6 @@ public class ${class}Dao extends BaseDao{
 		return ${class}.class.getName();
 	}
 	public void create(${class} bean) {
-		// TODO Auto-generated method stub
 		this.insert(getNamespace()+".create", bean);
 	}
 }
