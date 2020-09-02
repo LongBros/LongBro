@@ -2,44 +2,183 @@
 db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
 db.username=mysqlrd
 db.password=123456
-<br><p style="text-align: right;">摘自《 资本深探》</p>
+<br><p style="text-align: right;">摘自《资本深探》</p>
 
 根据key去sys_tree表查询typeId，再根据typeId去sys_dic表查询对应的字典
 
 miniUI的grid中的列使用renderer属性举例：
 <div field="formatTime" width="100" headerAlign="center" align="center" renderer="formatTime">操作时间</div>
 
+数据库保留两位小数：
+		CAST('123456789012345678.115' AS DECIMAL(20,2)) 
+js保留‘opts.precision’位小数：
+		var val = parseFloat($(target).val()).toFixed(opts.precision);
+
+linux清空文件
+
+		cat /dev/null logs/catalina.out
+		
+		echo "" >logs/catalina.out
+
+返回html的类型：console.log(typeof html)
+
+绩效得分*30%*工资=实得绩效工资
+
+8*23	28.5/H	28.5*40=1140
+		33.15/H	33.15*40=1326
+
+7.5*23  35.36/H 35.36*(37.5)=1326
+		
+		
+23天，上18天，休5天
+
+5262-3721=1500+
+
+show variables like 'max_connections';(查可以看当前的最大连接数)
+set global max_connections=1000;(设置最大连接数为1000，可以再次查看是否设置成功)
+exit
+
+2020-08-12
+<!-- <Host name="blog.duola.vip"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog" reloadable="true"/> 
+      </Host> -->
+	<Host name="help.duola.vip"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/water_admin" reloadable="true"/> 
+      </Host>
+	<Host name="v.duola.vip"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongVideos" reloadable="true"/> 
+      </Host>
+<Host name="hao.duola.vip"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/water_web" reloadable="true"/> 
+      </Host>
+	<Host name="help.duola.vip"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/water_admin" reloadable="true"/> 
+      </Host>
+	<Host name="m.duola.vip"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic" reloadable="true"/> 
+      </Host>
+
+2020-07-28
+实现显示String里面的换行效果-》
+	white-space: pre-line;
+实现超出一行时换行显示
+	word-wrap: break-word;word-break: break-all;
+
+pdf中的换行符：<br/>
+例： params.put("bpmMessageBoards", GsonUtil.toJson(bpmMessageBoards).replaceAll("rn","<br/>"));//将rn转为PDF的换行符
+
+//获得输入框中字符长度
+    function getLength(val) {
+        var str = new String(val);
+        var bytesCount = 0;
+        for (var i = 0 ,n = str.length; i < n; i++) {
+            var c = str.charCodeAt(i);
+            if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {
+                bytesCount += 1;
+            } else {
+                bytesCount += 2;
+            }
+        }
+        return bytesCount;
+    }
+
+	
+2020-07-24
+JS获取当前时间戳的方法
+//方法一
+var timestamp = (new Date()).getTime();
+console.log(timestamp); //1495302061441
+
+//方法二
+var timestamp2 = (new Date()).valueOf();
+console.log(timestamp2); //1495302061447
+
+//方法三
+var timestamp3 = Date.parse(new Date());
+console.log(timestamp3);//1495302061000
+
+第一种和第二种是获取了当前毫秒的时间戳
+最后一种获取的时间戳是把毫秒改成000显示
+
+3.将 时间戳 转换成 时间
+
+　　new Date(1486347562000)
+
+2020-07-23
+查看mysql表名设置是否区分大小写
+show variables like '%lower_case_table_names%';
+0:大小写敏感;1:大小写不敏感
+
+设置
+1.关闭MySQL服务
+2.在服务运行目录找到my.ini或者my.cnf文件
+3.打开文件，找到[mysqld]在下面增加一行
+lower_case_table_names=0 （0:大小写敏感;1:大小写不敏感）
+4.重启MySQL服务
+		
+2020-07-13
+使用lambda表达式时employees.sort(Comparator.comparing(e -> e.getName()))			----不能进行thenComparing
+
+employees.sort(Comparator.comparing(Employee::getName));可以代替lambda表达式		----不能比较String类型的字段
+
+		
+导入springmvc所需要的jar包
+
+commons-logging-1.1.3.jar
+log4j-1.2.17.jar
+spring-aop-4.0.0.RELEASE.jar
+spring-beans-4.0.0.RELEASE.jar
+spring-context-4.0.0.RELEASE.jar
+spring-core-4.0.0.RELEASE.jar
+spring-expression-4.0.0.RELEASE.jar
+spring-web-4.0.0.RELEASE.jar
+spring-webmvc-4.0.0.RELEASE.jar
 
 2020-06-07
 拆分出阅读量、评论量、赞、收藏量至日记表的实现
 
 你在用的 MyBatis 至少有 9 种设计模式：
 1、Builder 模式
-
 例如：SqlSessionFactoryBuilder、XMLConfigBuilder、XMLMapperBuilder、XMLStatementBuilder、CacheBuilder；
 2、工厂模式
-
 例如：SqlSessionFactory、ObjectFactory、MapperProxyFactory；
 3、单例模式
-
 例如：ErrorContext和LogFactory；
 4、代理模式，也是 MyBatis 实现的核心
-
 例如：MapperProxy、ConnectionLogger，用到 JDK 的动态代理；还有 executor.loader 包使用了 CGLIB 或者 Javassist 达到延迟加载的效果；
 5、组合模式
-
 例如：SqlNode 和各个子类 ChooseSqlNode 等；
 6、模板方法模式
-
 例如：BaseExecutor 和 SimpleExecutor，还有 BaseTypeHandler 和所有的子类。比如，IntegerTypeHandler；
 7、适配器模式
-
 例如：Log 的 MyBatis 接口和它对 JDBC、log4j 等各种日志框架的适配实现；
 8、装饰者模式
-
 例如：Cache 包中的 cache.decorators 子包中等各个装饰者的实现；
 9、迭代器模式
-
 例如：迭代器模式 PropertyTokenizer；
 
 不急，冷静！还有几个常问的面试坑，你也不知道？

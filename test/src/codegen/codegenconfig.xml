@@ -7,7 +7,7 @@
         <variable name="developer" value="wars"/>
         <variable name="company" value="良策网络"/>
         <variable name="domain" value="com.redxun"/>
-        <variable name="system" value="loan"/>
+        <variable name="system" value="sys"/>
         <!--<variable name="email" value="chenguoxian@lcfex.com"/>-->
         <variable name="email" value="1209541256@qq.com"/>
     </variables>
@@ -50,9 +50,9 @@
         <!--          <file refTemplate="get" override="true" filename="{classVar}Get.jsp" dir="src/main/webapp/WEB-INF/jsp/{system}/{package}"/> -->
     </files>
 
-    <table tableName="w_notary_info">
-        <variable name="class" value="WNotaryInfo"/>
-        <variable name="package" value="wcaseinfo"/>
+    <table tableName="sys_remind">
+        <variable name="class" value="SysRemind"/>
+        <variable name="package" value="core"/>
     </table>
 
 </config>

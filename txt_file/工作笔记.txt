@@ -1,101 +1,24 @@
-41138119951016421X	18620101642	6217002440004113429
-*************
+qrtz_job_details;qrtz_triggers
 
-<br><p style="text-align: right;">Õª×Ô¡¶ĞÄÁé¼¦ÌÀÕıÄÜÁ¿ÀøÖ¾¡·</p>
-	
-<Host name="alarm.duola.vip"  appBase="webapps"
-            unpackWARs="true" autoDeploy="true">
-        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
-               prefix="localhost_access_log" suffix=".txt"
-               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
-	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/current/index0.jsp" reloadable="true"/> 
-      </Host>
-	  
+2020-08-25
+WEB-INF/jsp/loan/bizinfo/fk_renyuanjiquanxian.jsp
+mini.mask({
+                el: document.body,
+                cls: 'mini-mask-loading',
+                html: 'Ìá½»ÖĞ...'
+            });
 
-	  
-	  
-<Host name="localhost"  appBase="webapps"
-            unpackWARs="true" autoDeploy="true">
-        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
-               prefix="localhost_access_log" suffix=".txt"
-               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
-	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/" reloadable="true"/> 
-</Host>
-AppGroupController		/app/group/workbench/getEffectiveDepts	»ñÈ¡ÓÃ»§¸ºÔğµÄÓĞĞ§²¿ÃÅ¼°²¿ÃÅÀïÃæµÄÇ©¼ş¡¢ÍØÕ¹Çé¿ö
-BusinessController		/app/report/business/getUserList		»ñÈ¡ÓÃ»§ÅÅÃûÁĞ±í£¬²ÎÊı type£ºtuozhan/qianjian
+2020-08-17 
+´ú°ì²¹Â¼µÄ²úÆ·ÏÂÀ­ÁĞ±íÏÔÊ¾³ö´íµÄÔ­Òò£º²Â²âÊÇÒòÎªIDÓëÆäËûµØ·½³åÍ»
+´ú°ì²¹Â¼²âÊÔ·şµİ¼şÈÕÆÚ²»ÄÜ±£´æµÄÎÊÌâ£¬ÊÇÒòÎªÔÚ²âÊÔ·şsys_bo_attr±íµÄEXT_JSON_×Ö¶Î¸ñÊ½ÎÊÌâ£¬Ğè¸Ä³ÉÓë¿ª·¢·şÒ»Ñù
+²¹Â¼ÖĞµÄ½ø¶ÈÖ´ĞĞ½á¹û£¬±£´æÈÕÆÚÊ±×ÜÉÙÒ»ÌìµÄÎÊÌâ£¬Ó¦¸ÃÓÃgetText()£¬¶ø²»ÊÇgetValue()
 
+ÏµÍ³ÊÂÏî¡¢Éı¼¶ÌáĞÑ
 
-´¦Àí½ø¶È±í
-http://mg.lcbpm.com/loan/taskmgr/taskHistoryList.do?taskId=2530000038422179&instId=2530000038422128&_=1589250127622
-http://mg.lcbpm.com/loan/bizinfo/dealTimelimit/getTimelimitList.do?productId=2530000016410006&deptId=2530000023001609&_=1589250127625
+Éı¼¶ÌáĞÑ>ÏµÍ³ÊÂÏî
+2020-08-03
+Ê¹ÓÃvaluefromselect="true" ºó£¬²»ÄÜ³É¹¦»ØÏÔÊı¾İ
 
-Á÷³ÌÍ¼
-http://mg.lcbpm.com/bpm/activiti/processImage.do?taskId=2530000038422276
-ProcessImageController
-
-Á÷×ªÀúÊ·~2019111200014
-http://mg.lcbpm.com/bpm/core/bpmNodeJump/listForInst.do?actInstId=2530000038422139
-
-pageIndex: 0
-pageSize: 1000
-¸üĞÂÄÚÈİ£º
-¸üĞÂ·ÖÖ§£º
-¸üĞÂÎÄ¼şÂ·¾¶£º
-8	ÊêÂ¥
-9	Ìá·Å
-
-
-³ö±£ÀàÓĞÈıÖÖ²úÆ·£¬ÊêÂ¥µ£±££¬ÅÄÂôµ£±££¬½×¶ÎĞÔµ£±£
-
-·¢ÆğÊÕ·Ñ±í¡¢²¿ÃÅÖ÷¹ÜÉóÅú¡¢·ç¿ØÖ÷¹ÜÉóÅú¡¢×Ü¾­ÀíÉóÅú¡¢Ö´ĞĞ¶­ÊÂ¡¢³öÄÉÊÕ¿î¡¢»á¼ÆÉóºË ¡ª¡ªApp´ıÈ·ÈÏÒµ¼¨°üº¬ÁËÕâÀïÈ«²¿Á÷³Ì£¬ÖªµÀ»á¼ÆÉóºË½áÊø²Å»áËãµ½ÊµÊÕÒµ¼¨
-
-com/redxun/dev/cus/controller/CustomDataController.java
-com/redxun/bpm/core/controller/BpmTaskController.java
-http://mg.lcbpm.com/scripts/mini/miniui/themes/default/images/grid/loading1.gif
-
-http://mg.lcbpm.com/loan/caseInfo/caseViewUi.do?from=caiwuluru&key=daibanyewu&fTaskId=2530000039621802&fActInstId=2530000039580199&fInstId=2530000039580197&financeId=2530000039580186&taskId=&progress=%E5%B7%B2%E7%BB%93%E6%A1%88&callbackUrl=1&instId=2530000039580019&caseNo=2530000039580020&menuTab=cwsfqk&billNo=20041550003&actInstId=2530000039580031&fActDefId=2530000039580031&caseType=1&busNatureId=1&caseNumber=20041550003&chargeDate=2020-04-16&ajInstId=&riskId=#cwsfqk
-WEB-INF/jsp/loan/caseInfo/caseViewUi.jsp
-WEB-INF/jsp/loan/caseInfo/caseInfoRecordUi.jsp
-scripts/finance2.0/finance2.0.js
-mybatis/loan/finance/LoanFinanceChargeRecord.map.ext.xml
-com/redxun/loan/finance/controller/LoanFinanceCaseController.java
-WEB-INF/±íµ¥HTML/´¿µÖÑº´û¿î-ĞÂ°æ/cdydk_zhuguanshenpi_qita_tuian.jsp
-
-ÅĞ¶Ï·ÑÓÃÊÇ·ñÒÑÊÕÆë
-
-Boolean rtn= (Boolean) groovyEngine.executeScripts(condition, taskEnt.getVariables());
-
-com/redxun/bpm/core/service/impl/LoanTimeLimitHandler.java
-com/redxun/bpm/listener/ReminderListener.java
-bpm/core/bpmRemindDef/save.do
-bpm/core/bpmRemindDef/listJson.do?solId=2510000001220636&nodeId=sid-1DBCE454-7B79-4146-9A6F-76707925B450
-bpm_remind_def
-com/redxun/core/jms/handler/InnerMsgHandler.java	inf_inner_msg
-
-com/redxun/core/jms/handler/MobilePushMsgHandler.java
-com/redxun/core/jms/handler/MailHandler.java
-com/redxun/core/jms/handler/InnerMsgHandler.java
-
-bpm_remind_def¡¢¡¢bpm_remind_history¡¢bpm_remind_inst
-
-$('#loanStatStr').find('div.content.content-left').html(data[0].loanProgress);
-$('#message').find('div.content.content-left').html(data[0].rspMsg);
-// $('#loanStatStrText').html(data[0].loanProgress)
-// $('#messageText').html(data[0].rspMsg)
-// document.getElementById('loanStatStrText').innerText=data[0].loanProgress;
-// document.getElementById('messageText').innerText=data[0].rspMsg;
-
-
-qrtz_job_details¡¢qrtz_triggers¡¢qrtz_cron_triggers
-INSERT INTO `liangce_loan_bpm`.`qrtz_job_details` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `JOB_CLASS_NAME`, `IS_DURABLE`, `IS_NONCONCURRENT`, `IS_UPDATE_DATA`, `REQUESTS_RECOVERY`, `JOB_DATA`) VALUES ('scheduler', '¶¨Ê±Í¬²½×îĞÂÒøĞĞ¾­°ìĞÅÏ¢Êı¾İ', 'group1', '¶¨Ê±´Ó°¸¼şÖ÷±í»ñÈ¡ËùÓĞ×îĞÂµÄÒøĞĞ¾­°ìĞÅÏ¢Êı¾İ£¬´æÈë»º´æ£¬ÒÔÊµÏÖÔÚÑ¡ÔñÍêÒøĞĞÖ§ĞĞºó¿ÉÅäºÏ¼ÓÔØ³ö¶ÔÓ¦µÄÒøĞĞ¾­°ìĞÅÏ¢ÒÔ¹©Ñ¡Ôñ', 'com.redxun.loan.job.SyncBankHandlerInfoJob', '1', '1', '0', '0', '??\0sr\0org.quartz.JobDataMap???åÇ??\0\0xr\0&org.quartz.utils.StringKeyDirtyFlagMap?????](\0Z\0allowsTransientDataxr\0org.quartz.utils.DirtyFlagMap?.?(v\n?\0Z\0dirtyL\0mapt\0Ljava/util/Map;xp\0sr\0java.util.HashMap???`?\0F\0\nloadFactorI\0	thresholdxp?@\0\0\0\0\0w\0\0\0\0\0\0\0x\0');
-
-INSERT INTO `liangce_loan_bpm`.`qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `JOB_NAME`, `JOB_GROUP`, `DESCRIPTION`, `NEXT_FIRE_TIME`, `PREV_FIRE_TIME`, `PRIORITY`, `TRIGGER_STATE`, `TRIGGER_TYPE`, `START_TIME`, `END_TIME`, `CALENDAR_NAME`, `MISFIRE_INSTR`, `JOB_DATA`) VALUES ('scheduler', 'ÖØĞÂÍ¬²½°¸¼şÖ÷±íµÄÒøĞĞ¾­°ìĞÅÏ¢Êı¾İÖÁ»º´æ', 'group1', '¶¨Ê±Í¬²½×îĞÂÒøĞĞ¾­°ìĞÅÏ¢Êı¾İ', 'group1', 'Ã¿Ìì£º0:0Ö´ĞĞ!', '1592236800000', '-1', '5', 'ERROR', 'CRON', '1592196090000', '0', NULL, '0', '');
-
-INSERT INTO `liangce_loan_bpm`.`qrtz_cron_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`, `CRON_EXPRESSION`, `TIME_ZONE_ID`) VALUES ('scheduler', 'ÖØĞÂÍ¬²½°¸¼şÖ÷±íµÄÒøĞĞ¾­°ìĞÅÏ¢Êı¾İÖÁ»º´æ', 'group1', '0 0 0 ? * *', 'Asia/Shanghai');
-
-
-Ò»´ÎĞÔ£ºÎŞ	³õÆÀ¡¢ÊÕµ½Î¯ÍĞÊéÈÕÆÚ¡¢ËÍÉó¡¢Í¬´û¡¢¿Í»§¹µÍ¨½á¹û~ËÍ·Å¿î¡¢·Å¿î
-´¿µÖÑº£ºÎŞ	ÍøÇ©¡¢Ö»ÓĞËÍÉóÈÕÆÚºÍ±¸×¢¡¢ÎŞÍË°¸ÀàĞÍ
 2020-07-03
 ÅÅÃû¡¢
 ÍØÕ¹¡¢
