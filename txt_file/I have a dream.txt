@@ -1,3 +1,12 @@
+目标文件夹: D:\OracleSoft\
+Oracle 主目录: D:\OracleSoft\app\oracle\product\11.2.0\server\
+Oracle 基目录:D:\OracleSoft\
+'Oracle 数据库监听程序' 的端口: 1521
+'Oracle Services for Microsoft Transaction Server' 的端口: 2030
+'Oracle HTTP 监听程序' 的端口: 8080
+
+口令：root
+net stop OracleServiceXE
 
 db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
 db.username=mysqlrd
@@ -37,6 +46,81 @@ linux清空文件
 show variables like 'max_connections';(查可以看当前的最大连接数)
 set global max_connections=1000;(设置最大连接数为1000，可以再次查看是否设置成功)
 exit
+
+SELECT * FROM song WHERE singer LIKE '%六哲%'
+SELECT singer,COUNT(1),GROUP_CONCAT(id) FROM song GROUP BY singer ORDER BY COUNT(1) desc LIMIT 0,20;
+UPDATE d_diary_content d1,d_diary d2 SET d1.n_Content=d2.n_Content,d1.n_Writter=d2.n_Writter,d1.n_Title=d2.n_Title,d1.n_Time=d2.n_Time WHERE d1.n_Id=d2.n_Id;
+INSERT INTO d_diary_subjoin(n_Id,n_Writter,n_Title,n_Content,n_Time) SELECT n_Id,n_Writter,n_Title,n_Content,n_Time FROM d_diary;
+
+2020-09-04
+<%@ page session="false"%>是指不能在本页使用session。也就是在本页面禁用session。
+request.getSession(false)是指如果存在session就返回session，如果不存在就返回一个null值；
+request.getSession(true)是指如果存在session就返回session，如果不存在就创建一个新的session。
+
+下列xml schema简单类型表达的含义是:以5个数字开头，后面跟A-G之间的任意7个字符
+<xs:simpleType name="code">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="\d{5}[A-G]{7}"/>
+	</xs:restriction>
+</xs:simpleType>
+
+1、@Component
+@Component是所有受Spring 管理组件的通用形式，@Component注解可以放在类的头上，@Component不推荐使用。
+
+2、@Controller
+@Controller对应表现层的Bean，也就是Action
+3、@Service
+@Service对应的是业务层Bean
+4、@ Repository
+@Repository对应数据访问层Bean
+
+@Configuration把一个类作为一个IoC容器，它的某个方法头上如果注册了@Bean，就会作为这个Spring容器中的Bean。	@Configuration注解的类必需使用<context:component-scanbase-package=”XXX”/>扫描
+@Scope注解 作用域
+@Lazy(true) 表示延迟初始化
+@Service用于标注业务层组件、 
+@Controller用于标注控制层组件（如struts中的action）
+@Repository用于标注数据访问组件，即DAO组件。
+@Component泛指组件，当组件不好归类的时候，我们可以使用这个注解进行标注。
+@Scope用于指定scope作用域的（用在类上）
+@PostConstruct用于指定初始化方法（用在方法上）
+@PreDestory用于指定销毁方法（用在方法上）
+@DependsOn：定义Bean初始化及销毁时的顺序
+@Primary：自动装配时当出现多个Bean候选者时，被注解为@Primary的Bean将作为首选者，否则将抛出异常
+@Autowired 默认按类型装配，如果我们想使用按名称装配，可以结合@Qualifier注解一起使用。如下：
+@Autowired @Qualifier("personDaoBean") 存在多个实例配合使用
+@Resource默认按名称装配，当找不到与名称匹配的bean才会按类型装配。
+@PostConstruct 初始化注解
+@PreDestroy 摧毁注解 默认 单例  启动就加载
+
+4. @PostConstruct 和 @PreDestory 
+
+
+	实现初始化和销毁bean之前进行的操作，只能有一个方法可以用此注释进行注释，方法不能有参数，返回值必需是void,方法需要是非静态的。
+
+	例如：
+	[html] view plain copy
+	public class TestService {   
+	  
+		@PostConstruct    
+		public void  init(){    
+			System.out.println(“初始化”);    
+		}    
+			
+		@PreDestroy    
+		public void  dostory(){    
+			System.out.println(“销毁”);    
+		}    
+	}  
+
+@Async异步方法调用
+
+@Value从properties里取配置	<context:property-placeholder location="classpath:test.properties" />	@Value(“${wx_appid}”)  publicString appid;
+
+描述下MySQL的架构体系？
+MySQL的常用存储引擎及他们之间的区别？
+MySQL索引的实现机制是什么，为什么要使用B+树？
+MySQL中的事务实现原理？
+MySQL有哪些常用的优化策略？
 
 2020-08-12
 <!-- <Host name="blog.duola.vip"  appBase="webapps"
