@@ -47,6 +47,10 @@
 			
 qrtz_job_details;qrtz_triggers
 
+2020-09-14
+FINANCE_STATUS_
+
+
 2020-08-25
 WEB-INF/jsp/loan/bizinfo/fk_renyuanjiquanxian.jsp
 mini.mask({

@@ -52,6 +52,101 @@ SELECT singer,COUNT(1),GROUP_CONCAT(id) FROM song GROUP BY singer ORDER BY COUNT
 UPDATE d_diary_content d1,d_diary d2 SET d1.n_Content=d2.n_Content,d1.n_Writter=d2.n_Writter,d1.n_Title=d2.n_Title,d1.n_Time=d2.n_Time WHERE d1.n_Id=d2.n_Id;
 INSERT INTO d_diary_subjoin(n_Id,n_Writter,n_Title,n_Content,n_Time) SELECT n_Id,n_Writter,n_Title,n_Content,n_Time FROM d_diary;
 
+SELECT
+	dd.n_Id,dd.n_song_id,CONCAT('select * from song where descr like "%',dd.n_song_id,'%";'),CONCAT('update d_diary set n_song_id=','(select sourceId from song where descr like "%',dd.n_song_id,'%" )',' where n_Id="',dd.n_Id,'"')
+FROM d_diary dd
+LEFT JOIN song s ON dd.n_song_id=s.sourceId
+WHERE IFNULL(s.songName,'')='' AND dd.n_song_id !='' AND LENGTH(dd.n_song_id)<22
+;
+update d_diary set n_Content = replace(n_Content,'112.74.173.44/LongMusic/res/images','v.duola.vip/image');
+SELECT * FROM d_diary WHERE n_Content LIKE '%v.duola.vip%';
+09-17统一将图片放入v.duola.vip，并修改数据库中数据
+http://112.74.173.44/LongMusic/res/images
+http://m.duola.vip/res/images/diary/5211314_1589423612594_0.jpg
+http://www.duola.vip/res/images/diary/27514.jpg
+
+
+<insert id="insertByBatch" parameterType="java.util.List">
+        INSERT INTO bank_serve_fee_operate
+        (ID_,REF_ID_,F_USER_ID_,F_USER_NAME_,F_DEPT_ID_,F_DEPT_NAME_,F_PERFORMANCE_,TENANT_ID_,CREATE_BY_,UPDATE_BY_,CREATE_TIME_,UPDATE_TIME_)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.refId,jdbcType=VARCHAR},#{item.userId,jdbcType=VARCHAR},
+            #{item.userName,jdbcType=VARCHAR},#{item.deptId,jdbcType=VARCHAR},#{item.deptName,jdbcType=VARCHAR},
+            #{item.performance,jdbcType=NUMERIC},#{item.tenantId,jdbcType=VARCHAR},#{item.createBy,jdbcType=VARCHAR},
+            #{item.updateBy,jdbcType=VARCHAR},#{item.createTime,jdbcType=TIMESTAMP},#{item.updateTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+	
+查看某个端口号的进程：
+lsof -i:3333	
+查看端口号的情况
+netstat -ano
+netstat -ano -p tcp | find "10028" >nul 2>nul && echo 10028端口已开启 || echo 10028未开启
+
+iptables -I INPUT -p tcp --dport 3333 -j ACCEPT
+
+	
+linux如何查看端口被哪个进程占用？	
+1、lsof -i:端口号
+
+2、netstat -tunlp|grep 端口号	
+	
+非常感谢公司、领导能够给我提供这么一个平台，让我这一年多以来能够提高自己的技术水平，获取经验。
+所以这一年多以来我也一直在努力辛勤的工作，以不负公司，虽然期间也难免犯了一些或大或小的错误，但也是为了公司系统的研发尽了一份绵薄之力，
+细细回想一下，系统里的很多功能我都有参与，有些是纯粹我负责设计的，也有些是我在后来需要优化的时候优化的，
+还有一些是我为了更深入的了解系统，主动去看相关代码，学习系统的。但庞大如BPM，自然也还是有一些我没有涉猎过的地方。
+但是也很抱歉不得不离开公司了，虽然我也对自己所参与的系统有很大的不舍，对同事、领导、公司也是一样，但我不得不为我自己想一想了。
+
+
+1、MyBatis 通过包含的jdbcType类型
+BIT、FLOAT、CHAR 、TIMESTAMP 、 OTHER 、UNDEFINEDTINYINT 、REAL 、VARCHAR 、BINARY 、BLOB NVARCHAR、SMALLINT 、DOUBLE 、LONGVARCHAR 、VARBINARY 、CLOB、NCHAR、INTEGER、 NUMERIC、DATE 、LONGVARBINARY 、BOOLEAN 、NCLOB、BIGINT 、DECIMAL 、TIME 、NULL、CURSOR
+
+2、Mybatis中javaType和jdbcType对应和CRUD例子
+<resultMap type="java.util.Map" id="resultjcm">
+  <result property="FLD_NUMBER" column="FLD_NUMBER" javaType="double" jdbcType="NUMERIC"/>
+  <result property="FLD_VARCHAR" column="FLD_VARCHAR" javaType="string" jdbcType="VARCHAR"/>
+  <result property="FLD_DATE" column="FLD_DATE" javaType="java.sql.Date" jdbcType="DATE"/>
+  <result property="FLD_INTEGER" column="FLD_INTEGER"  javaType="int" jdbcType="INTEGER"/>
+  <result property="FLD_DOUBLE" column="FLD_DOUBLE"  javaType="double" jdbcType="DOUBLE"/>
+  <result property="FLD_LONG" column="FLD_LONG"  javaType="long" jdbcType="INTEGER"/>
+  <result property="FLD_CHAR" column="FLD_CHAR"  javaType="string" jdbcType="CHAR"/>
+  <result property="FLD_BLOB" column="FLD_BLOB"  javaType="[B" jdbcType="BLOB" />
+  <result property="FLD_CLOB" column="FLD_CLOB"  javaType="string" jdbcType="CLOB"/>
+  <result property="FLD_FLOAT" column="FLD_FLOAT"  javaType="float" jdbcType="FLOAT"/>
+  <result property="FLD_TIMESTAMP" column="FLD_TIMESTAMP"  javaType="java.sql.Timestamp" jdbcType="TIMESTAMP"/>
+ </resultMap>
+
+3、Mybatis中javaType和jdbcType对应关系
+   JDBCType            JavaType
+    CHAR                String
+    VARCHAR             String
+    LONGVARCHAR         String
+    NUMERIC             java.math.BigDecimal
+    DECIMAL             java.math.BigDecimal
+    BIT                 boolean
+    BOOLEAN             boolean
+    TINYINT             byte
+    SMALLINT            short
+    INTEGER             int
+    BIGINT              long
+    REAL                float
+    FLOAT               double
+    DOUBLE              double
+    BINARY              byte[]
+    VARBINARY           byte[]
+    LONGVARBINARY               byte[]
+    DATE                java.sql.Date
+    TIME                java.sql.Time
+    TIMESTAMP           java.sql.Timestamp
+    CLOB                Clob
+    BLOB                Blob
+    ARRAY               Array
+    DISTINCT            mapping of underlying type
+    STRUCT              Struct
+    REF                 Ref
+    DATALINK            java.net.URL[color=red][/color]
+
 2020-09-04
 <%@ page session="false"%>是指不能在本页使用session。也就是在本页面禁用session。
 request.getSession(false)是指如果存在session就返回session，如果不存在就返回一个null值；
