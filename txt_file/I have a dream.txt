@@ -5,8 +5,78 @@ Oracle 基目录:D:\OracleSoft\
 'Oracle Services for Microsoft Transaction Server' 的端口: 2030
 'Oracle HTTP 监听程序' 的端口: 8080
 
+df -h
+root@LongBro:/home/ubuntu/apache-tomcat-8.0.53# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev            490M  4.0K  490M   1% /dev
+tmpfs           101M  372K  100M   1% /run
+/dev/vda1        40G   12G   26G  31% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+none            5.0M     0  5.0M   0% /run/lock
+none            501M     0  501M   0% /run/shm
+none            100M     0  100M   0% /run/user
+
+cat /proc/meminfo
+
+
 口令：root
 net stop OracleServiceXE
+
+对git和SVN的使用，前者用来管理代码版本的控制，后者用来对开发接口等文档进行管理
+
+系统功能的上线要经过开发、测试、验收、65几个环境，最后才到线上，更新上线时开发发上线申请邮件、测试回复、运维更新
+
+项目增量部署：
+手工单文件上传->通过要更新的文件路径，使用自己写的代码工具包来拷贝出来，批量上传->使用Jenkins部署
+
+开发中遇到的问题
+1.因数据问题而导致的问题，这种的也是最不好解决的，可能找了很久发现是因为数据问题导致的
+2.前端页面的id冲突问题，由于jsp之间可以相互调用，如果在一个jsp中调用到了另一个jsp，两个jsp中定义了名字一样的id，就会出现问题，
+  前端修改css、js代码后往往需要清空缓存才会生效，因为浏览器默认不会重新加载文件，而是会先加载缓存
+3.redis的key过多的问题，redis管理工具查看不便，这个时候可以对同类型的放置到同一文件夹中，通过key中用:来实现
+4.数据库的一些问题，比如group_concat()函数可拼接的字符串是有限制的，需要注意，当然可以通过修改这个限制来按需求解决。
+	数据库：GROUP_CONCAT 这个词是有默认长度的，最大1024，如果拼接的长度过长，就会被自动截取，所以需要修改数据库配置文件，把长度设大一点
+  存储过程的参数定义时往往会声明参数的长度，在使用的时候就要保证定义的长度满足需求，表字段也是
+5.在对集合进行排序时往往会使用Collections.sort方法，然后会对对象里面的某个属性进行排序，如果属性是字符型的话不能使用类:属性来排，
+  因为可能会出现小的大于大的的情况。这个时候需要使用lamada表达式来进行类型转换转为整型才可以排
+
+6.
+
+
+使用对象较map的好处之一是使用对象可以方便的看到里面有哪些属性，而使用map时必须要到XML中才可以看到
+别人将新分支推到远程后，需git pull后才能切到这个新分支，不能直接切
+数据字典中的证件类型通过执行sql语句添加后，被添加的类型没有在界面中立即显示，而且即使清除缓存后也没显示，这个时候如果不是添加错误，就考虑重启服务器
+关于系统参数-"aj.order.onoff"的修改：直接修改数据库和通过浏览器修改不一样，通过浏览器修改会存入缓存中
+  
+  select TABLE_SCHEMA, concat(truncate(sum(data_length)/1024/1024,2),' MB') as data_size,
+concat(truncate(sum(index_length)/1024/1024,2),'MB') as index_size
+from information_schema.tables
+group by TABLE_SCHEMA
+order by data_length desc;
+
+dora_web_longbro
+
+select TABLE_NAME, concat(truncate(data_length/1024/1024,2),' MB') as data_size,
+concat(truncate(index_length/1024/1024,2),' MB') as index_size
+from information_schema.tables where TABLE_SCHEMA = 'liangce_loan_bpm_20200824'
+group by TABLE_NAME
+order by data_length desc;
+  
+2020-07-13
+使用lambda表达式时employees.sort(Comparator.comparing(e -> e.getName()))			----不能进行thenComparing
+
+employees.sort(Comparator.comparing(Employee::getName));可以代替lambda表达式		----不能比较String类型的字段
+
+nccsResult.sort(Comparator
+				.comparing((NotChargeCharts n)->Double.valueOf(n.getNotChargeRate()),Comparator.reverseOrder())
+				.thenComparing((n1,n2)->n2.getNotChargeCount()-n1.getNotChargeCount())
+				);
+
+2020-05-27	（缺点：无法正常对非数字型字段进行比较）
+1、st.stream().sorted(Comparator.comparing(类::属性一).reversed().thenComparing(类::属性二).reversed());
+2、st.stream().sorted(Comparator.comparing(类::属性一).thenComparing(类::属性二,Comparator.reverseOrder()));
+
+
 
 db.url=jdbc:mysql://120.24.168.174:43572/liangce_loan_bpm?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
 db.username=mysqlrd
@@ -17,6 +87,11 @@ db.password=123456
 
 miniUI的grid中的列使用renderer属性举例：
 <div field="formatTime" width="100" headerAlign="center" align="center" renderer="formatTime">操作时间</div>
+隐藏与显示datagrid的元素        
+		riskproducts.showColumn("customerRealname");
+        riskproducts.hideColumn("customerSellerRealname");
+
+
 
 数据库保留两位小数：
 		CAST('123456789012345678.115' AS DECIMAL(20,2)) 
@@ -31,18 +106,8 @@ linux清空文件
 
 返回html的类型：console.log(typeof html)
 
-绩效得分*30%*工资=实得绩效工资
-
-8*23	28.5/H	28.5*40=1140
-		33.15/H	33.15*40=1326
-
-7.5*23  35.36/H 35.36*(37.5)=1326
-		
-		
-23天，上18天，休5天
-
-5262-3721=1500+
-
+									关于MySQL
+									
 show variables like 'max_connections';(查可以看当前的最大连接数)
 set global max_connections=1000;(设置最大连接数为1000，可以再次查看是否设置成功)
 exit
@@ -60,6 +125,29 @@ WHERE IFNULL(s.songName,'')='' AND dd.n_song_id !='' AND LENGTH(dd.n_song_id)<22
 ;
 update d_diary set n_Content = replace(n_Content,'112.74.173.44/LongMusic/res/images','v.duola.vip/image');
 SELECT * FROM d_diary WHERE n_Content LIKE '%v.duola.vip%';
+
+UiConfig
+
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8" />
+        <property name="maxUploadSize" value="209715200" />
+        <property name="maxInMemorySize" value="1048576" />
+    </bean>
+
+09-24 
+jsp中获取网址中的参数，以及获取ModelAndView中的元素，都可用${name}、${data.name}
+将线上不安全的集合转为线程安全的
+1. //Collections.synchronizedCollection(c)
+2. // Collections.synchronizedList(list)
+3. // Collections.synchronizedMap(m)
+4. // Collections.synchronizedSet(s)
+	
+2020-09-20
+项目增量部署：
+手工单文件上传->代码复制要更新的文件，批量上传->使用Jenkins部署
+
+
+
 09-17统一将图片放入v.duola.vip，并修改数据库中数据
 http://112.74.173.44/LongMusic/res/images
 http://m.duola.vip/res/images/diary/5211314_1589423612594_0.jpg
@@ -324,6 +412,11 @@ lower_case_table_names=0 （0:大小写敏感;1:大小写不敏感）
 
 employees.sort(Comparator.comparing(Employee::getName));可以代替lambda表达式		----不能比较String类型的字段
 
+nccsResult.sort(Comparator
+				.comparing((NotChargeCharts n)->Double.valueOf(n.getNotChargeRate()),Comparator.reverseOrder())
+				.thenComparing((n1,n2)->n2.getNotChargeCount()-n1.getNotChargeCount())
+				);
+				
 		
 导入springmvc所需要的jar包
 
@@ -388,7 +481,7 @@ public static void a(String... a) {
 2020-05-29
 业务提出需求->产品整理需求->开发解决需求
 
-2020-05-27
+2020-05-27	（缺点：无法正常对非数字型字段进行比较）
 1、st.stream().sorted(Comparator.comparing(类::属性一).reversed().thenComparing(类::属性二).reversed());
 2、st.stream().sorted(Comparator.comparing(类::属性一).thenComparing(类::属性二,Comparator.reverseOrder()));
 
@@ -584,12 +677,10 @@ C:\Users\pc\Desktop\longbro\图片\back
 3.FatLuo
 4.庆兔兔日记
 
-2019-20-29
+2019-10-29
 做一个真正的墙，不，不止一个，用户可以写纸条贴在墙上。
 家改为店铺，日记即为店铺里面的东西，用户可以对日记评价，也可以对店铺评价
 
-天河客运站附近-环保员-湛江
-住黄埔区，在天河区上班
 
 只有你想不到的，没有计算机做不到的；所以不要想着某个操作可能太复杂了，计算机做不了！它可以的。
 但是也要考虑它的执行性能，执行时间等等

@@ -1,58 +1,14 @@
 
-<div id="buyer" class="mini-datagrid" style="width:80%;min-height: 100px;" allowResize="false"
-                 idField="id" showPager="false"  allowCellSelect="true" >
-                <div property="columns">
-                    <div field="name" name="name" width="33.3%" headerAlign="center" align="center">买方</div>
-                    <div field="phone" name="phone" width="33.3%" headerAlign="center" align="center">手机号</div>
-                    <div field="deal_role_name" name="descp" width="33.3%" headerAlign="center" align="center">类别</div>
-                    <div type="checkboxcolumn" width="33.3%" field="choose" headerAlign="center" trueValue="1" falseValue="0" align="center">选择</div>
-                </div>
-            </div>
-            <div id="seller" class="mini-datagrid" style="width:80%;min-height: 100px;" allowResize="false"
-                 idField="id" showPager="false" allowCellSelect="true" multiSelect="true">
-                <div property="columns">
-                    <div field="name" name="name" width="33.3%" headerAlign="center" align="center">卖方</div>
-                    <div field="phone" name="phone" width="33.3%" headerAlign="center" align="center">手机号</div>
-                    <div field="deal_role_name" name="descp" width="33.3%" headerAlign="center" align="center">类别</div>
-                    <div type="checkboxcolumn" width="33.3%" field="choose" headerAlign="center" trueValue="1" falseValue="0" align="center">选择</div>
-                </div>
-            </div>
-			
-			
-			<div id="surenumber" class="mini-datagrid" style="width:100%;min-height: 100px;" allowResize="false"
-                 idField="id" showPager="false" multiSelect="true" allowCellWrap = "true" allowCellEdit="true">
-                <div property="columns">
-                    <div field="sendPerson" name="sendPerson" width="18%" headerAlign="center" align="center">通知对象</div>
-                    <div field="sendNumber" name="sendNumber" width="18%" headerAlign="center" align="center">手机号码</div>
-                    <div field="tempNumber" width="60%" headerAlign="center">临时号码（若无请留空，若有填写手机号码及临时号码都会下发通知短信）
-                        <input property="editor" class="mini-textbox fk_input" style="width:100%;"/>
-                    </div>
-                </div>
-            </div>
-
-			console.log(sellerBuyerInfoData)
-    var buyer=[]
-    var seller=[]
-    var buy=mini.get("buyer");
-    var sell=mini.get("seller");
-    for (var i = 0,sblen = sellerBuyerInfoData.length; i < sblen; i++) {
-        if(sellerBuyerInfoData[i].type == 1) {
-            buyer.push(sellerBuyerInfoData[i])
-        }else {
-            seller.push(sellerBuyerInfoData[i])
-        }
-    }
-    buy.setData(buyer)
-    sell.setData(seller)
-			
 qrtz_job_details;qrtz_triggers
+
+
+2020-09-23
 
 2020-09-14
 FINANCE_STATUS_
 
 
 2020-08-25
-WEB-INF/jsp/loan/bizinfo/fk_renyuanjiquanxian.jsp
 mini.mask({
                 el: document.body,
                 cls: 'mini-mask-loading',
@@ -400,7 +356,7 @@ WHERE  F_STATUS = "2" or F_STATUS = "3" or F_STATUS = "4"  AND F_IS_PRIMARY = "1
 2.不定义id实现css设置submit格式，.rights form input[type=submit]{
 3.REST风格的网站url
 
-412902197305064278
+
 
 2019-12-18
 getDetail接口问题(65正常，线上出问题)
@@ -511,7 +467,6 @@ if(wci.F_LOAN_TYPE = "2" or wci.F_LOAN_TYPE ="3" or wci.F_LOAN_TYPE ="7",IF(IFNU
 
 
 
-2019091100001
 签约	1
 案件配置	2
 评估	3
