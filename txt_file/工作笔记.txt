@@ -1,43 +1,67 @@
-41138119951016421X	18620101642	6217002440004113429
-*************
 
-<br><p style="text-align: right;">摘自《心灵鸡汤正能量励志》</p>
-	
-<Host name="alarm.duola.vip"  appBase="webapps"
-            unpackWARs="true" autoDeploy="true">
-        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
-               prefix="localhost_access_log" suffix=".txt"
-               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
-	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/current/index0.jsp" reloadable="true"/> 
-      </Host>
-	  
-
-	  
-	  
-<Host name="localhost"  appBase="webapps"
-            unpackWARs="true" autoDeploy="true">
-        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
-               prefix="localhost_access_log" suffix=".txt"
-               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
-	<Context path="" docBase="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongBlog/" reloadable="true"/> 
-</Host>
-AppGroupController		/app/group/workbench/getEffectiveDepts	获取用户负责的有效部门及部门里面的签件、拓展情况
-BusinessController		/app/report/business/getUserList		获取用户排名列表，参数 type：tuozhan/qianjian
+qrtz_job_details;qrtz_triggers
 
 
-处理进度表
-http://mg.lcbpm.com/loan/taskmgr/taskHistoryList.do?taskId=2530000038422179&instId=2530000038422128&_=1589250127622
-http://mg.lcbpm.com/loan/bizinfo/dealTimelimit/getTimelimitList.do?productId=2530000016410006&deptId=2530000023001609&_=1589250127625
+2020-09-23
 
-流程图
-http://mg.lcbpm.com/bpm/activiti/processImage.do?taskId=2530000038422276
-ProcessImageController
+2020-09-14
+FINANCE_STATUS_
 
-流转历史~2019111200014
-http://mg.lcbpm.com/bpm/core/bpmNodeJump/listForInst.do?actInstId=2530000038422139
 
-pageIndex: 0
-pageSize: 1000
+2020-08-25
+mini.mask({
+                el: document.body,
+                cls: 'mini-mask-loading',
+                html: '提交中...'
+            });
+
+2020-08-17 
+代办补录的产品下拉列表显示出错的原因：猜测是因为ID与其他地方冲突
+代办补录测试服递件日期不能保存的问题，是因为在测试服sys_bo_attr表的EXT_JSON_字段格式问题，需改成与开发服一样
+补录中的进度执行结果，保存日期时总少一天的问题，应该用getText()，而不是getValue()
+
+系统事项、升级提醒
+
+升级提醒>系统事项
+2020-08-03
+使用valuefromselect="true" 后，不能成功回显数据
+
+2020-07-03
+排名、
+拓展、
+未收费率、			(签件宗数-收费宗数)/签件宗数
+未收费宗数、		签件宗数-收费宗数
+实收宗数、			实收宗数
+宗数环比上月		上月实收宗数、本月实收宗数
+
+
+2020-06-28
+先由超级管理员配置好各个产品总的催办提醒定义，
+//中心六区：440103 荔湾区 ,440104越秀区,440105海珠区,440106天河区,440111白云区,440112黄埔区,440116萝岗区,440119开发区
+  int areaArr[] = {440103, 440104, 440105, 440106, 440111, 440112,440116,440119};
+
+2020-06-16
+1.查封人首次存不上的问题：onblur方法需在另外一个地方也定义
+2.驳回后重新指派不能同步原因：驳回后再指派环节已有人，没取新指派的人
+列表中的风险一级审批人原本采用了如果bpm_node_jump表没有，就从bpm_inst_user表取。
+这样还是有点问题的：如果一个案件走过一级审批环节又驳回了，这个时候再指派，列表中取的就不是指派的人，因为这个时候bpm_node_jump是有数据的，取的是驳回前的那个人
+
+2020-06-12
+银行-支行	银行经办人员  姓名_电话
+
+SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+String nowTime=sdf.format(new Date());
+log.info(">>>>>上次设置缓存时间："+lastTime+"，当前时间："+nowTime);
+if (lastTime==null||!nowTime.equals(lastTime)){//未设置过缓存，或为昨天的缓存
+	lastTime=nowTime;
+	log.info(">>>>>未设置过缓存，或为"+lastTime+"的缓存");
+	wCaseInfoManager.getAllEffectiveHandler(null);//重新查询银行经办人员的缓存
+}
+
+(SELECT IFNULL(USER_NAMES,'') FROM bpm_inst_user  WHERE NODE_ID_='sid-A8190A0F-4153-4FA8-9FFB-B069DF203999' and INST_ID_=b.INST_ID_) riskFirstApprover
+(select IFNULL(ou.FULLNAME_,'') from bpm_node_jump bnj  LEFT JOIN os_user ou on bnj.HANDLER_ID_=ou.USER_ID_ where bnj.NODE_ID_='sid-A8190A0F-4153-4FA8-9FFB-B069DF203999' AND bnj.act_inst_ID_=b.ACT_INST_ID_ ORDER BY bnj.COMPLETE_TIME_ DESC LIMIT 1) riskFirstApprover
+				
+
 2020-05-23
 PortalScript在spring-bean.xml
 FlowScript在spring-activiti.xml
@@ -332,7 +356,7 @@ WHERE  F_STATUS = "2" or F_STATUS = "3" or F_STATUS = "4"  AND F_IS_PRIMARY = "1
 2.不定义id实现css设置submit格式，.rights form input[type=submit]{
 3.REST风格的网站url
 
-412902197305064278
+
 
 2019-12-18
 getDetail接口问题(65正常，线上出问题)
@@ -443,7 +467,6 @@ if(wci.F_LOAN_TYPE = "2" or wci.F_LOAN_TYPE ="3" or wci.F_LOAN_TYPE ="7",IF(IFNU
 
 
 
-2019091100001
 签约	1
 案件配置	2
 评估	3
