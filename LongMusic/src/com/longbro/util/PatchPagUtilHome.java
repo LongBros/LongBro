@@ -25,7 +25,7 @@ public class PatchPagUtilHome {
       
     public static String outputPath="C:/Users/ASUS/Desktop/packet/";//生成的增量输出放路径 
       
-    public static String version="2020-07-03";//增量包版本  
+    public static String version="2020-07-04";//增量包版本  
     
 //    public static String proName="loan/";//项目名称
     public static String proName="/";//项目名称

@@ -1,5 +1,6 @@
 package com.longbro.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
@@ -13,13 +14,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.longbro.bean.Account;
 import com.longbro.bean.Result;
@@ -28,6 +32,7 @@ import com.longbro.common.BaseResult;
 import com.longbro.service.AccountService;
 import com.longbro.service.LoginService;
 import com.longbro.util.DateUtil;
+import com.longbro.vo.BillVo;
 import com.longbro.vo.CateAmountVo;
 /**
  * 
@@ -103,6 +108,8 @@ public class AccountController {
 		HashMap<String, String> mapPara=new HashMap<String, String>();
 		String payutil=request.getParameter("payutil");
 		mapPara.put("payutil", payutil);
+		String userId=request.getParameter("userId");
+		mapPara.put("userId", userId);
 		String in_out=request.getParameter("in_out");
 		mapPara.put("in_out", in_out);
 		String category=request.getParameter("category");
@@ -376,7 +383,7 @@ public class AccountController {
 		map.put("userId", userId);
 		map.put("month", month);
 		
-		List<Account> list=service.queryBillsBy(map);
+		List<BillVo> list=service.queryBillsBy(map);
 		result.setCode(200);
 		result.setNum(list.size());
 		result.setMessage("成功查询"+userId+"的"+month+"数据");
@@ -384,4 +391,61 @@ public class AccountController {
 		return result;
 		
 	}
+	
+	/**
+     * 11.上传图片
+     * @param request
+     * @param response
+     * @param attachs
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value={"uploadImage"}, method={RequestMethod.POST})
+	  @ResponseBody
+	  public BaseResult<List<HashMap<String, Object>>> uploadImage(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="pic", required=false) MultipartFile[] attachs)
+		throws Exception
+	  {
+		BaseResult<List<HashMap<String, Object>>> result = new BaseResult();
+		response.setCharacterEncoding("utf-8");
+		if (attachs.length == 0)
+		{
+		  result.setCode(100);
+		  result.setMessage("");
+		  return result;
+		}
+		String userId = "";
+		userId = request.getParameter("userId");
+//		String path = request.getSession().getServletContext()
+//		  .getRealPath("image" + File.separator + "diary" + File.separator);
+		String path ="/home/ubuntu/apache-tomcat-8.0.53/webapps/LongVideos/image/acc/";
+		ArrayList<HashMap<String, Object>> list = new ArrayList();
+		for (int i = 0; i < attachs.length; i++)
+		{
+		  HashMap<String, Object> map = new HashMap();
+		  MultipartFile attach = attachs[i];
+		  long fname = System.currentTimeMillis();
+		  String prefix = FilenameUtils.getExtension(attach.getOriginalFilename());
+		  int fileSize = 2097152;
+		  if (attach.getSize() > fileSize)
+		  {
+			request.setAttribute("uploadFileError", "");
+		  }
+		  else if ((prefix.equalsIgnoreCase("jpg")) || (prefix.equalsIgnoreCase("png")) || (prefix.equalsIgnoreCase("jpeg")) || (prefix.equalsIgnoreCase("pneg")) || (prefix.equalsIgnoreCase("gif")))
+		  {
+			File file = new File(path, userId + "_" + fname + "_" + i + ".jpg");
+			attach.transferTo(file);
+			map.put("url", "http://v.duola.vip/image/acc/" + userId + "_" + fname + "_" + i + ".jpg");
+			map.put("isImage", Boolean.valueOf(true));
+			list.add(map);
+		  }
+		  else
+		  {
+			request.setAttribute("uploadFileError", "");
+		  }
+		}
+		result.setCode(200);
+		result.setMessage("");
+		result.setResult(list);
+		return result;
+	  }
 }

@@ -14,6 +14,7 @@ import com.longbro.dao.AccountDao;
 import com.longbro.dao.LoginDao;
 import com.longbro.service.AccountService;
 import com.longbro.service.LoginService;
+import com.longbro.vo.BillVo;
 import com.longbro.vo.CateAmountVo;
 
 @Service
@@ -85,7 +86,7 @@ public class AccountServiceImpl implements AccountService{
 		return dao.getCateByYom(yom, ioo, d,userId);
 	}
 	@Override
-	public List<Account> queryBillsBy(HashMap map) {
+	public List<BillVo> queryBillsBy(HashMap map) {
 		return dao.queryBillsBy(map);
 	}
 }

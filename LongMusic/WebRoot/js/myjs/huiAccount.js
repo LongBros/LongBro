@@ -1,9 +1,9 @@
 /**
- * hui账单
+ * 1.hui账单
  * 
  */
 function queryBill(page){
-	//$('#bill').text('');
+	$('#bill').text('');
 	$.ajax({
 		type:"POST",
 		async:false,
@@ -31,7 +31,7 @@ function queryBill(page){
 }
 
 /**
- * 按分页查询歌曲
+ * 2.按分页查询歌曲
  * @param page
  */
 function querySongs(page){
@@ -71,12 +71,12 @@ function querySongs(page){
 						"<td>"+data[k].duration+"</td><td>"+data[k].album+"</td>" +
 						"<td>"+data[k].releaseTime+"</td><td>"+data[k].inputTime+"</td>" +
 						"<td>"+web+"</td>" +
-						"<td class=\"f-14 td-manage\"><a style=\"text-decoration:none\" onClick=\"article_stop(this,'10001')\" href=\"javascript:;\" title=\"下架\"><i class=\"Hui-iconfont\">&#xe6de;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"songEdit('歌曲编辑','song-add.html','"+data[k].id+"','"+data[k].id+"')\" href=\"javascript:;\" title=\"编辑\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"delSong(this,'"+data[k].id+"')\" href=\"javascript:;\" title=\"删除\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td></tr>");
+						"<td class=\"f-14 td-manage\"><a style=\"text-decoration:none\" onClick=\"article_stop(this,'10001')\" href=\"javascript:;\" title=\"下架\"><i class=\"Hui-iconfont\">&#xe6de;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"songEdit('歌曲编辑','add-song.html','"+data[k].id+"','"+data[k].id+"')\" href=\"javascript:;\" title=\"编辑\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"delSong(this,'"+data[k].id+"')\" href=\"javascript:;\" title=\"删除\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td></tr>");
 			}
 		}
 	});
 }
-//加载歌单
+//3.加载歌单
 function loadSongList(){
 	$.ajax({
 		type:"Get",
@@ -90,7 +90,7 @@ function loadSongList(){
 		}
 	});
 }
-//加载评论
+//4.加载评论
 function loadCom(){
 	var ac="../queryComment.do";
 	$.ajax({
@@ -101,6 +101,35 @@ function loadCom(){
 		success:function(data){
 			for(var k=0;k<data.length;k++){
 				$('#comments').append("<tr class=\"text-c\"><td><input name=\"\" type=\"checkbox\" value=\"\"></td><td>"+data[k].id+"</td><td>"+data[k].c_Type+"</td><td>"+data[k].c_Reviewed+"</td><td>"+data[k].c_Content+"</td><td>"+data[k].c_Time+"</td><td>"+data[k].c_Reviewer+"</td><td>"+data[k].c_Address+"</td><td class=\"f-14 td-manage\"><a style=\"text-decoration:none\" onClick=\"article_stop(this,'10001')\" href=\"javascript:;\" title=\"下架\"><i class=\"Hui-iconfont\">&#xe6de;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"article_edit('资讯编辑','article-add.html','10001')\" href=\"javascript:;\" title=\"编辑\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"article_del(this,'10001')\" href=\"javascript:;\" title=\"删除\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td></tr>");
+			}
+		}
+	});
+}
+//5.加载日记
+function queryDiarys(page){
+	//清空原有歌曲列表
+	$('#diary').text('');
+	$('#num').text('');
+	//加载歌曲列表
+	$.ajax({
+		type:"Get",
+		async:false,
+		url:"http://www.duola.vip/note/diary/getDiaryBy.do",
+		data:{
+			page:page,
+			perPage:20,
+			authority:'0,1,2'
+		},
+		dataType:"Json",
+		success:function(data){
+			//alert(data.length);
+			for(var k=0;k<data.length;k++){
+				$('#diary').append("<tr class=\"text-c\">" +
+						"<td><input type=\"checkbox\" value=\"\" name=\"\"></td>" +
+						"<td>"+data[k].nid+"</td><td>"+data[k].ntitle+"</td><td>"+data[k].nwritter+"</td>" +
+						"<td>"+data[k].userName+"</td><td>"+data[k].nSongId+"</td>" +
+						"<td>"+data[k].audioInfo+"</td><td>"+data[k].ntime+"</td>" +
+						"<td class=\"f-14 td-manage\"><a style=\"text-decoration:none\" onClick=\"article_stop(this,'10001')\" href=\"javascript:;\" title=\"下架\"><i class=\"Hui-iconfont\">&#xe6de;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"diaryEdit('日记编辑','add-diary.html','"+data[k].nid+"','"+data[k].nid+"')\" href=\"javascript:;\" title=\"编辑\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"delDiary(this,'"+data[k].nid+"')\" href=\"javascript:;\" title=\"删除\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td></tr>");
 			}
 		}
 	});

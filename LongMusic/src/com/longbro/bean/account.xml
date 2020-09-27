@@ -22,6 +22,9 @@
 		<if test="payutil!=null and payutil!='' ">
 			and payutil=#{payutil}
 		</if>
+		<if test="userId!=null and userId!='' ">
+			and userId=#{userId}
+		</if>
 		<if test="in_out!=null and in_out!='' ">
 			and in_out=#{in_out}
 		</if>
@@ -130,10 +133,26 @@
  		</if>
  	</select>
  	<!-- 根据用户id、查询某用户某月下的账单 -->
- 	<select id="queryBillsBy" parameterType="java.util.HashMap" resultType="com.longbro.bean.Account">
+ 	<select id="queryBillsBy" parameterType="java.util.HashMap" resultType="com.longbro.vo.BillVo">
+ 	select *,
+	(
+		SELECT CAST(IFNULL(SUM(amount),0) AS DECIMAL(20,2)) FROM account 
+		WHERE userId=#{userId} AND in_out='收入' AND time LIKE CONCAT(LEFT(a.time,10),'%') 
+	) dayIn,
+	(
+		SELECT CAST(IFNULL(SUM(amount),0) AS DECIMAL(20,2)) FROM account 
+		WHERE userId=#{userId} AND in_out='支出' AND time LIKE CONCAT(LEFT(a.time,10),'%') 
+	) dayOut
+	from(
 		select 
+			*
+			from account 
+			where userId=#{userId} and left(time,7)=#{month} order by time desc
+	) a
+	 	
+		<!-- select 
 		*
 		from account 
-		where userId=#{userId} and left(time,7)=#{month} order by time desc;
+		where userId=#{userId} and left(time,7)=#{month} order by time desc; -->
 	</select>
 </mapper>

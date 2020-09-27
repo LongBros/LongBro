@@ -28,7 +28,7 @@ function queryBill(page){
 				var time=data[k].time+"";
 				var date=time.substring(0,10);
 				
-				$('#bill').append("<tr><td><input type='checkbox'/></td><td>"+data[k].id+"</td><td>"+data[k].payutil+"</td><td>"+data[k].in_out+"</td><td>"+data[k].cate+"</td><td>"+data[k].amount+"</td><td title='"+data[k].remark+"'>"+remark+"</td><td title='"+time+"'>"+date+"</td><td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\"><button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'><span class=\"am-icon-pencil-square-o\"></span> 编辑</button><button class=\"am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\" onclick='deleteAccById("+data[k].id+")'><span class=\"am-icon-trash-o\"></span> 删除</button></div></div></td></tr>");
+				$('#bill').append("<tr><td><input type='checkbox'/></td><td>"+data[k].id+"</td><td>"+data[k].userId+"</td><td>"+data[k].payutil+"</td><td>"+data[k].in_out+"</td><td>"+data[k].cate+"</td><td>"+data[k].amount+"</td><td title='"+data[k].remark+"'>"+remark+"</td><td title='"+time+"'>"+date+"</td><td><div class=\"am-btn-toolbar\"><div class=\"am-btn-group am-btn-group-xs\"><button class=\"am-btn am-btn-default am-btn-xs am-text-secondary\" onclick='edit("+data[k].id+")'><span class=\"am-icon-pencil-square-o\"></span> 编辑</button><button class=\"am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\" onclick='deleteAccById("+data[k].id+")'><span class=\"am-icon-trash-o\"></span> 删除</button></div></div></td></tr>");
 
 				
 //				var picture=data[k].picture+"";

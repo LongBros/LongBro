@@ -17,6 +17,7 @@ import com.longbro.common.BaseDao;
 import com.longbro.dao.AccountDao;
 import com.longbro.dao.LoginDao;
 import com.longbro.util.LogUtil;
+import com.longbro.vo.BillVo;
 import com.longbro.vo.CateAmountVo;
 
 @Repository
@@ -98,8 +99,8 @@ public class AccountDaoImpl extends BaseDao implements AccountDao{
 		return (List<CateAmountVo>)this.selectList("com.longbro.bean.account.getCate", map);
 	}
 	@Override
-	public List<Account> queryBillsBy(HashMap map) {
+	public List<BillVo> queryBillsBy(HashMap map) {
 		// TODO Auto-generated method stub
-		return (List<Account>)this.selectList("com.longbro.bean.account.queryBillsBy",map);
+		return (List<BillVo>)this.selectList("com.longbro.bean.account.queryBillsBy",map);
 	}
 }

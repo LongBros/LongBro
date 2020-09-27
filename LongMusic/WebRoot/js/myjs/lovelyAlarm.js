@@ -22,9 +22,23 @@ function clock(){
 		//alert(tip);
 		if(time1==t){
 			var sName=getNameBySId(m);//
-			alert(tip);
 		    mini.showTips(myAlert("即将为你播放铃声^-^  ‘"+sName+"’,如不方便听请关闭此网页或关掉声音，谢谢"))
-			song.src="https://link.hhtjim.com/163/"+m+".mp3";
+		    
+		    var sid=m;
+		    if(sid.substring(sid.length-4)=="html"){//QQ音乐
+				url="http://link.hhtjim.com/qq/"+sid.substring(0, sid.length-5)+".mp3";
+			}else if(sid.substring(sid.length-3)==".kw"){
+				url="http://link.hhtjim.com/kw/"+sid.substring(0, sid.length-3)+".mp3";
+			}else if(sid.substring(sid.length-4)==".553"){
+				url="http://www.duola.vip/res/audio/"+sid.substring(0, sid.length-4)+".mp3";
+			}else{
+				url="http://music.163.com/song/media/outer/url?id="+sid+".mp3";
+//				url="https://link.hhtjim.com/163/"+m+".mp3"
+			}
+		    
+			song.src=url;
+			song.play();
+			alert(tip);
 		}
 	}
 	document.getElementById("time").innerText=time;
@@ -59,14 +73,14 @@ function randBack(){
 	if(m>n){
 		body.style.background=colors[m];
 	}else{
-		body.style.backgroundImage="url(\"image/back/"+backImgs[n]+"\")";
+		body.style.backgroundImage="url(\"http://img.duola.vip/image/back/"+backImgs[n]+"\")";
 	}
 
 	//随机设置图片
 	var pics=new Array("smile1.png","smile2.png","smile3.png","smile4.png","smile5.png","smile6.gif","smile7.jpg");
 	var n=random(pics.length-1);
 	//alert(pics[n])
-	document.getElementById("smilePic").src="image/picture/"+pics[n];
+	document.getElementById("smilePic").src="http://img.duola.vip/image/picture/"+pics[n];
 }
 //5.显示提示语
 function showTips(){
@@ -205,7 +219,7 @@ function setAlarmText(user){
 				$("#alarm").text("点击右侧添加闹铃喔     ->");
 			}
 			$("#alarm").append("&emsp;<span class='add' onclick='addAlarm()' title='添加闹铃'><i class='Hui-iconfont' style='font-size:18px'>&#xe604;</i></span>");
-			$("#alarm").append("<img alt='' style='width: 18px;height: 18px;' src='image/picture/hot1.gif'>");
+			$("#alarm").append("<img alt='' style='width: 18px;height: 18px;' src='http://img.duola.vip/image/picture/hot1.gif'>");
 			$("#alarm").append("<span class='minus' onclick='minusAlarm()' title='删除闹铃'><i class='Hui-iconfont' style='font-size:18px'>&#xe609;</i></span>");
 		}
 	});
@@ -327,9 +341,9 @@ function fillMyGit(){
 //18.底部栏功能切换
 function tabOnItem(which){
 	if(which=="0"){//每日一句
-		window.open("../LongBlog/msgboard.jsp", "_blank");
+//		window.open("http://www.duola.vip/LongBlog/msgboard.jsp", "_blank");
 	}else if(which=="1"){//用户使用指南
-		window.open("../setting.html","_blank");
+		window.open("http://m.duola.vip/util/setting.html","_blank");
 	}else if(which=="2"){//赞赏支持
 		var si=document.getElementById("sponsorImage").style.display;
 		if(si=="none"){
@@ -340,20 +354,20 @@ function tabOnItem(which){
 			document.getElementById("sponsor").style.color="black";
 		}
 	}else if(which=="3"){//联系作者
-		window.open("/LongVideos/toast.jsp","_blank");
+//		window.open("http://www.duola.vip/LongVideos/toast.jsp","_blank");
 	}else if(which=="4"){//赞助记录
-		window.open("..//LongBlog/sponsor/showSponsor.jsp","_blank");
+//		window.open("http://www.duola.vip/LongBlog/sponsor/showSponsor.jsp","_blank");
 	}else if(which=="5"){//赞助记录
 		var statistic=document.getElementById("randomSen");
 		$.ajax({
-			url:"getAUserCounts.do",
+			url:"http://m.duola.vip/getAUserCounts.do",
 			type:"get",
 			success:function(data){
 				$("#randomSen").text("哆啦统计:共"+data+"位小伙伴")
 			}
 		});
 		$.ajax({
-			url:"getAlarmNums.do",
+			url:"http://m.duola.vip/getAlarmNums.do",
 			type:"get",
 			success:function(data){
 				$("#randomSen").append("，创建"+data+"个闹铃");

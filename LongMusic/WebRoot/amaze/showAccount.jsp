@@ -225,7 +225,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <table class="am-table am-table-striped am-table-hover table-main">
               <thead>
               <tr><!-- <th class="table-id">ID</th> -->
-                <th class="table-check"><input type="checkbox"/></th><th class="table-id">ID</th><th class="table-payutil">支收方式</th><th class="table-inout">支收</th><th class="table-cate am-hide-sm-only">分类</th><th class="table-amount am-hide-sm-only">金额</th><th class="table-remark am-hide-sm-only">备注</th><th class="table-time am-hide-sm-only">时间</th><th class="table-set">操作</th>
+                <th class="table-check">
+                <input type="checkbox"/></th><th class="table-id">ID</th><th class="table-userId">用户</th>
+                <th class="table-payutil">支收方式</th><th class="table-inout">支收</th>
+                <th class="table-cate am-hide-sm-only">分类</th><th class="table-amount am-hide-sm-only">金额</th>
+                <th class="table-remark am-hide-sm-only">备注</th><th class="table-time am-hide-sm-only">时间</th>
+                <th class="table-set">操作</th>
               </tr>
               </thead>
               <script type="text/javascript">

@@ -8,6 +8,7 @@ import java.util.Map;
 import com.longbro.bean.Account;
 import com.longbro.bean.Song;
 import com.longbro.bean.User;
+import com.longbro.vo.BillVo;
 import com.longbro.vo.CateAmountVo;
 
 public interface AccountDao {
@@ -23,5 +24,5 @@ public interface AccountDao {
 	public ArrayList getAllMonth(String yom,String userId);
 	public String getAmount(String yom,String ioo,String d,String userId);
 	public List<CateAmountVo> getCateByYom(String yom, String ioo, String d,String userId);
-	public List<Account> queryBillsBy(HashMap map);
+	public List<BillVo> queryBillsBy(HashMap map);
 }

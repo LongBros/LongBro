@@ -160,7 +160,7 @@ public class DownloadUtil {
 		File file=null;
 		File dir=new File("F:/553Music");
 		if(!dir.exists()){
-			file=new File("/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/alyric/"+name+".txt");
+			file=new File(Strings.imgPath+"alyric/"+name+".txt");
 		}else{
 			file=new File("F:/553Music/lyric/"+name+".txt");
 		}

@@ -23,7 +23,7 @@ if(request.getParameter("type").equals("1")){//加载单句歌词
 	if(sid.contains(".html")){//QQ音乐的歌词
 		sid=sid.substring(0, sid.indexOf(".html"));
 		try{
-			File file=new File("/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/alyric/"+sid+".txt");
+			File file=new File(Strings.imgPath+"alyric/"+sid+".txt");
 			if(!file.exists()){
 				file=new File("E:/AAAA/alyric/"+sid+".txt");
 				if(!file.exists()){
@@ -61,7 +61,7 @@ if(request.getParameter("type").equals("1")){//加载单句歌词
 		}catch(Exception e){
 		}
 	}else{//网易云
-		File file=new File("/home/ubuntu/apache-tomcat-8.0.53/webapps/LongMusic/res/alyric/"+sid+".txt");
+		File file=new File(Strings.imgPath+"alyric/"+sid+".txt");
 		if(!file.exists()){
 			file=new File("E:/AAAA/alyric/"+sid+".txt");
 			if(!file.exists()){

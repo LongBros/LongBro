@@ -28,6 +28,12 @@
                 	 	/>
                 	 </td>
                 	 <td  style="white-space:nowrap;">
+                	 	<input name="userId" id="userId" class="mini-combobox" style="width:100px;" emptytext="选择用户" 
+                	 	valuefield="value" textField="name" showNullItem="true"
+                	 	data="[{'name':'5211314','value':'5211314'},{'name':'38610349','value':'38610349'}]"
+                	 	/>
+                	 </td>
+                	 <td  style="white-space:nowrap;">
                 	 	<input name="in_out" id="in_out" class="mini-combobox" style="width:100px;" emptytext="请选择支/收"
                 	 	valuefield="value" textField="name" showNullItem="true"
                 	 	data="[{'name':'支出','value':'支出'},{'name':'收入','value':'收入'}]"
@@ -75,15 +81,16 @@
         </div>
     </div>
     <div id="datagrid1" class="mini-datagrid" 
-    	style="width:1200px;height:440px;" allowResize="true"
+    	style="width:1200px;height:540px;" allowResize="true"
         url="../queryAllBill1.do"  
         idField="id" pageSize="100" 
         multiSelect="true" sizeList="[20,50,100,200]">
         <div property="columns">
             <!--<div type="indexcolumn"></div>        -->
             <div type="checkcolumn" ></div>        
-            <div field="id" width="56" headerAlign="center" align="center" allowSort="true">id</div>    
-            <div field="payutil" width="88" headerAlign="center" align="center">支付方式</div>    
+            <div field="id" width="56" headerAlign="center" align="center" allowSort="true">id</div>
+			<div field="userId" width="88" headerAlign="center" align="center">用户</div>
+            <div field="payutil" width="88" headerAlign="center" align="center">支付方式</div>  
             <div field="in_out" width="66"  headerAlign="center" align="center">支出</div>
             <div field="cate" width="88" headerAlign="center" align="center">分类</div>
             <div field="amount" dataType="currency" currencyUnit="￥" align="right" width="66" allowSort="true" headerAlign="center" align="center">金额</div>
@@ -118,6 +125,8 @@
 			}
 		}
         function add() {
+        	mini.alert("自2020-07-11开始，关闭本网页的新增账单功能，请手机端访问http://www.duola.vip/duola/accList.html进行相关操作")
+        	return;
             mini.open({
                 url: "account.html",
                 title: "添加账单", width: 600, height: 400,
@@ -132,6 +141,8 @@
             });
         }
         function edit() {
+        	mini.alert("自2020-07-11开始，关闭本网页的编辑账单功能")
+        	return;
             var row = grid.getSelected();
             if (row) {
                 mini.open({
@@ -161,6 +172,8 @@
             
         }
         function remove() {
+        	mini.alert("自2020-07-11开始，关闭本网页的删除操作")
+        	return;
             var rows = grid.getSelecteds();
             if (rows.length > 0) {
                 if (mini.confirm("确定删除选中记录？")) {
@@ -193,6 +206,7 @@
         }
         function search() {
         	var payutil=mini.get("payutil").getValue();
+        	var userId=mini.get("userId").getValue();
         	var in_out= mini.get("in_out").getValue();
         	var category= mini.get("cate").getValue();
         	var amountFrom = mini.get("amountFrom").getValue();
@@ -202,7 +216,7 @@
         	var dateTo= mini.get("dateTo").getValue();
             var key = mini.get("key").getValue();
             grid.load(
-            		{payutil:payutil,in_out:in_out,category:category,
+            		{payutil:payutil,userId:userId,in_out:in_out,category:category,
             			amountFrom:amountFrom,amountTo:amountTo, 
             			dateFrom:dateFrom,dateTo:dateTo,key: key }
             		);
